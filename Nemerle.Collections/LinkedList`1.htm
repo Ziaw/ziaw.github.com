@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>LinkedList['a] -  Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <link type="text/css" rel="stylesheet" href="../main.css"/>
+    <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="../js/navigation.js"></script>
+    <script type="text/javascript" src="../js/example.js"></script>
+  </head>
+  <body><div id="namespaces">
+	<h2 class="fixed">Namespaces</h2>
+	<div class="scroll">
+		<ul><li>
+          <a href="../Nemerle/index.htm">Nemerle</a>
+      </li><li>
+          <a href="../Nemerle.Builtins/index.htm">Nemerle.Builtins</a>
+      </li><li>
+          <a href="../Nemerle.Collections/index.htm" class="current">Nemerle.Collections</a>
+      </li><li>
+          <a href="../Nemerle.Compiler/index.htm">Nemerle.Compiler</a>
+      </li><li>
+          <a href="../Nemerle.Concurrency/index.htm">Nemerle.Concurrency</a>
+      </li><li>
+          <a href="../Nemerle.Core/index.htm">Nemerle.Core</a>
+      </li><li>
+          <a href="../Nemerle.Diagnostics/index.htm">Nemerle.Diagnostics</a>
+      </li><li>
+          <a href="../Nemerle.Extensions/index.htm">Nemerle.Extensions</a>
+      </li><li>
+          <a href="../Nemerle.Hacks/index.htm">Nemerle.Hacks</a>
+      </li><li>
+          <a href="../Nemerle.Internal/index.htm">Nemerle.Internal</a>
+      </li><li>
+          <a href="../Nemerle.IO/index.htm">Nemerle.IO</a>
+      </li><li>
+          <a href="../Nemerle.Late/index.htm">Nemerle.Late</a>
+      </li><li>
+          <a href="../Nemerle.Utility/index.htm">Nemerle.Utility</a>
+      </li><li>
+          <a href="../StringTemplate/index.htm">StringTemplate</a>
+      </li>
+		</ul>
+	</div>
+</div><div id="types">
+  <h2 class="fixed">Types in Nemerle.Collections</h2>
+	<div class="scroll">
+		<ul><li>
+            <a href="../Nemerle.Collections/EmptyCollection.htm">EmptyCollection</a>
+        </li><li>
+            <a href="../Nemerle.Collections/EmptyHeap.htm">EmptyHeap</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Hashtable`2.htm">Hashtable[TKey, TValue]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Heap`1.htm">Heap[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ICollection`1.htm">ICollection['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ICovariantEnumerable`1.htm">ICovariantEnumerable[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ICovariantEnumerator`1.htm">ICovariantEnumerator[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ICovariantList`1.htm">ICovariantList[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/LinkedList`1.htm" class="current">LinkedList['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ListEnumerator`1.htm">ListEnumerator[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Map`2.htm">Map[TKey, TValue]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/NCollectionsExtensions.htm">NCollectionsExtensions</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Nil.htm">Nil</a>
+        </li><li>
+            <a href="../Nemerle.Collections/NList.htm">NList</a>
+        </li><li>
+            <a href="../Nemerle.Collections/One.htm">One</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Pair`1.htm">Pair['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Queue`1.htm">Queue['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/RList`1.htm">RList['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Seq`1.htm">Seq[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Set`1.htm">Set[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Stack`1.htm">Stack['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Zero.htm">Zero</a>
+        </li>
+		</ul>
+	</div>
+</div>
+    <div class="header">
+		<p class="class"><strong>Type</strong> LinkedList['a]</p>
+		<p><strong>Namespace</strong> Nemerle.Collections</p><p><strong>Parent</strong> <span title="System.Collections.Generic.LinkedList['a]">LinkedList['a]</span></p><p><strong>Interfaces</strong> <a href="../Nemerle.Collections/ICollection`1.htm">ICollection['a]</a>, <span title="System.IEquatable[LinkedList['a]]">IEquatable[LinkedList['a]]</span></p>
+	</div>
+    <div class="sub-header">
+			<div id="summary"><p>Doubly linked mutable list. </p> <blockquote class="remarks">
+  <p>Insert and Remove operations on this list require constant time irrespective of whether it is
+a single item or another LinkedList object, that is added. </p> 
+</blockquote>
+			</div>
+
+
+			<h3 class="section">Methods</h3>
+			<ul><li><a href="../Nemerle.Collections/LinkedList`1.htm#AddAfter">AddAfter</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#AddAfter">AddAfter</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#AddBefore">AddBefore</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#AddBefore">AddBefore</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#AddFirst">AddFirst</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#AddFirst">AddFirst</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#AddLast">AddLast</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#AddLast">AddLast</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#Append">Append</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#Append">Append</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#CopyTo">CopyTo</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#Equals">Equals</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#Find">Find</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#FindLast">FindLast</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#Prepend">Prepend</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#Prepend">Prepend</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#Remove">Remove</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#RemoveFirst">RemoveFirst</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#RemoveLast">RemoveLast</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#Reverse">Reverse</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#ToString">ToString</a></li>
+			</ul>
+
+			<h3 class="section">Properties</h3>
+			<ul><li><a href="../Nemerle.Collections/LinkedList`1.htm#Count">Count</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#First">First</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#IsEmpty">IsEmpty</a></li><li><a href="../Nemerle.Collections/LinkedList`1.htm#Last">Last</a></li>
+			</ul>
+
+	</div>
+
+
+	<h3 class="section">Public instance methods</h3>
+<div id="AddAfter" class="method">
+		<h4><strong>AddAfter</strong>(node : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span>, value : <span title="Nemerle.Collections.'a">'a</span>) : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="AddAfter" class="method">
+		<h4><strong>AddAfter</strong>(node : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span>, newNode : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="AddBefore" class="method">
+		<h4><strong>AddBefore</strong>(node : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span>, value : <span title="Nemerle.Collections.'a">'a</span>) : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="AddBefore" class="method">
+		<h4><strong>AddBefore</strong>(node : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span>, newNode : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="AddFirst" class="method">
+		<h4><strong>AddFirst</strong>(node : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="AddFirst" class="method">
+		<h4><strong>AddFirst</strong>(value : <span title="Nemerle.Collections.'a">'a</span>) : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="AddLast" class="method">
+		<h4><strong>AddLast</strong>(node : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="AddLast" class="method">
+		<h4><strong>AddLast</strong>(value : <span title="Nemerle.Collections.'a">'a</span>) : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Append" class="method">
+		<h4><strong>Append</strong>(l : <a href="../Nemerle.Collections/LinkedList`1.htm">LinkedList['a]</a>) : <span title="System.void">void</span></h4>
+		<div class="content"><p>Append another list to an end. The source list will be cleared. </p> 
+
+
+
+
+    </div>
+	</div><div id="Append" class="method">
+		<h4><strong>Append</strong>(item : <span title="Nemerle.Collections.'a">'a</span>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="CopyTo" class="method">
+		<h4><strong>CopyTo</strong>(array : <span title="Nemerle.Collections.'a[]">'a[]</span>, index : <span title="System.int">int</span>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Equals" class="method">
+		<h4><strong>Equals</strong>(another_list : <a href="../Nemerle.Collections/LinkedList`1.htm">LinkedList['a]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content"><p>Compares two lists item by item using Equals method of contained objects. </p> 
+
+
+
+
+    </div>
+	</div><div id="Find" class="method">
+		<h4><strong>Find</strong>(value : <span title="Nemerle.Collections.'a">'a</span>) : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FindLast" class="method">
+		<h4><strong>FindLast</strong>(value : <span title="Nemerle.Collections.'a">'a</span>) : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Prepend" class="method">
+		<h4><strong>Prepend</strong>(item : <span title="Nemerle.Collections.'a">'a</span>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Prepend" class="method">
+		<h4><strong>Prepend</strong>(l : <a href="../Nemerle.Collections/LinkedList`1.htm">LinkedList['a]</a>) : <span title="System.void">void</span></h4>
+		<div class="content"><p>Add given list at the beginning. The source will be cleared. </p> 
+
+
+
+
+    </div>
+	</div><div id="Remove" class="method">
+		<h4><strong>Remove</strong>(node : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="RemoveFirst" class="method">
+		<h4><strong>RemoveFirst</strong>() : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="RemoveLast" class="method">
+		<h4><strong>RemoveLast</strong>() : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Reverse" class="method">
+		<h4><strong>Reverse</strong>() : <span title="System.void">void</span></h4>
+		<div class="content"><p>Reverses elements of the list. Complexity is O(n). </p> 
+
+
+
+
+    </div>
+	</div><div id="ToString" class="method">
+		<h4><strong>ToString</strong>(separator : <span title="System.string">string</span>) : <span title="System.string">string</span></h4>
+		<div class="content"><p>Constructs string out of list contents using given argument as a separator. </p> 
+
+<div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6>separator : <code><span title="System.string">string</span></code></h6><p class="comments"><p>String to use a separator - it will be put between each
+two items of the list. </p> </p>
+      </div>
+
+
+    </div>
+	</div>
+
+
+  <h3 class="section">Public properties</h3>
+<div id="Count" class="method">
+    <h4><strong>Count : <span title="System.int">int</span></strong>get;</h4>
+    <div class="content">
+
+    </div>
+  </div><div id="First" class="method">
+    <h4><strong>First : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span></strong>get;</h4>
+    <div class="content">
+
+    </div>
+  </div><div id="IsEmpty" class="method">
+    <h4><strong>IsEmpty : <span title="System.bool">bool</span></strong>get;</h4>
+    <div class="content"><p>Returns true, if the list is empty. </p> 
+
+    </div>
+  </div><div id="Last" class="method">
+    <h4><strong>Last : <span title="System.Collections.Generic.LinkedListNode['a]">LinkedListNode['a]</span></strong>get;</h4>
+    <div class="content">
+
+    </div>
+  </div>
+<div id="footer">
+  <p>Based on v1.0.0.9832 of </p>
+  <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
+</div>
+  </body>
+</html>

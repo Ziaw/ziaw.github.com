@@ -1,0 +1,944 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>NCollectionsExtensions -  Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <link type="text/css" rel="stylesheet" href="../main.css"/>
+    <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="../js/navigation.js"></script>
+    <script type="text/javascript" src="../js/example.js"></script>
+  </head>
+  <body><div id="namespaces">
+	<h2 class="fixed">Namespaces</h2>
+	<div class="scroll">
+		<ul><li>
+          <a href="../Nemerle/index.htm">Nemerle</a>
+      </li><li>
+          <a href="../Nemerle.Builtins/index.htm">Nemerle.Builtins</a>
+      </li><li>
+          <a href="../Nemerle.Collections/index.htm" class="current">Nemerle.Collections</a>
+      </li><li>
+          <a href="../Nemerle.Compiler/index.htm">Nemerle.Compiler</a>
+      </li><li>
+          <a href="../Nemerle.Concurrency/index.htm">Nemerle.Concurrency</a>
+      </li><li>
+          <a href="../Nemerle.Core/index.htm">Nemerle.Core</a>
+      </li><li>
+          <a href="../Nemerle.Diagnostics/index.htm">Nemerle.Diagnostics</a>
+      </li><li>
+          <a href="../Nemerle.Extensions/index.htm">Nemerle.Extensions</a>
+      </li><li>
+          <a href="../Nemerle.Hacks/index.htm">Nemerle.Hacks</a>
+      </li><li>
+          <a href="../Nemerle.Internal/index.htm">Nemerle.Internal</a>
+      </li><li>
+          <a href="../Nemerle.IO/index.htm">Nemerle.IO</a>
+      </li><li>
+          <a href="../Nemerle.Late/index.htm">Nemerle.Late</a>
+      </li><li>
+          <a href="../Nemerle.Utility/index.htm">Nemerle.Utility</a>
+      </li><li>
+          <a href="../StringTemplate/index.htm">StringTemplate</a>
+      </li>
+		</ul>
+	</div>
+</div><div id="types">
+  <h2 class="fixed">Types in Nemerle.Collections</h2>
+	<div class="scroll">
+		<ul><li>
+            <a href="../Nemerle.Collections/EmptyCollection.htm">EmptyCollection</a>
+        </li><li>
+            <a href="../Nemerle.Collections/EmptyHeap.htm">EmptyHeap</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Hashtable`2.htm">Hashtable[TKey, TValue]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Heap`1.htm">Heap[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ICollection`1.htm">ICollection['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ICovariantEnumerable`1.htm">ICovariantEnumerable[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ICovariantEnumerator`1.htm">ICovariantEnumerator[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ICovariantList`1.htm">ICovariantList[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/LinkedList`1.htm">LinkedList['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/ListEnumerator`1.htm">ListEnumerator[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Map`2.htm">Map[TKey, TValue]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/NCollectionsExtensions.htm" class="current">NCollectionsExtensions</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Nil.htm">Nil</a>
+        </li><li>
+            <a href="../Nemerle.Collections/NList.htm">NList</a>
+        </li><li>
+            <a href="../Nemerle.Collections/One.htm">One</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Pair`1.htm">Pair['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Queue`1.htm">Queue['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/RList`1.htm">RList['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Seq`1.htm">Seq[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Set`1.htm">Set[T]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Stack`1.htm">Stack['a]</a>
+        </li><li>
+            <a href="../Nemerle.Collections/Zero.htm">Zero</a>
+        </li>
+		</ul>
+	</div>
+</div>
+    <div class="header">
+		<p class="class"><strong>Type</strong> NCollectionsExtensions</p>
+		<p><strong>Namespace</strong> Nemerle.Collections</p>
+	</div>
+    <div class="sub-header">
+
+
+			<h3 class="section">Methods</h3>
+			<ul><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Append``1">Append.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Append``1">Append.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#BinarySearch``1">BinarySearch.[TElem]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#BinarySearch``1">BinarySearch.[TElem]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ChopFirstN``1">ChopFirstN.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ChopLastN``1">ChopLastN.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Clone``1">Clone.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ConvertAll``2">ConvertAll.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ConvertToArray``2">ConvertToArray.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ConvertToArrayFiltered``2">ConvertToArrayFiltered.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ExcludeLazy``1">ExcludeLazy.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Exists``1">Exists.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Exists``1">Exists.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Exists2``2">Exists2.[TFirst, TSecond]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Exists2``2">Exists2.[TFirst, TSecond]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Filter``1">Filter.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Filter``1">Filter.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FilterLazy``1">FilterLazy.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FilterToArray``1">FilterToArray.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FilterToArray``1">FilterToArray.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Find``1">Find.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FindIndex``1">FindIndex.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FindIndex``1">FindIndex.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FindIndex``1">FindIndex.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FindObject``1">FindObject.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FindValue``1">FindValue.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Flatten``2">Flatten.[TEnu, TOut]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Fold``2">Fold.[TAccumulator, T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Fold``2">Fold.[TAccumulator, T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FoldI``2">FoldI.[TAccumulator, T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FoldLeft``2">FoldLeft.[TAccumulator, T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FoldLeft2``3">FoldLeft2.[TFirst, TSecond, TResult]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FoldLeft2``3">FoldLeft2.[TFirst, TSecond, TResult]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FoldRight``2">FoldRight.[TAccumulator, T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FoldRight2``3">FoldRight2.[TFirst, TSecond, TResult]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FoldRight2``3">FoldRight2.[TFirst, TSecond, TResult]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ForAll``1">ForAll.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ForAll2``2">ForAll2.[TFirst, TSecond]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ForAll2``2">ForAll2.[TFirst, TSecond]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ForAll2``2">ForAll2.[T1, T2]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ForAll2``2">ForAll2.[T1, T2]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ForAll2``2">ForAll2.[T1, T2]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#FromList``1">FromList.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Grouping``3">Grouping.[TSource, TKey, TValue]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#IsEmpty">IsEmpty</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#IsEmpty``1">IsEmpty.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#IsEmpty``1">IsEmpty.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Iter``1">Iter.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Iter``1">Iter.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Iter2``2">Iter2.[TFirst, TSecond]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Iter2``2">Iter2.[TFirst, TSecond]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Iter2``2">Iter2.[TFirst, TSecond]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#IterI``1">IterI.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#IterI``1">IterI.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#IterX``1">IterX.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#LeftHand``1">LeftHand.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Map``2">Map.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Map``2">Map.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Map``2">Map.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Map2``3">Map2.[TFirst, TSecond, TResult]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Map2``3">Map2.[TFirst, TSecond, TResult]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Map2Lazy``3">Map2Lazy.[TFirst, TSecond, TResult]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Map2ToArray``3">Map2ToArray.[First, Second, Result]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Map2ToArray``3">Map2ToArray.[First, Second, Result]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#MapLazy``2">MapLazy.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#MapLazyFiltered``2">MapLazyFiltered.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#MapLazyFiltered``2">MapLazyFiltered.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#MapToArray``2">MapToArray.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#MapToArrayFiltered``2">MapToArrayFiltered.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#MapToArrayFiltered``2">MapToArrayFiltered.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#MapToList``2">MapToList.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#MapToList``2">MapToList.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#MapToList``2">MapToList.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NCount``1">NCount.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NFirst``1">NFirst.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NFirst``1">NFirst.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NFirst``1">NFirst.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NLast``1">NLast.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NLast``1">NLast.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NLast``1">NLast.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NLastN``1">NLastN.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NToArray``1">NToArray.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NToArray``1">NToArray.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NToArrayFiltered``1">NToArrayFiltered.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NToList``1">NToList.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#NToList``1">NToList.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Reverse``1">Reverse.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#RevMap2``3">RevMap2.[TFirst, TSecond, TResult]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#RevMap2``3">RevMap2.[TFirst, TSecond, TResult]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#RightHand``1">RightHand.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#Sort``2">Sort.[T, Val]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#SortInplace``1">SortInplace.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ToArrayFiltered``1">ToArrayFiltered.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ToBase``2">ToBase.[Derive, Base]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ToNList``1">ToNList.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ToString``1">ToString.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ToString``1">ToString.[T]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#UpCastToArray``2">UpCastToArray.[From, To]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ZipLazy``2">ZipLazy.[TFirst, TSecond]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ZipToArray``2">ZipToArray.[First, Second]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ZipToArray``2">ZipToArray.[First, Second]</a></li><li><a href="../Nemerle.Collections/NCollectionsExtensions.htm#ZipToArray``2">ZipToArray.[First, Second]</a></li>
+			</ul>
+
+
+	</div>
+
+
+
+	<h3 class="section">Public static methods</h3>
+<div id="Append``1" class="method">
+		<h4><strong>Append.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>, value : <span title="Nemerle.Collections.T">T</span>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Append``1" class="method">
+		<h4><strong>Append.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>, value : <span title="Nemerle.Collections.T[]">T[]</span>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="BinarySearch``1" class="method">
+		<h4><strong>BinarySearch.[TElem]</strong>(collection : <span title="System.Collections.Generic.IList[TElem]">IList[TElem]</span>, comparer : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.int">int</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="BinarySearch``1" class="method">
+		<h4><strong>BinarySearch.[TElem]</strong>(collection : <span title="System.Collections.Generic.IList[TElem]">IList[TElem]</span>, lo : <span title="System.int">int</span>, hi : <span title="System.int">int</span>, comparer : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.int">int</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ChopFirstN``1" class="method">
+		<h4><strong>ChopFirstN.[T]</strong>(arr : <span title="Nemerle.Collections.T[]">T[]</span>, n : <span title="System.int">int</span>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ChopLastN``1" class="method">
+		<h4><strong>ChopLastN.[T]</strong>(arr : <span title="Nemerle.Collections.T[]">T[]</span>, n : <span title="System.int">int</span>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Clone``1" class="method">
+		<h4><strong>Clone.[T]</strong>(source : <span title="Nemerle.Collections.T">T</span>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ConvertAll``2" class="method">
+		<h4><strong>ConvertAll.[From, To]</strong>(source : <span title="Nemerle.Collections.From[]">From[]</span>, f : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.To[]">To[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ConvertToArray``2" class="method">
+		<h4><strong>ConvertToArray.[From, To]</strong>(source : <span title="System.Collections.Generic.IEnumerable[From]">IEnumerable[From]</span>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.To[]">To[]</span></h4>
+		<div class="content"><p>Convert sequence of one type to array of another type. (Alias for MapToArray) </p> 
+
+
+
+
+    </div>
+	</div><div id="ConvertToArrayFiltered``2" class="method">
+		<h4><strong>ConvertToArrayFiltered.[From, To]</strong>(source : <span title="System.Collections.Generic.IEnumerable[From]">IEnumerable[From]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.To[]">To[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ExcludeLazy``1" class="method">
+		<h4><strong>ExcludeLazy.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, exclude : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>) : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Exists``1" class="method">
+		<h4><strong>Exists.[T]</strong>(a : <span title="Nemerle.Collections.T[]">T[]</span>, f : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Exists``1" class="method">
+		<h4><strong>Exists.[T]</strong>(seq : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, predicate : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Exists2``2" class="method">
+		<h4><strong>Exists2.[TFirst, TSecond]</strong>(a : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, b : <span title="Nemerle.Collections.TSecond[]">TSecond[]</span>, f : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Exists2``2" class="method">
+		<h4><strong>Exists2.[TFirst, TSecond]</strong>(a : <span title="Nemerle.Collections.TFirst[]">TFirst[]</span>, b : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, f : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Filter``1" class="method">
+		<h4><strong>Filter.[T]</strong>(seq : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, predicate : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Filter``1" class="method">
+		<h4><strong>Filter.[T]</strong>(ary : <span title="Nemerle.Collections.T[]">T[]</span>, predicate : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FilterLazy``1" class="method">
+		<h4><strong>FilterLazy.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, predicate : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span></h4>
+		<div class="content"><p>Filter elements of sequence in lazy manner. </p> 
+
+
+
+
+    </div>
+	</div><div id="FilterToArray``1" class="method">
+		<h4><strong>FilterToArray.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FilterToArray``1" class="method">
+		<h4><strong>FilterToArray.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Find``1" class="method">
+		<h4><strong>Find.[T]</strong>(seq : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, predicate : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <a href="../Nemerle.Core/option`1.htm">option[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FindIndex``1" class="method">
+		<h4><strong>FindIndex.[T]</strong>(source : <span title="System.Collections.Generic.IList[T]">IList[T]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.int">int</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FindIndex``1" class="method">
+		<h4><strong>FindIndex.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.int">int</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FindIndex``1" class="method">
+		<h4><strong>FindIndex.[T]</strong>(source : <span title="System.Collections.Generic.List[T]">List[T]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.int">int</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FindObject``1" class="method">
+		<h4><strong>FindObject.[T]</strong>(seq : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, predicate : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content"><p>Find reference type object. Return reference to found objec of null. </p> 
+
+
+
+
+    </div>
+	</div><div id="FindValue``1" class="method">
+		<h4><strong>FindValue.[T]</strong>(seq : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, predicate : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.Nullable[T]">Nullable[T]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Flatten``2" class="method">
+		<h4><strong>Flatten.[TEnu, TOut]</strong>(source : <span title="System.Collections.Generic.IEnumerable[TEnu]">IEnumerable[TEnu]</span>) : <span title="System.Collections.Generic.IEnumerable[TOut]">IEnumerable[TOut]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Fold``2" class="method">
+		<h4><strong>Fold.[TAccumulator, T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, ini : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span>, convert : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Fold``2" class="method">
+		<h4><strong>Fold.[TAccumulator, T]</strong>(arr : <span title="Nemerle.Collections.T[]">T[]</span>, ini : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span>, f : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FoldI``2" class="method">
+		<h4><strong>FoldI.[TAccumulator, T]</strong>(arr : <span title="Nemerle.Collections.T[]">T[]</span>, ini : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span>, f : <a href="../Nemerle.Builtins/Function`4.htm">Function['p1, 'p2, 'p3, 'r]</a>) : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FoldLeft``2" class="method">
+		<h4><strong>FoldLeft.[TAccumulator, T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, ini : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span>, convert : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FoldLeft2``3" class="method">
+		<h4><strong>FoldLeft2.[TFirst, TSecond, TResult]</strong>(a : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, b : <span title="Nemerle.Collections.TSecond[]">TSecond[]</span>, acc : <span title="Nemerle.Collections.TResult">TResult</span>, f : <a href="../Nemerle.Builtins/Function`4.htm">Function['p1, 'p2, 'p3, 'r]</a>) : <span title="Nemerle.Collections.TResult">TResult</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FoldLeft2``3" class="method">
+		<h4><strong>FoldLeft2.[TFirst, TSecond, TResult]</strong>(a : <span title="Nemerle.Collections.TFirst[]">TFirst[]</span>, b : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, acc : <span title="Nemerle.Collections.TResult">TResult</span>, f : <a href="../Nemerle.Builtins/Function`4.htm">Function['p1, 'p2, 'p3, 'r]</a>) : <span title="Nemerle.Collections.TResult">TResult</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FoldRight``2" class="method">
+		<h4><strong>FoldRight.[TAccumulator, T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, ini : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span>, convert : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="Nemerle.Collections.TAccumulator">TAccumulator</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FoldRight2``3" class="method">
+		<h4><strong>FoldRight2.[TFirst, TSecond, TResult]</strong>(a : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, b : <span title="Nemerle.Collections.TSecond[]">TSecond[]</span>, c : <span title="Nemerle.Collections.TResult">TResult</span>, f : <a href="../Nemerle.Builtins/Function`4.htm">Function['p1, 'p2, 'p3, 'r]</a>) : <span title="Nemerle.Collections.TResult">TResult</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FoldRight2``3" class="method">
+		<h4><strong>FoldRight2.[TFirst, TSecond, TResult]</strong>(a : <span title="Nemerle.Collections.TFirst[]">TFirst[]</span>, b : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, c : <span title="Nemerle.Collections.TResult">TResult</span>, f : <a href="../Nemerle.Builtins/Function`4.htm">Function['p1, 'p2, 'p3, 'r]</a>) : <span title="Nemerle.Collections.TResult">TResult</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ForAll``1" class="method">
+		<h4><strong>ForAll.[T]</strong>(a : <span title="Nemerle.Collections.T[]">T[]</span>, f : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ForAll2``2" class="method">
+		<h4><strong>ForAll2.[TFirst, TSecond]</strong>(a : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, b : <span title="Nemerle.Collections.TSecond[]">TSecond[]</span>, f : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ForAll2``2" class="method">
+		<h4><strong>ForAll2.[TFirst, TSecond]</strong>(a : <span title="Nemerle.Collections.TFirst[]">TFirst[]</span>, b : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, f : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ForAll2``2" class="method">
+		<h4><strong>ForAll2.[T1, T2]</strong>(first : <span title="Nemerle.Collections.T1[]">T1[]</span>, second : <span title="Nemerle.Collections.T2[]">T2[]</span>, comparator : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ForAll2``2" class="method">
+		<h4><strong>ForAll2.[T1, T2]</strong>(first : <span title="System.Collections.Generic.IList[T1]">IList[T1]</span>, second : <span title="System.Collections.Generic.IList[T2]">IList[T2]</span>, comparator : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ForAll2``2" class="method">
+		<h4><strong>ForAll2.[T1, T2]</strong>(first : <span title="System.Collections.Generic.IEnumerable[T1]">IEnumerable[T1]</span>, second : <span title="System.Collections.Generic.IEnumerable[T2]">IEnumerable[T2]</span>, comparator : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="FromList``1" class="method">
+		<h4><strong>FromList.[T]</strong>(t : <span title="System.Type">Type</span>, x : <a href="../Nemerle.Core/list`1.htm">list[T]</a>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Grouping``3" class="method">
+		<h4><strong>Grouping.[TSource, TKey, TValue]</strong>(source : <span title="System.Collections.Generic.IEnumerable[TSource]">IEnumerable[TSource]</span>, selector : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <a href="../Nemerle.Collections/Hashtable`2.htm">Hashtable[TKey, TValue]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="IsEmpty" class="method">
+		<h4><strong>IsEmpty</strong>(seq : <span title="System.Collections.ICollection">ICollection</span>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="IsEmpty``1" class="method">
+		<h4><strong>IsEmpty.[T]</strong>(seq : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="IsEmpty``1" class="method">
+		<h4><strong>IsEmpty.[T]</strong>(seq : <span title="Nemerle.Collections.T[]">T[]</span>) : <span title="System.bool">bool</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Iter``1" class="method">
+		<h4><strong>Iter.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, action : <a href="../Nemerle.Builtins/FunctionVoid`1.htm">FunctionVoid['p1]</a>) : <span title="System.void">void</span></h4>
+		<div class="content"><p>Iterate sequence and call action for each it elements. </p> 
+
+
+
+
+    </div>
+	</div><div id="Iter``1" class="method">
+		<h4><strong>Iter.[T]</strong>(arr : <span title="Nemerle.Collections.T[]">T[]</span>, f : <a href="../Nemerle.Builtins/FunctionVoid`1.htm">FunctionVoid['p1]</a>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Iter2``2" class="method">
+		<h4><strong>Iter2.[TFirst, TSecond]</strong>(a : <span title="Nemerle.Collections.TFirst[]">TFirst[]</span>, b : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, f : <a href="../Nemerle.Builtins/FunctionVoid`2.htm">FunctionVoid['p1, 'p2]</a>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Iter2``2" class="method">
+		<h4><strong>Iter2.[TFirst, TSecond]</strong>(a : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, b : <span title="Nemerle.Collections.TSecond[]">TSecond[]</span>, f : <a href="../Nemerle.Builtins/FunctionVoid`2.htm">FunctionVoid['p1, 'p2]</a>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Iter2``2" class="method">
+		<h4><strong>Iter2.[TFirst, TSecond]</strong>(a : <span title="System.Collections.Generic.IEnumerable[TFirst]">IEnumerable[TFirst]</span>, b : <span title="System.Collections.Generic.IEnumerable[TSecond]">IEnumerable[TSecond]</span>, f : <a href="../Nemerle.Builtins/FunctionVoid`2.htm">FunctionVoid['p1, 'p2]</a>) : <span title="System.void">void</span></h4>
+		<div class="content"><p>Iterate over two collection </p> 
+
+
+
+
+    </div>
+	</div><div id="IterI``1" class="method">
+		<h4><strong>IterI.[T]</strong>(arr : <span title="Nemerle.Collections.T[]">T[]</span>, f : <a href="../Nemerle.Builtins/FunctionVoid`2.htm">FunctionVoid['p1, 'p2]</a>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="IterI``1" class="method">
+		<h4><strong>IterI.[T]</strong>(seq : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, f : <a href="../Nemerle.Builtins/FunctionVoid`2.htm">FunctionVoid['p1, 'p2]</a>) : <span title="System.void">void</span></h4>
+		<div class="content"><p>Iterates a function over a sequence, passing both the item index
+and value as the iterated function parameters. </p> 
+
+
+
+
+    </div>
+	</div><div id="IterX``1" class="method">
+		<h4><strong>IterX.[T]</strong>(f : <a href="../Nemerle.Builtins/FunctionVoid`1.htm">FunctionVoid['p1]</a>, sources : <span title="System.Collections.Generic.IEnumerable`1[]">IEnumerable`1[]</span>) : <span title="System.void">void</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="LeftHand``1" class="method">
+		<h4><strong>LeftHand.[T]</strong>(source : <span title="System.Collections.Generic.IList[T]">IList[T]</span>, index : <span title="System.int">int</span>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content"><p>Return left-hand element or new object (if id does not exists). </p> 
+
+
+
+
+    </div>
+	</div><div id="Map``2" class="method">
+		<h4><strong>Map.[From, To]</strong>(from : <span title="Nemerle.Collections.From[]">From[]</span>, f : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.To[]">To[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Map``2" class="method">
+		<h4><strong>Map.[From, To]</strong>(res_type : <span title="System.Type">Type</span>, ar : <span title="Nemerle.Collections.From[]">From[]</span>, f : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.To[]">To[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Map``2" class="method">
+		<h4><strong>Map.[From, To]</strong>(source : <span title="System.Collections.Generic.IEnumerable[From]">IEnumerable[From]</span>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Map2``3" class="method">
+		<h4><strong>Map2.[TFirst, TSecond, TResult]</strong>(a : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, b : <span title="Nemerle.Collections.TSecond[]">TSecond[]</span>, f : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Map2``3" class="method">
+		<h4><strong>Map2.[TFirst, TSecond, TResult]</strong>(a : <span title="Nemerle.Collections.TFirst[]">TFirst[]</span>, b : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, f : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Map2Lazy``3" class="method">
+		<h4><strong>Map2Lazy.[TFirst, TSecond, TResult]</strong>(first : <span title="System.Collections.Generic.IEnumerable[TFirst]">IEnumerable[TFirst]</span>, second : <span title="System.Collections.Generic.IEnumerable[TSecond]">IEnumerable[TSecond]</span>, func : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="System.Collections.Generic.IEnumerable[TResult]">IEnumerable[TResult]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Map2ToArray``3" class="method">
+		<h4><strong>Map2ToArray.[First, Second, Result]</strong>(first : <span title="Nemerle.Collections.First[]">First[]</span>, second : <span title="Nemerle.Collections.Second[]">Second[]</span>, func : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="Nemerle.Collections.Result[]">Result[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Map2ToArray``3" class="method">
+		<h4><strong>Map2ToArray.[First, Second, Result]</strong>(first : <span title="System.Collections.Generic.IEnumerable[First]">IEnumerable[First]</span>, second : <span title="System.Collections.Generic.IEnumerable[Second]">IEnumerable[Second]</span>, func : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <span title="Nemerle.Collections.Result[]">Result[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="MapLazy``2" class="method">
+		<h4><strong>MapLazy.[From, To]</strong>(source : <span title="System.Collections.Generic.IEnumerable[From]">IEnumerable[From]</span>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.Collections.Generic.IEnumerable[To]">IEnumerable[To]</span></h4>
+		<div class="content"><p>Convert a sequence of one type to sequence of another type.
+Convertion execute in lazy manner. </p> 
+
+
+
+
+    </div>
+	</div><div id="MapLazyFiltered``2" class="method">
+		<h4><strong>MapLazyFiltered.[From, To]</strong>(source : <span title="System.Collections.Generic.IEnumerable[From]">IEnumerable[From]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.Collections.Generic.IEnumerable[To]">IEnumerable[To]</span></h4>
+		<div class="content"><p>Convert a sequence of one type to sequence of another type with filtration.
+Convertion execute in lazy manner. </p> 
+
+
+
+
+    </div>
+	</div><div id="MapLazyFiltered``2" class="method">
+		<h4><strong>MapLazyFiltered.[From, To]</strong>(source : <span title="System.Collections.Generic.IEnumerable[From]">IEnumerable[From]</span>, matchAndConvert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="System.Collections.Generic.IEnumerable[To]">IEnumerable[To]</span></h4>
+		<div class="content"><p>Convert a sequence of one type to sequence of another type with filtration.
+Convertion execute in lazy manner. </p> 
+
+
+
+
+    </div>
+	</div><div id="MapToArray``2" class="method">
+		<h4><strong>MapToArray.[From, To]</strong>(source : <span title="System.Collections.Generic.IEnumerable[From]">IEnumerable[From]</span>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.To[]">To[]</span></h4>
+		<div class="content"><p>// Convert a collection of one type to an array of another type.
+// Convert collection of one type to array of another type. (Alias for MapToArray)
+Convert a sequence of one type to an array of another type. </p> 
+
+
+
+
+    </div>
+	</div><div id="MapToArrayFiltered``2" class="method">
+		<h4><strong>MapToArrayFiltered.[From, To]</strong>(source : <span title="System.Collections.Generic.IEnumerable[From]">IEnumerable[From]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.To[]">To[]</span></h4>
+		<div class="content"><p>Convert sequence to array with filtration. </p> 
+
+
+
+
+    </div>
+	</div><div id="MapToArrayFiltered``2" class="method">
+		<h4><strong>MapToArrayFiltered.[From, To]</strong>(source : <span title="Nemerle.Collections.From[]">From[]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.To[]">To[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="MapToList``2" class="method">
+		<h4><strong>MapToList.[From, To]</strong>(source : <span title="System.Collections.Generic.IEnumerable[From]">IEnumerable[From]</span>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="MapToList``2" class="method">
+		<h4><strong>MapToList.[From, To]</strong>(source : <span title="System.Collections.Generic.IList[From]">IList[From]</span>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="MapToList``2" class="method">
+		<h4><strong>MapToList.[From, To]</strong>(source : <span title="Nemerle.Collections.From[]">From[]</span>, convert : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NCount``1" class="method">
+		<h4><strong>NCount.[T]</strong>(seq : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>) : <span title="System.int">int</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NFirst``1" class="method">
+		<h4><strong>NFirst.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NFirst``1" class="method">
+		<h4><strong>NFirst.[T]</strong>(source : <span title="System.Collections.Generic.IList[T]">IList[T]</span>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NFirst``1" class="method">
+		<h4><strong>NFirst.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NLast``1" class="method">
+		<h4><strong>NLast.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NLast``1" class="method">
+		<h4><strong>NLast.[T]</strong>(source : <span title="System.Collections.Generic.IList[T]">IList[T]</span>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NLast``1" class="method">
+		<h4><strong>NLast.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NLastN``1" class="method">
+		<h4><strong>NLastN.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>, n : <span title="System.int">int</span>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NToArray``1" class="method">
+		<h4><strong>NToArray.[T]</strong>(source : <span title="System.Collections.Generic.ICollection[T]">ICollection[T]</span>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content"><p>Convert collection to array. </p> 
+
+
+
+
+    </div>
+	</div><div id="NToArray``1" class="method">
+		<h4><strong>NToArray.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content"><p>Convert sequence to array. </p> 
+
+
+
+
+    </div>
+	</div><div id="NToArrayFiltered``1" class="method">
+		<h4><strong>NToArrayFiltered.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NToList``1" class="method">
+		<h4><strong>NToList.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="NToList``1" class="method">
+		<h4><strong>NToList.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="Reverse``1" class="method">
+		<h4><strong>Reverse.[T]</strong>(seq : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>) : <span title="System.Collections.Generic.List[T]">List[T]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="RevMap2``3" class="method">
+		<h4><strong>RevMap2.[TFirst, TSecond, TResult]</strong>(a : <span title="Nemerle.Collections.TFirst[]">TFirst[]</span>, b : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, f : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="RevMap2``3" class="method">
+		<h4><strong>RevMap2.[TFirst, TSecond, TResult]</strong>(a : <a href="../Nemerle.Core/list`1.htm">list[T]</a>, b : <span title="Nemerle.Collections.TSecond[]">TSecond[]</span>, f : <a href="../Nemerle.Builtins/Function`3.htm">Function['p1, 'p2, 'r]</a>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="RightHand``1" class="method">
+		<h4><strong>RightHand.[T]</strong>(source : <span title="System.Collections.Generic.IList[T]">IList[T]</span>, index : <span title="System.int">int</span>) : <span title="Nemerle.Collections.T">T</span></h4>
+		<div class="content"><p>Return right-hand element or new object (if id does not exists). </p> 
+
+
+
+
+    </div>
+	</div><div id="Sort``2" class="method">
+		<h4><strong>Sort.[T, Val]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>, getComparableValue : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="SortInplace``1" class="method">
+		<h4><strong>SortInplace.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>, comparison : <span title="System.Comparison[T]">Comparison[T]</span>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ToArrayFiltered``1" class="method">
+		<h4><strong>ToArrayFiltered.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, isMatch : <a href="../Nemerle.Builtins/Function`2.htm">Function['p1, 'r]</a>) : <span title="Nemerle.Collections.T[]">T[]</span></h4>
+		<div class="content"><p>Convert sequence to array with filtration. </p> 
+
+
+
+
+    </div>
+	</div><div id="ToBase``2" class="method">
+		<h4><strong>ToBase.[Derive, Base]</strong>(source : <span title="Nemerle.Collections.Derive[]">Derive[]</span>) : <span title="Nemerle.Collections.Base[]">Base[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ToNList``1" class="method">
+		<h4><strong>ToNList.[T]</strong>(arr : <span title="Nemerle.Collections.T[]">T[]</span>) : <a href="../Nemerle.Core/list`1.htm">list[T]</a></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ToString``1" class="method">
+		<h4><strong>ToString.[T]</strong>(source : <span title="Nemerle.Collections.T[]">T[]</span>, separator : <span title="System.string">string</span>) : <span title="System.string">string</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ToString``1" class="method">
+		<h4><strong>ToString.[T]</strong>(source : <span title="System.Collections.Generic.IEnumerable[T]">IEnumerable[T]</span>, separator : <span title="System.string">string</span>) : <span title="System.string">string</span></h4>
+		<div class="content"><p>Convert sequence to string. </p> 
+
+
+
+
+    </div>
+	</div><div id="UpCastToArray``2" class="method">
+		<h4><strong>UpCastToArray.[From, To]</strong>(source : <span title="System.Collections.Generic.ICollection[From]">ICollection[From]</span>) : <span title="Nemerle.Collections.To[]">To[]</span></h4>
+		<div class="content"><p>Copy a collection of one type to an array of another type (with cast it elements to To type).
+Throw System.InvalidCastException if some elements can't be cast (VladD2: I hope :) ). </p> 
+
+
+
+
+    </div>
+	</div><div id="ZipLazy``2" class="method">
+		<h4><strong>ZipLazy.[TFirst, TSecond]</strong>(first : <span title="System.Collections.Generic.IEnumerable[TFirst]">IEnumerable[TFirst]</span>, second : <span title="System.Collections.Generic.IEnumerable[TSecond]">IEnumerable[TSecond]</span>) : <span title="System.Collections.Generic.IEnumerable[Tuple[TFirst, TSecond]]">IEnumerable[Tuple[TFirst, TSecond]]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ZipToArray``2" class="method">
+		<h4><strong>ZipToArray.[First, Second]</strong>(first : <span title="System.Collections.Generic.ICollection[First]">ICollection[First]</span>, second : <span title="System.Collections.Generic.ICollection[Second]">ICollection[Second]</span>) : <span title="Nemerle.Builtins.Tuple`2[]">Tuple`2[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ZipToArray``2" class="method">
+		<h4><strong>ZipToArray.[First, Second]</strong>(first : <span title="System.Collections.Generic.IEnumerable[First]">IEnumerable[First]</span>, second : <span title="System.Collections.Generic.IEnumerable[Second]">IEnumerable[Second]</span>) : <span title="Nemerle.Builtins.Tuple`2[]">Tuple`2[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div><div id="ZipToArray``2" class="method">
+		<h4><strong>ZipToArray.[First, Second]</strong>(first : <span title="Nemerle.Collections.First[]">First[]</span>, second : <span title="Nemerle.Collections.Second[]">Second[]</span>) : <span title="Nemerle.Builtins.Tuple`2[]">Tuple`2[]</span></h4>
+		<div class="content">
+
+
+
+
+    </div>
+	</div>
+
+<div id="footer">
+  <p>Based on v1.0.0.9832 of </p>
+  <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
+</div>
+  </body>
+</html>
