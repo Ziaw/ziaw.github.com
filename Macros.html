@@ -1,0 +1,780 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Macros
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+
+
+<p><b>Nemerle type-safe macros</b></p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#What_exactly_is_a_macro">What exactly is a macro?</a></li><li><a href="#Defining_a_new_macro">Defining a new macro</a><ul><li><a href="#Compiling_a_simplest_macro">Compiling a simplest macro</a></li><li><a href="#Exercise">Exercise</a></li></ul></li><li><a href="#Operating_on_syntax_trees">Operating on syntax trees</a><ul><li><a href="#Quotation_operator">Quotation operator</a></li><li><a href="#Matching_subexpressions">Matching subexpressions</a></li><li><a href="#Base_elements_of_grammar">Base elements of grammar</a></li><li><a href="#Constructs_with_variable_amount_of_elements">Constructs with variable amount of elements</a></li><li><a href="#Exercise-2">Exercise</a></li></ul></li><li><a href="#Adding_new_syntax_to_the_compiler">Adding new syntax to the compiler</a><ul><li><a href="#Exercise-3">Exercise</a></li></ul></li><li><a href="#Macros_in_custom_attributes">Macros in custom attributes</a><ul><li><a href="#Executing_macros_on_type_declarations">Executing macros on type declarations</a></li><li><a href="#Manipulating_type_declarations">Manipulating type declarations</a></li><li><a href="#Execution_stages">Execution stages</a><ul><li><a href="#Parameters_of_attribute_macros">Parameters of attribute macros</a></li></ul></li><li><a href="#Reference_to_more_advanced_aspects">Reference to more advanced aspects</a><ul><li><a href="#Hygiene_and_alpharenaming_of_identifiers">Hygiene and alpha-renaming of identifiers</a><ul><li><a href="#Problem_with_names_capture">Problem with names capture</a></li><li><a href="#Hygiene_of_macros">Hygiene of macros</a></li><li><a href="#Controlled_breaking_hygiene">Controlled breaking hygiene</a></li><li><a href="#Unhygienic_variables">Unhygienic variables</a></li></ul></li></ul></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="What_exactly_is_a_macro"><a name="What_exactly_is_a_macro" id="What_exactly_is_a_macro">What exactly is a macro?</a></span></h2>
+
+<p>Basically every macro is a function, which takes a fragment
+of code as parameter(s) and returns some other code. On the highest 
+level of abstraction it doesn't matter if parameters are function calls, 
+type definitions or just a sequence of assignments. The most important fact is 
+that they are not common objects (e.g. instances of some types, like 
+integer numbers), but their internal representation in the compiler (i.e. 
+syntax trees).</p>
+
+<p>A macro is defined in the program just like any other function, using
+common Nemerle syntax. The only difference is the structure of the data 
+it operates on and the way in which it is used (executed at compile-time). </p>
+
+<p>A macro, once created, can be used to process some parts of the code.
+It's done by calling it with block(s) of code as parameter(s). 
+This operation is in most cases indistinguishable from a common function
+call (like <i>f(1)</i>), so a programmer using a macro would not be confused 
+by unknown syntax. The main concept of our design is to make the usage of macros 
+as transparent as possible. From the user point of view, it is not 
+important if particular parameters are passed to a macro, 
+(which would process them at the compile-time and insert some new 
+code in their place), or to an ordinary function.</p>
+
+<h2><span class="mw-headline" id="Defining_a_new_macro"><a name="Defining_a_new_macro" id="Defining_a_new_macro">Defining a new macro</a></span></h2>
+
+<p>Writing a macro is as simple as writing a common function. It looks
+the same, except that it is preceded by a keyword <code>macro</code> and it lives at the top level (not inside any class). 
+This will make the compiler know about how to use the defined method 
+(i.e. run it at the compile-time in every place where it is used). </p>
+
+<p>Macros can take zero (if we just want to generate new code)
+or more parameters. They are all elements of the language 
+grammar, so their type is limited to the set of defined
+syntax objects. The same holds for a return value of a macro.</p>
+
+<p>Example:</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">generate_expression</span> <span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">MyModule</span><span class="p">.</span><span class="n">compute_some_expression</span> <span class="p">();</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>This example macro does not take any parameters and is used in the
+code by simply writing <code>generate_expression ();</code>. 
+The most important is the difference between <code>generate_expression</code>
+and <code>compute_some_expression</code> - the first one is a function
+executed by the compiler during compilation, while the latter is just
+some common function that must return syntax tree of expressions
+(which is here returned and inserted into program code by
+<code>generate_expression</code>).</p>
+
+<h3><span class="mw-headline" id="Compiling_a_simplest_macro"><a name="Compiling_a_simplest_macro" id="Compiling_a_simplest_macro">Compiling a simplest macro</a></span></h3>
+
+<p>In order to create and use a macro you have to write a
+library, which will contain its executable form. You simply 
+create a new file <code>mymacro.n</code>, which can contain for 
+example</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">m</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">Nemerle</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">printf</span> <span class="p">(</span><span class="s">"compile-time\n"</span><span class="p">);</span>
+  <span class="k">&lt;[ </span><span class="n">Nemerle</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">printf</span> <span class="p">(</span><span class="s">"run-time\n"</span><span class="p">)</span> <span class="k">]&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>and compile it with command</p>
+
+<pre> ncc -r Nemerle.Compiler.dll -t:dll mymacro.n -o mymacro.dll</pre>
+
+<p>Now you can use <code>m()</code> in any program, like here</p>
+
+<div class="highlight"><pre><span class="k">module</span> <span class="nc">M</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="n">m</span> <span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>You must add a reference to <code>mymacro.dll</code> during 
+compilation of this program. It might look like</p>
+
+<pre> ncc -r mymacro.dll myprog.n -o myprog.exe</pre>
+
+<h3><span class="mw-headline" id="Exercise"><a name="Exercise" id="Exercise">Exercise</a></span></h3>
+
+<p>Write a macro, which, when used, should slow down the compilation by 5 seconds
+(use <code>System.Timers</code> namespace) and print the version of the operating
+system used to compile program (use <code>System.Environment</code> namespace).</p>
+
+<h2><span class="mw-headline" id="Operating_on_syntax_trees"><a name="Operating_on_syntax_trees" id="Operating_on_syntax_trees">Operating on syntax trees</a></span></h2>
+
+<p>Definition of function <code>compute_some_expression</code> might look
+like:</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Compiler</span><span class="p">.</span><span class="n">Parsetree</span><span class="p">;</span>
+
+<span class="k">module</span> <span class="nc">MyModule</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">debug_on</span> <span class="p">:</span> <span class="kt">bool</span><span class="p">;</span>
+
+  <span class="k">public</span> <span class="nf">compute_some_expression</span> <span class="p">()</span> <span class="p">:</span> <span class="n">PExpr</span> 
+  <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">debug_on</span><span class="p">)</span> 
+      <span class="k">&lt;[ </span><span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello, I'm debug message"</span><span class="p">)</span> <span class="k">]&gt;</span>
+    <span class="k">else</span>
+      <span class="k">&lt;[ </span><span class="p">()</span> <span class="k">]&gt;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The examples above show a macro, which conditionally inlines expression
+printing a message. It's not quite useful yet, but it has introduced the
+meaning of compile-time computations and also some new syntax used only 
+in writing macros and functions operating on syntax trees.
+We have written here the <code>&lt;[ ... ]&gt;</code> constructor to
+build a syntax tree of expression (e.g. '<code>()</code>').</p>
+
+<h3><span class="mw-headline" id="Quotation_operator"><a name="Quotation_operator" id="Quotation_operator">Quotation operator</a></span></h3>
+
+<p><code>&lt;[ ... ]&gt;</code> is used to both construction and 
+decomposition of syntax trees. Those operations are similar to
+quotation of code. Simply, everything which is written inside 
+<code>&lt;[ ... ]&gt;</code>, corresponds to its own syntax tree. 
+It can be any valid Nemerle code, so a programmer does not have to 
+learn internal representation of syntax trees in the compiler.</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">print_date</span> <span class="p">(</span><span class="n">at_compile_time</span><span class="p">)</span>
+<span class="p">{</span>                   
+  <span class="k">match</span> <span class="p">(</span><span class="n">at_compile_time</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="k">&lt;[ true</span> <span class="k">]&gt;</span> <span class="p">=&gt;</span> <span class="n">MyModule</span><span class="p">.</span><span class="n">print_compilation_time</span> <span class="p">()</span>
+    <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="k">&lt;[ </span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span> <span class="p">())</span> <span class="k">]&gt;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The quotation alone allows using only constant expressions, which
+is insufficient for most tasks. For example, to write function
+<code>print_compilation_time</code> we must be able to create an expression
+based on a value known at the compile-time. In next sections we introduce
+the rest of macros' syntax to operate on general syntax trees.</p>
+
+<h3><span class="mw-headline" id="Matching_subexpressions"><a name="Matching_subexpressions" id="Matching_subexpressions">Matching subexpressions</a></span></h3>
+
+<p>When we want to decompose some large code (or more precisely, 
+its syntax tree), we must bind its smaller parts to variables.
+Then we can process them recursively or just use them in an
+arbitrary way to construct the result.</p>
+
+<p>We can operate on entire subexpressions by writing 
+<code>$( ... )</code> or <code>$ID</code> inside the quotation operator 
+<code>&lt;[ ... ]&gt;</code>. This means binding the value of 
+<code>ID</code> or the interior of parenthesized expression to the part of 
+syntax tree described by corresponding quotation.</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">for</span> <span class="p">(</span><span class="n">init</span><span class="p">,</span> <span class="n">cond</span><span class="p">,</span> <span class="n">change</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">&lt;[ </span>
+<span class="k">    </span><span class="n">$init</span><span class="p">;</span>
+    <span class="k">def</span> <span class="nf">loop</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">$cond</span><span class="p">)</span> <span class="p">{</span> <span class="n">$body</span><span class="p">;</span> <span class="n">$change</span><span class="p">;</span> <span class="n">loop</span><span class="p">()</span> <span class="p">}</span> 
+      <span class="k">else</span> <span class="p">()</span>
+    <span class="p">};</span>
+    <span class="n">loop</span> <span class="p">()</span>
+  <span class="k">]&gt;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The above macro defines function <code>for</code>, which is
+similar to the loop known from C. It can be used like this</p>
+
+<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">,</span> <span class="n">i</span><span class="p">++,</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+</pre>
+</div>
+
+
+<p>Later we show how to extend the language syntax to make the syntax
+of <code>for</code> exactly as in C.</p>
+
+<h3><span class="mw-headline" id="Base_elements_of_grammar"><a name="Base_elements_of_grammar" id="Base_elements_of_grammar">Base elements of grammar</a></span></h3>
+
+<p>Sometimes quoted expressions have literals inside of them
+(like strings, integers, etc.) and we want to operate on
+their value, not on their syntax trees. It is possible, 
+because they are constant expressions and their runtime
+value is known at the compile-time. </p>
+
+<p>Let's consider the previously used function <code>print_compilation_time</code>. </p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Compiler</span><span class="p">.</span><span class="n">Parsetree</span><span class="p">;</span>
+
+<span class="k">module</span> <span class="nc">MyModule</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">print_compilation_time</span> <span class="p">()</span> <span class="p">:</span> <span class="n">PExpr</span>
+  <span class="p">{</span>                   
+    <span class="k">&lt;[ </span><span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">$</span><span class="p">(</span><span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="err"> </span><span class="p">()</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">string</span><span class="p">))</span> <span class="k">]&gt;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Here we see some new extension of splicing syntax where we 
+create a syntax tree of string literal from a known value.
+It is done by adding <code>: string</code> inside the
+<code>$(...)</code> construct. One can think about it as of
+enforcing the type of spliced expression to a literal (similar
+to common Nemerle type enforcement), but in the matter
+of fact something more is happening here - a real value
+is lifted to its representation as syntax tree of a literal.</p>
+
+<p>Other types of literals (<code>int</code>, <code>bool</code>, <code>float</code>, 
+<code>char</code>) are treated the same.  
+This notation can be used also in pattern matching. We can
+match constant values in expressions this way.</p>
+
+<p>There is also a similar schema for splicing and matching 
+variables of a given name. <code>$(v : name)</code> denotes a
+variable, whose name is contained by object <code>v</code> 
+(of special type <code>Name</code>). There are some good 
+<a class="internal absent" href="/reasons.html">Macros#Problem_with_names_capture</a> for encapsulating a real identifier
+within this object. </p>
+
+<h3><span class="mw-headline" id="Constructs_with_variable_amount_of_elements"><a name="Constructs_with_variable_amount_of_elements" id="Constructs_with_variable_amount_of_elements">Constructs with variable amount of elements</a></span></h3>
+
+<p>You might have noticed, that Nemerle has a few grammar elements, 
+which are composed of a list of subexpressions. For example, a sequence
+of expressions enclosed with <code>{</code> .. <code>}</code> braces may
+contain zero or more elements. </p>
+
+<p>When splicing values of some expressions, we would like to decompose
+or compose such constructs in a general way - i.e. obtain all expressions
+in a given sequence. It is natural to think about them as if a list of 
+expressions and to bind this list to some variable in meta-language. 
+It is done with special syntax <code>..</code>:</p>
+
+<div class="highlight"><pre><span class="k">mutable</span> <span class="n">exps</span> <span class="p">=</span> <span class="p">[</span> <span class="k">&lt;[ </span><span class="n">printf</span> <span class="p">(</span><span class="s">"%d "</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">]&gt;</span><span class="p">,</span> <span class="k">&lt;[ </span><span class="n">printf</span> <span class="p">(</span><span class="s">"%d "</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">]&gt;</span> <span class="p">];</span>
+<span class="n">exps</span> <span class="p">=</span> <span class="k">&lt;[ def</span> <span class="n">x</span> <span class="p">=</span> <span class="m">1</span> <span class="k">]&gt;</span> <span class="p">::</span> <span class="k">&lt;[ def</span> <span class="n">y</span> <span class="p">=</span> <span class="m">2</span> <span class="k">]&gt;</span> <span class="p">::</span> <span class="n">exps</span><span class="p">;</span>
+<span class="k">&lt;[ </span><span class="p">{..</span> <span class="n">$exps</span> <span class="p">}</span> <span class="k">]&gt;</span>
+</pre>
+</div>
+
+
+<p>We have used <code>{ .. $exps }</code> here to create the sequence of 
+expressions from list <code>exps : list[Expr]</code>. 
+A similar syntax is used to splice the content of tuples (<code>( .. $elist )</code>) 
+and other constructs, like <code>array []</code>:</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Collections</span><span class="p">;</span>
+
+<span class="k">macro</span> <span class="nf">castedarray</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+ <span class="k">match</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="k">&lt;[ </span><span class="kt">array</span> <span class="p">[..</span> <span class="n">$elements</span> <span class="p">]</span> <span class="k">]&gt;</span> <span class="p">=&gt;</span>
+     <span class="k">def</span> <span class="n">casted</span> <span class="p">=</span> <span class="n">List</span><span class="p">.</span><span class="n">Map</span> <span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">&lt;[ </span><span class="p">(</span><span class="n">$x</span> <span class="p">:</span> <span class="kt">object</span><span class="p">)</span> <span class="k">]&gt;</span> <span class="p">});</span>
+     <span class="k">&lt;[ </span><span class="kt">array</span> <span class="p">[..</span> <span class="n">$casted</span><span class="p">]</span> <span class="k">]&gt;</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">e</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>If the exact number of expressions in tuple/sequence is known during
+writing the quotation, then it can be expressed with</p>
+
+<div class="highlight"><pre><span class="k">&lt;[ </span><span class="n">$e_1</span><span class="p">;</span> <span class="n">$e_2</span><span class="p">;</span> <span class="n">$e_3</span><span class="p">;</span> <span class="n">x</span> <span class="p">=</span> <span class="m">2</span><span class="p">;</span> <span class="n">f</span> <span class="p">()</span> <span class="k">]&gt;</span>
+</pre>
+</div>
+
+
+<p>The <code>..</code> syntax is used when there are <code>e_i : Expr</code> for
+<code>1 &lt;= i &lt;= n</code>.</p>
+
+<h3><span class="mw-headline" id="Exercise-2"><a name="Exercise-2" id="Exercise-2">Exercise</a></span></h3>
+
+<p>Write a macro <code>rotate</code>, which takes two parameters: a pair of
+floating point numbers (describing a point in 2D space) and an angle (in 
+radians). The macro should return a new pair -- a point rotated by the given 
+angle. The macro should use as much information as is available at the 
+compile-time, e.g. if all numbers supplied are constant, then only the final 
+result should be inlined, otherwise the result must be computed at runtime.</p>
+
+<h2><span class="mw-headline" id="Adding_new_syntax_to_the_compiler"><a name="Adding_new_syntax_to_the_compiler" id="Adding_new_syntax_to_the_compiler">Adding new syntax to the compiler</a></span></h2>
+
+<p>After we have written the <code>for</code> macro, we would like the compiler
+to understand some changes to its syntax. Especially the C-like notation</p>
+
+<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="p">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">sum</span> <span class="p">+=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="n">Nemerle</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">printf</span> <span class="p">(</span><span class="s">"%d\n"</span><span class="p">,</span> <span class="n">sum</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>In order to achieve that, we have to define which tokens and grammar
+elements may form a call of <code>for</code> macro. We do that by changing
+its header to</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">for</span> <span class="p">(</span><span class="n">init</span><span class="p">,</span> <span class="n">cond</span><span class="p">,</span> <span class="n">change</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+<span class="k">syntax</span> <span class="p">(</span><span class="s">"for"</span><span class="p">,</span> <span class="s">"("</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="s">";"</span><span class="p">,</span> <span class="n">cond</span><span class="p">,</span> <span class="s">";"</span><span class="p">,</span> <span class="n">change</span><span class="p">,</span> <span class="s">")"</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>The <code>syntax</code> keyword is used here to define a list of elements forming
+the syntax of the macro call. The first token must always be an unique identifier
+(from now on it is treated as a special keyword triggering parsing of
+defined sequence). It is followed by tokens composed of operators or
+identifiers passed as string literals or names of parameters of macro.
+Each parameter must occur exactly once.</p>
+
+<p>Parsing of syntax rule is straightforward - tokens from input
+program must match those from definition, parameters are parsed
+according to their type. Default type of a parameter is 
+<code>Expr</code>, which is just an ordinary expression (consult Nemerle
+grammar in <a class="internal absent" href="/Reference.html">Reference</a>). All allowed parameter types 
+will be described in the extended version of reference manual corresponding
+to macros.</p>
+
+<h3><span class="mw-headline" id="Exercise-3"><a name="Exercise-3" id="Exercise-3">Exercise</a></span></h3>
+
+<p>Add a new syntactic construct <code>forpermutation</code> to your program.
+It should be defined as the macro</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">forp</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">m</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>and introduce syntax, which allows writing the following program</p>
+
+<div class="highlight"><pre><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+<span class="n">forpermutation</span> <span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">3</span> <span class="n">to</span> <span class="m">10</span><span class="p">)</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">printf</span> <span class="p">(</span><span class="s">"%d\n"</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>It should create a random permutation <code>p</code> of numbers 
+<code>x_j, m &amp;lt;= x_j &amp;lt;= n</code> at the compile-time. 
+Then generate the code executing body of the loop 
+<code>n - m + 1</code> times, preceding each of them with assignment of 
+permutation element to <code>i</code>.</p>
+
+<h2><span class="mw-headline" id="Macros_in_custom_attributes"><a name="Macros_in_custom_attributes" id="Macros_in_custom_attributes">Macros in custom attributes</a></span></h2>
+
+<h3><span class="mw-headline" id="Executing_macros_on_type_declarations"><a name="Executing_macros_on_type_declarations" id="Executing_macros_on_type_declarations">Executing macros on type declarations</a></span></h3>
+
+<p>Nemerle macros are simply plugins to the compiler. We decided
+not to restrict them only to operations on expressions, but
+allow them to transform almost any part of program. 
+Macros can be used within custom attributes written near methods, 
+type declarations, method parameters, fields, etc. They are
+executed with those entities passed as their parameters.</p>
+
+<p>As an example, let us take a look at <code>Serializable</code> macro.
+Its usage looks like this:
+</p><div class="highlight"><pre><span class="na">[Serializable]</span>
+<span class="k">class</span> <span class="nc">S</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">v</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">m</span> <span class="p">:</span> <span class="n">S</span><span class="p">)</span> <span class="p">{</span> <span class="n">a</span> <span class="p">=</span> <span class="n">v</span><span class="p">;</span> <span class="n">my</span> <span class="p">=</span> <span class="n">m</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">my</span> <span class="p">:</span> <span class="n">S</span><span class="p">;</span>
+  <span class="n">a</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+From now on, <code>S</code> has additional method <code>Serialize</code>
+and it implements interface <code>ISerializable</code>. We can use
+it in our code like this
+<div class="highlight"><pre><span class="k">def</span> <span class="n">s</span> <span class="p">=</span> <span class="n">S</span> <span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="n">S</span> <span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="k">null</span><span class="p">));</span>
+<span class="n">s</span><span class="p">.</span><span class="n">Serialize</span> <span class="p">();</span>
+</pre>
+</div>
+
+And the output is
+<div class="highlight"><pre><span class="nt">&lt;a&gt;</span>4<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;my&gt;</span>
+  <span class="nt">&lt;a&gt;</span>5<span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;my&gt;</span>
+    <span class="nt">&lt;null/&gt;</span>
+  <span class="nt">&lt;/my&gt;</span>
+<span class="nt">&lt;/my&gt;</span>
+</pre>
+</div>
+
+The macro modifies type S at compile-time and adds some code to it. 
+Also inheritance relation of given class is changed, by making it 
+implement interface ISerializable
+<div class="highlight"><pre><span class="k">public</span> <span class="k">interface</span> <span class="n">ISerializable</span> <span class="p">{</span>
+  <span class="n">Serialize</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Manipulating_type_declarations"><a name="Manipulating_type_declarations" id="Manipulating_type_declarations">Manipulating type declarations</a></span></h3>
+
+<p>In general, macros placed in attributes can do many transformations 
+and analysis of program objects passed to them. To see 
+<code>Serializable</code> macro's internals and discuss some design 
+issues, let's go into its code.
+</p><div class="highlight"><pre><span class="na">[Nemerle.MacroUsage (Nemerle.MacroPhase.BeforeInheritance, Nemerle.MacroTargets.Class,</span>
+<span class="na">                     Inherited = true)]</span>
+<span class="k">macro</span> <span class="nf">Serializable</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">TypeBuilder</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">t</span><span class="p">.</span><span class="n">AddImplementedInterface</span> <span class="p">(</span><span class="k">&lt;[ </span><span class="n">ISerializable</span> <span class="k">]&gt;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+First we have to add interface, which given type is about to
+implement. But more important thing is the phase modifier 
+<code>BeforeInheritance</code> in macro's custom attribute. In general, 
+we separate three <a class="internal absent" href="/stages-of-execution.html">Macros_tutorial#Execution_stages</a> for attribute macros.
+<code>BeforeInheritance</code> specifies that the macro will be able to change 
+subtyping information of the class it operates on.
+
+<p>So, we have added interface to our type, we now have to create 
+Serialize () method.
+</p><div class="highlight"><pre><span class="na">[Nemerle.MacroUsage (Nemerle.MacroPhase.WithTypedMembers, Nemerle.MacroTargets.Class,</span>
+<span class="na">                     Inherited = true)]</span>
+<span class="k">macro</span> <span class="nf">Serializable</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">TypeBuilder</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">/// here we list its fields and choose only those, which are not derived</span>
+  <span class="c1">/// or static</span>
+  <span class="k">def</span> <span class="n">fields</span> <span class="p">=</span> <span class="n">t</span><span class="p">.</span><span class="n">GetFields</span> <span class="p">(</span><span class="n">BindingFlags</span><span class="p">.</span><span class="n">Instance</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">Public</span> <span class="p">%|</span>
+                            <span class="n">BindingFlags</span><span class="p">.</span><span class="n">NonPublic</span> <span class="p">|</span> <span class="n">BindingFlags</span><span class="p">.</span><span class="n">DeclaredOnly</span><span class="p">);</span>
+
+  <span class="c1">/// now create list of expressions which will print object's data  </span>
+  <span class="k">mutable</span> <span class="n">serializers</span> <span class="p">=</span> <span class="p">[];</span>
+
+  <span class="c1">/// traverse through fields, taking their type constructors  </span>
+  <span class="k">foreach</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="n">IField</span> <span class="n">in</span> <span class="n">fields</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">def</span> <span class="n">tc</span> <span class="p">=</span> <span class="n">x</span><span class="p">.</span><span class="n">GetMemType</span> <span class="p">().</span><span class="n">TypeInfo</span><span class="p">;</span>
+    <span class="k">def</span> <span class="n">nm</span> <span class="p">=</span> <span class="n">Macros</span><span class="p">.</span><span class="n">UseSiteSymbol</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">tc</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">tc</span><span class="p">.</span><span class="n">IsValueType</span><span class="p">)</span>
+        <span class="c1">/// we can safely print value types as strings        </span>
+        <span class="n">serializers</span> <span class="p">=</span> <span class="k">&lt;[</span>
+<span class="k">                         </span><span class="n">printf</span> <span class="p">(</span><span class="s">"&lt;%s&gt;"</span><span class="p">,</span> <span class="n">$</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Name</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">string</span><span class="p">));</span>
+                         <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span> <span class="p">(</span><span class="n">$</span><span class="p">(</span><span class="n">nm</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">));</span>
+                         <span class="n">printf</span> <span class="p">(</span><span class="s">"&lt;/%s&gt;\n"</span><span class="p">,</span> <span class="n">$</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Name</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">string</span><span class="p">));</span>
+                       <span class="k">]&gt;</span>
+                       <span class="p">::</span> <span class="n">serializers</span>
+      <span class="k">else</span>
+        <span class="c1">/// we can try to check, if type of given field also implements ISerializable</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">GetMemType</span> <span class="p">().</span><span class="n">Require</span> <span class="p">(</span><span class="k">&lt;[ ttype:</span> <span class="n">ISerializable</span> <span class="k">]&gt;</span><span class="p">))</span>
+          <span class="n">serializers</span> <span class="p">=</span> <span class="k">&lt;[</span>
+<span class="k">                           </span><span class="n">printf</span> <span class="p">(</span><span class="s">"&lt;%s&gt;\n"</span><span class="p">,</span> <span class="n">$</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Name</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">string</span><span class="p">));</span>      
+                           <span class="k">if</span> <span class="p">(</span><span class="n">$</span><span class="p">(</span><span class="n">nm</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">)</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+                             <span class="n">$</span><span class="p">(</span><span class="n">nm</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">).</span><span class="n">Serialize</span> <span class="p">()</span>
+                           <span class="k">else</span>
+                             <span class="nf">printf</span> <span class="p">(</span><span class="s">"&lt;null/&gt;\n"</span><span class="p">);</span>
+                           <span class="n">printf</span> <span class="p">(</span><span class="s">"&lt;/%s&gt;\n"</span><span class="p">,</span> <span class="n">$</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">Name</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">string</span><span class="p">));</span>
+                         <span class="k">]&gt;</span>
+                         <span class="p">::</span> <span class="n">serializers</span>
+        <span class="k">else</span>
+          <span class="c1">/// and finally, we encounter case when there is no easy way to serialize </span>
+          <span class="c1">/// given field</span>
+          <span class="n">Message</span><span class="p">.</span><span class="n">FatalError</span> <span class="p">(</span><span class="s">"field `"</span> <span class="p">+</span> <span class="n">x</span><span class="p">.</span><span class="n">Name</span> <span class="p">+</span> <span class="s">"' cannot be serialized"</span><span class="p">)</span>
+    <span class="k">else</span>
+      <span class="n">Message</span><span class="p">.</span><span class="n">FatalError</span> <span class="p">(</span><span class="s">"field `"</span> <span class="p">+</span> <span class="n">x</span><span class="p">.</span><span class="n">Name</span> <span class="p">+</span> <span class="s">"' cannot be serialized"</span><span class="p">)</span>
+  <span class="p">};</span>
+  <span class="c1">// after analyzing fields, we create method in our type, to execute created</span>
+  <span class="c1">// expressions</span>
+  <span class="n">t</span><span class="p">.</span><span class="n">Define</span> <span class="p">(</span><span class="k">&lt;[ decl:</span> <span class="k">public</span> <span class="n">Serialize</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+                     <span class="k">implements</span> <span class="n">ISerializable</span><span class="p">.</span><span class="n">Serialize</span> <span class="p">{</span>
+                       <span class="p">..</span> <span class="n">$serializers</span>
+                     <span class="p">}</span>
+            <span class="k">]&gt;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Execution_stages"><a name="Execution_stages" id="Execution_stages">Execution stages</a></span></h3>
+
+<p>Analysing object-oriented hierarchy and class members is a separate pass of the compilation. 
+First it creates inheritance relation between classes, so we know exactly all base types of
+given type. After that every member inside of them (methods, fields, etc.)
+is being analysed and added to the hierarchy and its type annotations are resolved. 
+After that also the rules regarding implemented interface methods are checked.</p>
+
+<p>For the needs of macros we have decided to distinguish three moments in
+this pass at which they can operate on elements of class hierarchy.
+Every macro can be annotated with a stage, at which it should be executed.</p>
+
+<ul><li> <b>BeforeInheritance</b> stage is performed after parsing whole program and scanning declared types, but before building subtyping           relation between them. It gives macro a freedom to change inheritance hierarchy and operate on parse-tree of classes and members
+</li><li> <b>BeforeTypedMembers</b> is when inheritance of types is already set. Macros can still operate on bare parse-trees, but utilize           information about subtyping.
+</li><li> <b>WithTypedMembers</b> stage is after headers of methods, fields are already analysed and in bound state. Macros can easily traverse entire class space by reflecting type constructors of fields, method parameters, etc. Original parse-trees are no longer available and          signatures of class members cannot be changed.
+
+</li></ul><h4><span class="mw-headline" id="Parameters_of_attribute_macros"><a name="Parameters_of_attribute_macros" id="Parameters_of_attribute_macros">Parameters of attribute macros</a></span></h4>
+
+<p>Every executed attribute macro operates on some element of class hierarchy, 
+so it must be supplied with an additional parameter describing the object, on which macro was placed. 
+This way it can easily query for properties of that element and use compiler's API to reflect or change the
+context in which it was defined. </p>
+
+<p>For example a method macro declaration would be</p>
+
+<div class="highlight"><pre><span class="na">[Nemerle.MacroUsage (Nemerle.MacroPhase.WithTypedMembers,</span>
+<span class="na">                     Nemerle.MacroTargets.Method)]</span>
+<span class="k">macro</span> <span class="nf">MethodMacro</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">TypeBuilder</span><span class="p">,</span> <span class="n">f</span> <span class="p">:</span> <span class="n">MethodBuilder</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// use 't' and 'f' to query or change class-level elements</span>
+  <span class="c1">// of program</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Macro is annotated with additional attributes specifying respectively the
+stage in which macro will be executed and the macro target.</p>
+
+<p>The available parameters contain references to class hierarchy elements that given macro operates on. 
+They are automatically supplied by compiler and they vary on the target and stage of given macro.
+Here is a little table specifying valid parameters for each stage and target of attribute macro.</p>
+
+<table border="1" cellpadding="2"><caption>Attribute macro targets and parameters</caption><tr><th> MacroTarget</th><th> MacroPhase.BeforeInheritance</th><th> MacroPhase.BeforeTypedMembers</th><th> MacroPhase.WithTypedMembers</th></tr><tr><th> Class</th><td> TypeBuilder</td><td> TypeBuilder</td><td> TypeBuilder</td></tr><tr><th> Method</th><td> TypeBuilder, ParsedMethod</td><td> TypeBuilder, ParsedMethod</td><td> TypeBuilder, MethodBuilder</td></tr><tr><th> Field</th><td> TypeBuilder, ParsedField</td><td> TypeBuilder, ParsedField</td><td> TypeBuilder, FieldBuilder</td></tr><tr><th> Property</th><td> TypeBuilder, ParsedProperty</td><td> TypeBuilder, ParsedProperty</td><td> TypeBuilder, PropertyBuilder</td></tr><tr><th> Event</th><td> TypeBuilder, ParsedEvent</td><td> TypeBuilder, ParsedEvent</td><td> TypeBuilder, EventBuilder</td></tr><tr><th> Parameter</th><td> TypeBuilder, ParsedMethod, ParsedParameter</td><td> TypeBuilder, ParsedMethod, ParsedParameter</td><td> TypeBuilder, MethodBuilder, ParameterBuilder</td></tr><tr><th> Assembly</th><td> (none)</td><td> (none)</td><td> (none)</td></tr></table><p>The intuition is that every macro has parameter holding its target and additionally objects containing it (like TypeBuilder is available  in most of the attribute macros).</p>
+
+<p>After those implicitly available parameters there come standard parameters explicitly supplied by user. They are the same as for expression 
+level macros.</p>
+
+<h2><span class="mw-headline" id="Reference_to_more_advanced_aspects"><a name="Reference_to_more_advanced_aspects" id="Reference_to_more_advanced_aspects">Reference to more advanced aspects</a></span></h2>
+<h3><span class="mw-headline" id="Hygiene_and_alpharenaming_of_identifiers"><a name="Hygiene_and_alpharenaming_of_identifiers" id="Hygiene_and_alpharenaming_of_identifiers">Hygiene and alpha-renaming of identifiers</a></span></h3>
+<h4><span class="mw-headline" id="Problem_with_names_capture"><a name="Problem_with_names_capture" id="Problem_with_names_capture">Problem with names capture</a></span></h4>
+Identifiers in quoted code (object code) must be treated
+in a special way, because we usually do not know in which
+scope they would appear. Especially they should not mix
+with variables with the same names from the macro-use site.
+
+<p>Consider the following macro defining a local function <code>f</code>
+</p><div class="highlight"><pre><span class="k">macro</span> <span class="nf">identity</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="k">&lt;[ def</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="p">};</span> <span class="n">f</span><span class="p">(</span><span class="n">$e</span><span class="p">)</span> <span class="k">]&gt;</span> <span class="p">}</span>
+</pre>
+</div>
+
+Calling it with <code>identity (f(1))</code> might generate 
+confusing code like
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">f</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="p">};</span> <span class="n">f</span> <span class="p">(</span><span class="n">f</span> <span class="p">(</span><span class="m">1</span><span class="p">))</span>
+</pre>
+</div>
+
+To preserve names capture, all macro generated variables 
+should be renamed to their unique counterparts, like in
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">f_42</span> <span class="p">(</span><span class="n">x_43</span><span class="p">)</span> <span class="p">{</span> <span class="n">x_43</span> <span class="p">};</span> <span class="n">f_42</span> <span class="p">(</span><span class="n">f</span> <span class="p">(</span><span class="m">1</span><span class="p">))</span>
+</pre>
+</div>
+
+<h4><span class="mw-headline" id="Hygiene_of_macros"><a name="Hygiene_of_macros" id="Hygiene_of_macros">Hygiene of macros</a></span></h4>
+The idea of separating variables introduced by a macro from 
+those defined in the plain code (or other macros) is called 
+`hygiene' after Lisp and Scheme languages. In Nemerle 
+we define it as putting identifiers created during a single 
+macro execution into a unique namespace. Variables from
+different namespaces cannot bind to each other.
+
+<p>In other words, a macro cannot create identifiers capturing
+any external variables or visible outside of its own 
+generated code. This means, that there is no need to care
+about locally used names.</p>
+
+<p>The Hygiene is obtained by encapsulating identifiers in special
+<code>Name</code> class. The compiler uses it to distinguish names
+from different macro executions and scopes (for details of
+implementation consult <a target="_blank" href="http://nemerle.org/metaprogramming.pdf">paper about macros</a>).
+Variables with appropriate information are created 
+automatically by quotation.
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">definition</span> <span class="p">=</span> <span class="k">&lt;[ def</span> <span class="n">y</span> <span class="p">=</span> <span class="m">4</span> <span class="k">]&gt;</span><span class="p">;</span>
+<span class="k">&lt;[ def</span> <span class="n">x</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span> <span class="n">$definition</span><span class="p">;</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span> <span class="k">]&gt;</span>
+</pre>
+</div>
+
+When a macro creates the above code, identifiers <code>y</code> and 
+<code>x</code> are tagged with the same unique mark. Now they
+cannot be captured by any external variables (with a 
+different mark). We operate on the <code>Name</code> class, when the
+quoted code is composed or decomposed and we use 
+<code>&lt;[ $(x : name) ]&gt;</code> construct. Here <code>x</code> 
+is bound to am object of type <code>Name</code>, which we can use
+in other place to create exactly the same identifier.
+
+<p>An identifier can be also created by calling method
+<code>Macros.NewSymbol()</code>, which returns <code>Name</code>
+with an unique identifier, tagged with a current mark.
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="n">Macros</span><span class="p">.</span><span class="n">NewSymbol</span> <span class="p">();</span>
+<span class="k">&lt;[ def</span> <span class="n">$</span><span class="p">(</span><span class="n">x</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">)</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span> <span class="n">$</span><span class="p">(</span><span class="n">x</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">)</span> <span class="p">+</span> <span class="m">4</span> <span class="k">]&gt;</span>
+</pre>
+</div>
+
+
+<h4><span class="mw-headline" id="Controlled_breaking_hygiene"><a name="Controlled_breaking_hygiene" id="Controlled_breaking_hygiene">Controlled breaking hygiene</a></span></h4>
+Sometimes it is useful to generate identifiers, which
+bind to variables visible in place where a macro is used. For example one of macro's parameters is a string with some identifiers inside. If we want to use these as real identifiers, then we need to break automatic hygiene. It is especially useful
+in embedding domain-specific languages, which reference symbols from
+the original program.
+
+<p>As an example consider a <code>Nemerle.IO.sprint (string literal)</code> macro (which have the syntax shortcut <code>$"some text $id "</code>).
+It searches given string literal for <i>$var</i> and creates a code concatenating text before and after <i>$var</i> to the value of <code>var.ToString ()</code>.</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">$"My value of x is </span><span class="n">$x</span><span class="s"> and I'm happy"</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>expands to</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">({</span> 
+  <span class="k">def</span> <span class="n">sb</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">StringBuilder</span> <span class="p">(</span><span class="s">"My value of x is "</span><span class="p">);</span> 
+  <span class="n">sb</span><span class="p">.</span><span class="n">Append</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">ToString</span> <span class="p">());</span> 
+  <span class="n">sb</span><span class="p">.</span><span class="n">Append</span> <span class="p">(</span><span class="s">" and I'm happy"</span><span class="p">);</span> 
+  <span class="n">sb</span><span class="p">.</span><span class="n">ToString</span> <span class="p">()</span> 
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<p>Breaking of hygiene is necessary here, because we generate code (reference to <i>x</i>), which need to have the
+same context as variables from invocation place of macro.</p>
+
+<p>To make given name bind to the symbols from macro usesite, we use <code>Nemerle.Macros.UseSiteSymbol (name : string) : Name</code> function, or
+special splicing target <i>usesite</i> in quotations. Their use would be like in this simplified implementation of macro</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">sprint</span> <span class="p">(</span><span class="n">lit</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> 
+<span class="p">{</span>
+  <span class="k">def</span> <span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span> <span class="p">=</span> <span class="n">Helper</span><span class="p">.</span><span class="n">ExtractDollars</span> <span class="p">(</span><span class="n">lit</span><span class="p">);</span>
+  <span class="k">def</span> <span class="n">varname</span> <span class="p">=</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Macros</span><span class="p">.</span><span class="n">UseSiteSymbol</span> <span class="p">(</span><span class="n">symbol</span><span class="p">);</span>
+  <span class="k">&lt;[ </span>
+<span class="k">    def</span> <span class="n">sb</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">StringBuilder</span> <span class="p">(</span><span class="n">$</span><span class="p">(</span><span class="n">prefix</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">string</span><span class="p">));</span> 
+    <span class="n">sb</span><span class="p">.</span><span class="n">Append</span> <span class="p">(</span><span class="n">$</span><span class="p">(</span><span class="n">varname</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">).</span><span class="n">ToString</span> <span class="p">());</span> 
+    <span class="c1">// or alternatively  $(symbol : usesite)</span>
+    <span class="n">sb</span><span class="p">.</span><span class="n">Append</span> <span class="p">(</span><span class="n">$</span><span class="p">(</span><span class="n">suffix</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">string</span><span class="p">));</span> 
+    <span class="n">sb</span><span class="p">.</span><span class="n">ToString</span> <span class="p">()</span> 
+  <span class="k">]&gt;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Note that this operations is 'safe', that is it changes context of variable to the place where macro invocation was created 
+(see paper for more details).</p>
+
+<h4><span class="mw-headline" id="Unhygienic_variables"><a name="Unhygienic_variables" id="Unhygienic_variables">Unhygienic variables</a></span></h4>
+
+<p>Sometimes it is useful to completely break hygiene, where programmer
+only want to experiment with new ideas. From our experience, it is often
+hard to reason about correct contexts for variables, especially when
+writing class level macros. In this
+case it is useful to be able to easily break hygine. </p>
+
+<p>Nemerle provides it with <code>&lt;[ $("id" : dyn) ]&gt;</code> construct. It makes produced variable break hygiene rules and always
+bind to the nearest definition with the same name.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Download
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+Depending on your system you may want to use either the source code&#xD;
+release or prebuilt packages.&#xD;</p>
+
+<p>You can also go to <a class="internal present" href="/Step-by-step-guide-to-get-Nemerle-compiler-running.html">step by step guide to get Nemerle compiler running</a>, but if you proceed with this page, plase be sure to first check the <a class="internal present" href="/Requirements.html">requirements</a>!&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Binary_Packages">Binary Packages</a><ul><li><a href="#DEB_packages">DEB packages</a></li><li><a href="#MSI_packages">MSI packages</a></li><li><a href="#RPM_packages">RPM packages</a></li></ul></li><li><a href="#Generic_Unix_binary_installer">Generic Unix binary installer</a></li><li><a href="#Source_code_release">Source code release</a></li><li><a href="#Subversion_repository">Subversion repository</a></li><li><a href="#Daily_snapshots">Daily snapshots</a></li><li><a href="#Banners_with_Nemerle_logo">Banners with Nemerle logo</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Binary_Packages"><a name="Binary_Packages" id="Binary_Packages">Binary Packages</a></span></h2>
+<h3><span class="mw-headline" id="DEB_packages"><a name="DEB_packages" id="DEB_packages">DEB packages</a></span></h3>
+
+<p>We are trying to put Nemerle into main, but for now you should use our&#xD;
+repository. Simply add these lines to your <code>/etc/apt/sources.list</code>&#xD;</p>
+
+<pre>&#xD;deb http://nemerle.org/download/deb/ ./&#xD;deb-src http://nemerle.org/download/deb/ ./&#xD;</pre>&#xD;
+
+<p>and use <code>apt-get</code> to install the package. You will find some&#xD;
+additional information at <a href="http://nemerle.org/download/deb/">http://nemerle.org/download/deb/</a> .&#xD;</p>
+
+<h3><span class="mw-headline" id="MSI_packages"><a name="MSI_packages" id="MSI_packages">MSI packages</a></span></h3>
+
+<p>The MSI packages for Windows are available in <a href="http://nemerle.org/download/msi/">http://nemerle.org/download/msi/</a> .&#xD;</p>
+
+<h3><span class="mw-headline" id="RPM_packages"><a name="RPM_packages" id="RPM_packages">RPM packages</a></span></h3>
+
+<p>The RPM packages are available in <a href="http://nemerle.org/download/rpm/">http://nemerle.org/download/rpm/</a>&#xD;
+. They require mono package version 1.1.9 or later.&#xD;</p>
+
+<p>If you have mono installed outside <code>/usr</code>, you cannot use these&#xD;
+rpms. Use generic Unix installer or source code release then.&#xD;</p>
+
+<p>Starting with 0.9.0 there is only one nemerle package,&#xD;
+<code>nemerle-libs</code> is dropped.  The package is marked noarch, so it&#xD;
+should install and run on all architectures.&#xD;</p>
+
+<p>If you are running 64 bit machine and you want to use nemerle.pc,&#xD;
+it is possible you will have to copy it from /usr/lib/pkgconfig to&#xD;
+/usr/lib64/pkgconfig.&#xD;</p>
+
+<p>The <code>packages.*</code> files are indexes for &#xD;
+<a target="_blank" href="http://poldek.pld.org.pl/">Poldek RPM management helper tool</a>. &#xD;
+If you don't use poldek you just don't need them.&#xD;</p>
+
+<h2><span class="mw-headline" id="Generic_Unix_binary_installer"><a name="Generic_Unix_binary_installer" id="Generic_Unix_binary_installer">Generic Unix binary installer</a></span></h2>
+
+<p>The directory <a href="http://nemerle.org/download/unix-binary/">http://nemerle.org/download/unix-binary/</a> contains a tarball&#xD;
+with precompiled, platform-independent binaries of the Nemerle compiler&#xD;
+and accompanying tools. It also contains a script to install (and later &#xD;
+uninstall) all that stuff.&#xD;</p>
+
+<p>You can use it if you don't feel like compiling everything from source,&#xD;
+but cannot use RPM/DEB packages.&#xD;</p>
+
+<h2><span class="mw-headline" id="Source_code_release"><a name="Source_code_release" id="Source_code_release">Source code release</a></span></h2>
+
+<p>It contains compiler sources, prebuilt bootstrap compiler as an&#xD;
+architecture independent .NET binary, and prebuilt documentation in&#xD;
+HTML version. It can be therefore used for both recompilation and binary&#xD;
+installation.&#xD;</p>
+
+<p>Unix environment is required (tested under Windows&#xD;
+with <a target="_blank" href="http://www.cygwin.com/">Cygwin</a> and Linux).&#xD;</p>
+
+<p>Source code release can be found in <a href="http://nemerle.org/download/">http://nemerle.org/download/</a> . For&#xD;
+more up-to-date compiler take a look at daily <a target="_blank" href="http://nemerle.org/download/snapshots/">snapshots</a> of the repository tree.&#xD;</p>
+
+<h2><span class="mw-headline" id="Subversion_repository"><a name="Subversion_repository" id="Subversion_repository">Subversion repository</a></span></h2>
+
+<p>Project sources are kept in a <a target="_blank" href="http://subversion.tigris.org/">Subversion</a> repository. You can access it with&#xD;
+a web browser at <a href="http://nemerle.org/cgi-bin/svn/">http://nemerle.org/cgi-bin/svn/</a> , or with Subversion&#xD;
+(or other WebDAV enabled client) at <a href="http://nemerle.org/svn/">http://nemerle.org/svn/</a> . You can&#xD;
+also use <a href="http://nemerle.org:81/svn/">http://nemerle.org:81/svn/</a> or <a href="https://nemerle.org/svn/">https://nemerle.org/svn/</a> to bypass&#xD;
+HTTP proxies.&#xD;</p>
+
+<p>We also provide daily incremental dumps of the repository at&#xD;
+<a href="http://nemerle.org/svn-backup/">http://nemerle.org/svn-backup/</a> .&#xD;</p>
+
+<p>The Subversion repository activity statistics are available at&#xD;
+<a href="http://cia.navi.cx/stats/project/Nemerle">http://cia.navi.cx/stats/project/Nemerle</a> .&#xD;</p>
+
+<p>Be sure to check the <a class="internal present" href="/Requirements.html">requirements</a> page, before building from SVN.&#xD;</p>
+
+<p>If you are interested in <a class="internal present" href="/Hacking.html">hacking</a> inside the compiler or libraries, <a class="internal absent" href="/this.html">Compiler internals</a> is the best place to start.&#xD;</p>
+
+<p>If you want to build SVN version, <a target="_blank" href="http://trupill.blogspot.com/2005/09/compiling-nemerle-svn-on-mono-svn.html">trupill's blog entry</a> might be worth a look.&#xD;</p>
+
+<h2><span class="mw-headline" id="Daily_snapshots"><a name="Daily_snapshots" id="Daily_snapshots">Daily snapshots</a></span></h2>
+
+<p>You can use daily <a target="_blank" href="http://nemerle.org/download/snapshots/">snapshots</a>&#xD;
+of sources from current repository. They provide you with the&#xD;
+work-in-progress compiler in a nice tarball, so you don't have to install&#xD;
+Subversion client to be in sync.&#xD;</p>
+
+<h2><span class="mw-headline" id="Banners_with_Nemerle_logo"><a name="Banners_with_Nemerle_logo" id="Banners_with_Nemerle_logo">Banners with Nemerle logo</a></span></h2>
+
+<p>If you are programming in Nemerle and you would like to emphasize this&#xD;
+fact, then you can use one of our special banners They can be found in&#xD;
+<a href="http://nemerle.org/download/banners/">http://nemerle.org/download/banners/</a> and contain emblems for developer,&#xD;
+coder and hacker. They can be used freely, but you should provide a link&#xD;
+to our homepage with them, like:&#xD;
+&#xD;</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

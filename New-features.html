@@ -1,0 +1,474 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	New features
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+We list new language features for each release.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Version_091_Nov_4_2005">Version 0.9.1, Nov 4 2005</a></li><li><a href="#Version_090_Sep_14_2005">Version 0.9.0, Sep 14 2005</a><ul><li><a href="#Generic_specifier">Generic specifier</a></li><li><a href="#With_matching">With matching</a></li><li><a href="#Partial_application_on_steroids">Partial application on steroids</a></li><li><a href="#pragma_warning">#pragma warning</a></li><li><a href="#return_break_and_continue">return, break and continue</a></li></ul></li><li><a href="#Version_032_Jun_1_2005">Version 0.3.2, Jun 1 2005</a><ul><li><a href="#Omitting_variant_and_enums_names_in_matching">Omitting variant and enums names in matching</a></li><li><a href="#Default_parameters">Default parameters</a></li><li><a href="#Blocks">Blocks</a></li><li><a href="#Tuple_indexing">Tuple indexing</a></li><li><a href="#Toplevel_code">Top-level code</a></li><li><a href="#Several_mutable_definitions">Several mutable definitions</a></li><li><a href="#Other_changes">Other changes</a></li></ul></li><li><a href="#Version_031_May_2_2005">Version 0.3.1, May 2 2005</a></li><li><a href="#Version_030_Apr_29_2005">Version 0.3.0, Apr 29 2005</a><ul><li><a href="#Implicit_conversions">Implicit conversions</a></li><li><a href="#is_vs_matches">'is' vs 'matches'</a></li><li><a href="#From_the_other_cute_new_features_department">From the other cute new features department</a></li></ul></li><li><a href="#Version_0210_Mar_31_2005">Version 0.2.10, Mar 31 2005</a></li><li><a href="#Version_029_Mar_22_2005">Version 0.2.9, Mar 22 2005</a><ul><li><a href="#Nested_variant_options">Nested variant options</a></li><li><a href="#_for_generic_types">[] for generic types</a></li><li><a href="#is_in_matching">'is' in matching</a></li><li><a href="#New_type_inference_engine">New type inference engine</a></li><li><a href="#Other_additions">Other additions</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Version_091_Nov_4_2005"><a name="Version_091_Nov_4_2005" id="Version_091_Nov_4_2005">Version 0.9.1, Nov 4 2005</a></span></h2>
+
+<p>Full changelog in the <a target="_blank" href="http://nemerle.org/blog/archive/2005/Nov-04.html">blog post</a>.&#xD;</p>
+
+<p>This version brings only one new feature: <a class="internal present" href="/Indentation-based-syntax.html">indentation-based syntax</a>.&#xD;</p>
+
+<h2><span class="mw-headline" id="Version_090_Sep_14_2005"><a name="Version_090_Sep_14_2005" id="Version_090_Sep_14_2005">Version 0.9.0, Sep 14 2005</a></span></h2>
+
+<p>Full changelog in the <a target="_blank" href="http://nemerle.org/blog/archive/2005/Sep-14.html">blog post</a>.&#xD;</p>
+
+<h3><span class="mw-headline" id="Generic_specifier"><a name="Generic_specifier" id="Generic_specifier">Generic specifier</a></span></h3>
+
+<p>You can specify parameters of:&#xD;
+</p><ul><li> the generic type being created: <code>Bar.[int] ();</code>&#xD;
+</li><li> the generic type some static member is accessed from: <code>Bar[int].foo ();</code>&#xD;
+</li><li> the generic method: <code>Bar.baz.[int] ();</code>&#xD;
+</li></ul><h3><span class="mw-headline" id="With_matching"><a name="With_matching" id="With_matching">With matching</a></span></h3>
+
+<p>Missing variables in matching branches can be now specified:&#xD;
+</p><div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">some_list</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// treat one element list as [x, x]</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">with</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="n">use</span> <span class="n">x</span> <span class="k">and</span> <span class="n">y</span>
+  <span class="c1">// can also set several things at once:</span>
+  <span class="p">|</span> <span class="p">[]</span> <span class="k">with</span> <span class="p">(</span><span class="n">x</span> <span class="p">=</span> <span class="m">7</span><span class="p">,</span> <span class="n">y</span> <span class="p">=</span> <span class="m">12</span><span class="p">)</span>
+  <span class="c1">// and mix with 'when'</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span> <span class="k">when</span> <span class="n">x</span> <span class="p">==</span> <span class="n">z</span> <span class="k">with</span> <span class="n">y</span> <span class="p">=</span> <span class="m">17</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="n">use</span> <span class="n">x</span> <span class="k">and</span> <span class="n">y</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Partial_application_on_steroids"><a name="Partial_application_on_steroids" id="Partial_application_on_steroids">Partial application on steroids</a></span></h3>
+
+<p>In ML you could apply two argument&#xD;
+function to a single argument and get another single argument&#xD;
+function. We now support a similar, yet more powerful, feature:&#xD;
+</p><div class="highlight"><pre><span class="n">some_fun</span> <span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span>
+</pre>
+</div>
+
+is transformed to&#xD;
+<div class="highlight"><pre><span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span> <span class="n">some_fun</span> <span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">}</span>
+</pre>
+</div>
+
+Partial application can be therefore written as <code>f (x, _)</code>.&#xD;
+It also works for member access:&#xD;
+<div class="highlight"><pre><span class="n">_</span><span class="p">.</span><span class="n">foo</span>
+</pre>
+</div>
+
+will be rewritten to:&#xD;
+<div class="highlight"><pre><span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span><span class="p">.</span><span class="n">foo</span> <span class="p">}</span>
+</pre>
+</div>
+
+The two rewrite rules can be combined:&#xD;
+<div class="highlight"><pre><span class="n">_</span><span class="p">.</span><span class="n">foo</span> <span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span>
+<span class="err">```</span> 
+<span class="n">will</span> <span class="n">result</span> <span class="n">in</span> <span class="n">two</span> <span class="n">argument</span> <span class="n">function</span><span class="p">.</span> <span class="n">Note</span> <span class="n">that</span> <span class="p">&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">foo</span> <span class="p">(</span><span class="m">3</span> <span class="p">+</span> <span class="n">_</span><span class="p">)&lt;/</span><span class="n">code</span><span class="p">&gt;</span>
+<span class="n">will</span> <span class="n">probably</span> <span class="n">not</span> <span class="k">do</span> <span class="n">what</span><span class="err">'</span><span class="n">s</span> <span class="n">expected</span> <span class="p">(</span><span class="n">it</span> <span class="n">will</span> <span class="n">pass</span> <span class="n">a</span> <span class="n">functional</span> <span class="n">value</span>
+<span class="n">to</span> <span class="p">&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">foo</span><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;).</span> <span class="n">Use</span> <span class="n">plain</span> <span class="n">lambda</span> <span class="n">expression</span> <span class="k">for</span> <span class="n">such</span> <span class="n">cases</span><span class="p">.</span>
+
+<span class="p">===</span> <span class="n">Default</span> <span class="n">parameters</span> <span class="k">for</span> <span class="n">local</span> <span class="n">functions</span> <span class="p">===</span>
+
+<span class="n">This</span> <span class="k">is</span> <span class="n">mostly</span> <span class="n">useful</span> <span class="k">for</span> <span class="n">accumulators</span><span class="p">,</span> <span class="k">for</span> <span class="n">example</span><span class="p">:</span>
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="k">def</span> <span class="nf">rev</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">acc</span> <span class="p">=</span> <span class="p">[])</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span> <span class="n">rev</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">x</span> <span class="p">::</span> <span class="n">acc</span><span class="p">)</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="n">acc</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">rev</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="c1">// instead of rev (l, [])</span>
+</pre>
+</div>
+
+as you can see the initial accumulator value is placed in a more&#xD;
+intuitive place. Any expression is valid as a default parameter value&#xD;
+for a local function, but beware that it is evaluated each time the&#xD;
+function is called without this parameter.&#xD;
+
+<h3><span class="mw-headline" id="pragma_warning"><a name="pragma_warning" id="pragma_warning">#pragma warning</a></span></h3>
+
+<div class="highlight"><pre><span class="cp">#pragma warning disable 10003</span>
+<span class="n">some_unused_function</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{}</span>
+<span class="cp">#pragma warning restore 10003</span>
+</pre>
+</div>
+
+You can also omit warning number to disable/enable all (numbered)&#xD;
+warnings. You can also specify several warning numbers separating&#xD;
+them by commas.&#xD;
+
+<h3><span class="mw-headline" id="return_break_and_continue"><a name="return_break_and_continue" id="return_break_and_continue">return, break and continue</a></span></h3>
+
+<p>Special implicit blocks are created around functions and loops.&#xD;
+After <code>using Nemerle.Imperative;</code> it is possible to use <code>break</code>,&#xD;
+<code>continue</code> and <code>return</code>. &#xD;
+More details at the <a class="internal absent" href="/blocks-page.html">Block</a>.&#xD;</p>
+
+<h2><span class="mw-headline" id="Version_032_Jun_1_2005"><a name="Version_032_Jun_1_2005" id="Version_032_Jun_1_2005">Version 0.3.2, Jun 1 2005</a></span></h2>
+
+<h3><span class="mw-headline" id="Omitting_variant_and_enums_names_in_matching"><a name="Omitting_variant_and_enums_names_in_matching" id="Omitting_variant_and_enums_names_in_matching">Omitting variant and enums names in matching</a></span></h3>
+
+<p>You can now omit prefixes of variants and enums in matching, for example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">variant</span> <span class="nc">Foo</span> <span class="p">{</span> <span class="p">|</span> <span class="n">A</span> <span class="p">|</span> <span class="n">B</span> <span class="p">}</span>
+<span class="k">match</span> <span class="p">(</span><span class="n">some_foo</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">A</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">B</span> <span class="p">=&gt;</span> <span class="p">...</span>
+<span class="p">}</span>
+<span class="k">enum</span> <span class="n">Bar</span> <span class="p">{</span> <span class="p">|</span> <span class="n">A</span> <span class="p">|</span> <span class="n">B</span> <span class="p">}</span>
+<span class="k">match</span> <span class="p">(</span><span class="n">some_bar</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">A</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">B</span> <span class="p">=&gt;</span> <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The restriction is that the type of <code>some_foo</code> need to be&#xD;
+statically known to be <code>Foo</code>. If type inference cannot guess it&#xD;
+at this point, you will have to match over <code>(some_foo : Foo)</code> or&#xD;
+specify <code>Foo.A</code> in the first branch. Same goes to <code>Bar</code>.&#xD;
+This feature is similar to switches on enums in Java 5.0.&#xD;</p>
+
+<h3><span class="mw-headline" id="Default_parameters"><a name="Default_parameters" id="Default_parameters">Default parameters</a></span></h3>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">DoFoo</span> <span class="p">(</span><span class="n">s</span> <span class="p">:</span> <span class="kt">string</span><span class="p">,</span> <span class="n">flag1</span> <span class="p">:</span> <span class="kt">bool</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+                          <span class="n">flag2</span> <span class="p">:</span> <span class="kt">bool</span> <span class="p">=</span> <span class="k">false</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>For boolean, integer and string default value the type of parameter can&#xD;
+be omitted:&#xD;
+</p><div class="highlight"><pre><span class="k">public</span> <span class="nf">DoFoo</span> <span class="p">(</span><span class="n">s</span> <span class="p">:</span> <span class="kt">string</span><span class="p">,</span> <span class="n">flag1</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">flag2</span> <span class="p">=</span> <span class="k">false</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+</pre>
+</div>
+
+Only other allowed default value is null:&#xD;
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">DoFoo</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="n">SomeClass</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Blocks"><a name="Blocks" id="Blocks">Blocks</a></span></h3>
+
+<p>Blocks, it is possible to construct a block you can jump out of with a&#xD;
+value. For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">has_negative</span> <span class="p">=</span>
+  <span class="n">res</span><span class="p">:</span> <span class="p">{</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">x</span> <span class="n">in</span> <span class="n">collection</span><span class="p">)</span>
+      <span class="k">when</span> <span class="p">(</span><span class="n">x</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span> <span class="n">res</span> <span class="p">(</span><span class="k">true</span><span class="p">);</span>
+    <span class="k">false</span>
+  <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Please consult <a class="internal present" href="/Block.html">block</a> wiki page for details.&#xD;</p>
+
+<h3><span class="mw-headline" id="Tuple_indexing"><a name="Tuple_indexing" id="Tuple_indexing">Tuple indexing</a></span></h3>
+
+<p>Tuples can be now indexed with <code>[]</code>. It is only supported with&#xD;
+constant integer indexes. Indexing starts at 0, so <code>pair[1]</code>&#xD;
+is <code>Pair.Second (pair)</code>.&#xD;</p>
+
+<h3><span class="mw-headline" id="Toplevel_code"><a name="Toplevel_code" id="Toplevel_code">Top-level code</a></span></h3>
+
+<ul><li> Code can be entered at the top level, without a class and the Main method. So the classic example becomes:&#xD;
+</li></ul><div class="highlight"><pre><span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span> <span class="p">(</span><span class="s">"Hello marry world!\n"</span><span class="p">);</span>
+</pre>
+</div>
+
+That is, it put alone in the file will just compile. You can define&#xD;
+classes, issue using declarations before the actual code. You can also&#xD;
+define local functions with def (which gives you type inference).&#xD;
+Yeah, we know this is only useful in write-once-run-once-throw-away&#xD;
+kind of programs and testing, but it is nice anyway :-)&#xD;
+
+<h3><span class="mw-headline" id="Several_mutable_definitions"><a name="Several_mutable_definitions" id="Several_mutable_definitions">Several mutable definitions</a></span></h3>
+
+<p><code>mutable</code> can now define more than one variable:&#xD;
+</p><div class="highlight"><pre><span class="k">mutable</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="m">42</span><span class="p">,</span> <span class="s">"kopytko"</span><span class="p">);</span>
+<span class="n">x</span><span class="p">++;</span> <span class="n">y</span> <span class="p">=</span> <span class="s">"ble"</span><span class="p">;</span>
+<span class="k">mutable</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">y</span> <span class="p">=</span> <span class="s">"kopytko"</span><span class="p">;</span> <span class="c1">// the same</span>
+</pre>
+</div>
+
+The second version does not work inside <code>for (here;;)</code>.&#xD;
+
+<h3><span class="mw-headline" id="Other_changes"><a name="Other_changes" id="Other_changes">Other changes</a></span></h3>
+
+<ul><li> Nemerle.English namespace now contains "and", "or" and "not" logical operators.  &#xD;
+</li><li> Macros can now define textual infix and prefix operators (just like "and" above).&#xD;
+</li><li> Number literal can now contain _ for readability, for example <code>def x = 1_000_000;</code>&#xD;
+</li><li> <a class="internal absent" href="/Lazy-value-macros.html">Lazy evaluation</a>&#xD;
+</li><li> Automatic get/set <a class="internal absent" href="/accessor-generation.html">Accessor_macros</a>&#xD;
+</li><li> Arrays are no longer covariant. They haven't been in 0.2 days, and we have found it to be causing problems with type inference (see #442).&#xD;
+</li><li> Tuples and lists are now serializable. Variants are deserialized properly.&#xD;
+</li></ul><h2><span class="mw-headline" id="Version_031_May_2_2005"><a name="Version_031_May_2_2005" id="Version_031_May_2_2005">Version 0.3.1, May 2 2005</a></span></h2>
+
+<p>There is a single nice feature that sneaked into this release, it is&#xD;
+now possible to match inside the foreach loop directly (#436), that is:&#xD;
+</p><div class="highlight"><pre><span class="k">foreach</span> <span class="p">(</span><span class="n">op</span> <span class="n">in</span> <span class="n">ops</span><span class="p">)</span> <span class="p">{</span> <span class="p">|</span> <span class="n">Op</span><span class="p">.</span><span class="n">A</span> <span class="p">=&gt;</span> <span class="p">...</span> <span class="p">|</span> <span class="n">Op</span><span class="p">.</span><span class="n">B</span> <span class="p">=&gt;</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+will now work as:&#xD;
+<div class="highlight"><pre><span class="k">foreach</span> <span class="p">(</span><span class="n">op</span> <span class="n">in</span> <span class="n">ops</span><span class="p">)</span> <span class="p">{</span> <span class="k">match</span> <span class="p">(</span><span class="n">op</span><span class="p">)</span> <span class="p">{</span> <span class="p">|</span> <span class="n">Op</span><span class="p">.</span><span class="n">A</span> <span class="p">=&gt;</span> <span class="p">...</span> <span class="p">|</span> <span class="n">Op</span><span class="p">.</span><span class="n">B</span> <span class="p">=&gt;</span> <span class="p">...</span> <span class="p">}</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Version_030_Apr_29_2005"><a name="Version_030_Apr_29_2005" id="Version_030_Apr_29_2005">Version 0.3.0, Apr 29 2005</a></span></h2>
+
+<h3><span class="mw-headline" id="Implicit_conversions"><a name="Implicit_conversions" id="Implicit_conversions">Implicit conversions</a></span></h3>
+
+<p>The most important addition in this release are implicit conversions&#xD;
+of several kinds.&#xD;</p>
+
+<ul><li> We now respect user-defined op_Implicit (like the ones for Decimal type)&#xD;
+</li><li> Functional values are implicitly converted to delegates.&#xD;
+</li><li> when (...) 3; now gives a warning instead of error (about using implicit object-&gt;void conversion).&#xD;
+</li><li> Last but not least, conversions are provided for built-in numeric types like int and long. They work much like in C#. Here is <a target="_blank" href="http://www.c-sharpcorner.com/Language/TypeConversionsInCSharpRVS.asp">a picture about that</a>.&#xD;
+</li></ul> This also works in a kinda special way for literals. There might be&#xD;
+some related bugs with constant folding though.&#xD;
+
+<h3><span class="mw-headline" id="is_vs_matches"><a name="is_vs_matches" id="is_vs_matches">'is' vs 'matches'</a></span></h3>
+
+<p>'is' can be now used where 'matches' was. 'matches' shall be considered&#xD;
+obsolete by now. It will give a warning in the next release.&#xD;</p>
+
+<p>There is one drawback with this change. If you have been using&#xD;
+a polymorphic variant (like x is Some) on the right hand side of&#xD;
+'matches' it won't work anymore. You either need to supply the type&#xD;
+argument (x is Some [int]), you can use wildcard type (x is Some&#xD;
+[_]), or make it a valid non-identifier pattern (x is Some (_),&#xD;
+x is None ()).&#xD;</p>
+
+<p>For the particular Some/None you can use freshly added&#xD;
+IsSome/IsNone properties.&#xD;</p>
+
+<h3><span class="mw-headline" id="From_the_other_cute_new_features_department"><a name="From_the_other_cute_new_features_department" id="From_the_other_cute_new_features_department">From the other cute new features department</a></span></h3>
+
+<ul><li> It is now possible to use pattern matching on properties, in addition to previous possibility of matching on fields.&#xD;
+</li><li> Another nice addition are the P/Invoke methods.&#xD;
+</li></ul><h2><span class="mw-headline" id="Version_0210_Mar_31_2005"><a name="Version_0210_Mar_31_2005" id="Version_0210_Mar_31_2005">Version 0.2.10, Mar 31 2005</a></span></h2>
+
+<p>Yet incomplete support for new(), class() and struct() generic&#xD;
+constraints.&#xD;</p>
+
+<h2><span class="mw-headline" id="Version_029_Mar_22_2005"><a name="Version_029_Mar_22_2005" id="Version_029_Mar_22_2005">Version 0.2.9, Mar 22 2005</a></span></h2>
+
+<p>The parser and the typer which constitute more then half of the compiler)&#xD;
+have been replaced by entirely new implementations.&#xD;</p>
+
+<h3><span class="mw-headline" id="Nested_variant_options"><a name="Nested_variant_options" id="Nested_variant_options">Nested variant options</a></span></h3>
+
+<p>Variant options are now nested inside enclosing variant, so their&#xD;
+names need to be prefixed with variant name. For example:&#xD;
+</p><div class="highlight"><pre><span class="k">variant</span> <span class="nc">Foo</span> <span class="p">{</span> <span class="p">|</span> <span class="n">A</span> <span class="p">|</span> <span class="n">B</span> <span class="p">{</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">...</span>
+<span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="n">Foo</span><span class="p">.</span><span class="n">A</span> <span class="p">();</span>
+<span class="k">match</span> <span class="p">(</span><span class="n">some_foo</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Foo</span><span class="p">.</span><span class="n">B</span> <span class="p">(</span><span class="m">3</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+You can mark variant with <code>[ExternallyVisibleOptions]</code> to import its&#xD;
+options outside the variant or open variant name with 'using'.&#xD;
+More details in <a target="_blank" href="http://nemerle.org/mailman/pipermail/devel-en/2004-September/000256.html">this thread</a>.&#xD;
+
+<p><b>See also:</b> omitting variant prefix in matching.&#xD;</p>
+
+<h3><span class="mw-headline" id="_for_generic_types"><a name="_for_generic_types" id="_for_generic_types">[] for generic types</a></span></h3>
+
+<p>Generic types use now [] instead of &lt;&gt;. That is there is 'list&#xD;
+[int]' not 'list &lt;int&gt;'. This is the second (and hopefuly last ;-)&#xD;
+time we change it.  More details in <a target="_blank" href="http://nemerle.org/mailman/pipermail/devel-en/2004-September/000259.html">this thread</a>.&#xD;</p>
+
+<h3><span class="mw-headline" id="is_in_matching"><a name="is_in_matching" id="is_in_matching">'is' in matching</a></span></h3>
+
+<p>The ':' operator in patterns should from now on be only used to statically&#xD;
+enforce type. Runtime type checks should be performed with the 'is'&#xD;
+operator which uses the same syntax:&#xD;
+</p><div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">some_list</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span> <span class="n">OverloadedFunction</span> <span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">loop</span> <span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+  <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="k">match</span> <span class="p">(</span><span class="n">some_expr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">x</span> <span class="k">is</span> <span class="n">Foo</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">x</span> <span class="k">is</span> <span class="n">Bar</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+Trying to use ':' or 'is' in the other context will rise warning. It&#xD;
+will be hard error for ':' used as 'is' in future release.&#xD;
+The catch handler syntax has been changed to reflect change in&#xD;
+matching:&#xD;
+<div class="highlight"><pre>      <span class="k">try</span> <span class="p">{</span>
+        <span class="p">...</span>
+      <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+        <span class="p">|</span> <span class="n">foo</span> <span class="k">is</span> <span class="n">SomeException</span> <span class="p">=&gt;</span> <span class="p">...</span>
+        <span class="p">|</span> <span class="n">bar</span> <span class="k">is</span> <span class="n">Exception</span> <span class="p">=&gt;</span> <span class="p">...</span>
+        <span class="c1">// or | bar =&gt; ...</span>
+        <span class="c1">// or | _ =&gt; ...</span>
+      <span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="New_type_inference_engine"><a name="New_type_inference_engine" id="New_type_inference_engine">New type inference engine</a></span></h3>
+
+<p>The type inference engine has been replaced by a new one:&#xD;</p>
+
+<ul><li> code like this compiles fine:&#xD;
+</li></ul><div class="highlight"><pre>    <span class="k">def</span> <span class="nf">foo</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span><span class="p">.</span><span class="n">bar</span> <span class="p">()</span> <span class="p">}</span>
+    <span class="n">List</span><span class="p">.</span><span class="n">Map</span> <span class="p">(</span><span class="n">some_list</span><span class="p">,</span> <span class="n">foo</span><span class="p">)</span>
+</pre>
+</div>
+
+when the type of 'some_list' is known.&#xD;
+
+<ul><li> overloading resolution now works when passing functional values:&#xD;
+</li></ul><div class="highlight"><pre> <span class="n">List</span><span class="p">.</span><span class="n">Sort</span> <span class="p">(</span><span class="n">some_list</span><span class="p">,</span> <span class="kt">string</span><span class="p">.</span><span class="n">Compare</span><span class="p">)</span>
+</pre>
+</div>
+
+<ul><li> variant option's constructors have now proper type, that is there is no longer need to 'SomeVariant.Option () :&gt; SomeVariant.Option'&#xD;
+</li><li> stuff like 'array [A]' should now work (if 'A' and 'B' have a common supertype)&#xD;
+</li></ul><h3><span class="mw-headline" id="Other_additions"><a name="Other_additions" id="Other_additions">Other additions</a></span></h3>
+
+<ul><li> Added &lt;&lt;, &gt;&gt;, |, ^ and &amp; operators. %|, %^ and %&amp; remain there.&#xD;
+</li><li> It is now possible to ignore values like this: <code>_ = ignore_me (17);</code>&#xD;
+</li><li> It is now possible to assign stuff to tuples, like this:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">mutable</span> <span class="n">x</span> <span class="p">=</span> <span class="m">7</span><span class="p">;</span>
+<span class="k">mutable</span> <span class="n">y</span> <span class="p">=</span> <span class="s">"foo"</span><span class="p">;</span>
+<span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">=</span> <span class="p">(</span><span class="m">42</span><span class="p">,</span> <span class="s">"bar"</span><span class="p">);</span>
+</pre>
+</div>
+
+<ul><li> Function parameters can be now marked 'mutable'.&#xD;
+</li><li> The 'partial' modifier on classes is now supported.&#xD;
+</li><li> '{ def _ = foo; }' is now allowed without the additional '()' at the end.&#xD;
+</li><li> New 'throw;' expression to rethrow the exception.&#xD;
+</li><li> Add 'repeat (times) body' language construct</li></ul>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

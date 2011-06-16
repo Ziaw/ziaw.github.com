@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	List comprehensions
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><h2><span class="mw-headline" id="Example"><a name="Example" id="Example">Example</a></span></h2>
+
+<div class="highlight"><pre><span class="err">$</span><span class="p">[</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">|</span> <span class="n">x</span> <span class="n">in</span> <span class="n">l1</span><span class="p">,</span> <span class="n">x</span> <span class="p">&gt;</span> <span class="m">3</span><span class="p">,</span> <span class="n">y</span> <span class="n">in</span> <span class="n">l2</span><span class="p">,</span> <span class="n">x</span> <span class="p">&lt;</span> <span class="n">y</span> <span class="p">]</span>
+</pre>
+</div>
+
+to:&#xD;
+<div class="highlight"><pre><span class="k">mutable</span> <span class="n">res</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="n">x</span> <span class="n">in</span> <span class="n">l1</span><span class="p">)</span>
+  <span class="k">when</span> <span class="p">(</span><span class="n">x</span> <span class="p">&gt;</span> <span class="m">3</span><span class="p">)</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">y</span> <span class="n">in</span> <span class="n">l2</span><span class="p">)</span>
+      <span class="k">when</span> <span class="p">(</span><span class="n">x</span> <span class="p">&lt;</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">res</span> <span class="p">::=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+<span class="n">res</span><span class="p">.</span><span class="n">Rev</span> <span class="p">()</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Generally"><a name="Generally" id="Generally">Generally</a></span></h2>
+
+<div class="highlight"><pre><span class="err">$</span><span class="p">[</span> <span class="n">expr</span> <span class="p">|</span> <span class="n">cond0</span><span class="p">,</span> <span class="n">x1</span> <span class="n">in</span> <span class="n">c1</span><span class="p">,</span> <span class="n">cond1</span><span class="p">,</span> <span class="p">...,</span> <span class="n">xN</span> <span class="n">in</span> <span class="n">cN</span><span class="p">,</span> <span class="n">condN</span> <span class="p">]</span>
+</pre>
+</div>
+
+to:&#xD;
+<div class="highlight"><pre><span class="k">mutable</span> <span class="n">res</span> <span class="p">=</span> <span class="p">[];</span>
+
+<span class="k">when</span> <span class="p">(</span><span class="n">cond0</span><span class="p">)</span>
+  <span class="k">foreach</span> <span class="p">(</span><span class="n">x1</span> <span class="n">in</span> <span class="n">c1</span><span class="p">)</span>
+    <span class="k">when</span> <span class="p">(</span><span class="n">cond1</span><span class="p">)</span>
+      <span class="p">...</span>
+      <span class="k">foreach</span> <span class="p">(</span><span class="n">xN</span> <span class="n">in</span> <span class="n">cN</span><span class="p">)</span>
+        <span class="k">when</span> <span class="p">(</span><span class="n">condN</span><span class="p">)</span>
+          <span class="n">res</span> <span class="p">::=</span> <span class="n">expr</span><span class="p">;</span>
+<span class="n">res</span><span class="p">.</span><span class="n">Rev</span> <span class="p">()</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Ranges"><a name="Ranges" id="Ranges">Ranges</a></span></h2>
+
+<p>Collections can be ranges of the form <code>[x, y .. z]</code>, were x, y and z are expressions. This stands for:&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">delta</span> <span class="p">=</span> <span class="n">y</span> <span class="p">-</span> <span class="n">x</span><span class="p">;</span>
+<span class="na">[x, x + delta, x + 2*delta, ..., x + n*delta]</span>
+</pre>
+</div>
+
+where <code>x + n*delta &lt;= z</code> (for greatest possible n), or if delta is negative, <code>x + n * delta &gt;= z</code> (for greatest possible n).&#xD;
+
+<p>There is also a simpler form <code>[x .. y]</code> which is a shorthand for <code>[x, x+1 .. y]</code>.&#xD;</p>
+
+<p>For example:&#xD;
+</p><div class="highlight"><pre><span class="na">[1 .. 3]</span> <span class="p">==</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">]</span>
+<span class="na">[1,3 .. 9]</span> <span class="p">==</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">9</span><span class="p">]</span>
+<span class="na">[1,3 .. 10]</span> <span class="p">==</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">9</span><span class="p">]</span>
+<span class="na">[5 .. 1]</span> <span class="p">==</span> <span class="p">[]</span>
+<span class="na">[5,4 .. 1]</span> <span class="p">==</span> <span class="p">[</span><span class="m">5</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">1</span><span class="p">]</span>
+</pre>
+</div>
+
+
+<p>Expressions x, y and z in <code>[x, y .. z]</code> are executed once for a given range usage, and in the order specified. So the program:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+  <span class="n">WriteLine</span> <span class="p">(</span><span class="s">$"foo(</span><span class="n">$k</span><span class="s">)"</span><span class="p">)</span>
+  <span class="n">k</span>
+
+<span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+  <span class="n">WriteLine</span> <span class="p">(</span><span class="s">$"bar(</span><span class="n">$k</span><span class="s">)"</span><span class="p">)</span>
+  <span class="n">k</span>
+
+<span class="nf">WriteLine</span> <span class="p">(</span><span class="err">$</span><span class="p">[</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="p">|</span> <span class="n">x</span> <span class="n">in</span> <span class="p">[</span><span class="n">foo</span> <span class="p">(</span><span class="m">1</span><span class="p">),</span> <span class="n">foo</span> <span class="p">(</span><span class="m">3</span><span class="p">)</span> <span class="p">..</span> <span class="n">foo</span> <span class="p">(</span><span class="m">7</span><span class="p">)],</span>
+                      <span class="n">y</span> <span class="n">in</span> <span class="p">[</span><span class="n">bar</span> <span class="p">(</span><span class="m">2</span><span class="p">),</span> <span class="n">bar</span> <span class="p">(</span><span class="m">4</span><span class="p">)</span> <span class="p">..</span> <span class="n">bar</span> <span class="p">(</span><span class="m">8</span><span class="p">)]</span> <span class="p">])</span>
+</pre>
+</div>
+
+
+<p>will print:&#xD;</p>
+
+<pre>&#xD;foo(1)&#xD;foo(3)&#xD;foo(7)&#xD;bar(2)&#xD;bar(4)&#xD;bar(8)&#xD;bar(2)&#xD;bar(4)&#xD;bar(8)&#xD;bar(2)&#xD;bar(4)&#xD;bar(8)&#xD;bar(2)&#xD;bar(4)&#xD;bar(8)&#xD;[(1, 2), (1, 4), (1, 6), (1, 8), (3, 2), (3, 4), (3, 6), (3, 8), &#xD; (5, 2), (5, 4), (5, 6), (5, 8), (7, 2), (7, 4), (7, 6), (7, 8)]&#xD;</pre>&#xD;
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

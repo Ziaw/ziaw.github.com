@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Code Completion
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#What_is_all_about">What is all about?</a><ul><li><a href="#Areas_of_the_project">Areas of the project</a></li></ul></li><li><a href="#Building_the_Type_Tree">Building the Type Tree</a><ul><li><a href="#Using_the_Type_Tree">Using the Type Tree</a><ul><li><a href="#ConstructedTypeInfo">ConstructedTypeInfo</a></li><li><a href="#DeclaredTypeInfo_and_NemerleMemberInfo">DeclaredTypeInfo and NemerleMemberInfo</a></li></ul></li><li><a href="#Compiler_Messages">Compiler Messages</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="What_is_all_about"><a name="What_is_all_about" id="What_is_all_about">What is all about?</a></span></h2>
+The Code Completion project for Nemerle aims to create an easy but powerful platform so development environment and tools could use the same lexer, parser, typer, etcetera... that the compiler uses. This has two great advantages:&#xD;
+
+<p>1. Environments do not need to create their own parser, but use the compiler, so this is a work they don't have to do.&#xD;</p>
+
+<p>2. Creating an entire parser and typer is not an easy task, much more in Nemerle which has type inference as one of its main features.&#xD;</p>
+
+<p>3. If the compiler changes, the environments do not have to update unything, just link to the new Nemerle.Compiler DLL.&#xD;
+</p><h3><span class="mw-headline" id="Areas_of_the_project"><a name="Areas_of_the_project" id="Areas_of_the_project">Areas of the project</a></span></h3>
+This project has been subdivided in two main areas&#xD;
+
+<p>1. <b>Type Tree</b>: you can obtain a tree representing all your types and members of the current code, fast enough for an IDE, and with a bunch of information about all of them. This tree also has information regarding the errors that may be found in the code.&#xD;</p>
+
+<p>2. <b>Code Completion</b>: in any point, you can ask the compiler to tell you which members/types/... are allowed in this scope, so you can put them in a drop-down list and show it to the user.&#xD;
+</p><h2><span class="mw-headline" id="Building_the_Type_Tree"><a name="Building_the_Type_Tree" id="Building_the_Type_Tree">Building the Type Tree</a></span></h2>
+If you want to build a type tree using the compiler features, you need to follow this easy steps:&#xD;
+
+<p>1. You must add a reference to the Nemerle.Compiler.dll. You should also open the namespace <code>Nemerle.Compiler.CompletionEngine</code>. All types that are refenced here live in that namespace.&#xD;</p>
+
+<p>2. Create a new <code>Engine</code> instance. <b>You must create a new instance each time you are going to use the engine, or errors may arise.</b>&#xD;</p>
+
+<pre> &lt;span style="color: #0600FF;"&gt;mutable&lt;/span&gt; engine = Engine(); &lt;small&gt;(Nemerle)&lt;/small&gt;&#xD;</pre>
+
+<pre> Engine engine = &lt;span style="color: #0600FF;"&gt;new&lt;/span&gt; Engine(); &lt;small&gt;(C#)&lt;/small&gt;&#xD;</pre>
+
+<p>3. Add references for the libraries you need. Your program must take care about knowing which to add. There are 2 ways to add a reference: via its name (for absolute paths or assemblies in the GAC), or loading yourself the assembly using <code>System.Reflection.Assembly.Load</code>. Anyway, then you have to call the <code>AddReferencedAssembly</code> method.&#xD;
+</p><ul><li><i>Loads the assembly from the GAC. This is specially recommended for assemblies that come with the Framework (<code>System.Xml</code>, <code>System.Data</code>...):</i>&#xD;
+</li></ul><pre> engine.AddReferencedAssembly ("System.Windows.Forms"); &lt;small&gt;(both Nemerle and C#)&lt;/small&gt;&#xD;</pre>
+
+<ul><li><i>Loads an assembly and then passes it as argument. You can catch the exceptions while loading the assemblies, which is much better than relying in the Code Completion engine:</i>&#xD;
+</li></ul><pre> &lt;span style="color: #0600FF;"&gt;def&lt;/span&gt; assembly = System.Reflection.Assembly.Load (&lt;span style="color: #808080;"&gt;"System.Windows.Forms"&lt;/span&gt;);&#xD; engine.AddReferencedAssembly (assembly); &lt;small&gt;(Nemerle)&lt;/small&gt;&#xD;</pre>
+
+<pre> System.Reflection.Assembly assembly = System.Reflection.Assembly.Load (&lt;span style="color: #808080;"&gt;"System.Windows.Forms"&lt;/span&gt;);&#xD; engine.AddReferencedAssembly (assembly); &lt;small&gt;(C#)&lt;/small&gt;&#xD;</pre>
+
+<p>4. Add any define for the preprocessor. As stated before, you should take care of the defines in your programs and add them at this point:&#xD;</p>
+
+<pre> engine.AddDefine (&lt;span style="color: #808080;"&gt;"DEBUG"&lt;/span&gt;); &lt;small&gt;(both Nemerle and C#)&lt;/small&gt;&#xD;</pre>
+
+<p>5. By default, compiler messages goes to the console. However, you can change it by modifying the <code>Output</code> property. If you don't want to output the messages automatically (you can always check them later), you must tell the compiler to redirect it to a <code>MemoryStream</code> this way:&#xD;</p>
+
+<pre> engine.Output = System.IO.StreamWriter (System.IO.MemoryStream ()); &lt;small&gt;(Nemerle)&lt;/small&gt;&#xD;</pre>
+
+<pre> engine.Output = &lt;span style="color: #0600FF;"&gt;new&lt;/span&gt; System.IO.StreamWriter (&lt;span style="color: #0600FF;"&gt;new&lt;/span&gt; System.IO.MemoryStream ()); &lt;small&gt;(C#)&lt;/small&gt;&#xD;</pre>
+
+<p>6. You need to tell the engine from which code it must generate the tree. The method <code>AddCode</code> takes two parameters: the first one is the code itself, the second one is the filename (for example <code>'Main.n'</code>, or things like that). This filename will be used in information and messages, so it should be the same as the keys you use to open files in your application, for example.&#xD;</p>
+
+<pre> engine.AddCode (TheCodeITookFromTheEditor, &lt;span style="color: #808080;"&gt;"filename.n"&lt;/span&gt;); &lt;small&gt;(both Nemerle and C#)&lt;/small&gt;&#xD;</pre>
+
+<p>7. And finally you call <code>GetTypeTree</code>, which returns a <code>TypeTree</code> with all the information. Errors in the code may create a bad tree, or with some members missing. However, this is not a problem of the engine, but from the code. Errors that the engine find more difficult to recover from are missing '}' (closing brackets).&#xD;</p>
+
+<pre> &lt;span style="color: #0600FF;"&gt;def&lt;/span&gt; tree = engine.GetTypeTree();  &lt;small&gt;(Nemerle)&lt;/small&gt;&#xD; TypeTree tree = engine.GetTypeTree(); &lt;small&gt;(C#)&lt;/small&gt;&#xD;</pre>
+
+<h3><span class="mw-headline" id="Using_the_Type_Tree"><a name="Using_the_Type_Tree" id="Using_the_Type_Tree">Using the Type Tree</a></span></h3>
+
+<p>Type Tree is made from a bunch of interconnected classes, that are shown in the graph below (this may not be totally correct UML, but the idea is clear).&#xD;</p>
+
+<p><a class="internal absent" href="/Image%3ATypeTreeNew.png.html">Image:TypeTreeNew.png</a>&#xD;</p>
+
+<p>As you can see, there are four different classes for type information:&#xD;</p>
+
+<ul><li><b>DeclaredTypeInfo</b>: represents a type that has been written in your code.&#xD;
+</li><li><b>ReferencedTypeInfo</b>: represents a type declared outside (in a DLL, in the class library). Contains a reference to the type in terms of <code>System.Type</code> in its field <code>Type</code>.&#xD;
+</li><li><b>NemerleTypeInfo</b>: the base class for this two.&#xD;
+</li><li><b>ConstructedTypeInfo</b>: this is the base class for the 6 types that live nested on it. Represents information about a type, but not as a definition. Maybe an example will make it clear:&#xD;
+</li></ul><code>Example</code> is a <code>DeclaredTypeInfo</code>&#xD;
+
+<pre> &lt;span style="color: #0600FF;"&gt;public class&lt;/span&gt; Example['a] {...}&#xD;</pre>
+
+<p><code>Example[int]</code> is a <code>ConstructedTypeInfo</code>, because it is being used in a bigger expression, in that case the return type of a method.&#xD;</p>
+
+<pre> &lt;span style="color: #0600FF;"&gt;public&lt;/span&gt; ExampleMethod() : Example[int] {...}&#xD;</pre>
+
+<h4><span class="mw-headline" id="ConstructedTypeInfo"><a name="ConstructedTypeInfo" id="ConstructedTypeInfo">ConstructedTypeInfo</a></span></h4>
+
+<p>So the 6 subclasses of <code>ConstructedTypeInfo</code> are:&#xD;
+</p><ul><li><b>Class</b>: contains a reference to a type (<code>NemerleTypeInfo</code>), and its type parameters, if it has any. Be careful because the Type Parameter maybe another Class or a Generic Specifier.&#xD;
+</li><li><b>GenericSpecifier</b>: this subclass is used when the type is open, that is, when the type parameter has not been substituted for anything yet. It may contain additional information about the constraints, both type ones and special ones, that are taken from the <code>Constraint</code> enum.&#xD;
+</li></ul><pre> ExampleClass[GenericClass[int], 'a] &lt;span style="color: #0600FF;"&gt;where&lt;/span&gt; 'a : IComparable, &lt;span style="color: #0600FF;"&gt;struct&lt;/span&gt;&#xD;</pre>
+
+<p>maps to:&#xD;</p>
+
+<pre>Class&#xD;|--&gt; Type = ExampleClass as a NemerleTypeInfo&#xD;|--&gt; SubstitutedArguments&#xD;     |--&gt; Class&#xD;     |    |--&gt; Type = GenericClass as a NemerleTypeInfo&#xD;     |    |--&gt; SubstitutedArguments&#xD;     |         |--&gt; Class&#xD;     |              |--&gt; Type = int as a NemerleTypeInfo (int is always a ReferencedTypeInfo)&#xD;     |              |--&gt; SubstitutedArguments = empty array&#xD;     |--&gt; GenericSpecifier&#xD;          |--&gt; Name = 'a&#xD;          |--&gt; TypeConstraints&#xD;          |    |--&gt; Class&#xD;          |         |--&gt; Type = IComparable&#xD;          |         |--&gt; SubstitutedArguments = empty array&#xD;          |--&gt; SpecialConstraints = Constraint.Struct (value 0x02 from the enum)&#xD;</pre>&#xD;
+
+<ul><li><b>Tuple</b>: a tuple. Its <code>Types</code> property has the information from it. This is again a <code>ConstructedTypeInfo</code>, so thing like <code>(IDictionary[int, 'a], 'b)</code> could be represented.&#xD;
+</li><li><b>Function</b>: a function as an argument (<code>int-&gt;void</code>...). More than an argument in either the arguments or the return types are represented as tuples.&#xD;
+</li></ul><pre> int*string-&gt;void&#xD;</pre>
+
+<p>maps to&#xD;</p>
+
+<pre>Function&#xD;|--&gt; From&#xD;|    |--&gt; Tuple&#xD;|         |--&gt; Types&#xD;|              |--&gt; Class&#xD;|              |    |--&gt; Type = int&#xD;|              |--&gt; Class&#xD;|                   |--&gt; Type = string&#xD;|--&gt; To&#xD;     |--&gt; Void&#xD;</pre>&#xD;
+
+<ul><li><b>Array</b>: its name is self-describing. Just a <code>Type</code> property and a <code>Rank</code> one. Ranks are also called dimensions, so a bidimensional <code>array[int]</code> is:&#xD;
+</li></ul><pre>Array&#xD;|--&gt; Type&#xD;|    |--&gt; Class&#xD;|         |--&gt; Type = int&#xD;|--&gt; Rank = 2&#xD;</pre>&#xD;
+
+<ul><li><b>Void</b>: just nothing. Only used as return types from methods and functions.&#xD;
+</li></ul> &#xD;
+And for all of you, people who just want a way to get a string with the type from a <code>ConstructedTypeInfo</code>, and have read all this long, annoying writing, here's the code for it (in C#). It suposses you have opened the <code>Nemerle.Compiler.CodeCompletion</code> namespace:&#xD;
+
+<pre> &lt;span style="color: #0600FF;"&gt;public static string&lt;/span&gt; get_type_name (ConstructedTypeInfo t)&#xD; {&#xD;    ConstructedTypeInfo.Array ar = t &lt;span style="color: #0600FF;"&gt;as&lt;/span&gt; ConstructedTypeInfo.Array;&#xD;    ConstructedTypeInfo.Class cl = t &lt;span style="color: #0600FF;"&gt;as&lt;/span&gt; ConstructedTypeInfo.Class;&#xD;    ConstructedTypeInfo.Function fu = t &lt;span style="color: #0600FF;"&gt;as&lt;/span&gt; ConstructedTypeInfo.Function;&#xD;    ConstructedTypeInfo.GenericSpecifier gs = t &lt;span style="color: #0600FF;"&gt;as&lt;/span&gt; ConstructedTypeInfo.GenericSpecifier;&#xD;    ConstructedTypeInfo.Tuple tu = t &lt;span style="color: #0600FF;"&gt;as&lt;/span&gt; ConstructedTypeInfo.Tuple;&#xD; &#xD;    &lt;span style="color: #0600FF;"&gt;if&lt;/span&gt; (ar != &lt;span style="color: #0600FF;"&gt;null&lt;/span&gt;)&#xD;    {&#xD;        &lt;span style="color: #0600FF;"&gt;return&lt;/span&gt; &lt;span style="color: #808080;"&gt;"array["&lt;/span&gt; + get_type_name(ar.Type) + &lt;span style="color: #808080;"&gt;"]"&lt;/span&gt;;&#xD;    }&#xD;    &lt;span style="color: #0600FF;"&gt;else if&lt;/span&gt; (cl != &lt;span style="color: #0600FF;"&gt;null&lt;/span&gt;)&#xD;    {&#xD;         DeclaredTypeInfo dti = cl.Type &lt;span style="color: #0600FF;"&gt;as&lt;/span&gt; DeclaredTypeInfo;&#xD;         ReferencedTypeInfo rti = cl.Type &lt;span style="color: #0600FF;"&gt;as&lt;/span&gt; ReferencedTypeInfo;&#xD;         &lt;span style="color: #0600FF;"&gt;string&lt;/span&gt; nameByNow = "";&#xD;         &lt;span style="color: #0600FF;"&gt;if&lt;/span&gt; (dti != &lt;span style="color: #0600FF;"&gt;null&lt;/span&gt;)&#xD;         {&#xD;             &lt;span style="color: #0600FF;"&gt;if&lt;/span&gt; (!dti.IsNested)&#xD;                 nameByNow = dti.Namespace + &lt;span style="color: #808080;"&gt;"."&lt;/span&gt; + dti.Name;&#xD;             &lt;span style="color: #0600FF;"&gt;else&lt;/span&gt;&#xD;                 &lt;span style="color: #007F00;"&gt;// Nested classes follow the convention Namespace.DeclaringType+NestedType&lt;/span&gt;&#xD;                 nameByNow = dti.DeclaringType.Namespace + &lt;span style="color: #808080;"&gt;"."&lt;/span&gt; + dti.DeclaringType.Name + &#xD;                             &lt;span style="color: #808080;"&gt;"+"&lt;/span&gt; + dti.Name;&#xD;         }&#xD;         &lt;span style="color: #0600FF;"&gt;else if&lt;/span&gt; (rti != &lt;span style="color: #0600FF;"&gt;null&lt;/span&gt;)&#xD;         {&#xD;             nameByNow = rti.Type.FullName;&#xD;         }&#xD;         &lt;span style="color: #0600FF;"&gt;if&lt;/span&gt; (cl.SubstitutedArguments.Length &gt; 0)&#xD;         {&#xD;             nameByNow += &lt;span style="color: #808080;"&gt;"["&lt;/span&gt;;&#xD;             &lt;span style="color: #0600FF;"&gt;foreach&lt;/span&gt; (ConstructedTypeInfo cdt &lt;span style="color: #0600FF;"&gt;in&lt;/span&gt; cl.SubstitutedArguments)&#xD;                 nameByNow += get_type_name(cdt) + &lt;span style="color: #0600FF;"&gt;", "&lt;/span&gt;;&#xD;             nameByNow = nameByNow.TrimEnd(&lt;span style="color: #0600FF;"&gt;','&lt;/span&gt;, &lt;span style="color: #0600FF;"&gt;' '&lt;/span&gt;);&#xD;             nameByNow += &lt;span style="color: #0600FF;"&gt;"]"&lt;/span&gt;;&#xD;         }&#xD;         &lt;span style="color: #0600FF;"&gt;return&lt;/span&gt; nameByNow;&#xD;     }&#xD;     &lt;span style="color: #0600FF;"&gt;else if&lt;/span&gt; (fu != &lt;span style="color: #0600FF;"&gt;null&lt;/span&gt;)&#xD;     {&#xD;         &lt;span style="color: #0600FF;"&gt;return&lt;/span&gt; get_type_name (fu.From) + &lt;span style="color: #808080;"&gt;"-&gt;"&lt;/span&gt; + get_type_name(fu.To);&#xD;     }&#xD;     &lt;span style="color: #0600FF;"&gt;else if&lt;/span&gt; (gs != &lt;span style="color: #0600FF;"&gt;null&lt;/span&gt;)&#xD;     {&#xD;         &lt;span style="color: #0600FF;"&gt;return&lt;/span&gt; gs.Name; &lt;span style="color: #007F00;"&gt;// It only shows the name, no constraints&lt;/span&gt;&#xD;     }&#xD;     &lt;span style="color: #0600FF;"&gt;else if&lt;/span&gt; (tu != &lt;span style="color: #0600FF;"&gt;null&lt;/span&gt;)&#xD;     {&#xD;         &lt;span style="color: #0600FF;"&gt;string&lt;/span&gt; nameByNow = &lt;span style="color: #808080;"&gt;""&lt;/span&gt;;&#xD;         &lt;span style="color: #0600FF;"&gt;foreach&lt;/span&gt; (ConstructedTypeInfo cdt &lt;span style="color: #0600FF;"&gt;in&lt;/span&gt; tu.Types)&#xD;             nameByNow += get_type_name(cdt) + &lt;span style="color: #808080;"&gt;"*"&lt;/span&gt;;&#xD;         &lt;span style="color: #0600FF;"&gt;return&lt;/span&gt; nameByNow.Trim(&lt;span style="color: #808080;"&gt;'*'&lt;/span&gt;);&#xD;     }&#xD;     &lt;span style="color: #0600FF;"&gt;else&lt;/span&gt;&#xD;         &lt;span style="color: #0600FF;"&gt;return&lt;/span&gt; &lt;span style="color: #808080;"&gt;"void"&lt;/span&gt;;&#xD; }&#xD;</pre>
+
+<h4><span class="mw-headline" id="DeclaredTypeInfo_and_NemerleMemberInfo"><a name="DeclaredTypeInfo_and_NemerleMemberInfo" id="DeclaredTypeInfo_and_NemerleMemberInfo">DeclaredTypeInfo and NemerleMemberInfo</a></span></h4>
+
+<p>Most of the properties of this classses are self-describing, but some of them need a little explanation:&#xD;
+</p><ul><li><b>Nested Types</b>: nested types are the ones declared inside another type. They can be accessed via <code>NestedTypes</code> (for pure nested types) or via <code>VariantOptions</code> which are nested types with an special meaning. In that case, <code>Namespace</code> contains the namespace of its declaring type, which is saved at <code>DeclaringType</code>. For any other type, <code>DeclaringType = &lt;span style="color: #0600FF;"&gt;null&lt;/span&gt;</code>.&#xD;
+</li><li><b>Constructors</b>: constructors are included inside the <code>Methods</code> collection, but its <code>IsConstructor</code> or <code>IsStaticConstructor</code> is set to <code>true</code>. Its return type is always <code>Void</code> for the engine, but it doesn't make much sense to show it in an IDE.&#xD;
+</li><li><b>BaseType</b>: contains the direct superclass for the type.&#xD;
+</li><li><b>Interfaces</b>: contains the interfaces that the developer needs to implement in the class. That is, if you subclass <code>List[T]</code>, which implements <code>IList</code>, you also implement <code>IList</code>, but it is not shown here because it has already been implemented in <code>List[T]</code>.&#xD;
+</li><li>And finally, be careful with things that may or not be present. In Nemerle <code>option['a]</code> is used, but this does not exist in the Framework, so we assign <code>&lt;span style="color: #0600FF;"&gt;null&lt;/span&gt;</code> in cases like a property without setter, <code>IndexerParameters</code> if the property is not a indexer..., and can throw a <code>NullReferenceException</code>, of course.&#xD;
+</li></ul><h3><span class="mw-headline" id="Compiler_Messages"><a name="Compiler_Messages" id="Compiler_Messages">Compiler Messages</a></span></h3>
+
+<p>Messages thrown by the lexer, parser, scanner and typer are picked up and put inside the <code>CompilerMessages</code> property in the engine object. A compiler messages consist of just 3 properties:&#xD;
+</p><ul><li><b>Message</b>: the message itself ("there no type called foo", "you are not using the variable bla", and so on). Sometimes you may receive a message telling about an "unbound type 'int'", but this is not a problem. <code>int</code>, <code>char</code>, an all the primitive types are inside <code>Nemerle.Core</code>: this namespace is opened automagically by the compiler, and everything works OK, but it complains. The solution is very simple: add <code>&lt;span style="color: #0600FF;"&gt;using&lt;/span&gt; Nemerle.Core;</code> at the start of yor code.&#xD;
+</li><li><b>Location</b>: for the start of a method, a variable...&#xD;
+</li><li><code>'''match (MessageKind) {'''</code><br /></li></ul><code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| Error =&gt;</code> an error that will make the compiler to refuse to compile the code (missing brackets, non-existing keywords...)<br /><code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| Warning =&gt;</code> something that has some severity, but which will work fine<br /><code>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;| Hint =&gt;</code> an advice given for free to you<br /><code>}</code>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

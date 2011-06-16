@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Design by contract macros
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Introduction">Introduction</a></li><li><a href="#Preconditions__Requires_attribute">Preconditions - Requires attribute</a></li><li><a href="#Postconditions__Ensures_attribute">Postconditions - Ensures attribute</a></li><li><a href="#Class_invariants__Invariant_attribute">Class invariants - Invariant attribute</a></li><li><a href="#Future_work">Future work</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Introduction"><a name="Introduction" id="Introduction">Introduction</a></span></h2>
+
+<p>Languages like <a target="_blank" href="http://en.wikipedia.org/wiki/Eiffel_programming_language">Eiffel</a>&#xD;
+or <a target="_blank" href="http://research.microsoft.com/~leino/papers/krml136.pdf">Spec#</a> incorporate a&#xD;
+methodology called <a target="_blank" href="http://en.wikipedia.org/wiki/Design_by_contract">Design by Contract</a> &#xD;
+to reason about programs, libraries, methods. It allows to write more&#xD;
+secure and correct software and specify its behavior.&#xD;
+Languages following this design must support writing explicit requirements &#xD;
+about values on which a program operates, including:&#xD;
+</p><ul><li>preconditions - some fact (boolean condition) that must be satisfied in order to call a method; mostly concerning passed parameters, but can be used to enforce any condition computable at method invocation begining&#xD;
+</li><li>postconditions - a fact that must be satisfied after calling a method, for example about the return value&#xD;
+</li><li>invariants - a property of a program, which does not change in time (like a non-decreasing order of elements in list, etc.)&#xD;
+</li><li>other restrictions in behavior of some part of a program (like, for example, the fact that a method does not change the state of a class)&#xD;
+</li></ul> We are currently on the way to add an ability to define most of those features&#xD;
+to Nemerle. In the following subsections we present their current state, design&#xD;
+and plans for the future.&#xD;
+
+<h2><span class="mw-headline" id="Preconditions__Requires_attribute"><a name="Preconditions__Requires_attribute" id="Preconditions__Requires_attribute">Preconditions - Requires attribute</a></span></h2>
+Preconditions of a method (conditions that need to be satisfied &#xD;
+before the method is called) can be specified using the &#xD;
+<code>Requires</code> attribute.&#xD;
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">String</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Substring</span> <span class="p">(</span><span class="n">startIdx</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">string</span> 
+  <span class="k">requires</span> <span class="n">startIdx</span> <span class="p">&gt;=</span> <span class="m">0</span> <span class="p">&amp;&amp;</span> <span class="n">startIdx</span> <span class="p">&lt;=</span> <span class="k">this</span><span class="p">.</span><span class="n">Length</span>
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+Using this attribute we can add an arbitrary assertion, keeping the&#xD;
+body of the method clean and verbose. The compiler automatically adds&#xD;
+runtime checks at the beginning of the method. If the condition is&#xD;
+violated, then an <code>AssertionException</code> is being thrown with &#xD;
+an appropriate message containing this expression.&#xD;
+
+<p><code>Requires</code> and other attributes can occur many times before a single&#xD;
+method. They can be also defined directly on parameters.&#xD;
+</p><div class="highlight"><pre><span class="n">ConnectTrees</span> <span class="p">(</span><span class="k">requires</span> <span class="p">(!</span><span class="n">tree1</span><span class="p">.</span><span class="n">Cyclic</span> <span class="p">())</span> <span class="n">tree1</span> <span class="p">:</span> <span class="n">Graph</span><span class="p">,</span>
+              <span class="k">requires</span> <span class="p">(!</span><span class="n">tree2</span><span class="p">.</span><span class="n">Cyclic</span> <span class="p">())</span> <span class="n">tree2</span> <span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> 
+              <span class="n">e</span> <span class="p">:</span> <span class="n">Edge</span><span class="p">)</span> <span class="p">:</span> <span class="n">Graph</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Postconditions__Ensures_attribute"><a name="Postconditions__Ensures_attribute" id="Postconditions__Ensures_attribute">Postconditions - Ensures attribute</a></span></h2>
+Following the same design, we can define postconditions which the&#xD;
+method must satisfy. This is an assertion that must be true&#xD;
+after the execution of the method. If the method returns a value, then a &#xD;
+symbol <code>value</code> is available inside the expression&#xD;
+stating an assertion.&#xD;
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">LinkedList</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Clear</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="k">ensures</span> <span class="k">this</span><span class="p">.</span><span class="n">IsEmpty</span>
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">Length</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">int</span>
+  <span class="k">ensures</span> <span class="n">value</span> <span class="p">&gt;=</span> <span class="m">0</span>
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Class_invariants__Invariant_attribute"><a name="Class_invariants__Invariant_attribute" id="Class_invariants__Invariant_attribute">Class invariants - Invariant attribute</a></span></h2>
+An even more powerful feature is to give a condition, which&#xD;
+must be true all the time during the execution of a program.&#xD;
+We can attach invariant to any class by writing <code>Invariant</code>&#xD;
+attribute before its definition.&#xD;
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Vector</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>
+<span class="n">invariant</span> <span class="n">position</span> <span class="p">&gt;=</span> <span class="m">0</span> <span class="p">&amp;&amp;</span> <span class="n">position</span> <span class="p">&lt;=</span> <span class="n">arr</span><span class="p">.</span><span class="n">Length</span>
+<span class="p">{</span>
+  <span class="k">private</span> <span class="k">mutable</span> <span class="n">position</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+  <span class="k">private</span> <span class="n">arr</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">=</span> <span class="kt">array</span> <span class="p">[];</span>
+
+  <span class="k">public</span> <span class="nf">push_back</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+This way we can ensure that the state of our object is valid according to&#xD;
+defined rule.&#xD;
+
+<p>This naturally brings the problem with changing variables,&#xD;
+which are dependent on each other in invariant. Suppose we have &#xD;
+an assertion <code>x == y + 5</code> and we cannot change any of the variables.&#xD;
+Thus, we need a mechanism for making transactions, within which&#xD;
+invariants are temporarily <i>turned off</i>.&#xD;</p>
+
+<p>We follow the design of Spec# and add a special construct to expose &#xD;
+the object to changes.&#xD;
+</p><div class="highlight"><pre><span class="n">expose</span> <span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">x</span> <span class="p">+=</span> <span class="m">3</span><span class="p">;</span>
+  <span class="n">y</span> <span class="p">+=</span> <span class="m">3</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+<code>expose</code> takes reference to the object to be exposed and&#xD;
+executes the given code.&#xD;
+
+<p>In the matter of fact, invariants are not checked all the time during&#xD;
+execution. It would be too expensive to validate them at any assignment&#xD;
+or call to external function. We again follow design of Spec# and &#xD;
+run assertions at the end of <code>expose</code> blocks and after execution&#xD;
+of all public methods.&#xD;
+</p><h2><span class="mw-headline" id="Future_work"><a name="Future_work" id="Future_work">Future work</a></span></h2>
+There are few more things which we want to implement in more or&#xD;
+less distant future:&#xD;
+<ul><li>Make these attributes inherited in classes deriving from ones decorated with assertions. For example, we define an interface with preconditions and postconditions and we can be sure, that every class implementing this interface will comply to them.&#xD;
+</li><li>Plug a theorem prover designed for Spec# into Nemerle, so we can check assertions not only in the runtime, but also statically at compile-time.&#xD;
+</li><li>Invariant attribute needs much work to follow all functionality of its Spec# counterpart.</li></ul>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Try Unless Feedback
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This page is for user feedback about try/unless syntax, and maybe some other comments.&#xD;</p>
+
+<p>With the def/unless syntax it's not clear where the unless part will jump out. Maybe something along the lines of:&#xD;</p>
+
+<pre> try {&#xD;   def f = open_file ();&#xD;   dont_catch_here {&#xD;     use(f); &#xD;   }&#xD; } catch {&#xD;   | _ : Exception =&gt; ...&#xD; }&#xD;</pre>
+
+<p>But what to use instead of dont_catch_here?&#xD;</p>
+
+<p>Pawel: Naah. This is starting to look like CIL code.&#xD;</p>
+
+<hr /><p>How about something like:&#xD;</p>
+
+<pre> attempt (f = File.OpenText(fileName)) {&#xD;   def s = f.ReadToEnd();&#xD;   f.Close();&#xD;   s + Collect(rest)&#xD; }&#xD; unless (_ : Exception) {&#xD;   Collect(rest)&#xD; }&#xD;</pre>
+
+<p>(using the example from the blog)&#xD;</p>
+
+<p>and a macro to implement it:&#xD;</p>
+
+<pre> macro AttemptUnless(tryexpr, unlessexpr, ex: funparm, thenexpr)&#xD; syntax("attempt", "(", tryexpr,")", thenexpr, "unless", "(", ex, ")", &#xD;        unlessexpr) {&#xD;   match(tryexpr) {&#xD;     | &lt;[$(nm: name) = $attempt]&gt; =&gt;&#xD;       match(ex) {&#xD;         | &lt;[ funparm: $(ex: name): $ty ]&gt; =&gt;&#xD;           &lt;[&#xD;             def $(nm: name) =&#xD;                try { $attempt }&#xD;                catch { $(ex: name): $ty =&gt; null}&#xD;             if($(nm: name) != null) {&#xD;                $thenexpr&#xD;             }&#xD;             else {&#xD;                $unlessexpr&#xD;             }&#xD;           ]&gt;&#xD;         | _ =&gt; Message.fatal_error("oops")&#xD;       }&#xD;     | _ =&gt; Message.fatal_error("d'oh!")&#xD;   }&#xD; }&#xD;</pre>
+
+<p>Could almost certainly be made more robust by someone who groks the macro system better than me, and the error messages definitely need improving, but from a quick bit of testing, it seems to basically work. (and rejigging the syntax should be fairly easy, once everyone who matters can decide on which one works best... i was thinking about making it something like <code>attempt {...} unless (...) {...} then {...} </code>, which might work better if the 'then' part is very long (since otherwise the exceptional behaviour gets kind of lost down below everything else (although that's already the case with <code>try... catch</code>, so i'm not sure how much it really matters)))  -- MikeRoome&#xD;</p>
+
+<hr /><p>(Mike: thanks for nice feedback and showing us some macro code :) )&#xD;</p>
+
+<p>My (Kamil's) proposition:&#xD;</p>
+
+<pre> try (def f = File.OpenText(fileName)) &#xD; catch {&#xD;   | _ : Exception =&gt; Collect(rest)&#xD; }&#xD; do {&#xD;    def s = f.ReadToEnd();&#xD;    f.Close();&#xD;    s + Collect(rest)&#xD; }&#xD;</pre>
+
+<p>It has two advantages - no new keywords, there is less confusion about&#xD;
+semantics and the question if <code>do</code> is executed after or instad of &#xD;
+<code>unless</code>. The disadvantage is that we place catch part before&#xD;
+do part (or maybe it is also advantage?).&#xD;</p>
+
+<hr /><p>Well, the different keywords were just because i implemented it as a macro, and the with the current system it wasn't possible to make it use the existing keywords, so i just used the first word i could think of that meant roughly the same thing. As for the catch being before the do, i think that's probably an advantage, overall, at least in the common case (catching a single exception, then doing lots with the object if the allocation succeeded). I think i'd prefer <code> try(...) unless {...} do {...} </code>, though, since at least to me, it expresses the intent better (try this, then unless this happens, do this).  Having the exception handling bit be a proper block is definitely a good idea, since it would allow you do filter and do different things on different types of exception, which could be extremely useful in some circumstances. I unfortunately couldn't work out how to do that, though - quoting&#xD;</p>
+
+<pre> &lt;[ $ex : $type =&gt; $handler ]&gt;&#xD;</pre>
+
+<p>just threw errors at me when it hit the <code>=&gt;</code> operator (any advice for dealing with the various different syntactic bits in macros would be more than welcome, though :) maybe there should be a wiki page for MacroTips, or something?).&#xD;</p>
+
+<p>(For futher discussion, especially questions about macros, let us move to the mailing list. Let us keep this page as quick summary for ideas)</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

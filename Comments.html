@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Comments
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Vim_indentation_file">Vim indentation file</a></li><li><a href="#Separate_pages">Separate pages</a></li><li><a href="#Plain_comments">Plain comments</a></li><li><a href="#Comments_from_users">Comments from users</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Vim_indentation_file"><a name="Vim_indentation_file" id="Vim_indentation_file">Vim indentation file</a></span></h2>
+I got bored by correcting those few cases, when cindent fails to indent code as I like (pretty the same as coding style mentioned on <a class="internal present" href="/Hacking.html">Hacking</a>...). So I wrote that <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/misc/nemerle.indent.vim">little script</a> which put under ~/.vim/indent as nemerle.vim seems to do the job. However, I've never before done such thing, so it is likely to appear as quite primitive and buggy. Any improvements are welcome ;-) BTW: Vim syntax file misses partial keyword and double, long, ulong, uint types.<br />&#xD;
+--<a class="internal absent" href="/kali.html">User:Kali</a> 23:48, 3 May 2005 (CEST)&#xD;
+
+<p>I have just fixed the syntax file according to your suggestions. Maybe you would like to maintain&#xD;
+this indentation engine in our SVN? Please contact me privatly if so. --<a class="internal absent" href="/Malekith.html">User:Malekith</a> 08:03, 4 May 2005 (CEST)&#xD;</p>
+
+<p>So, the engine is in repository under nemerle.indent.vim not to conflict with syntax file. Some changes were also made - now the code seems to be less complex and it supports design by contract macros in a way that can be seen on code snippets in appropiate section of the wiki.<br />--<a class="internal absent" href="/kali.html">User:Kali</a> 17:24, 4 May 2005 (CEST)&#xD;</p>
+
+<p>I have nearly completely rewritten indentation code. Now it is much less complex and finally handles correctly all the stuff related to matching (at least I think so ;) Perhaps one only thing that might not work yet is stuff connected with metaprogramming, as I don't have any experience with it yet and so I have no idea what needs to be done. Patches are welcome ;)<br />--<a class="internal absent" href="/kali.html">User:Kali</a> 20:16, 6 May 2005 (CEST)&#xD;</p>
+
+<h2><span class="mw-headline" id="Separate_pages"><a name="Separate_pages" id="Separate_pages">Separate pages</a></span></h2>
+Notes about the proposed <a class="internal absent" href="/try-..-unless.html">Try Unless Feedback</a> construction.&#xD;
+
+<h2><span class="mw-headline" id="Plain_comments"><a name="Plain_comments" id="Plain_comments">Plain comments</a></span></h2>
+Please enter your comment at the top of comments list.&#xD;
+
+<h2><span class="mw-headline" id="Comments_from_users"><a name="Comments_from_users" id="Comments_from_users">Comments from users</a></span></h2>
+<ul><li>I'm happy to find a language so close to what I've been looking for.  I believe Nemerle has a great future ahead.  Seems to be a good bridge for OO/imperative style C-derived language users to dabble in functional style, and the macro facility seems like a dream come true to me, coming from a background writing C++ template metaprograms.&#xD;
+</li></ul><ul><li>I simply prefer static typing than dynamic, time-consuming, error-prone checks and painful deaths of my programs... ;-)  --<a class="internal absent" href="/Nazgul.html">User:Nazgul</a> 13:05, 25 Feb 2005 (CET)&#xD;
+</li></ul><ul><li>So how do you pronounce "Nemerle"? Does it rhyme with "M-perl"?&#xD;
+</li></ul><i>Actually it is not clear. We would have to ask Ursula Le Guin ;-) Most English-speaking people pronounce it like that. We, in Poland, tend to accent the last syllabe and pronounce the last e</i> --<a class="internal absent" href="/Malekith.html">User:Malekith</a> 11:01, 1 Oct 2005 (CEST)&#xD;
+
+<ul><li>I've been watching this project for a while now and many aspects of the langauge seem nice. One langauge feature I've been giving a lot of though about is Design by Contract other kinds of compile time checks that can be done by using constraints and types of declaritive syntax. The SAL Annotations used by Microsoft, Spec#, and XC# seem to be the closest things I can find in comparison to what I'm thinking. I wonder if there is room for this type of concept in Nemerle?&#xD;
+</li></ul><i>Well, this is a long term plan for my PhD, so there is clearly some room for it. I cannot give any more specific comments right now, because this LONG term plan :) I was quite impressed by a Spec# presentation I saw about two years ago. This seemed like a proof that getting the compiler and the theorem prover to work together is possible. If you have some more specific ideas you can follow on the list, forum or privately.</i> --<a class="internal absent" href="/Malekith.html">User:Malekith</a> 11:01, 1 Oct 2005 (CEST)
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	ASP.NET (tutorial)
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><h2><span class="mw-headline" id="Preparations"><a name="Preparations" id="Preparations">Preparations</a></span></h2>
+
+<p>In order to use Nemerle in your <a target="_blank" href="http://asp.net">ASP.NET</a> pages you first need to add following line&#xD;</p>
+
+<div class="highlight"><pre>&lt;compiler language="n;nemerle;Nemerle" extension=".n" warningLevel="1"  compilerOptions=""                        
+   type="Nemerle.Compiler.NemerleCodeProvider, Nemerle.Compiler, Version=0.9.1.0, Culture=neutral, PublicKeyToken=5291d186334f6101" /&gt;
+</pre>
+</div>
+
+
+<p>in configuration/system.web/compilation&#xD;
+to your <i>machine.config</i> file (tested on mono, where this file can be found in /etc/mono/2.0/, you will need to use XSP2)&#xD;</p>
+
+<p>You may need to change the version. (Check ncc --version).&#xD;</p>
+
+<h2><span class="mw-headline" id="Example_page"><a name="Example_page" id="Example_page">Example page</a></span></h2>
+
+<p>Now you can create <i>test.aspx</i> with following content:&#xD;</p>
+
+<div class="highlight"><pre>&lt;%@ language=Nemerle %&gt;
+
+  &lt;script runat="server"&gt;
+    Page_Load(_ : object, _ : EventArgs) : void {
+      Message.Text = $"You last accessed this page at: $(DateTime.Now)";
+    }
+
+    EnterBtn_Click(_ : object, _ : EventArgs) : void 
+    {
+      Message.Text = $"Hi $(Name.Text), welcome to ASP.NET!";
+    }
+  &lt;/script&gt;
+
+&lt;html&gt;
+      &lt;form runat=server&gt;
+
+          &lt;font face="Verdana"&gt; 
+
+             Please enter your name: &lt;asp:textbox id="Name" runat=server/&gt; 
+                                     &lt;asp:button id="EnterBtn" text="Enter" Onclick="EnterBtn_Click" runat=server/&gt;
+
+             &lt;p&gt;
+               &lt;asp:label id="Message"  runat=server/&gt;
+             &lt;/p&gt;
+
+          &lt;/font&gt;
+
+       &lt;/form&gt;
+&lt;/html&gt;
+</pre>
+</div>
+
+
+<p>And everything should work fine. This scenario was tested with xsp and mod_mono on mono 1.1.6, please let us know how it works on MS.NET + &#xD;
+ISS.&#xD;</p>
+
+<p>Using a separate file for code is also possible and may be preferable in larger examples. This may be done by creating a file test.n for the code.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Web</span><span class="p">.</span><span class="n">UI</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Web</span><span class="p">.</span><span class="n">UI</span><span class="p">.</span><span class="n">WebControls</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Test</span> <span class="p">:</span> <span class="n">Page</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="n">Message</span> <span class="p">:</span> <span class="n">Label</span><span class="p">;</span>
+    <span class="k">protected</span> <span class="n">Name</span> <span class="p">:</span> <span class="n">TextBox</span><span class="p">;</span>
+
+    <span class="k">protected</span> <span class="nf">Page_Load</span><span class="p">(</span><span class="n">_</span> <span class="p">:</span> <span class="kt">object</span><span class="p">,</span> <span class="n">_</span> <span class="p">:</span> <span class="n">EventArgs</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> 
+    <span class="p">{</span>
+      <span class="n">Message</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="s">$"You last accessed this page at: </span><span class="n">$</span><span class="p">(</span><span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">)</span><span class="s">"</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="k">protected</span> <span class="nf">EnterBtn_Click</span><span class="p">(</span><span class="n">_</span> <span class="p">:</span> <span class="kt">object</span><span class="p">,</span> <span class="n">_</span> <span class="p">:</span> <span class="n">EventArgs</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> 
+    <span class="p">{</span>
+      <span class="n">Message</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="s">$"Hi </span><span class="n">$</span><span class="p">(</span><span class="n">Name</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span><span class="s">, welcome to ASP.NET!"</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>and then removing the script section of test.aspx and replacing the top line with&#xD;</p>
+
+<div class="highlight"><pre>&lt;%@ language=Nemerle codefile="test.n" inherits="Test" %&gt; 
+</pre>
+</div>
+
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

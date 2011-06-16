@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Runtime issues
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This page is a summary of issues we have found in .NET runtime engines, which we are using for Nemerle development. Some of them are already resolved in newer versions of runtime, some other are still open and forces us to make workarounds. &#xD;</p>
+
+<p>Every time we encounter a bug in runtime or BCL we try to make a small testcase in C# or IL triggerring it and send it to the authors.&#xD;</p>
+
+<p>Most bugs we have found are related to <i>System.Reflecton.Emit</i> API.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Unresolved_issues">Unresolved issues</a><ul><li><a href="#All_runtimes__NET_design">All runtimes / .NET design</a></li><li><a href="#Microsoft_NET_only">Microsoft .NET only</a></li><li><a href="#Mono_only">Mono only</a></li></ul></li><li><a href="#Issues_reported_by_us_and_already_resolved">Issues reported by us and already resolved</a></li><li><a href="#Mono_AMD64_JIT_issues">Mono AMD64 JIT issues</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Unresolved_issues"><a name="Unresolved_issues" id="Unresolved_issues">Unresolved issues</a></span></h2>
+
+<h3><span class="mw-headline" id="All_runtimes__NET_design"><a name="All_runtimes__NET_design" id="All_runtimes__NET_design">All runtimes / .NET design</a></span></h3>
+
+<ul><li> No connection between uninstantiated and instantiated members of types. This is <b>very serious</b>, complicated issue which has a <a class="internal absent" href="/separate-page.html">SRE GetMember</a>.&#xD;
+</li></ul><ul><li> Allow co/contravariant generic classes to be generated using S.R.E. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK28834">Suggestion</a> submitted.&#xD;
+</li></ul><ul><li> CLR refuses to run / verify instance methods in enums. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK21375">Suggestion</a> submitted.&#xD;
+</li></ul><ul><li> Allow void to be parameter of generic class (if not in C#, then just in runtime). <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK28833">Suggestion</a> submitted.&#xD;
+</li></ul><ul><li> <i>System.Runtime.CompilerServices.IsVolatile</i> class does not have a public constructor (the same applies to <i>IsConst</i>, etc.). <a target="_blank" href="http://lab.msdn.microsoft.com/ProductFeedback/viewfeedback.aspx?feedbackid=FDBK16834">Suggestion</a> submitted.&#xD;
+</li></ul><ul><li> <i>System.Reflection.Emit.EventBuilder</i> does not inherit from <i>S.R.E.EventInfo</i> nor <i>S.R.E.MemberInfo</i>. It forces us to make hacks and create inconsitent code in our compiler. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK16837">Suggestion</a> submitted.&#xD;
+</li></ul><ul><li> It is not possible to set the size of the stack in the assembly generated by S.R.E. <a target="_blank" href="http://lab.msdn.microsoft.com/ProductFeedback/viewFeedback.aspx?feedbackId=FDBK20409">submitted here</a>. Note that this is a problem only under MS.NET, since mono doesn't look at the value stored in the header, it happily uses system limit (which is 8 megs most of the time, which is enough).&#xD;
+</li></ul><h3><span class="mw-headline" id="Microsoft_NET_only"><a name="Microsoft_NET_only" id="Microsoft_NET_only">Microsoft .NET only</a></span></h3>
+
+<p>This section contains only bugs, which are still present in <i>.NET 2.0</i> betas.&#xD;</p>
+
+<ul><li> Cannot create generic object hierarchy using S.R.E. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK34035">Bugreport</a> submitted.&#xD;
+<ul><li> Yet another bug <b>By Design</b> 2005-08-08 at 12:14:05, which is VERY bad, since it blocks generation of quite basic generics&#xD;
+</li></ul></li></ul><ul><li> problem with generics and DefineMethodOverride <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK34037">Bugreport</a> submitted.&#xD;
+</li></ul><ul><li> confused TypeBuilder.GetMethod/Constructor. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK33779">Bugreport</a> submitted.&#xD;
+</li></ul><ul><li> TypeBuilder.GetConstructor throws ArgumentException when supplied created generic type. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK23776">Bugreport</a> submitted.&#xD;
+<ul><li> Yet another bug <b>By Design</b>&#xD;
+</li></ul></li></ul><ul><li> There are problems with using <i>S.R.E.TypeBuilder</i> representing enum type obtained from <i>DefineType</i> method instead of <i>DefineEnum</i>. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK16336">Bugreport</a> submitted.&#xD;
+</li></ul><ul><li> Equals override of System.Type does not work properly for reflected array types. <a target="_blank" href="http://lab.msdn.microsoft.com/ProductFeedback/viewFeedback.aspx?FeedbackId=FDBK17845">Bugreport</a> submitted.&#xD;
+<ul><li> Yet another bug <b>By Design</b>, 2004-04-24 22:40:19.&#xD;
+</li></ul></li></ul><ul><li> Tail calls are slower than normal ones. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK20510">Bugreport</a> submitted.&#xD;
+</li></ul><ul><li> <i>IsConstructor</i> returns False for <i>ConstructorBuilder</i>. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK16845">Bugreport</a> submitted.&#xD;
+<ul><li>Resolved as <b>By Design by</b> Microsoft on 2004-10-19 at 18:15:13&#xD;
+</li></ul></li></ul> &#xD;
+What is the best way to file bugs for MS.NET?&#xD;
+<a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/">Microsoft Product Feedback</a>&#xD;
+
+<p>Feel free to vote on unresolved MS.NET bugs, which we have filed, so they are fixed earlier.&#xD;</p>
+
+<h3><span class="mw-headline" id="Mono_only"><a name="Mono_only" id="Mono_only">Mono only</a></span></h3>
+
+<h2><span class="mw-headline" id="Issues_reported_by_us_and_already_resolved"><a name="Issues_reported_by_us_and_already_resolved" id="Issues_reported_by_us_and_already_resolved">Issues reported by us and already resolved</a></span></h2>
+
+<ul><li> (Mono) Unable to define generic field inside generic type through S.R.E. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=74684">Resolved</a> on mono svn.&#xD;
+</li></ul><ul><li> (MS.NET) Static fields in generic types are not initialized correctly. <a target="_blank" href="http://lab.msdn.microsoft.com/ProductFeedback/viewFeedback.aspx?feedbackId=FDBK30457">Resolved</a>  as Fixed by Microsoft on 2005-07-07 at 09:25:13.&#xD;
+</li></ul><ul><li> (MS.NET) S.R.E crashes when creating generic classes hierarchy. <a target="_blank" href="http://lab.msdn.microsoft.com/ProductFeedback/viewFeedback.aspx?feedbackId=FDBK31430">Closed</a> by Microsoft on 2005-07-06 at 10:55:25 (it was already fixed internally.&#xD;
+</li></ul><ul><li> (MS.NET) Unable to emit nested value types. Whenever they are finalized before containing type or after, the exception is being thrown (<i>ArgumentException</i> / <i>TypeLoadException</i>). <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK16850">Resolved</a> by Microsoft on 2005-06-03.&#xD;
+</li></ul><ul><li> (MS.NET) PEVerify from 2.0 is confused by correct (and verifiable by 1.1 PEVerify) code generated by 1.1 S.R.E. <a target="_blank" href="http://lab.msdn.microsoft.com/ProductFeedback/viewFeedback.aspx?feedbackId=FDBK19742">Resolved</a> by Microsoft on 2005-05-30.&#xD;
+</li></ul><ul><li> (MS.NET) Equals method throws exception when used on GenericTypeParameterBuilder <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=59f00c45-2685-4b7f-807a-36630dcf5a04">Resolved</a> by Microsoft on 2005-05-30.&#xD;
+</li></ul><ul><li> (MS.NET) ToString do not work on instanciated generic type when building this type. <a target="_blank" href="http://lab.msdn.microsoft.com/ProductFeedback/viewFeedback.aspx?FeedbackId=9f3e14c9-8a09-4de7-9efb-e8e461fe58eb">Resolved</a> by Microsoft on 2005-05-20. &#xD;
+</li></ul><ul><li> (Mono) <i>System.Type IsAssignableFrom</i> crashes when assembly is builded for Save. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=70838">Resolved</a> in 1.1.6.&#xD;
+</li></ul><ul><li> (MS.NET) Unable to generate code creating new generic object of instanciated TypeBuilder using Reflection. <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK19887">Resolved</a> as <b>By Design</b> by Microsoft on 2005-01-28 at 13:53:24 (new API for doing this will be added in VS2005 Beta2).&#xD;
+</li></ul><ul><li> (Mono) Improper alignment of the fat method header. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=69351">Resolved</a> in Mono 1.0.4.&#xD;
+</li></ul><ul><li> (Mono) <i>NullReferenceException</i> inside mono runtime, when loading <i>System.dll</i> assembly through reflection. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=61152">Resolved</a> in Mono 1.0.4.&#xD;
+</li></ul><ul><li> (Mono) Support for default parameters. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=64595">Resolved</a> in Mono 1.0.4.&#xD;
+</li></ul><ul><li> (Mono development branch 1.1.1) Assertion fails at AOT compilation of array creation code. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=68136">Resolved</a> in Mono 1.1.2.&#xD;
+</li></ul><ul><li> (Mono) Crash in runtime when using OpenGl bindings. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=59900">Resolved</a> in Mono 1.0.&#xD;
+</li></ul><ul><li> (Mono) <i>System.Type</i> <i>Name</i> property outputs wrong string for <i>System.Void*</i>. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=63768">Resolved</a> in Mono 1.0.2.&#xD;
+</li></ul><ul><li> (Mono) <i>GetFields</i> method returns inherited static fields. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=52182">Resolved</a> in Mono 0.30.&#xD;
+</li></ul><ul><li> (Mono) CustomAttributeBuilder cannot be used on types created by TypeBuilder.CreateType. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=53108">Resolved</a> in Mono 0.30.&#xD;
+</li></ul><ul><li> (Mono) conv.ovf.i8 doesn't work for negative values. <a target="_blank" href="http://bugzilla.ximian.com/show_bug.cgi?id=56317">Resolved</a> in Mono 0.31.&#xD;
+</li></ul><h2><span class="mw-headline" id="Mono_AMD64_JIT_issues"><a name="Mono_AMD64_JIT_issues" id="Mono_AMD64_JIT_issues">Mono AMD64 JIT issues</a></span></h2>
+
+<p>Several issues were found in the Mono amd64 JIT, all are releated to various i8 arithmetics and conversions. All are already fixed. &#xD;</p>
+
+<ul><li> <a href="http://bugzilla.ximian.com/show_bug.cgi?id=71236">http://bugzilla.ximian.com/show_bug.cgi?id=71236</a>&#xD;
+</li><li> <a href="http://bugzilla.ximian.com/show_bug.cgi?id=71319">http://bugzilla.ximian.com/show_bug.cgi?id=71319</a>&#xD;
+</li><li> <a href="http://bugzilla.ximian.com/show_bug.cgi?id=71320">http://bugzilla.ximian.com/show_bug.cgi?id=71320</a>&#xD;
+</li><li> <a href="http://bugzilla.ximian.com/show_bug.cgi?id=71361">http://bugzilla.ximian.com/show_bug.cgi?id=71361</a>&#xD;
+</li><li> <a href="http://bugzilla.ximian.com/show_bug.cgi?id=74588">http://bugzilla.ximian.com/show_bug.cgi?id=74588</a>&#xD;
+</li><li> <a href="http://bugzilla.ximian.com/show_bug.cgi?id=74591">http://bugzilla.ximian.com/show_bug.cgi?id=74591</a>&#xD;
+</li><li> <a href="http://bugzilla.ximian.com/show_bug.cgi?id=74726">http://bugzilla.ximian.com/show_bug.cgi?id=74726</a></li></ul>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

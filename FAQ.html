@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	FAQ
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+<b>Interop with .Net: Is it possible to use Nemerle compiled Assemblies in C# code?</b>&#xD;</p>
+
+<p>Yes, it is possible. From version 0.2, Nemerle is practically a full CLS consumer and extender. Thus one can extend in Nemerle any CLS compliant class created from other language and vice versa. There are of course issues with mapping of purely Nemerle features (like variants), but as long as you do not use them in public interfaces there should be no problems. You can also reference .NET generics between Nemerle and C# 2.0 freely.&#xD;</p>
+
+<p><b>Can I create a program using Windows Forms on my Windows XP box?</b>&#xD;</p>
+
+<p>Yes, you can. You can use System.Windows.Forms for GUI (Windows platform or not yet 100% complete implementation under Mono) or Gtk# (both Windows and Linux platforms). Simplest test application using these libraries is <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/testsuite/positive/form.n">here</a>.&#xD;</p>
+
+<p>You can compile this program with following command:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">ncc</span> <span class="n">form</span><span class="p">.</span><span class="n">n</span> <span class="p">-</span><span class="n">r</span> <span class="n">System</span><span class="p">.</span><span class="n">Windows</span><span class="p">.</span><span class="n">Forms</span> <span class="p">-</span><span class="n">o</span> <span class="n">form</span><span class="p">.</span><span class="n">exe</span>
+</pre>
+</div>
+
+
+<p><b>Could you please provide an example of a macro definition, which can be compiled with ncc?</b>&#xD;</p>
+
+<p>An exemplary macro, the code using it and the full compilation process is now described on <a target="_blank" href="http://www.nemerle.org/macros.html#defining">macros tutorial</a> page.&#xD;</p>
+
+<p><b>What does "Nemerle" mean?</b>&#xD;</p>
+
+<p>It is inspired by a name of mage Nemmerle from book of Ursula K. Le Guin "A Wizard of Earthsea" (spelling with a single 'm' <b>is</b> a design decision ;-) )&#xD;</p>
+
+<p><b>Does Nemerle run on <a target="_blank" href="http://mono-project.com">Mono</a>?</b>&#xD;</p>
+
+<p>Yes, it does. As a matter of fact, Mono is currently our primary development platform. We have developers working both on Linux (Mono) and Windows (.Net Framework 2.0). We are planning to widen our support for more .Net runtime environments.&#xD;</p>
+
+<p><b>Why types of method parameters and return value cannot be inferred just like for local functions?</b>&#xD;</p>
+
+<p>This is because of the documentation reason (it is better to explicitly give types in public methods) and interoperability. Type inference for private functions is still being considered.&#xD;</p>
+
+<p><b>Why doesn't fun(x){x.foo} compile?</b>&#xD;</p>
+
+<p>After a long <a target="_blank" href="http://www.nemerle.org/blog/archive/2004/Sep-07.html">work</a> on better <a target="_blank" href="http://nemerle.org/blog/archive/2005/Mar-13.html">type inference engine</a> we are proud to say, that such code compiles in most cases now. The inference engine will gather information about the type of <i>x</i> from the use place of <i>fun</i>.&#xD;</p>
+
+<p><b>What about "break" and "continue" in Nemerle ?</b>&#xD;</p>
+
+<p>These constructs are forms of "goto" and are generally discouraged by us and against Nemerle style. We encourage structuring your code into local functions. You can also use <a class="internal present" href="/Block.html">block</a> feature, which gives more local and expression oriented way of breaking control flow. Finally, you can just import <i>Nemerle.Imperative</i> namespace and use "break" and "return" as you like.&#xD;</p>
+
+<p><b>How do you debug a Macro - is there anything like Lisp's macro-expand?</b>&#xD;</p>
+
+<p>There is a compiler switch -dt, that dumps typed trees (after macro expansion) of expressions.&#xD;</p>
+
+<p><b>What are variants internally? Are they treated as structs or classes, that is, are they passed by value?</b>&#xD;</p>
+
+<p>Variants are classes internaly, so they are passed by reference. Each variant option is a nested class of variant class and inherits from it. This way you can have methods in variant, which work also for every variant option.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

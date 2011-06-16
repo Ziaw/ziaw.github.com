@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Type declarations (ref)
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+<a class="internal absent" href="/Category%3AReference-Manual.html">Category:Reference Manual</a>&#xD;
+<a class="internal absent" href="/---Back-to-Reference-Manual..html">reference</a>&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Type_header">Type header</a></li><li><a href="#Type_parameters">Type parameters</a></li><li><a href="#Declarations">Declarations</a><ul><li><a href="#Type_alias">Type alias</a></li><li><a href="#Interface">Interface</a></li><li><a href="#Class_like">Class like</a></li><li><a href="#Variants">Variants</a></li><li><a href="#Enums">Enums</a></li><li><a href="#Delegates">Delegates</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Type_header"><a name="Type_header" id="Type_header">Type header</a></span></h2>
+<div class="highlight"><pre>type_header =  
+Lexical_structure_(ref):IDENTIFIER [ type_parameters ] 
+[ ':' Type_expressions_(ref):type  { ',' type } ] where_constraints  
+</pre>
+</div>
+
+Type header is similar to .NET. The main difference is the optional&#xD;
+type_parameters list, defined below.&#xD;
+
+<div class="highlight"><pre>type_attributes = Attributes_(ref):attributes
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Type_parameters"><a name="Type_parameters" id="Type_parameters">Type parameters</a></span></h2>
+<div class="highlight"><pre>type_parameters =
+[ Lexical_structure_(ref):IDENTIFIER { ',' IDENTIFIER } ]
+
+where_constraints =
+{ 'where' Lexical_structure_(ref):IDENTIFIER ':' Type_expressions_(ref):type { ',' type } } 
+</pre>
+</div>
+
+
+<p>When defining polymorphic type one has to specify list of type variables&#xD;
+in declaration. It can have following form:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span>
+</pre>
+</div>
+
+
+<p>An optional list of <code>where</code> parameters can be used to add constraints to&#xD;
+the type variables.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">where</span> <span class="n">a</span> <span class="p">:</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">IEnumerable</span><span class="p">,</span> <span class="n">IComparable</span>
+<span class="k">where</span> <span class="n">b</span> <span class="p">:</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">IDictionary</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Declarations"><a name="Declarations" id="Declarations">Declarations</a></span></h2>
+<div class="highlight"><pre>type_declaration =
+   type_alias
+|  interface_declaration
+|  class_like_declaration
+|  variant_declaration
+|  enum_declaration
+|  delegate_declaration
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Type_alias"><a name="Type_alias" id="Type_alias">Type alias</a></span></h3>
+<div class="highlight"><pre>type_alias =
+   type_attributes 'type'  type_header  '='   Type_expressions_(ref):type ';'
+</pre>
+</div>
+
+
+<p>Much like <code>typedef</code> in C.&#xD;</p>
+
+<h3><span class="mw-headline" id="Interface"><a name="Interface" id="Interface">Interface</a></span></h3>
+<div class="highlight"><pre>interface_declaration =
+   type_attributes  'interface'  type_header  '{'  {  interface_member  }  '}'
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Class_like"><a name="Class_like" id="Class_like">Class like</a></span></h3>
+<div class="highlight"><pre>class_like_declaration =
+   type_attributes  'class'  type_header  '{' {  type_member  }  '}'
+|  type_attributes  'struct'  type_header  '{' {  type_member  }  '}'
+|  type_attributes  'module'  type_header  '{' {  type_member  }  '}'
+</pre>
+</div>
+
+
+<p>A module is much like a class, but all module members are static. There&#xD;
+is no need to place static attributes on module members. It is also not&#xD;
+possible to create instances of module types.&#xD;</p>
+
+<p>Struct types are like classes, but they are passed by value and cannot&#xD;
+inherit from other types.&#xD;</p>
+
+<h3><span class="mw-headline" id="Variants"><a name="Variants" id="Variants">Variants</a></span></h3>
+<div class="highlight"><pre>variant_declaration =
+  type_attributes  'variant'  type_header  '{' {  variant_option  }  '}'
+
+variant_option =
+  Lexical_structure_(ref):IDENTIFIER [ '{' { 
+  Type_members_(ref):field_definition } '}' ] 
+| Type_members_(ref):type_member
+</pre>
+</div>
+
+
+<p>A variant declaration consists of a type name and a list of bar-separated&#xD;
+<i>variant options</i> enclosed in brackets.&#xD;</p>
+
+<p>The variant option describes the constructor associated with this variant&#xD;
+type. An option may take an argument. Option name must be capitalized.&#xD;</p>
+
+<p>Variants (unlike variant options) can also have other members (methods&#xD;
+and fields). These fields and methods are inherited by all the options.&#xD;</p>
+
+<h3><span class="mw-headline" id="Enums"><a name="Enums" id="Enums">Enums</a></span></h3>
+<div class="highlight"><pre>enum_declaration =
+   type_attributes  'enum'  type_header  '{'  {  
+   '|'  Lexical_structure_(ref):IDENTIFIER  [  '='  Lexical_structure_(ref):literal  ]  }  '}'
+</pre>
+</div>
+
+
+<p>Enums are like variants, but cannot take arguments. They are passed by &#xD;
+value and can be used with bitwise operations.&#xD;</p>
+
+<h3><span class="mw-headline" id="Delegates"><a name="Delegates" id="Delegates">Delegates</a></span></h3>
+<div class="highlight"><pre>delegate_declaration =
+  type_attributes  'delegate'  Type_members_(ref):method_header  
+</pre>
+</div>
+
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

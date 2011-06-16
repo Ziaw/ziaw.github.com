@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	BNF syntax
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><h2><span class="mw-headline" id="EBNF"><a name="EBNF" id="EBNF">EBNF</a></span></h2>
+
+<p>We use an extension for mediawiki to render EBNF grammars. It uses &lt;bnf&gt; tag. For example&#xD;</p>
+
+<pre>&#xD;<div class="highlight"><pre>palin = '0' palin '0' | '1' palin '1'
+</pre>
+</div>
+</pre>&#xD;
+
+<p>gives:&#xD;</p>
+
+<div class="highlight"><pre>palin = '0' palin '0' | '1' palin '1'
+</pre>
+</div>
+
+
+<p>Terminals are enclosed in ''. To put real single quote please use&#xD;
+'&amp;#39;'.  Nonterminals don't use any special markers -- anything&#xD;
+that isn't a terminal, or a special symbol is nonterminal.&#xD;</p>
+
+<p>Special symbols are:&#xD;
+</p><ul><li>= used to start a rule&#xD;
+</li><li>| used to separate options of given rule&#xD;
+</li><li>[]{} used for optional and repeated syntax elements&#xD;
+</li></ul><h2><span class="mw-headline" id="Namespaces"><a name="Namespaces" id="Namespaces">Namespaces</a></span></h2>
+
+<p>To allow splitting grammar definition over multiple files&#xD;
+the bnf extension support namespaces. If you write non&#xD;
+terminal like <code>Namespace:something</code>, then it will link to&#xD;
+<code>/Namespace#something</code>, so <code>Namespace</code> should be a wiki&#xD;
+page with grammar entry <code>something</code>. Namespace is not displayed.&#xD;</p>
+
+<p>To save you typing, if you use at least once <code>Foo:bar</code> (within a&#xD;
+given &lt;bnf&gt; entry) as non-terminal, all occurrences of <code>bar</code>&#xD;
+will be replaced with <code>Foo:bar</code>.&#xD;</p>
+
+<p>For example:&#xD;</p>
+
+<pre>&#xD;<div class="highlight"><pre>foo = '-' [ bar ]
+qux = '+' [ Non_existent_wiki_page:bar ]
+</pre>
+</div>
+</pre>&#xD;
+
+<p>gives:&#xD;</p>
+
+<div class="highlight"><pre>foo = '-' { bar }
+qux = '+' [ Non_existent_wiki_page:bar ]
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Contact"><a name="Contact" id="Contact">Contact</a></span></h2>
+
+<p>If you would like to access bnf source code, please contact <a class="internal absent" href="/User%3AMalekith.html">User:Malekith</a>.&#xD;</p>
+
+<p>That's all folks!</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Accessor macros
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><h2><span class="mw-headline" id="Field_accessors"><a name="Field_accessors" id="Field_accessors">Field accessors</a></span></h2>
+
+<p>When writing classes, you very often need to write code like:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">mutable</span> <span class="n">some_field</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+<span class="k">public</span> <span class="n">SomeField</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span>
+  <span class="n">get</span> <span class="p">{</span> <span class="n">some_field</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>You can automate this common pattern using the <code>Accessor</code> macro:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Utility</span><span class="p">;</span> 
+
+<span class="na">[Accessor (SomeField)]</span>
+<span class="k">mutable</span> <span class="n">some_field</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>Here, the Accessor macro creates a read-only property named <code>SomeField</code>, &#xD;
+which accesses the field <code>some_field</code>. Accessor properties &#xD;
+are read-only by default.&#xD;</p>
+
+<p>You can also omit the name, in which case the property name will be based &#xD;
+on the field name. The name will be capitalized, and underscores removed:&#xD;
+</p><ul><li> <code>some_field</code> is changed to <code>SomeField</code> &#xD;
+</li><li> <code>_my_longer_property</code> becomes <code>MyLongerProperty</code>&#xD;
+</li></ul> &#xD;
+This helps make property names more uniform and readable.&#xD;
+
+<h4><span class="mw-headline" id="Option_flags"><a name="Option_flags" id="Option_flags">Option flags</a></span></h4>
+
+<p>There are three flag options available for this macro. The first is for &#xD;
+specifying that the accessor is internal, not public. This limits &#xD;
+accessibility to callers within the same assembly: &#xD;</p>
+
+<div class="highlight"><pre><span class="na">[Accessor (SomeField, flags = Internal)]</span>
+<span class="k">mutable</span> <span class="n">some_field</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+
+<span class="c1">// Equivalent to: </span>
+<span class="k">mutable</span> <span class="n">internal_field</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">=</span> <span class="m">0</span> <span class="p">;</span>
+<span class="k">internal</span> <span class="n">InternalField</span> <span class="p">:</span> <span class="kt">int</span>  <span class="p">{</span>
+  <span class="n">get</span> <span class="p">{</span> <span class="n">internal_field</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>There are similar <code>Protected</code>, <code>Virtual</code> and <code>Override</code> options.&#xD;</p>
+
+<p>The <code>WantSetter</code> option is used to generate a set property:&#xD;</p>
+
+<div class="highlight"><pre><span class="na">[Accessor (SomeField, flags = WantSetter)]</span>
+<span class="k">mutable</span> <span class="n">some_field</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+
+<span class="c1">// Equivalent to: </span>
+<span class="k">public</span> <span class="n">SomeField</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span>
+  <span class="n">get</span> <span class="p">{</span> <span class="n">some_field</span> <span class="p">}</span>
+  <span class="n">set</span> <span class="p">{</span> <span class="n">some_field</span> <span class="p">=</span> <span class="n">value</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Flags can be combined:&#xD;</p>
+
+<div class="highlight"><pre><span class="na">[Accessor (SomeField, flags = Internal | WantSetter)]</span>
+<span class="k">mutable</span> <span class="n">some_field</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Flags_accessors"><a name="Flags_accessors" id="Flags_accessors">Flags accessors</a></span></h2>
+
+<p>There are cases when you want to use field of enum type (marked with&#xD;
+System.Flags attribute) to store a set of flags. But you otherwise want&#xD;
+this stuff to be exposed via boolean properties.  For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">SomeClass</span> <span class="p">{</span>
+<span class="na">  [System.Flags]</span>
+  <span class="k">enum</span> <span class="n">MyFlags</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">Is42</span>        <span class="p">=</span> <span class="m">0x0001</span>
+    <span class="p">|</span> <span class="n">Kopytko</span>     <span class="p">=</span> <span class="m">0x0002</span>
+    <span class="p">|</span> <span class="n">DeepThought</span> <span class="p">=</span> <span class="m">0x0004</span>
+  <span class="p">}</span>
+
+  <span class="k">mutable</span> <span class="n">state</span> <span class="p">:</span> <span class="n">MyFlags</span><span class="p">;</span>
+
+  <span class="k">public</span> <span class="n">Is42</span> <span class="p">:</span> <span class="kt">bool</span>
+  <span class="p">{</span>
+    <span class="n">get</span> <span class="p">{</span> <span class="n">state</span> <span class="p">%&amp;&amp;</span> <span class="n">MyFlags</span><span class="p">.</span><span class="n">Is42</span> <span class="p">}</span>
+    <span class="n">set</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">state</span> <span class="p">|=</span> <span class="n">MyFlags</span><span class="p">.</span><span class="n">Is42</span>
+      <span class="k">else</span>
+        <span class="n">state</span> <span class="p">&amp;=</span> <span class="p">~</span><span class="n">MyFlags</span><span class="p">.</span><span class="n">Is42</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// same for Kopytko and DeepThought</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>There is <code>FlagAccessor</code> macro to automate this:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Utility</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">SomeClass</span> <span class="p">{</span>
+<span class="na">  [System.Flags]</span>
+  <span class="k">enum</span> <span class="n">MyFlags</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">Is42</span>        <span class="p">=</span> <span class="m">0x0001</span>
+    <span class="p">|</span> <span class="n">Kopytko</span>     <span class="p">=</span> <span class="m">0x0002</span>
+    <span class="p">|</span> <span class="n">DeepThought</span> <span class="p">=</span> <span class="m">0x0004</span>
+  <span class="p">}</span>
+
+<span class="na">  [FlagAccessor (Is42, flags = WantSetter)]</span>
+<span class="na">  [FlagAccessor (Kopytko, flags = WantSetter)]</span>
+<span class="na">  [FlagAccessor (DeepThought, flags = WantSetter)]</span>
+  <span class="k">mutable</span> <span class="n">state</span> <span class="p">:</span> <span class="n">MyFlags</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>To shorten it even more you can group several flags in one macro&#xD;
+invocation:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Utility</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">SomeClass</span> <span class="p">{</span>
+<span class="na">  [System.Flags]</span>
+  <span class="k">enum</span> <span class="n">MyFlags</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">Is42</span>        <span class="p">=</span> <span class="m">0x0001</span>
+    <span class="p">|</span> <span class="n">Kopytko</span>     <span class="p">=</span> <span class="m">0x0002</span>
+    <span class="p">|</span> <span class="n">DeepThought</span> <span class="p">=</span> <span class="m">0x0004</span>
+  <span class="p">}</span>
+
+<span class="na">  [FlagAccessor (Is42, Kopytko, DeepThought, flags = WantSetter)]</span>
+  <span class="k">mutable</span> <span class="n">state</span> <span class="p">:</span> <span class="n">MyFlags</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

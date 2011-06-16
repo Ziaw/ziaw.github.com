@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Syntax extensions
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+Nemerle has builtin syntax extension capabilities. They are limited to some fixed elements of language grammar, but their ability to defer parsing of entire fragments of token stream makes them quite powerful and usable.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Expression_level_extensions">Expression level extensions</a></li><li><a href="#Raw_token_extensions">Raw token extensions</a><ul><li><a href="#Concept_of_parentheses_tree">Concept of parentheses tree</a></li><li><a href="#Parentheses_tokens">Parentheses tokens</a></li><li><a href="#Passing_token_groups_to_the_macro">Passing token groups to the macro</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Expression_level_extensions"><a name="Expression_level_extensions" id="Expression_level_extensions">Expression level extensions</a></span></h2>
+
+<p>We have mainly focused on ability of extending base syntacitc entity in Nemerle language, that is expression. &#xD;</p>
+
+<p>The new rules of parsing are triggered by the set of user definable distinguished keywords and operators. When the parser encounters one of those at the valid position of expression beginning, then it executes a special parsing procedure for syntax extension related to the distinguished token.&#xD;</p>
+
+<p>All syntax extensions are specified by <a class="internal absent" href="/macro.html">Macros</a> definitions. Each macro can optionally have syntax definition, which describes how given macro should be called when the syntax occurs in program. For example&#xD;</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">while_macro</span> <span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span> 
+<span class="k">syntax</span> <span class="p">(</span><span class="s">"while"</span><span class="p">,</span> <span class="s">"("</span><span class="p">,</span> <span class="n">cond</span><span class="p">,</span> <span class="s">")"</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">&lt;[ </span>
+<span class="k">    def</span> <span class="n">loop</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="k">when</span> <span class="p">(</span><span class="n">$cond</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="n">$body</span><span class="p">;</span> 
+        <span class="n">loop</span> <span class="p">()</span> 
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">loop</span> <span class="p">()</span>
+  <span class="k">]&gt;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>creates a macro introducing <i>while</i> loop construct and syntax to the language. &#xD;</p>
+
+<h2><span class="mw-headline" id="Raw_token_extensions"><a name="Raw_token_extensions" id="Raw_token_extensions">Raw token extensions</a></span></h2>
+
+<p>Nemerle has a very powerful method for introducing virtually arbitrary syntax into language. It allows for specifying that given part of program input will not be interpreted by main Nemerle parser, but will be passed in easy to use representation to some macro.&#xD;</p>
+
+<h3><span class="mw-headline" id="Concept_of_parentheses_tree"><a name="Concept_of_parentheses_tree" id="Concept_of_parentheses_tree">Concept of parentheses tree</a></span></h3>
+
+<p>The parser and all syntax extensions operate on token streams created by the lexer and the so-called pre-parse stage. The lexing phase simply transforms  program text into a stream of tokens (like identifiers, numbers, operators, distinguished keywords, etc.). &#xD;</p>
+
+<p>The next phase groups this stream into a tree of parentheses. We have distinguished four types of them (<b>{} () [] </b>). Tokens inside those parentheses are also divided into groups separated by special separator tokens. For example the following program fragment&#xD;</p>
+
+<div class="highlight"><pre><span class="k">fun</span> <span class="nf">f</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">def</span> <span class="n">y</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Int32</span><span class="p">.</span><span class="n">Parse</span> <span class="p">(</span><span class="n">x</span><span class="p">);</span>
+  <span class="n">y</span> <span class="p">+</span> <span class="m">1</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>is after the pre-parse stage represented as the token tree&#xD;</p>
+
+<pre> &#xD;   '''[''' fun '','' f '','' '''(''' '''[''' x '','' ':' '','' string ''']''' ''')''' '','' '''{'''&#xD;     '''[''' def '','' y '','' '=' '','' System '','' '.' '','' Int32 '','' '.' '','' Parse '','' '''(''' '''[''' x ''']''' ''')''' ''']''' '',''&#xD;     '''[''' y '','' '+' '','' 1 ''']'''&#xD;   '''}''' ''']'''&#xD;</pre>
+
+<p>where matched parentheses groups are distinguished with <b>() {} []</b>  and their elements are separated with <i>,</i>. Note that groups like <b>()</b> and <b>{}</b> contain tokens enclosed by <b>[]</b>, which represents loose token groups - divisions of tokens split by separators (<b>,</b> for <b>() []</b> and <b>;</b> for <b>{} </b>).&#xD;</p>
+
+<h3><span class="mw-headline" id="Parentheses_tokens"><a name="Parentheses_tokens" id="Parentheses_tokens">Parentheses tokens</a></span></h3>
+
+<p>So, according to the description above we have following kinds of special tokens, which represents whole fragments of unparsed code:&#xD;
+</p><ul><li>Token.BracesGroup - for <b>{ }</b>&#xD;
+</li><li>Token.RoundGroup - for <b>( )</b>&#xD;
+</li><li>Token.SquareGroup - for <b>[]</b>&#xD;
+</li><li>Token.QuoteGroup - for <b></b>, used in macro code quotation &#xD;
+</li><li>Token.LooseGroup - list of tokens grouped inside one of above brackets and separated by separator token specific for each of bracket kinds&#xD;
+</li></ul> &#xD;
+All the available tokens produced by lexer can be viewed <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/parsing/Lexer.n">here</a>&#xD;
+
+<h3><span class="mw-headline" id="Passing_token_groups_to_the_macro"><a name="Passing_token_groups_to_the_macro" id="Passing_token_groups_to_the_macro">Passing token groups to the macro</a></span></h3>
+
+<p>Those raw grouping tokens can passed as a parameter of macro. We simply have to name it when specifying macro parameter:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">BuildXml</span> <span class="p">(</span><span class="n">group</span> <span class="p">:</span> <span class="n">Token</span><span class="p">)</span> 
+<span class="k">syntax</span> <span class="p">(</span><span class="s">"xml"</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>in code, where such a macro was imported we can use the new syntax:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">foo</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span>
+  <span class="k">def</span> <span class="n">doc</span> <span class="p">=</span> <span class="n">xml</span> <span class="p">(&lt;</span><span class="n">node</span> <span class="n">name</span><span class="p">=</span><span class="s">"foo"</span><span class="p">&gt;</span><span class="n">My</span> <span class="n">name</span> <span class="k">is</span> <span class="n">foo</span><span class="p">&lt;/</span><span class="n">node</span><span class="p">&gt;);</span>
+  <span class="c1">// macro produced some XmlNode for us, we can use it</span>
+  <span class="n">print</span> <span class="p">(</span><span class="n">doc</span><span class="p">.</span><span class="n">InnerXml</span><span class="p">);</span> 
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Inside such macro we can use our own specialized parser. For example some small domain specific language can be embedded easily inside Nemerle program provided a simple syntax extension.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

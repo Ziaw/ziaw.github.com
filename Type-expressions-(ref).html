@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Type expressions (ref)
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+<a class="internal absent" href="/Category%3AReference-Manual.html">Category:Reference Manual</a>&#xD;
+<a class="internal absent" href="/---Back-to-Reference-Manual.html">reference</a>&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Intro">Intro</a></li><li><a href="#Type_constructor_application">Type constructor application</a></li><li><a href="#Type_variable_reference">Type variable reference</a></li><li><a href="#Grouping_types">Grouping types</a></li><li><a href="#Void_type">Void type</a></li><li><a href="#Ref_and_Out_types">Ref and Out types</a></li><li><a href="#Array_types">Array types</a></li><li><a href="#Tuple_type">Tuple type</a></li><li><a href="#Function_type">Function type</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Intro"><a name="Intro" id="Intro">Intro</a></span></h2>
+
+<p>Type expressions relate to <a class="internal absent" href="/type-declarations.html">type declarations</a> much like function calls&#xD;
+relate to function and value definitions. Type declarations define ways&#xD;
+of constructing types and type expressions define actual types.&#xD;</p>
+
+<p>Types are both static and dynamic characterization of values. The static&#xD;
+type of expression depends on its building blocks and is defined in the&#xD;
+paragraph describing given expression. The dynamic (runtime) type is&#xD;
+bound to the value at the moment it is created, and remains there until&#xD;
+the value is garbage collected.&#xD;</p>
+
+<p>The type system is modeled after .NET Generics design, except for tuple&#xD;
+and function types, which are new, but can be easily simulated using&#xD;
+generics.&#xD;</p>
+
+<h2><span class="mw-headline" id="Type_constructor_application"><a name="Type_constructor_application" id="Type_constructor_application">Type constructor application</a></span></h2>
+
+<div class="highlight"><pre>primary_type =
+Expressions_(ref):qualified_identifier [ '[' type { ',' type } ']' ]
+</pre>
+</div>
+
+
+<p>A type constructor (defined with type declaration) can be applied to&#xD;
+zero or more arguments forming a type expression. The number of type&#xD;
+arguments in type application must match the number of type arguments in&#xD;
+definition. Moreover, actual type arguments must solve where constraints&#xD;
+imposed on formal type arguments.&#xD;</p>
+
+<h2><span class="mw-headline" id="Type_variable_reference"><a name="Type_variable_reference" id="Type_variable_reference">Type variable reference</a></span></h2>
+<div class="highlight"><pre>primary_type =
+Lexical_structure_(ref):IDENTIFIER
+</pre>
+</div>
+
+
+<p>Refer to the type substituted to a given type variable. The type variable&#xD;
+has to be defined (bound, quantified) before it is used. A type variable&#xD;
+can be defined in type arguments or method header (of a global or local&#xD;
+function).&#xD;</p>
+
+<h2><span class="mw-headline" id="Grouping_types"><a name="Grouping_types" id="Grouping_types">Grouping types</a></span></h2>
+<div class="highlight"><pre>primary_type =
+'(' type ')'
+</pre>
+</div>
+
+
+<p>This construct has no semantic meaning -- it exists only to enforce&#xD;
+particular syntax decomposition.&#xD;</p>
+
+<h2><span class="mw-headline" id="Void_type"><a name="Void_type" id="Void_type">Void type</a></span></h2>
+<div class="highlight"><pre>primary_type =
+'void'
+</pre>
+</div>
+
+
+<p>This is mostly an alias for <code>System.Void</code> -- a type with exactly one&#xD;
+inhibiting value. It is, however, a first class value -- it can be passed&#xD;
+as a function parameter as well as returned from functions.&#xD;</p>
+
+<p>The name comes from <code>System.Void</code>, but should be in fact unit.&#xD;</p>
+
+<h2><span class="mw-headline" id="Ref_and_Out_types"><a name="Ref_and_Out_types" id="Ref_and_Out_types">Ref and Out types</a></span></h2>
+<div class="highlight"><pre>primary_type =
+'ref' primary_type
+| 'out' primary_type
+</pre>
+</div>
+
+
+<p>These are for parameters passed by reference.&#xD;</p>
+
+<h2><span class="mw-headline" id="Array_types"><a name="Array_types" id="Array_types">Array types</a></span></h2>
+<div class="highlight"><pre>primary_type =
+'array' '[' [ Lexical_structure_(ref):NUMBER_LITERAL ',' ] type ']'
+</pre>
+</div>
+
+
+<p>Define array type. The number is the rank. It defaults to one.&#xD;</p>
+
+<h2><span class="mw-headline" id="Tuple_type"><a name="Tuple_type" id="Tuple_type">Tuple type</a></span></h2>
+<div class="highlight"><pre>type =
+primary_type '*' primary_type { '*' primary_type }
+</pre>
+</div>
+
+
+<p>Construct product (tuple) type. This operator is not associative, which&#xD;
+means that each two of following types are different:&#xD;</p>
+
+<div class="highlight"><pre><span class="kt">int</span> <span class="p">*</span> <span class="kt">int</span> <span class="p">*</span> <span class="kt">int</span>
+<span class="p">(</span><span class="kt">int</span> <span class="p">*</span> <span class="kt">int</span><span class="p">)</span> <span class="p">*</span> <span class="kt">int</span>
+<span class="kt">int</span> <span class="p">*</span> <span class="p">(</span><span class="kt">int</span> <span class="p">*</span> <span class="kt">int</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Function_type"><a name="Function_type" id="Function_type">Function type</a></span></h2>
+<div class="highlight"><pre>type =
+type '-&gt;' type
+</pre>
+</div>
+
+
+<p>Construct function type with a specified argument and return types&#xD;
+respectively. The <code>-&gt;</code> operator is right associative, which means that&#xD;
+the following types are equivalent:&#xD;</p>
+
+<div class="highlight"><pre><span class="kt">int</span> <span class="p">-&gt;</span> <span class="kt">int</span> <span class="p">-&gt;</span> <span class="kt">int</span>
+<span class="kt">int</span> <span class="p">-&gt;</span> <span class="p">(</span><span class="kt">int</span> <span class="p">-&gt;</span> <span class="kt">int</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>Multi-argument function types are written using tuple notation, for&#xD;
+example after local declaration:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">some_function</span> <span class="p">(</span><span class="n">a</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">b</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">float</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>the expression <code>some_function</code> has type <code>int * string -&gt; float</code>.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	CSharp 3.0 Features
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Intro">Intro</a></li><li><a href="#Implicitly_typed_local_variables">Implicitly typed local variables</a></li><li><a href="#Extension_methods">Extension methods</a></li><li><a href="#Lambda_expressions">Lambda expressions</a></li><li><a href="#Object_and_collection_initializers">Object and collection initializers</a></li><li><a href="#Anonymous_types">Anonymous types</a></li><li><a href="#Implicitly_typed_arrays">Implicitly typed arrays</a></li><li><a href="#Query_expressions">Query expressions</a></li><li><a href="#Expression_trees">Expression trees</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Intro"><a name="Intro" id="Intro">Intro</a></span></h2>
+
+<p>Microsoft has released <a target="_blank" href="http://download.microsoft.com/download/9/5/0/9503e33e-fde6-4aed-b5d0-ffe749822f1b/csharp%203.0%20specification.doc">a specification</a> for C# 3.0. We thought it would be funny to compare what they are planning with what we have already in Nemerle.&#xD;</p>
+
+<h2><span class="mw-headline" id="Implicitly_typed_local_variables"><a name="Implicitly_typed_local_variables" id="Implicitly_typed_local_variables">Implicitly typed local variables</a></span></h2>
+
+<p>This was in Nemerle since the very beginning. We however do not limit&#xD;
+ourselves to the case when the type of initializer expression is known&#xD;
+in detail (or to be precise, if known at all).&#xD;</p>
+
+<h2><span class="mw-headline" id="Extension_methods"><a name="Extension_methods" id="Extension_methods">Extension methods</a></span></h2>
+
+<p>An <a target="_blank" href="http://nemerle.org/bugs/view.php?id=416">issue reported</a> in the tracker.&#xD;</p>
+
+<h2><span class="mw-headline" id="Lambda_expressions"><a name="Lambda_expressions" id="Lambda_expressions">Lambda expressions</a></span></h2>
+
+<p>Again, this was in Nemerle since the very beginning. The restrictions&#xD;
+on parameter inference don't apply.&#xD;</p>
+
+<h2><span class="mw-headline" id="Object_and_collection_initializers"><a name="Object_and_collection_initializers" id="Object_and_collection_initializers">Object and collection initializers</a></span></h2>
+
+<p>We have the Record macro, though this seems somewhat nicer. Will have&#xD;
+to investigate.&#xD;</p>
+
+<h2><span class="mw-headline" id="Anonymous_types"><a name="Anonymous_types" id="Anonymous_types">Anonymous types</a></span></h2>
+
+<p>Our tuples are more like tuples in math -- the fields don't have names,&#xD;
+only numbers. It is an open issue which design is better.&#xD;</p>
+
+<h2><span class="mw-headline" id="Implicitly_typed_arrays"><a name="Implicitly_typed_arrays" id="Implicitly_typed_arrays">Implicitly typed arrays</a></span></h2>
+
+<p>No kidding.&#xD;</p>
+
+<h2><span class="mw-headline" id="Query_expressions"><a name="Query_expressions" id="Query_expressions">Query expressions</a></span></h2>
+
+<p>This seems like a set of macros. Will have to investigate.&#xD;</p>
+
+<h2><span class="mw-headline" id="Expression_trees"><a name="Expression_trees" id="Expression_trees">Expression trees</a></span></h2>
+
+<p>This seems like this is needed only for query expressions.&#xD;
+<a class="internal present" href="/Macros.html">Macros</a> (and specifically quotations) are much more general&#xD;
+and powerful mechanism.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

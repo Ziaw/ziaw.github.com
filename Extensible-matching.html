@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Extensible matching
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+TODO:&#xD;</p>
+
+<ul><li>syntax extension (now [ExtensionPattern] variant Tree...)&#xD;
+</li><li>capture and store environment in which pattern is defined&#xD;
+</li><li>negative tests&#xD;
+</li></ul> &#xD;
+Refs:&#xD;
+
+<ul><li>http://icwww.epfl.ch/publications/documents/IC_TECH_REPORT_200244.pdf fast lists&#xD;
+</li><li>http://homepages.inf.ed.ac.uk/wadler/papers/view/view.ps views for ML&#xD;
+</li><li>http://www.haskell.org/development/views.html Haskell impl&#xD;
+</li><li>http://www5.cs.cornell.edu/~liujed/papers/padl03.pdf for Java&#xD;
+</li></ul><div class="highlight"><pre><span class="k">variant</span> <span class="nc">Tree</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Node</span> <span class="p">{</span> <span class="n">l</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">;</span> <span class="n">e</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="n">r</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">;</span> <span class="n">size</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Nil</span>
+
+  <span class="n">Size</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">match</span> <span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span> <span class="p">|</span> <span class="n">Node</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">s</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">s</span> <span class="p">|</span> <span class="n">Nil</span> <span class="p">=&gt;</span> <span class="m">0</span> <span class="p">}</span> <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">N</span> <span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">e</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">r</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">)</span> <span class="p">:</span> <span class="n">Tree</span> <span class="p">{</span> 
+    <span class="n">Node</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">l</span><span class="p">.</span><span class="n">Size</span> <span class="p">+</span> <span class="n">r</span><span class="p">.</span><span class="n">Size</span> <span class="p">+</span> <span class="m">1</span><span class="p">)</span>  
+  <span class="p">}</span>
+
+  <span class="n">pattern</span> <span class="nf">N</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="p">=</span>
+    <span class="n">Node</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">_</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">List</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">IsCons</span> <span class="p">:</span> <span class="kt">bool</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+  <span class="k">public</span> <span class="n">IsNil</span> <span class="p">:</span> <span class="kt">bool</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+  <span class="k">public</span> <span class="n">Head</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+  <span class="k">public</span> <span class="n">Tail</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+
+  <span class="c1">// always use IsCons to get non-exhaustive pattern warning</span>
+  <span class="n">pattern</span> <span class="nf">Cons</span> <span class="p">(</span><span class="n">hd</span><span class="p">,</span> <span class="n">tl</span><span class="p">)</span> <span class="p">=</span>
+    <span class="n">List</span> <span class="nf">where</span> <span class="p">(</span><span class="n">IsCons</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">Head</span> <span class="p">=</span> <span class="n">hd</span><span class="p">,</span> <span class="n">Tail</span> <span class="p">=</span> <span class="n">tl</span><span class="p">);</span>
+  <span class="n">pattern</span> <span class="nf">Nil</span> <span class="p">()</span> <span class="p">=</span>
+    <span class="n">List</span> <span class="nf">where</span> <span class="p">(</span><span class="n">IsCons</span> <span class="p">=</span> <span class="k">false</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">match</span> <span class="p">(</span><span class="n">some_list</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// transformed to: List where (IsCons = true, Head = 2, tail = List where (IsCons = false))</span>
+  <span class="p">|</span> <span class="n">List</span><span class="p">.</span><span class="n">Cons</span> <span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="n">List</span><span class="p">.</span><span class="n">Nil</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="c1">// names in pattern definition are meaningful</span>
+  <span class="p">|</span> <span class="n">List</span><span class="p">.</span><span class="n">Cons</span> <span class="p">(</span><span class="n">tl</span> <span class="p">=</span> <span class="n">List</span><span class="p">.</span><span class="n">Nil</span><span class="p">,</span> <span class="n">hd</span> <span class="p">=</span> <span class="m">22</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

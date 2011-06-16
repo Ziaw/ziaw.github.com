@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Defining types from inside macros
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><h2><span class="mw-headline" id="Basics"><a name="Basics" id="Basics">Basics</a></span></h2>
+
+<p>Macros can define new types, as well as add members to existing types.&#xD;</p>
+
+<p>There are two ways of defining types, you can either:&#xD;
+</p><ul><li>define a nested type inside some other type (using <code>DefineNestedType</code> method of the <code>TypeBuilder</code>) or&#xD;
+</li><li>define a new top level type (using <code>Define</code> method of the <code>GlobalEnv</code> class).&#xD;
+</li></ul> &#xD;
+Both methods take the same argument -- just a single quotation of the type&#xD;
+<code>decl</code>. <code>TypeBuilder</code> object can be obtained from a parameter&#xD;
+of a macro-on-declaration or from <code>Nemerle.Macros.ImplicitCTX&#xD;().CurrentTypeBuilder</code>. Current <code>GlobalEnv</code> is available in&#xD;
+<code>Nemerle.Macros.ImplicitCTX ().Env</code>.&#xD;
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">BuildClass</span> <span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="n">ctx</span> <span class="p">=</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Macros</span><span class="p">.</span><span class="n">ImplicitCTX</span> <span class="p">();</span>
+  <span class="k">def</span> <span class="n">builder</span> <span class="p">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Env</span><span class="p">.</span><span class="n">Define</span> <span class="p">(</span><span class="k">&lt;[ decl:</span>
+    <span class="k">internal</span> <span class="k">class</span> <span class="nc">FooBar</span>
+    <span class="p">{</span>
+      <span class="k">public</span> <span class="k">static</span> <span class="nf">SomeMethod</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+      <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello world"</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="k">]&gt;</span><span class="p">);</span>
+
+  <span class="n">builder</span><span class="p">.</span><span class="n">Compile</span> <span class="p">();</span>
+
+  <span class="k">&lt;[ </span><span class="n">FooBar</span><span class="p">.</span><span class="n">SomeMethod</span> <span class="p">()</span> <span class="k">]&gt;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>This macro will add a new class inside the current namespace [FIXME:],&#xD;
+the class will be named <code>FooBar</code>. The macro will return a call to&#xD;
+a function inside this class. That is this code:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">module</span> <span class="nc">Some</span> <span class="p">{</span>
+  <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">BuildClass</span> <span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>will print the famous message.&#xD;</p>
+
+<p>One gotcha here is that the following code:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">module</span> <span class="nc">Some</span> <span class="p">{</span>
+  <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">BuildClass</span> <span class="p">();</span>
+    <span class="n">BuildClass</span> <span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>will give redefinition error instead of a second message. Macros do not&#xD;
+guarantee hygiene of global symbols.&#xD;</p>
+
+<p>Another gotcha is the <code>builder.Compile()</code> call. If you forget it,&#xD;
+then the compile will ICE when the macro is used.&#xD;</p>
+
+<h2><span class="mw-headline" id="Longer_example"><a name="Longer_example" id="Longer_example">Longer example</a></span></h2>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">BuildClass</span> <span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="n">ctx</span> <span class="p">=</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Macros</span><span class="p">.</span><span class="n">ImplicitCTX</span> <span class="p">();</span>
+  <span class="k">def</span> <span class="n">builder</span> <span class="p">=</span> <span class="n">ctx</span><span class="p">.</span><span class="n">Env</span><span class="p">.</span><span class="n">Define</span> <span class="p">(</span><span class="k">&lt;[ decl:</span>
+    <span class="k">internal</span> <span class="k">class</span> <span class="nc">FooBar</span>
+    <span class="p">{</span>
+      <span class="k">public</span> <span class="k">static</span> <span class="nf">SomeMethod</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+      <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello world"</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="k">]&gt;</span><span class="p">);</span>
+
+  <span class="n">builder</span><span class="p">.</span><span class="n">Define</span> <span class="p">(</span><span class="k">&lt;[ decl:</span> <span class="n">foo</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="k">]&gt;</span><span class="p">);</span>
+  <span class="n">builder</span><span class="p">.</span><span class="n">Compile</span> <span class="p">();</span>
+  <span class="n">builder</span><span class="p">.</span><span class="n">CannotFinalize</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+  <span class="n">builder</span><span class="p">.</span><span class="n">Define</span> <span class="p">(</span><span class="k">&lt;[ decl:</span> 
+    <span class="k">public</span> <span class="n">Foo</span> <span class="p">:</span> <span class="kt">int</span> 
+    <span class="p">{</span>
+      <span class="n">get</span> <span class="p">{</span> <span class="n">foo</span> <span class="p">}</span> 
+    <span class="p">}</span> 
+  <span class="k">]&gt;</span><span class="p">);</span>
+
+  <span class="k">def</span> <span class="n">nested_builder</span> <span class="p">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">DefineNestedType</span> <span class="p">(</span><span class="k">&lt;[ decl:</span>
+    <span class="k">internal</span> <span class="k">class</span> <span class="nc">SomeClass</span> <span class="p">{</span> <span class="p">}</span>
+  <span class="k">]&gt;</span><span class="p">);</span>
+  <span class="n">nested_builder</span><span class="p">.</span><span class="n">Compile</span> <span class="p">();</span>
+  
+  <span class="n">builder</span><span class="p">.</span><span class="n">CannotFinalize</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+
+  <span class="k">&lt;[ </span><span class="n">FooBar</span> <span class="p">()</span> <span class="k">]&gt;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The <code>GlobalEnv.Define</code> (as well as <code>TypeBuilder.Compile</code>)&#xD;
+return a fresh <code>TypeBuilder</code> object, that can be used to add new&#xD;
+members using the <code>Define</code> and <code>DefineNestedType</code> methods.&#xD;
+There is also a <code>DefineAndReturn</code> method, that works much like&#xD;
+<code>Define</code>, but returns the added member (as <code>option [IMember]</code>).&#xD;</p>
+
+<p>As you can see, you can add new member to already built class, but this needs&#xD;
+additional hassle with the <code>CannotFinalize</code> property.&#xD;</p>
+
+<h2><span class="mw-headline" id="Stages_of_TypeBuilder"><a name="Stages_of_TypeBuilder" id="Stages_of_TypeBuilder">Stages of TypeBuilder</a></span></h2>
+
+<p>To understand the <code>CannotFinalize</code> stuff properly we need to talk&#xD;
+a bit about the internals of the compiler.&#xD;</p>
+
+<p>During compilation it first scans through the entire program to look for&#xD;
+global definitions. Then there are several passes dealing with them.&#xD;
+You can plug macros in most places of this process. Once the global&#xD;
+iteration passes are done, the compiler proceeds with typing and code&#xD;
+generation for each method in turn. Then the regular macros are called.&#xD;</p>
+
+<p>Now we want to add new types during typing. However the passes setting&#xD;
+up various things in types have already been run.&#xD;</p>
+
+<p>Therefore the <code>Define/DefineNestedType</code> call a few functions right&#xD;
+after the type is created. The most important are:&#xD;
+</p><ul><li>setting the <code>CannotFinalize</code> property to true&#xD;
+</li><li>resolving type names used in definitions&#xD;
+</li><li>adding default constructor if no constructor was found&#xD;
+</li><li>running any macros attached to the type and definitions within it&#xD;
+</li></ul> &#xD;
+Next the <code>Compile()</code> call does a few other things:&#xD;
+<ul><li>set <code>CannotFinalize</code> property to false&#xD;
+</li><li>check implemented interfaces (that is, if you declared that you will implement some interface and failed to provide implementation for some methods, you will get an error here)&#xD;
+</li><li>add SRE declarations (this in particular means that the members of this type can be used during expression typing <b>only</b> after Compile() is called)&#xD;
+</li><li>queue compilation of methods inside the type (the compilation cannot occur just at the moment Compile() is called, because we support only one method compilation at a time, and Compile() can be called during compilation of some method)&#xD;
+</li></ul> &#xD;
+Now about the <code>CannotFinalize</code> property. If it's true, the type won't &#xD;
+finalized, that is finished up. This can happen if it gets to regular typer&#xD;
+queues, so if you want to add members after Compile(), better set it to true.&#xD;
+But don't forget to set it to false before the end of the compilation, &#xD;
+otherwise you'll get an ICE.
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,169 @@
+This page is a part of the [[Grokking Nemerle]] tutorial.
+
+== Properties ==
+
+Properties are syntactic sugar for get/set design pattern commonly found
+in Java. Accessing a property looks like accessing a field, but under
+the hood it is translated to a method call.
+
+```nemerle
+class Button {
+  mutable text : string;
+  public Text : string {
+    get { text }
+    set { text = value; Redraw () }
+  }
+}
+
+def b = Button ();
+b.Text = b.Text + "..."
+```
+
+== Indexers ==
+
+Indexers are another form of properties.
+While regular properties expose field access syntax, indexers expose ''array'' access syntax instead:
+
+```nemerle
+using System.Console;
+
+class Table {
+  store : array [array [string]];
+  public Item [row : int, column : int] : string
+  {
+    get { store[row][column] }
+    set { store[row][column] = value }
+  }
+  public this(n: int, m : int)
+  {
+      store = array(n);
+      for (mutable i = 0; i != n; i++)
+          store[i] = array(m);
+  }
+}
+
+def t = Table (4, 4);
+t.Item[2, 3] = "foo";
+WriteLine(t.Item[2, 3]);
+```
+
+In .NET, a class can have a ''default indexer name'',
+making it unnecessary for that name to be explicitly used.
+The current release of Nemerle always defines <code>Item</code> as the default,
+so the code above can be simplified to
+
+```nemerle
+def t = Table (4, 4);
+t[2, 3] = "foo";
+WriteLine(t[2, 3]);
+```
+
+A class can have several indexers, but only one indexer name is considered the default.
+That name, however, can be overloaded:
+
+```nemerle
+using System.Console;
+class Table {
+  store : array [array [string]];
+  public Item [row : int, column : int] : string
+  {
+    get { store[row][column] }
+    set { store[row][column] = value }
+  }
+  public Item [row : int] : array[string]
+  {
+    get { store[row] }
+    set { store[row] = value }
+  }
+  public SomeOtherIndexerName[row : int, column : int] : string
+  {
+    get { store[row][column] }
+    set { store[row][column] = value }
+  }
+  public this(n: int, m : int)
+  {
+      store = array(n);
+      for (mutable i = 0; i != n; i++)
+          store[i] = array(m);
+  }
+}
+
+def t = Table (4, 4);
+t[2, 3] = "foo";
+t.SomeOtherIndexerName[2, 3] = "foo";
+WriteLine(t[2, 3]);
+t[2] = array [ "this", "is", "a", "new", "array" ];
+def row2 = t[2];
+WriteLine(row2[3]);
+```
+
+Note that, while the current release of Nemerle always assumes <code>Item</code> to be the default indexer in user-defined classes,
+this is not so in general for .NET indexers.
+For example, the <code>System.Hashtable</code> default indexer is called
+<code>Item</code> and <code>System.String</code> one is called <code>Chars</code>.
+As mentioned above, Nemerle (like VB.NET) allows the definition of several indexers with possibly different names.
+C#, on the other hand, only allows the definition of the default indexer.
+
+== Delegates ==
+
+Delegates are half-baked functional values. In fact there is little place
+for usage of delegates in Nemerle itself. However other .NET languages
+all speak delegates, so they are a good way to expose functional values
+for them and <i>vice versa</i>.
+
+Delegates are in essence named functional types. They are defined with the
+<code>delegate</code> keyword:
+
+```nemerle
+delegate Foo (_ : int, _ : string) : void;
+delegate Callback () : void;
+```
+
+Later the delegate name can be used to construct delegate instances. Any
+functional value of corresponding type can be used to create a delegate
+instance (local functions and lambda expressions in particular).
+
+Delegate instance can be invoked using regular function call syntax,
+as well as the <code>Invoke</code> special method. Please consult class library
+documentation for details.
+
+The <code>+=</code> operator has special meaning on delegate instances --
+it calls the <code>System.Delegate.Combine</code> method that makes one
+function that calls two other in sequence. This operator is probably
+more useful with events.
+
+```nemerle
+module X {
+  some_fun () : void
+  {
+    mutable f = Foo (fun (_, _) {});
+    f (3, "foo"); // same as f.Invoke (3, "foo");
+    f += fun (_, s) { System.Console.WriteLine (s) };
+    f (42, "bar");
+  }
+}
+```
+
+== Events ==
+
+Events are kind of specialized properties for delegates. They are used
+in a GUI system for connecting signals (setting function to call when
+a button is pressed etc.). They can be also used to call user defined
+function on certain events, like class being loaded by the runtime system.
+
+Events are defined like fields, but they are marked with the
+<code>event</code> keyword, and always have a delegate type. Inside the class
+events are seen as fields of these delegate type, but outside only the
+<code>+=</code> and <code>-=</code> operators are available. They are used to
+connect and disconnect delegates. Implicit conversion from functional
+values to delegate instances is provided.
+
+
+```nemerle
+class Button {
+  public event OnClick : Callback;
+}
+
+def b = Button ();
+b.OnClick += fun () { ... }
+```

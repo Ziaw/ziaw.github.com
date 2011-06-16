@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Secondary expressions (ref)
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+<a class="internal absent" href="/Category%3AReference-Manual.html">Category:Reference Manual</a>&#xD;
+<a class="internal absent" href="/---Back-to-Reference-Manual..html">reference</a>&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Secondary_Expressions">Secondary Expressions</a></li><li><a href="#Conditional_expression">Conditional expression</a></li><li><a href="#While_loop">While loop</a></li><li><a href="#do__while_loop">do ... while loop</a></li><li><a href="#When_expression">When expression</a></li><li><a href="#Unless_expression">Unless expression</a></li><li><a href="#Lambda_expression">Lambda expression</a></li><li><a href="#List_constructor">List constructor</a></li><li><a href="#Swap_operator">Swap operator</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Secondary_Expressions"><a name="Secondary_Expressions" id="Secondary_Expressions">Secondary Expressions</a></span></h2>
+
+<p>This section describes expressions that are in fact just syntactic&#xD;
+sugar over <a class="internal absent" href="/Core-Expressions.html">Core Expressions (ref)</a>. We just present a translation&#xD;
+of Secondary Expressions into Core Expressions.&#xD;</p>
+
+<div class="highlight"><pre>secondary_expr =
+  conditional_expr
+| while_loop
+| do_while_loop
+| when_expr
+| unless_expr
+| lambda_expr
+| list_constructor
+| swap_operator
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Conditional_expression"><a name="Conditional_expression" id="Conditional_expression">Conditional expression</a></span></h2>
+<div class="highlight"><pre>'if' '(' expr ')' expr 'else' expr
+</pre>
+</div>
+
+
+<p>A standard branch, which executes and returns value of first expression&#xD;
+if the condition evaluates to true or second elsewhere.&#xD;</p>
+
+<p>Internally it is translated into&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="k">true</span> <span class="p">=&gt;</span> <span class="n">expr1</span>
+  <span class="p">|</span> <span class="k">false</span> <span class="p">=&gt;</span> <span class="n">expr2</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="While_loop"><a name="While_loop" id="While_loop">While loop</a></span></h2>
+<div class="highlight"><pre>while_loop =
+'while' '(' expr ')' expr
+</pre>
+</div>
+
+
+<p>A loop, executing body expression as long as the condition is true. Its&#xD;
+value is always checked before the execution of body and if it evaluates&#xD;
+to false, then the loop ends. The body must be of type void.&#xD;</p>
+
+<p>The loop is translated internally into the following code&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">loop</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> 
+    <span class="p">{</span> <span class="n">body</span><span class="p">;</span> <span class="n">loop</span> <span class="p">()</span> <span class="p">}</span>
+  <span class="k">else</span>
+    <span class="p">()</span>
+<span class="p">};</span>
+<span class="n">loop</span> <span class="p">()</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="do__while_loop"><a name="do__while_loop" id="do__while_loop">do ... while loop</a></span></h2>
+
+<div class="highlight"><pre>do_while_loop =
+'do' expr 'while' '(' expr ')'
+</pre>
+</div>
+
+
+<p>This loop is similar to while loop, but body is executed before the&#xD;
+first time the condition is checked.&#xD;</p>
+
+<h2><span class="mw-headline" id="When_expression"><a name="When_expression" id="When_expression">When expression</a></span></h2>
+
+<div class="highlight"><pre>when_expr =
+'when' '(' expr ')' expr
+</pre>
+</div>
+
+
+<p>A version of the if condition, but having only one branch -- execution&#xD;
+of body only when the condition is satisfied. If its value if false,&#xD;
+then nothing is done (i. e. () is returned).&#xD;</p>
+
+<p>Its semantics is the same as&#xD;</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> <span class="n">body</span> <span class="k">else</span> <span class="p">()</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Unless_expression"><a name="Unless_expression" id="Unless_expression">Unless expression</a></span></h2>
+<div class="highlight"><pre>'unless' '(' expr ')' expr
+</pre>
+</div>
+
+
+<p>An opposite version of when. It executes and returns value of body only&#xD;
+if conditions are not satisfied (i. e. evaluates to false).&#xD;</p>
+
+<p>Its semantics is the same as&#xD;</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> <span class="p">()</span> <span class="k">else</span> <span class="n">body</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Lambda_expression"><a name="Lambda_expression" id="Lambda_expression">Lambda expression</a></span></h2>
+<div class="highlight"><pre>lambda_expr =
+'fun' [ method_type_parameters ] 
+'(' method_parameters ')' [ ':' type ] [ where_constraints ] block
+</pre>
+</div>
+
+
+<p>Lambda expressions can be thought as of anonymous local functions. This&#xD;
+construct defines such a function and returns it as a functional&#xD;
+value. This value can be used just like the name of a regular local&#xD;
+function.&#xD;</p>
+
+<p>Example:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">List</span><span class="p">.</span><span class="n">Iter</span> <span class="p">(</span><span class="n">intList</span><span class="p">,</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"%d\n"</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="p">})</span>
+</pre>
+</div>
+
+
+<p>is equivalent to&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">tmpfunc</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"%d\n"</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="p">};</span>
+<span class="n">List</span><span class="p">.</span><span class="n">Iter</span> <span class="p">(</span><span class="n">intList</span><span class="p">,</span> <span class="n">tmpfunc</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="List_constructor"><a name="List_constructor" id="List_constructor">List constructor</a></span></h2>
+<div class="highlight"><pre>list_constructor =
+'[' [ { expr ',' } expr ] ']'
+</pre>
+</div>
+
+
+<p><code>[1, 2, 3]</code> is translated to <code>list.Cons (1, list.Cons (2,&#xD;list.Cons (3, list.Nil ())))</code>.&#xD;</p>
+
+<h2><span class="mw-headline" id="Swap_operator"><a name="Swap_operator" id="Swap_operator">Swap operator</a></span></h2>
+<div class="highlight"><pre>swap_operator =
+expr '&lt;-&gt;' expr
+</pre>
+</div>
+
+
+<p>Infix operator <code>&amp;lt;-&gt;</code> is used to swap values of two assignable&#xD;
+expressions. You can think about it as being translated to&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">temp</span> <span class="p">=</span> <span class="n">e2</span><span class="p">;</span>
+<span class="n">e2</span> <span class="p">=</span> <span class="n">e1</span><span class="p">;</span>
+<span class="n">e1</span> <span class="p">=</span> <span class="n">temp</span>
+</pre>
+</div>
+
+
+<p>except that subexpressions of e1 and e2 are evaluated only once (there&#xD;
+is a special macro to assure this), so&#xD;
+</p><div class="highlight"><pre><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">Next</span><span class="p">()]</span> <span class="p">&lt;-&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">Next</span><span class="p">()]</span>
+</pre>
+</div>
+
+can be used safely.
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

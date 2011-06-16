@@ -1,0 +1,458 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Grok Object oriented programming
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This page is a part of the <a class="internal present" href="/Grokking-Nemerle.html">Grokking Nemerle</a> tutorial.&#xD;</p>
+
+<p>Once again a <a target="_blank" href="http://en.wikipedia.org/wiki/Object-oriented_programming">definition</a> from Wikipedia.&#xD;</p>
+
+<p>OOP is all about <a target="_blank" href="http://en.wikipedia.org/wiki/Object_(computer_science)">objects</a>. Objects consist of some data and methods&#xD;
+to operate on this data. In functional programming we have functions&#xD;
+(algorithm) and data. The things are separate. One can think about&#xD;
+objects as of records (structures) with attached functions.&#xD;</p>
+
+<p>Nemerle allows programmers to program in this style. Moreover, the class&#xD;
+library is very deeply object oriented. Therefore OOP is unavoidable&#xD;
+in Nemerle.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Back_in_the_Refrigerator">Back in the Refrigerator</a></li><li><a href="#Inheritance">Inheritance</a></li><li><a href="#Virtual_calls">Virtual calls</a></li><li><a href="#Interfaces">Interfaces</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Back_in_the_Refrigerator"><a name="Back_in_the_Refrigerator" id="Back_in_the_Refrigerator">Back in the Refrigerator</a></span></h2>
+
+<p>While talking about XML, we have shown an example of a refrigerator. It&#xD;
+was a degenerated object -- a record. Record is a bunch of data, or an&#xD;
+object without methods. Now we will try to extend it a bit.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Refrigerator</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">minimal_temperature</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">content</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">RefrigeratorContent</span><span class="p">];</span>
+
+  <span class="k">public</span> <span class="nf">AddContent</span> <span class="p">(</span><span class="n">elem</span> <span class="p">:</span> <span class="n">RefrigeratorContent</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">content</span> <span class="p">=</span> <span class="n">elem</span> <span class="p">::</span> <span class="n">content</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">variant</span> <span class="nc">RefrigeratorContent</span>
+<span class="p">{</span>
+  <span class="p">|</span> <span class="n">Beer</span> <span class="p">{</span> <span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span> <span class="n">volume</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Chips</span> <span class="p">{</span> <span class="n">weight</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Ketchup</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Now, in addition to fields with content and temperature, the refrigerator&#xD;
+has a method for adding new content.&#xD;</p>
+
+<p>The definition of method looks much like the definition of a function&#xD;
+within a module.&#xD;</p>
+
+<p>It is quite important to understand the difference between classes&#xD;
+and objects. Classes is type definition, while object (class instance)&#xD;
+is a value. Class define a template to create new objects.&#xD;</p>
+
+<p>Non static methods defined in class <code>C</code> have access to a special value&#xD;
+called this. It has type <code>C</code> and is immutable. It refers to the current&#xD;
+object. You can use the dot (.) operator to access fields of current&#xD;
+object. You can see usage of <code>this</code> in <code>AddContent</code> method.&#xD;</p>
+
+<p>The this value is quite often used in object oriented&#xD;
+programming. Therefore it can be omitted for brevity. For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">AddContent</span> <span class="p">(</span><span class="n">elem</span> <span class="p">:</span> <span class="n">RefrigeratorContent</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="n">content</span> <span class="p">=</span> <span class="n">elem</span> <span class="p">::</span> <span class="n">content</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>However, if the method had a formal parameter called content, or a local&#xD;
+value with such a name, one would need to use <code>this.content</code> to access&#xD;
+the field.&#xD;</p>
+
+<p>There is one special method in a class called a constructor. It is&#xD;
+called whenever you request creation of new instance of an object. It&#xD;
+the responsibility of the constructor to setup values of all fields&#xD;
+within an object. Fields start with value of <code>null</code>, <code>0</code> or &#xD;
+<code>0.0</code>.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">this</span> <span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">minimal_temperature</span> <span class="p">=</span> <span class="p">-</span><span class="m">273.15</span><span class="p">;</span>
+  <span class="n">content</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Constructors can take parameters. For example, if we wanted to set&#xD;
+the <code>minimal_temperature</code> already at the object construction stage, we&#xD;
+could write:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">temp</span> <span class="p">:</span> <span class="kt">float</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">minimal_temperature</span> <span class="p">=</span> <span class="n">temp</span><span class="p">;</span>
+  <span class="n">content</span> <span class="p">=</span> <span class="p">[];</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>For variant options Nemerle provides a default constructor, that assigns&#xD;
+each field. If you do not provide a constructor for a regular class,&#xD;
+an empty one is generated. If you need the field-assigning constructor,&#xD;
+you can use <code>[Record]</code> attribute, like this:&#xD;</p>
+
+<div class="highlight"><pre><span class="na">[Record]</span>
+<span class="k">class</span> <span class="nc">Foo</span>
+<span class="p">{</span>
+  <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="n">y</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="n">z</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The following constructor is generated:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">float</span><span class="p">,</span> <span class="n">z</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">y</span> <span class="p">=</span> <span class="n">y</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">z</span> <span class="p">=</span> <span class="n">z</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The constructor is called with the name of the class when creating new&#xD;
+objects. Other methods are called using the dot operator. For example in&#xD;
+<code>refr.AddContent (Ketchup ())</code> the <code>refr</code> is passed to the&#xD;
+<code>AddContent</code> method as the <code>this</code> pointer and <code>Ketchup&#xD;()</code> is passed as <code>elem</code> formal parameter.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">module</span> <span class="nc">Party</span> <span class="p">{</span>
+  <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">refr</span> <span class="p">=</span> <span class="n">Refrigerator</span> <span class="p">();</span>
+    <span class="n">refr</span><span class="p">.</span><span class="n">AddContent</span> <span class="p">(</span><span class="n">Beer</span> <span class="p">(</span><span class="s">"Tiskie"</span><span class="p">,</span> <span class="m">0.60</span><span class="p">));</span>
+    <span class="n">refr</span><span class="p">.</span><span class="n">AddContent</span> <span class="p">(</span><span class="n">Ketchup</span> <span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Fortunately, objects are not just a fancy notation for a function&#xD;
+application on records.&#xD;</p>
+
+<h2><span class="mw-headline" id="Inheritance"><a name="Inheritance" id="Inheritance">Inheritance</a></span></h2>
+
+<p>Classes&#xD;
+can <a target="_blank" href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">inherit</a> &#xD;
+from other classes. The fact that a class B inherits from a class&#xD;
+A has a few consequences. The first one is that B has now all the fields&#xD;
+and methods of A. The second one is that B is now <b>subtype</b> of A. This&#xD;
+means that all the functions operating on A can now also operate on B.&#xD;</p>
+
+<p>Class A is often called <b>parent</b> or <b>base</b> class of B (which is &#xD;
+<b>derived</b> class).&#xD;</p>
+
+<p>In the following example we can see how we can call methods defined&#xD;
+in the base class (<code>AddContent</code>), as well as from the derived class&#xD;
+(<code>MoveToBedroom</code>).&#xD;</p>
+
+<p>Static methods and the constructor are not derived. The parameterless&#xD;
+constructor is defined in this example. As the first thing to do, it&#xD;
+calls parameterless constructor of the base class. It does it, so the&#xD;
+derived fields are initialized first. Then it initializes the new fields.&#xD;</p>
+
+<p>The call to the parameterless parent constructor is in fact&#xD;
+redundant. When there is no call to the parent class constructor, such&#xD;
+a parameterless parent constructor call is assumed in the first line of&#xD;
+a constructor.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">RefrigeratorWithRolls</span> <span class="p">:</span> <span class="n">Refrigerator</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">position_x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">position_y</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+
+  <span class="k">public</span> <span class="nf">MoveBy</span> <span class="p">(</span><span class="n">dx</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">dy</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">position_x</span> <span class="p">+=</span> <span class="n">dx</span><span class="p">;</span>
+    <span class="n">position_y</span> <span class="p">+=</span> <span class="n">dy</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">MoveToBedroom</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">position_x</span> <span class="p">=</span>  <span class="m">42</span><span class="p">;</span>
+    <span class="n">position_y</span> <span class="p">=</span> <span class="p">-</span><span class="m">42</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span>
+  <span class="p">{</span>
+    <span class="k">base</span> <span class="p">();</span>
+    <span class="n">position_x</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="n">position_y</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">TheDayAfter</span>
+<span class="p">{</span>
+  <span class="k">static</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">refr</span> <span class="p">=</span> <span class="n">RefrigeratorWithRolls</span> <span class="p">();</span>
+      <span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">;</span> <span class="p">++</span><span class="n">i</span><span class="p">)</span>
+      <span class="n">refr</span><span class="p">.</span><span class="n">AddContent</span> <span class="p">(</span><span class="n">Beer</span> <span class="p">(</span><span class="s">"Liech"</span><span class="p">,</span> <span class="m">0.5</span><span class="p">));</span>
+    <span class="n">refr</span><span class="p">.</span><span class="n">MoveToBedroom</span> <span class="p">();</span>
+    <span class="c1">// drink</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Virtual_calls"><a name="Virtual_calls" id="Virtual_calls">Virtual calls</a></span></h2>
+
+<p>The funny part begins where objects can react to calling some methods&#xD;
+in a way dependent on the class of the object. It is possible to&#xD;
+define virtual methods, which means they can be redefined in a derived&#xD;
+class. Then when we have a function working on the base class, whenever&#xD;
+it calls the virtual method, an appropriate method is selected base on&#xD;
+actual object type.&#xD;</p>
+
+<p>This feature is called polymorphism in object-oriented world. We will,&#xD;
+however, mostly use this word for another kind of polymorphism --&#xD;
+parametric polymorphism.&#xD;</p>
+
+<p>When one wants to override a virtual method from a base class, it needs&#xD;
+to be declared with the <code>override</code> modifier.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">IO</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Refrigerator</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">minimal_temperature</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">content</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">RefrigeratorContent</span><span class="p">];</span>
+
+  <span class="k">public</span> <span class="k">virtual</span> <span class="nf">AddContent</span> <span class="p">(</span><span class="n">elem</span> <span class="p">:</span> <span class="n">RefrigeratorContent</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">content</span> <span class="p">=</span> <span class="n">elem</span> <span class="p">::</span> <span class="n">content</span>
+  <span class="p">}</span>
+  
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span>
+  <span class="p">{</span>
+    <span class="n">minimal_temperature</span> <span class="p">=</span> <span class="p">-</span><span class="m">273.15</span><span class="p">;</span>
+    <span class="n">content</span> <span class="p">=</span> <span class="p">[];</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">RestrictedRefrigerator</span> <span class="p">:</span> <span class="n">Refrigerator</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="nf">AddContent</span> <span class="p">(</span><span class="n">elem</span> <span class="p">:</span> <span class="n">RefrigeratorContent</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">match</span> <span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="n">Ketchup</span> <span class="p">=&gt;</span>
+        <span class="c1">// don't add!</span>
+        <span class="n">printf</span> <span class="p">(</span><span class="s">"Ketchup is not healthy!\n"</span><span class="p">)</span>
+      <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span>
+        <span class="n">content</span> <span class="p">=</span> <span class="n">elem</span> <span class="p">::</span> <span class="n">content</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span>
+  <span class="p">{</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Here we can see how the <code>AddKetchup</code> calls different methods&#xD;
+depending on actual object type. The first call adds ketchup, the second&#xD;
+call refuses to do so.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">module</span> <span class="nc">Shop</span>
+<span class="p">{</span>
+  <span class="n">AddKetchup</span> <span class="p">(</span><span class="n">refr</span> <span class="p">:</span> <span class="n">Refrigerator</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">refr</span><span class="p">.</span><span class="n">AddContent</span> <span class="p">(</span><span class="n">Ketchup</span> <span class="p">())</span>
+  <span class="p">}</span>
+
+  <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">r1</span> <span class="p">=</span> <span class="n">Refrigerator</span> <span class="p">();</span>
+    <span class="k">def</span> <span class="n">r2</span> <span class="p">=</span> <span class="n">RestrictedRefrigerator</span> <span class="p">();</span>
+    <span class="n">AddKetchup</span> <span class="p">(</span><span class="n">r1</span><span class="p">);</span>
+    <span class="n">AddKetchup</span> <span class="p">(</span><span class="n">r2</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Interfaces"><a name="Interfaces" id="Interfaces">Interfaces</a></span></h2>
+
+<p>The .NET Framework supports only single inheritance. This means that&#xD;
+any given class can derive from just one base class. However, it is&#xD;
+sometimes needed for a class to be two or more different things depending&#xD;
+on context. .NET supports it (just like Java) through interfaces. An&#xD;
+interface is a contract specifying a set of methods given class should&#xD;
+implement. A class can implement zero or more interfaces (in addition&#xD;
+to deriving from some base class).&#xD;</p>
+
+<p>Implementing interface implies subtyping it. That is if you have a class&#xD;
+A implementing I and method taking I as parameter, then you can pass A&#xD;
+as this parameter.&#xD;</p>
+
+<p>Interfaces most commonly state some ability of type. For example, the&#xD;
+ability to convert itself to some other type or to compare with some&#xD;
+other types.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">IO</span><span class="p">;</span>
+
+<span class="k">interface</span> <span class="n">IPrintable</span> <span class="p">{</span>
+  <span class="n">Print</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">RefrigeratorNG</span> <span class="p">:</span> <span class="n">Refrigerator</span><span class="p">,</span> <span class="n">IPrintable</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Print</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">"I'm the refrigerator!\n"</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span>
+  <span class="p">{</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">module</span> <span class="nc">RP</span> <span class="p">{</span>
+  <span class="n">PrintTenTimes</span> <span class="p">(</span><span class="n">p</span> <span class="p">:</span> <span class="n">IPrintable</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">;</span> <span class="p">++</span><span class="n">i</span><span class="p">)</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">Print</span> <span class="p">()</span>
+  <span class="p">}</span>
+  
+  <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">refr</span> <span class="p">=</span> <span class="n">RefrigeratorNG</span> <span class="p">();</span>
+    <span class="n">PrintTenTimes</span> <span class="p">(</span><span class="n">refr</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The base class must come first after the colon in class definition. Then&#xD;
+come interfaces in any order.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

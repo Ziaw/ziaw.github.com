@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Patterns (ref)
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+<a class="internal absent" href="/Category%3AReference-Manual.html">Category:Reference Manual</a>&#xD;
+<a class="internal absent" href="/---Back-to-Reference-Manual..html">reference</a>&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Patterns">Patterns</a></li><li><a href="#Constructor_pattern">Constructor pattern</a></li><li><a href="#Throwaway_pattern">Throw-away pattern</a></li><li><a href="#Record_pattern">Record pattern</a></li><li><a href="#As_binding">As binding</a></li><li><a href="#Type_check_pattern">Type check pattern</a></li><li><a href="#Tuple_pattern">Tuple pattern</a></li><li><a href="#List_constructor_pattern">List constructor pattern</a></li><li><a href="#List_literal_pattern">List literal pattern</a></li><li><a href="#Literal_pattern">Literal pattern</a></li><li><a href="#Type_enforcement_in_pattern">Type enforcement in pattern</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Patterns"><a name="Patterns" id="Patterns">Patterns</a></span></h2>
+
+<p>Patterns are a form of accessing data structures, especially&#xD;
+trees. Patterns can match values. A definition of the term to match is&#xD;
+given with each pattern construct. However, the main idea behind patterns&#xD;
+is that they match values that look like them.&#xD;</p>
+
+<p>Pattern are used in match expression and value definitions.&#xD;</p>
+
+<div class="highlight"><pre>pattern =
+  constructor_pattern
+| throw_away_pattern
+| record_pattern
+| as_binding
+| type_check_pattern
+| tuple_pattern
+| list_constructor_pattern
+| list_literal_pattern
+| literal_pattern
+| type_enforcement_in_pattern
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Constructor_pattern"><a name="Constructor_pattern" id="Constructor_pattern">Constructor pattern</a></span></h2>
+
+<div class="highlight"><pre>constructor_pattern =
+qualified_identifier [ pattern ]
+</pre>
+</div>
+
+
+<p>The identifier should refer to the name of variant option. This pattern&#xD;
+matches a value if it is a specified variant option, and sub-pattern&#xD;
+matches variant option payload.&#xD;</p>
+
+<h2><span class="mw-headline" id="Throwaway_pattern"><a name="Throwaway_pattern" id="Throwaway_pattern">Throw-away pattern</a></span></h2>
+
+<div class="highlight"><pre>throw_away_pattern =
+'_'
+</pre>
+</div>
+
+
+<p>This pattern matches any value.&#xD;</p>
+
+<h2><span class="mw-headline" id="Record_pattern"><a name="Record_pattern" id="Record_pattern">Record pattern</a></span></h2>
+<div class="highlight"><pre>record_pattern =
+qualified_identifier 'where'
+'(' IDENTIFIER '=' pattern { ',' IDENTIFIER '=' pattern } [ ',' ] ')'
+</pre>
+</div>
+
+
+<p>This pattern matches a value of a class, that has all specified fields&#xD;
+(this is checked statically), and a value of each field matches respective&#xD;
+pattern.&#xD;</p>
+
+<h2><span class="mw-headline" id="As_binding"><a name="As_binding" id="As_binding">As binding</a></span></h2>
+<div class="highlight"><pre>as_binding =
+pattern 'as' IDENTIFIER
+</pre>
+</div>
+
+
+<p>This pattern matches the same value as an enclosed pattern does. However,&#xD;
+in addition the value matched by the enclosed pattern is bound to a&#xD;
+specified variable, which can be used in when guard or match body.&#xD;</p>
+
+<h2><span class="mw-headline" id="Type_check_pattern"><a name="Type_check_pattern" id="Type_check_pattern">Type check pattern</a></span></h2>
+<div class="highlight"><pre>type_check_pattern =
+IDENTIFIER 'is' type
+</pre>
+</div>
+
+
+<p>This pattern matches a value if it possesses the given type. In addition,&#xD;
+the value matched is bound to a specified variable, which gets the&#xD;
+given type.&#xD;</p>
+
+<p>This pattern can be used both for checking the type and hinting the type&#xD;
+checker (if the value is statically known to always have given type,&#xD;
+compiler issues a warning and no runtime checks are performed).&#xD;</p>
+
+<h2><span class="mw-headline" id="Tuple_pattern"><a name="Tuple_pattern" id="Tuple_pattern">Tuple pattern</a></span></h2>
+<div class="highlight"><pre>tuple_pattern =
+'(' pattern { ',' pattern } ')'
+</pre>
+</div>
+
+
+<p>This pattern matches a tuple with specified contents (each tuple member&#xD;
+is matched be respective pattern).&#xD;</p>
+
+<p>In addition, when a tuple pattern is seen, where a record pattern would be&#xD;
+otherwise expected -- the tuple pattern is transformed to record pattern&#xD;
+by adding field identifiers in order they appear in the definition of&#xD;
+the given class. A tuple pattern transformed to a record pattern cannot&#xD;
+match fields inherited from the base class.&#xD;</p>
+
+<h2><span class="mw-headline" id="List_constructor_pattern"><a name="List_constructor_pattern" id="List_constructor_pattern">List constructor pattern</a></span></h2>
+<div class="highlight"><pre>pattern '::' pattern```
+
+Equivalent to:
+```nemerle
+list.Cons (pattern, pattern)
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="List_literal_pattern"><a name="List_literal_pattern" id="List_literal_pattern">List literal pattern</a></span></h2>
+<div class="highlight"><pre>list_literal_pattern =
+'[' [ { pattern ',' } pattern [ ',' ] ] ']'
+</pre>
+</div>
+
+
+<p>Equivalent to:&#xD;</p>
+
+<div class="highlight"><pre><span class="kt">list</span><span class="p">.</span><span class="n">Cons</span> <span class="p">(</span><span class="n">pattern1</span><span class="p">,</span> <span class="kt">list</span><span class="p">.</span><span class="n">Cons</span> <span class="p">(</span><span class="n">pattern2</span><span class="p">,</span> <span class="p">...</span> <span class="kt">list</span><span class="p">.</span><span class="n">Cons</span> <span class="p">(</span><span class="n">pattern2</span><span class="p">,</span> <span class="kt">list</span><span class="p">.</span><span class="n">Nil</span><span class="p">)</span> <span class="p">...</span> <span class="p">))</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Literal_pattern"><a name="Literal_pattern" id="Literal_pattern">Literal pattern</a></span></h2>
+<div class="highlight"><pre>literal
+</pre>
+</div>
+
+
+<p>This pattern matches a specified constant value.&#xD;</p>
+
+<h2><span class="mw-headline" id="Type_enforcement_in_pattern"><a name="Type_enforcement_in_pattern" id="Type_enforcement_in_pattern">Type enforcement in pattern</a></span></h2>
+<div class="highlight"><pre>type_enforcement_in_pattern =
+pattern ':' type
+</pre>
+</div>
+
+
+<p>This construct is used to statically enforce type of subpattern to given&#xD;
+type. If a matched expression might not have such a type, compiler&#xD;
+issues an error. It is used mainly for hinting type inference engine&#xD;
+and improving code clarity.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

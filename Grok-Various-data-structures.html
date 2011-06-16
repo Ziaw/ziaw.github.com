@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Grok Various data structures
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This page is a part of the <a class="internal present" href="/Grokking-Nemerle.html">Grokking Nemerle</a> tutorial.&#xD;</p>
+
+<h2><span class="mw-headline" id="Tuples"><a name="Tuples" id="Tuples">Tuples</a></span></h2>
+
+<p>Tuples are forms of nameless data structures. They are usable when you&#xD;
+need to return two or three values from a function.&#xD;</p>
+
+<p>A tuple is constructed with:&#xD;</p>
+
+<div class="highlight"><pre><span class="p">(</span><span class="n">expr1</span><span class="p">,</span> <span class="n">expr2</span><span class="p">,</span> <span class="p">...,</span> <span class="n">exprN</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>and deconstructed with:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="p">(</span><span class="n">id1</span><span class="p">,</span> <span class="n">id2</span><span class="p">,</span> <span class="p">...,</span> <span class="n">idN</span><span class="p">)</span> <span class="p">=</span> <span class="n">expr</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>This def thing defines values called <code>id1</code> through <code>idN</code>&#xD;
+and puts respective tuple members into them.&#xD;</p>
+
+<p>Tuple types are written using the <code>*</code> operator. For example, pair&#xD;
+of integers <code>(42, 314)</code> has the type <code>int * int</code>, while&#xD;
+<code>("Zephod", 42.0, 42)</code> has the type <code>string * float * int</code>.&#xD;</p>
+
+<p>An example follows:&#xD;</p>
+
+<div class="highlight"><pre><span class="cm">/** Parses time in HH:MM format. */</span>
+<span class="n">parse_time</span> <span class="p">(</span><span class="n">time</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">*</span> <span class="kt">int</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="n">arr</span> <span class="p">=</span> <span class="n">time</span><span class="p">.</span><span class="n">Split</span> <span class="p">(</span><span class="kt">array</span> <span class="p">[</span><span class="sc">':'</span><span class="p">]);</span>
+  <span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Int32</span><span class="p">.</span><span class="n">Parse</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="m">0</span><span class="p">]),</span> <span class="n">System</span><span class="p">.</span><span class="n">Int32</span><span class="p">.</span><span class="n">Parse</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="m">1</span><span class="p">]))</span>
+<span class="p">}</span>
+
+<span class="n">seconds_since_midnight</span> <span class="p">(</span><span class="n">time</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="p">(</span><span class="n">hours</span><span class="p">,</span> <span class="n">minutes</span><span class="p">)</span> <span class="p">=</span> <span class="n">parse_time</span> <span class="p">(</span><span class="n">time</span><span class="p">);</span>
+  <span class="p">(</span><span class="n">hours</span> <span class="p">*</span> <span class="m">60</span> <span class="p">+</span> <span class="n">minutes</span><span class="p">)</span> <span class="p">*</span> <span class="m">60</span>
+<span class="p">}</span>
+
+<span class="n">foo</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="n">secs</span> <span class="p">=</span> <span class="n">seconds_since_midnight</span> <span class="p">(</span><span class="s">"17:42"</span><span class="p">);</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Another example could be:&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// split (3.7) =&gt; (3, 0.7)</span>
+<span class="n">split</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">*</span> <span class="kt">double</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="n">floor</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Math</span><span class="p">.</span><span class="n">Floor</span> <span class="p">(</span><span class="n">x</span><span class="p">);</span>
+  <span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Convert</span><span class="p">.</span><span class="n">ToInt32</span> <span class="p">(</span><span class="n">floor</span><span class="p">),</span> <span class="n">x</span> <span class="p">-</span> <span class="n">floor</span><span class="p">)</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="List_literals"><a name="List_literals" id="List_literals">List literals</a></span></h2>
+
+<p>List literals are special forms of writing lists. Lists are data&#xD;
+structures that are used very often in Nemerle - often enough to get&#xD;
+their own syntax. Lists in Nemerle are somewhat different than the&#xD;
+<code>ArrayList</code> type in .NET.&#xD;</p>
+
+<ul><li> the lists in Nemerle are immutable (cannot be changed once created)&#xD;
+</li><li> items can be appended at the beginning only (constructing new lists) &#xD;
+</li></ul> &#xD;
+Of course you are free to use the .NET <code>ArrayList</code>.&#xD;
+
+<p>Anyway, to construct a list consisting of a given <code>head</code> (first&#xD;
+element) and a <code>tail</code> (rest of elements, also a list), write:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">head</span> <span class="p">::</span> <span class="n">tail</span>
+</pre>
+</div>
+
+
+<p>To construct a list with specified elements write:&#xD;</p>
+
+<div class="highlight"><pre><span class="na">[ element_1, element_2, ..., element_n ]</span>
+</pre>
+</div>
+
+
+<p>This way you can also construct an empty list (<code>[]</code>).</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

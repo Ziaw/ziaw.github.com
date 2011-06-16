@@ -1,0 +1,885 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Quick guide
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This is a small guide to nearly all Nemerle features, specially for people coming from C#:&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Variables">Variables</a></li><li><a href="#Lists">Lists</a><ul><li><a href="#List_comprehensions">List comprehensions</a></li><li><a href="#Useful_methods_on_lists">Useful methods on lists</a></li></ul></li><li><a href="#Arrays">Arrays</a></li><li><a href="#Tuples">Tuples</a><ul><li><a href="#NemerleUtilityPair">Nemerle.Utility.Pair</a></li></ul></li><li><a href="#Decisions">Decisions</a></li><li><a href="#Loops">Loops</a></li><li><a href="#Exceptions">Exceptions</a></li><li><a href="#Variants">Variants</a><ul><li><a href="#Enums">Enums</a></li></ul></li><li><a href="#Nullable_types">Nullable types</a></li><li><a href="#Pattern_Matching">Pattern Matching</a><ul><li><a href="#Literal_matching">Literal matching</a></li><li><a href="#List_matching">List matching</a></li><li><a href="#Variable_pattern">Variable pattern</a></li><li><a href="#Tuple_pattern">Tuple pattern</a></li><li><a href="#Type_check">Type check</a></li><li><a href="#Record_pattern">Record pattern</a></li><li><a href="#as_pattern">as pattern</a></li><li><a href="#Type_hint_pattern">Type hint pattern</a></li><li><a href="#with_clause">with clause</a></li><li><a href="#Regular_Expressions_match">Regular Expressions match</a></li></ul></li><li><a href="#Imperative_programming_and_Blocks">Imperative programming and Blocks</a></li><li><a href="#Functions">Functions</a></li><li><a href="#String_formatting">String formatting</a><ul><li><a href="#print_Functions">print Functions</a></li></ul></li><li><a href="#Type_conversions">Type conversions</a></li><li><a href="#Namespaces">Namespaces</a></li><li><a href="#Classes_and_Modules">Classes and Modules</a><ul><li><a href="#Interfaces">Interfaces</a></li></ul></li><li><a href="#Accessibility">Accessibility</a></li><li><a href="#Modifiers">Modifiers</a></li><li><a href="#Constructors">Constructors</a><ul><li><a href="#Static_Constructors">Static Constructors</a></li></ul></li><li><a href="#"></a><ul><li><a href="#Flag_Accessors">Flag Accessors</a></li><li><a href="#Indexers">Indexers</a></li></ul></li><li><a href="#Operator_Overloading">Operator Overloading</a></li><li><a href="#Delegates_and_Events">Delegates and Events</a></li><li><a href="#Genericity">Genericity</a><ul><li><a href="#Constraints">Constraints</a></li><li><a href="#Co_and_contravariance">Co- and contra-variance</a></li></ul></li><li><a href="#Extension_methods">Extension methods</a><ul><li><a href="#Preconditions">Preconditions</a></li><li><a href="#Class_invariants">Class invariants</a></li></ul></li><li><a href="#Lazy_evaluation">Lazy evaluation</a></li><li><a href="#Late_Binding">Late Binding</a></li><li><a href="#Aliases">Aliases</a><ul><li><a href="#Type_alias">Type alias</a></li><li><a href="#Alias_macro">Alias macro</a></li></ul></li><li><a href="#Operators">Operators</a><ul><li><a href="#Logical_Operators">Logical Operators</a></li><li><a href="#Bit_Operators">Bit Operators</a></li><li><a href="#Checked_and_unchecked_contexts">Checked and unchecked contexts</a></li></ul></li><li><a href="#Some_things_inherited_from_C">Some things inherited from C#</a></li><li><a href="#Logging">Logging</a><ul><li><a href="#Assertions">Assertions</a></li></ul></li><li><a href="#Profiling_macros">Profiling macros</a></li><li><a href="#SQL_macros">SQL macros</a></li><li><a href="#Concurrency_macros">Concurrency macros</a><ul><li><a href="#Chords">Chords</a></li></ul></li><li><a href="#Nemerle_Standard_Library">Nemerle Standard Library</a><ul><li><a href="#Collection_classes">Collection classes</a></li><li><a href="#Array_and_String_extensions">Array and String extensions</a></li><li><a href="#NemerleIO">Nemerle.IO</a></li><li><a href="#Option">Option</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Variables"><a name="Variables" id="Variables">Variables</a></span></h2>
+
+<ul><li> <code>mutable a = 5;</code>: mutable variables can be changed later&#xD;
+</li><li> <code>def b = 4;</code>: normal variables cannot be changed&#xD;
+</li></ul> In all variables, type inference works&#xD;
+<ul><li> <code>def c : float = 4;</code>: a type annotation&#xD;
+</li></ul><h2><span class="mw-headline" id="Lists"><a name="Lists" id="Lists">Lists</a></span></h2>
+
+<ul><li> <code>def nil = [];</code>: the empty list is []&#xD;
+</li><li> <code>def numbers = [1, 2, 3];</code>: generate a list with those values&#xD;
+</li><li> <code>def more_numbers = 4 :: numbers</code>; : :: adds a new item to the list&#xD;
+</li></ul><h3><span class="mw-headline" id="List_comprehensions"><a name="List_comprehensions" id="List_comprehensions">List comprehensions</a></span></h3>
+
+<ul><li> <code>$[ (x, y) | x in list1, y in list2, x &lt; y]</code>: get all pairs on the lists for which the condition is true.&#xD;
+</li><li> <code>$[1, 3 .. 8]</code>: range from 1 to 8 step 2 (3-1)&#xD;
+</li><li> <code>$[1 .. 5]</code>: range from 1 to 5 step 1&#xD;
+</li><li> <code>$[ (x, y) | x in [1 .. 3], y in [2, 4 .. 10] ]</code>: generate all pairs&#xD;
+</li></ul><a class="internal absent" href="/more....html">List comprehensions</a>&#xD;
+
+<h3><span class="mw-headline" id="Useful_methods_on_lists"><a name="Useful_methods_on_lists" id="Useful_methods_on_lists">Useful methods on lists</a></span></h3>
+
+<ul><li> <code>Length, Head, Tail, Last, Nth</code>&#xD;
+</li><li> <code>FirstN</code>: return first N elements of the list&#xD;
+</li><li> <code>ChopFirstN</code>: return the list without the first N elements&#xD;
+</li><li> <code>LastN</code>: return the last N elements&#xD;
+</li><li> <code>Reverse</code>&#xD;
+</li><li> <code>Remove</code>: removes an element&#xD;
+</li><li> <code>Contains</code>&#xD;
+</li><li> <code>Iter (f : 'a -&gt; void)</code>: executes the function in all elements&#xD;
+</li><li> <code>Map (f : 'a -&gt; 'b)</code>: returns a new list['b], executing the function in all elements of the list['a]&#xD;
+</li><li> <code>Group (f : 'a * 'a -&gt; int)</code>: return a list of lists, grouping the elements whose function returns the same value&#xD;
+</li><li> <code>FoldLeft, FoldRight</code>: returns a result of executing the function recursively on the list, with a first element, in normal or reverse order&#xD;
+</li><li> <code>ForAll (f : 'a -&gt; bool)</code>: returns true if all elements return true&#xD;
+</li><li> <code>Exists (f : 'a -&gt; bool)</code>: returns true if at least one application of the function in the elements returns true&#xD;
+</li><li> <code>Find (pred : 'a -&gt; bool)</code>: finds the first element whose predicate is true&#xD;
+</li><li> <code>Filter (pred : 'a -&gt; bool)</code>: returns a new list containing all elements whose predicate is true&#xD;
+</li><li> <code>Sort (cmp : 'a * 'a -&gt; int)</code>: sorts the list based on the method. The reason underlying the fact that the function returns an int is that CompareTo functions in .NET return an int&#xD;
+</li><li> <code>RemoveDuplicates</code>&#xD;
+</li><li> <code>ToArray</code>&#xD;
+</li></ul> Most of the BCL collection types have extended counterparts in Nemerle library, that add methods such as <code>Iter</code>, <code>Map</code> or <code>Fold</code>, for example, <code>Hashtable</code> (that extends <code>Dictionary</code>) or <code>LinkedList</code>.&#xD;
+
+<h2><span class="mw-headline" id="Arrays"><a name="Arrays" id="Arrays">Arrays</a></span></h2>
+
+<ul><li> <code>def a = array(3);</code>: specifies the number of elements&#xD;
+</li><li> <code>def b = array[1, 2, 3]</code>: specifies the elements&#xD;
+</li></ul><h2><span class="mw-headline" id="Tuples"><a name="Tuples" id="Tuples">Tuples</a></span></h2>
+
+<ul><li> <code>def t = (1, "one");</code>: a tuple is a set of values with no name to recognise them&#xD;
+</li><li> <code>def fst = t[0];</code>: use 0-based index to get the items&#xD;
+</li></ul><h3><span class="mw-headline" id="NemerleUtilityPair"><a name="NemerleUtilityPair" id="NemerleUtilityPair">Nemerle.Utility.Pair</a></span></h3>
+
+<p>This class contains three methods that work with pairs (tuples of two elements):&#xD;
+</p><ul><li> <code>First</code> and <code>Second</code> retrieve the first or second element of the tuple, respectively&#xD;
+</li><li> <code>Swap</code> exchanges both elements of the pair&#xD;
+</li></ul><h2><span class="mw-headline" id="Decisions"><a name="Decisions" id="Decisions">Decisions</a></span></h2>
+
+<ul><li> <code>when (condition) code</code>: execute code if condition is true&#xD;
+</li><li> <code>unless (condition) code</code>: execute code if condition is false&#xD;
+</li><li> <code>if (condition) code1 else code2</code>: execute code1 if condition is true, code2 if it is false&#xD;
+</li></ul><h2><span class="mw-headline" id="Loops"><a name="Loops" id="Loops">Loops</a></span></h2>
+
+<ul><li> <code>for (mutable i = 0; i &lt; 10; i++) code</code>: for loop as of in C&#xD;
+</li><li> <code>foreach (i in $[0..9]) code</code> like the above, using range&#xD;
+</li><li> <code>foreach (i in $[9,8..0]) code</code> reverse order&#xD;
+</li><li> <code>while (condition) code</code>: execute code while condition is true&#xD;
+</li><li> <code>do code while (condition)</code>: the same as above, but checks the condition at the end of the code, so it is always run at least once&#xD;
+</li><li> <code>foreach (x in list) code</code>: execute the code for every member x of the enumerable collection list&#xD;
+</li><li> <code>foreach (x when x != null in list) code</code>: like the above but only for not null members&#xD;
+</li><li> <code>repeat (10) code</code>: repeats the code the specified number of times&#xD;
+</li></ul><h2><span class="mw-headline" id="Exceptions"><a name="Exceptions" id="Exceptions">Exceptions</a></span></h2>
+
+<ul><li> <code>throw ArgumentException();</code>: throws a new exception of the desired type&#xD;
+</li><li> Syntax for try-catch-finally handler resembles the one from C#, although catch handlers use a pattern matching-like syntax:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">try</span> <span class="p">{</span>
+  <span class="n">code</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">e</span> <span class="k">is</span> <span class="n">ArgumentNullException</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">e</span> <span class="k">is</span> <span class="n">OverflowException</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">e</span> <span class="k">is</span> <span class="n">MyException</span> <span class="k">when</span> <span class="n">e</span><span class="p">.</span><span class="n">Reason</span> <span class="p">==</span> <span class="n">Reason</span><span class="p">.</span><span class="n">Warn</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">...</span>
+<span class="p">}</span>
+<span class="k">finally</span> <span class="p">{</span>
+  <span class="c1">// Finally code is always executed</span>
+  <span class="c1">// no matter an exception were thrown or not</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Variants"><a name="Variants" id="Variants">Variants</a></span></h2>
+
+<ul><li> Create a variant with empty options and options with extra information&#xD;
+</li></ul><div class="highlight"><pre><span class="k">variant</span> <span class="nc">Volume</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Max</span>
+  <span class="p">|</span> <span class="n">Min</span>
+  <span class="p">|</span> <span class="n">Other</span> <span class="p">{</span> <span class="n">v</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+<ul><li> <code>def v1 = Volume.Max ();</code>: an empty constructor is used for empty options&#xD;
+</li><li> <code>def v2 = Volume.Other (5);</code>: the constructor for non-empty elements gets all fields as parameters, in the order they were written in code&#xD;
+</li><li> You need to include <code>[XmlSerializable]</code> on top of the variant to make it serializable via XML&#xD;
+</li></ul><h3><span class="mw-headline" id="Enums"><a name="Enums" id="Enums">Enums</a></span></h3>
+
+<p>As in C#, are just a good face for ints:&#xD;
+</p><div class="highlight"><pre><span class="k">enum</span> <span class="n">Seasons</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Spring</span>
+  <span class="p">|</span> <span class="n">Autumn</span>
+  <span class="p">|</span> <span class="n">Winter</span>
+  <span class="p">|</span> <span class="n">Summer</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Nullable_types"><a name="Nullable_types" id="Nullable_types">Nullable types</a></span></h2>
+
+<p>Value-types (structs) cannot be null (that's a platform requirement). However, sometimes you need nullable integers or booleans.&#xD;
+</p><ul><li> <code>def t : int? = 3;</code>: declare a new nullable int with a value&#xD;
+</li><li> <code>def t : int? = null;</code>: declare a new nullable int with null value&#xD;
+</li><li> <code>when (t != null) {...}</code>: boolean expressions are overloaded to check for values on nullable types. This is the same as saying <code>when (t.HasValue) {...}</code>&#xD;
+</li><li> <code>a = b ?? -1;</code>: <code>a</code> gets the wrapped value of <code>b</code> if is isn't null. Otherwise, it gets the value after the two question marks&#xD;
+</li><li> <code>a = b?.P;</code>: Returns <code>P</code> if <code>b</code> is not null, or default(<code>typeof(b.P)</code>) otherwise. Avoids NullReferenceException. The left side of the operator (<code>b</code>) must be a reference type.&#xD;
+</li></ul><h2><span class="mw-headline" id="Pattern_Matching"><a name="Pattern_Matching" id="Pattern_Matching">Pattern Matching</a></span></h2>
+
+<h3><span class="mw-headline" id="Literal_matching"><a name="Literal_matching" id="Literal_matching">Literal matching</a></span></h3>
+
+<ul><li> Numbers:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="m">1</span> <span class="p">=&gt;</span> <span class="s">"one"</span>
+  <span class="p">|</span> <span class="m">2</span> <span class="p">=&gt;</span> <span class="s">"two"</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"more"</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<ul><li> Strings:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="s">"one"</span> <span class="p">=&gt;</span> <span class="m">1</span>
+  <span class="p">|</span> <span class="s">"two"</span> <span class="p">=&gt;</span> <span class="m">2</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="m">0</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+<ul><li> Enums:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Seasons</span><span class="p">.</span><span class="n">Spring</span>
+  <span class="p">|</span> <span class="n">Seasons</span><span class="p">.</span><span class="n">Summer</span> <span class="p">=&gt;</span> <span class="s">"hot"</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"cold"</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="List_matching"><a name="List_matching" id="List_matching">List matching</a></span></h3>
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">some_list</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">[</span><span class="m">42</span><span class="p">,</span> <span class="m">42</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="s">"two forty-two"</span>
+  <span class="p">|</span> <span class="p">[</span><span class="m">42</span><span class="p">,</span> <span class="n">_</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="s">"forty-two on first position of two-element list"</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">_</span><span class="p">,</span> <span class="m">42</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="s">"forty-two on second position of two-element list"</span>
+  <span class="p">|</span> <span class="m">42</span> <span class="p">::</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"forty-two on first position"</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">::</span> <span class="m">42</span> <span class="p">::</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"forty-two on second position"</span>
+  <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="s">"an empty list!"</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"another list"</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Variable_pattern"><a name="Variable_pattern" id="Variable_pattern">Variable pattern</a></span></h3>
+
+<p>Binds the variable names:&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="nf">display</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">head</span> <span class="p">::</span> <span class="n">tail</span> <span class="p">=&gt;</span>
+      <span class="n">Write</span> <span class="p">(</span><span class="s">$ "</span><span class="n">$head</span><span class="s">, "</span><span class="p">);</span>
+      <span class="n">display</span> <span class="p">(</span><span class="n">tail</span><span class="p">)</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span>
+      <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"end"</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Tuple_pattern"><a name="Tuple_pattern" id="Tuple_pattern">Tuple pattern</a></span></h3>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">tuple</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">(</span> <span class="m">42</span><span class="p">,</span> <span class="n">_</span> <span class="p">)</span> <span class="p">=&gt;</span> <span class="s">"42 on first position"</span>
+  <span class="p">|</span> <span class="p">(</span> <span class="n">_</span><span class="p">,</span> <span class="m">42</span> <span class="p">)</span> <span class="p">=&gt;</span> <span class="s">"42 on second position"</span>
+  <span class="p">|</span> <span class="p">(</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">)</span> <span class="p">=&gt;</span> <span class="s">$"( </span><span class="n">$x</span><span class="s">, </span><span class="n">$y</span><span class="s"> )"</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Type_check"><a name="Type_check" id="Type_check">Type check</a></span></h3>
+
+<p>Checks if the value is of given type, binding the new value with the new type&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="nf">check</span> <span class="p">(</span><span class="n">o</span> <span class="p">:</span> <span class="kt">object</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">i</span> <span class="k">is</span> <span class="kt">int</span> <span class="p">=&gt;</span> <span class="s">$"An int: </span><span class="n">$i</span><span class="s">"</span>
+    <span class="p">|</span> <span class="n">s</span> <span class="k">is</span> <span class="kt">string</span> <span class="p">=&gt;</span> <span class="s">$"A string: </span><span class="n">$</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">ToUpper</span><span class="p">())</span><span class="s">"</span>
+    <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"Object of another type"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Record_pattern"><a name="Record_pattern" id="Record_pattern">Record pattern</a></span></h3>
+
+<p>Binds on field or properties&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="nf">check_class</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">MyClass</span> <span class="k">where</span> <span class="p">(</span><span class="n">foo</span> <span class="p">=</span> <span class="m">0</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="k">true</span>
+    <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="k">false</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+If the type is known to the compiler, the <code>where</code> clause is not needed&#xD;
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">check_class</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="p">(</span><span class="n">foo</span> <span class="p">=</span> <span class="m">0</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="k">true</span>
+    <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="k">false</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="as_pattern"><a name="as_pattern" id="as_pattern">as pattern</a></span></h3>
+
+<p>Binds a value matched with an identifier&#xD;
+</p><div class="highlight"><pre><span class="k">variant</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">A</span> <span class="p">{</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="k">mutable</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">B</span>
+<span class="p">}</span>
+ 
+<span class="k">match</span> <span class="p">(</span><span class="n">some_foo</span> <span class="p">())</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">A</span> <span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="k">as</span> <span class="n">a</span> <span class="p">=&gt;</span>
+    <span class="n">a</span><span class="p">.</span><span class="n">y</span> <span class="p">=</span> <span class="s">"three"</span><span class="p">;</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">{}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Type_hint_pattern"><a name="Type_hint_pattern" id="Type_hint_pattern">Type hint pattern</a></span></h3>
+
+<p>Used to explicitly declare types where the compiler cannot infer it&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">(</span><span class="n">s</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">::</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">s</span> <span class="p">[</span><span class="m">0</span><span class="p">]</span>
+  <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="sc">'?'</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="with_clause"><a name="with_clause" id="with_clause">with clause</a></span></h3>
+
+<p>Used to specify a default value in cases where we need to match both a small and a big structure with the same code.&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span> <span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">with</span> <span class="n">y</span> <span class="p">=</span> <span class="m">3</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">*</span> <span class="n">y</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="m">42</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Regular_Expressions_match"><a name="Regular_Expressions_match" id="Regular_Expressions_match">Regular Expressions match</a></span></h3>
+
+<div class="highlight"><pre><span class="k">regexp</span> <span class="nf">match</span> <span class="p">(</span><span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="s">"a+.*"</span> <span class="p">=&gt;</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"a\n"</span><span class="p">);</span>
+  <span class="p">|</span> <span class="s">@"(?&lt;num : int&gt;\d+)-\w+"</span> <span class="p">=&gt;</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"%d\n"</span><span class="p">,</span> <span class="n">num</span> <span class="p">+</span> <span class="m">3</span><span class="p">);</span>
+  <span class="p">|</span> <span class="s">"(?&lt;name&gt;(Ala|Kasia))? ma kota"</span> <span class="p">=&gt;</span>
+     <span class="k">match</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+       <span class="p">|</span> <span class="n">Some</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"%s\n"</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+       <span class="p">|</span> <span class="n">None</span> <span class="p">=&gt;</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"noname?\n"</span><span class="p">)</span>
+     <span class="p">}</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"default\n"</span><span class="p">);</span>
+<span class="p">}</span><span class="err">```</span>
+
+<span class="n">you</span> <span class="n">must</span> <span class="n">add</span> <span class="n">a</span> <span class="n">reference</span> <span class="n">to</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Text</span> <span class="n">to</span> <span class="n">use</span> <span class="k">this</span> <span class="n">functionality</span>
+<span class="p">(</span><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Text</span><span class="p">)</span>
+
+<span class="p">==</span> <span class="n">Yield</span> <span class="p">==</span>
+
+<span class="p">*</span> <span class="n">Works</span> <span class="k">as</span> <span class="n">in</span> <span class="n">C</span><span class="err">#</span><span class="p">,</span> <span class="n">used</span> <span class="k">for</span> <span class="n">enumerating</span> <span class="n">sequences</span><span class="p">:</span>
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="n">Range</span> <span class="p">(</span><span class="n">from</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">to</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="n">IEnumerable</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="n">from</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="n">to</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+    <span class="k">yield</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Imperative_programming_and_Blocks"><a name="Imperative_programming_and_Blocks" id="Imperative_programming_and_Blocks">Imperative programming and Blocks</a></span></h2>
+To use <code>return</code>, <code>break</code> and <code>continue</code> we need to open the <code>Nemerle.Imperative</code> namespace:&#xD;
+<ul><li> <code>return x;</code>: cuts the execution of the function, method or property, stablishing x as the return value&#xD;
+</li><li> <code>continue;</code>: on a loop, continues with the next iteration&#xD;
+</li><li> <code>break;</code>: on a loop, cuts the execution of the loop and continues with the following code&#xD;
+</li></ul> Blocks are a set of instructions, preceded with an identifier and a colon. The result of the block is the last value computed, except if the name of the block is used,along with the return value, to jump out the block.&#xD;
+<div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span>
+  <span class="n">foo</span><span class="p">:</span> <span class="p">{</span>
+    <span class="k">when</span> <span class="p">(</span><span class="n">some_cond</span><span class="p">)</span> <span class="n">foo</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span> <span class="c1">// if some_cond is true, the block will return </span>
+    <span class="n">qux</span> <span class="p">();</span>
+    <span class="m">42</span> <span class="c1">// else it will return 42</span>
+  <span class="p">}</span>
+</pre>
+</div>
+
+
+<p><a class="internal absent" href="/more....html">Block</a>&#xD;</p>
+
+<h2><span class="mw-headline" id="Functions"><a name="Functions" id="Functions">Functions</a></span></h2>
+
+<ul><li> Functions can be declared inside methods, and type inference works for them:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">public</span> <span class="nf">Greet</span> <span class="p">(</span><span class="n">people</span> <span class="p">:</span> <span class="kt">list</span><span class="p">[</span><span class="kt">string</span><span class="p">])</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span>
+  <span class="k">def</span> <span class="nf">say_hello</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">$"Hello </span><span class="n">$s</span><span class="s">"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">foreach</span> <span class="p">(</span><span class="n">person</span> <span class="n">in</span> <span class="n">people</span><span class="p">)</span>
+    <span class="n">say_hello</span> <span class="p">(</span><span class="n">person</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+<ul><li> <code>compute (f : int * int -&gt; int, x : int, y : int) { ... }</code>: functions can be passes as parameters, whose types are divided by * and its return type is told after -&gt;&#xD;
+</li><li> <code>compute ( fun (x, y) { x + y }, 3, 4)</code>: anonymous functions can be created inline, just preceding them with fun and its list of parameters&#xD;
+</li><li> <code>compute ( (x, y) =&gt; x + y, 3, 4)</code>: anonymous functions have multiple forms&#xD;
+</li><li> <code>def addFive = compute (fun (x, y) { x + y }, _, 5)</code>: partial application, substitutes one or more parameters, then yielding another function with a smaller set of parameters&#xD;
+</li><li> <code>def addFive = _ + 5;</code>: partial application substituting the parameter with _&#xD;
+</li><li> <code>def name = _.Name;</code>: you can also use this type of partial application to access members&#xD;
+</li><li> <code>lambda x -&gt; Console.WriteLine (x)</code>: a easier construct to create a function with just one parameter&#xD;
+</li></ul><h2><span class="mw-headline" id="String_formatting"><a name="String_formatting" id="String_formatting">String formatting</a></span></h2>
+
+<ul><li> <code>def s = $"The number is $i";</code>: insert the value of the variable i where $i is placed&#xD;
+</li><li> <code>def s = $"$x + $y = $(x+y)";</code>: $(...) can be used to make calculations or access members&#xD;
+</li></ul><h3><span class="mw-headline" id="print_Functions"><a name="print_Functions" id="print_Functions">print Functions</a></span></h3>
+
+<ul><li> <code>print (value), sprint, fprint</code>: substitutes variable names with $ notation in the string and returns it to Console, string or TextReader, respectively&#xD;
+</li><li> <code>printf (value), sprintf, fprintf</code>: as above, but with formatting&#xD;
+</li><li> <code>scanf (format), sscanf, fscanf</code>: returns a string extracted from console, string or TextReader that keeps the specified format&#xD;
+</li></ul><h2><span class="mw-headline" id="Type_conversions"><a name="Type_conversions" id="Type_conversions">Type conversions</a></span></h2>
+
+<ul><li> <code>def s = n :&gt; int;</code>: cast may fail with an InvalidCastException&#xD;
+</li><li> <code>def s = n : int;</code>: cast cannot fail, only for supertypes&#xD;
+</li></ul><h2><span class="mw-headline" id="Namespaces"><a name="Namespaces" id="Namespaces">Namespaces</a></span></h2>
+
+<ul><li> <code>namespace NS { ... }</code>: declares a new namespace&#xD;
+</li><li> <code>using System;</code>: open the namespace, that is, makes all members inside it not to requiere full qualifying. It also opens namespace inside it (different with C#)&#xD;
+</li><li> <code>using System.Console;</code>: open the type, making its methods visible&#xD;
+</li><li> <code>using C = System.Console;</code>: create an alias to refer the type or namespace&#xD;
+</li></ul><h2><span class="mw-headline" id="Classes_and_Modules"><a name="Classes_and_Modules" id="Classes_and_Modules">Classes and Modules</a></span></h2>
+
+<ul><li> <code>class Example { ... }</code>: creates a class Example&#xD;
+</li><li> <code>module Example { ... }</code>: creates a module Example, that is, a class with all members static&#xD;
+</li></ul><h3><span class="mw-headline" id="Interfaces"><a name="Interfaces" id="Interfaces">Interfaces</a></span></h3>
+
+<p>Defines a set of public methods an adhering class must implement&#xD;
+</p><div class="highlight"><pre><span class="k">interface</span> <span class="n">IExample</span> <span class="p">{</span>
+  <span class="n">Method</span><span class="p">()</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Example</span> <span class="p">:</span> <span class="n">IExample</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Method</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Accessibility"><a name="Accessibility" id="Accessibility">Accessibility</a></span></h2>
+
+<ul><li> <code>public</code>: everyone can access&#xD;
+</li><li> <code>internal</code>: only classes in the current assembly (DLL or EXE) can access&#xD;
+</li><li> <code>private</code> only current type can access&#xD;
+</li><li> <code>protected</code>: access is limited to current type and its derived types&#xD;
+</li><li> <code>protected internal</code> means protected or internal - access limited to derived types or types in the current assembly&#xD;
+</li></ul><h2><span class="mw-headline" id="Modifiers"><a name="Modifiers" id="Modifiers">Modifiers</a></span></h2>
+
+<ul><li> <code>static</code>: no instance is needed for accessing&#xD;
+</li><li> <code>mutable</code>: if not set for field, they are read-only&#xD;
+</li><li> <code>volatile</code>: only for fields, it means that the field has to be always read from the memory, and written instantly. Useful for multithreaded programs&#xD;
+</li><li> <code>extern</code>: used on methods, along with DllImport attributes to call out to native code&#xD;
+</li><li> <code>partial</code>: only on type definitions, it means that a given type definition is split across several files&#xD;
+</li></ul><h2><span class="mw-headline" id="Constructors"><a name="Constructors" id="Constructors">Constructors</a></span></h2>
+
+<ul><li> Take <code>this</code> as its name:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">class</span> <span class="nc">Example</span> <span class="p">{</span>
+  <span class="k">mutable</span> <span class="n">Name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+<ul><li> <code>def n = Example ("serras");</code>: no <code>new</code> keyword is used to create new objects&#xD;
+</li></ul><h3><span class="mw-headline" id="Static_Constructors"><a name="Static_Constructors" id="Static_Constructors">Static Constructors</a></span></h3>
+
+<p>Executed once per type. No parameters.&#xD;
+</p><div class="highlight"><pre><span class="k">class</span> <span class="nc">Example</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="k">public</span> <span class="nf">this</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h1><span class="mw-headline" id=""><a name="" id=""></a></span></h1>
+
+<h3><span class="mw-headline" id="Flag_Accessors"><a name="Flag_Accessors" id="Flag_Accessors">Flag Accessors</a></span></h3>
+
+<p>For setting individual bits of enumerations fields, making boolean propeties:&#xD;
+</p><div class="highlight"><pre><span class="na">[System.Flags]</span> <span class="k">enum</span> <span class="n">States</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Working</span> <span class="p">=</span> <span class="m">0x0001</span>
+  <span class="p">|</span> <span class="n">Married</span> <span class="p">=</span> <span class="m">0x0002</span>
+  <span class="p">|</span> <span class="n">Graduate</span> <span class="p">=</span> <span class="m">0x0004</span>
+<span class="p">}</span>
+
+<span class="na">[FlagAccessor (Working, Married, Graduate, flags=WantSetter)]</span>
+<span class="k">mutable</span> <span class="n">state</span> <span class="p">:</span> <span class="n">States</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Indexers"><a name="Indexers" id="Indexers">Indexers</a></span></h3>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Table</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">Item</span> <span class="p">[</span><span class="n">row</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">column</span> <span class="p">:</span> <span class="kt">int</span><span class="p">]</span> <span class="p">{</span>
+    <span class="n">get</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+    <span class="n">set</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Operator_Overloading"><a name="Operator_Overloading" id="Operator_Overloading">Operator Overloading</a></span></h2>
+
+<div class="highlight"><pre><span class="na">[Record]</span>
+<span class="k">class</span> <span class="nc">Vector</span> <span class="p">{</span>
+<span class="na">  [Accessor]</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+<span class="na">  [Accessor]</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+<span class="na">  [Accessor]</span> <span class="n">z</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+
+  <span class="c1">// + operator</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="err">@</span><span class="p">+</span> <span class="p">(</span><span class="n">v1</span> <span class="p">:</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">v2</span> <span class="p">:</span> <span class="n">Vector</span><span class="p">)</span> <span class="p">:</span> <span class="n">Vector</span> <span class="p">{</span>
+    <span class="n">Vector</span> <span class="p">(</span><span class="n">v1</span><span class="p">.</span><span class="n">X</span> <span class="p">+</span> <span class="n">v2</span><span class="p">.</span><span class="n">X</span><span class="p">,</span> <span class="n">v1</span><span class="p">.</span><span class="n">Y</span> <span class="p">+</span> <span class="n">v2</span><span class="p">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">v1</span><span class="p">.</span><span class="n">Z</span> <span class="p">+</span> <span class="n">v2</span><span class="p">.</span><span class="n">Z</span><span class="p">)</span>
+  <span class="p">}</span>
+ 
+  <span class="c1">// implicit cast operator</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="err">@</span><span class="p">:</span> <span class="p">(</span><span class="n">p</span> <span class="p">:</span> <span class="n">Point</span><span class="p">)</span> <span class="p">:</span> <span class="n">Vector</span> <span class="p">{</span>
+    <span class="n">Vector</span> <span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">X</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Z</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="c1">// explicit cast operator</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="err">@</span><span class="p">:&gt;</span> <span class="p">(</span><span class="n">p</span> <span class="p">:</span> <span class="kt">double</span><span class="p">)</span> <span class="p">:</span> <span class="n">Vector</span> <span class="p">{</span>
+    <span class="n">Vector</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="m">0.0</span><span class="p">,</span> <span class="m">0.0</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p><b>:</b> operator will be used by compiler to automatically convert from one value to another if it is needed, like passing object&#xD;
+to method expecting some different type. Cast <b>:&gt;</b> must be explicitly written by user, like <i>def x = A() :&gt; B;</i>&#xD;</p>
+
+<h2><span class="mw-headline" id="Delegates_and_Events"><a name="Delegates_and_Events" id="Delegates_and_Events">Delegates and Events</a></span></h2>
+
+<ul><li> <code>delegate Foo (_ : int, _ : string) : void;</code>: creates a new delegate type&#xD;
+</li><li> <code>def f1 = Foo (method);</code>: creates a delegate instance containing a reference to a method or function&#xD;
+</li><li> <code>def f2 = Foo ( fun (i, s) { ... } );</code>: creates a delegate containing an anonymous function&#xD;
+</li><li> <code>event MyEvent : Foo;</code>: creates an event field of delegate type Foo&#xD;
+</li><li> <code>Foo += method;</code>: adds a method to the delegate&#xD;
+</li><li> <code>Foo -= method;</code>: remove a method from the delegate&#xD;
+</li><li> <code>Foo (2, "two");</code>: invokes a delegate, that is, calls all the methods in it, in the order they were added, passing these parameters&#xD;
+</li></ul><h2><span class="mw-headline" id="Genericity"><a name="Genericity" id="Genericity">Genericity</a></span></h2>
+
+<ul><li> A generic type:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">class</span> <span class="nc">Example</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">mutable</span> <span class="n">item</span> <span class="p">:</span> <span class="n">T</span><span class="p">;</span>
+  <span class="k">public</span> <span class="n">foo</span> <span class="p">[</span><span class="n">Z</span><span class="p">]</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+<ul><li> Generic functions, variants and methods use the same syntax&#xD;
+</li><li> <code>def x = Example[int].foo.[string]();</code>: for rare cases where generic parameter cannot be inferred&#xD;
+</li></ul><h3><span class="mw-headline" id="Constraints"><a name="Constraints" id="Constraints">Constraints</a></span></h3>
+
+<ul><li> <code>class Example['a] where 'a : IComparable['a] { ... }</code>: 'a must implement or inherit the class or interface stated&#xD;
+</li><li> <code>class Example['a] where 'a : class {...}</code>: 'a must be a reference type&#xD;
+</li><li> <code>class Example['a] where 'a : struct {...}</code>: 'a must be a value type&#xD;
+</li><li> <code>class Example['a] where 'a : enum {...}</code>: 'a must be an enumeration type&#xD;
+</li><li> <code>class Example['a] where 'a : new () {...}</code>: 'a must implement a parameterless constructor. That's the only way you can create instances of classes defined by type parameters&#xD;
+</li></ul><h3><span class="mw-headline" id="Co_and_contravariance"><a name="Co_and_contravariance" id="Co_and_contravariance">Co- and contra-variance</a></span></h3>
+
+<ul><li> <code>class Example[+T] { ... }</code>: makes the argument type covariant, that is, you can assign, to a variable of type <code>Example[T]</code> an instance of <code>Example[U]</code> if U subclasses T (for example, you could assign an instance of <code>Example[string]</code> to an <code>Example[object]</code> variable). Covariant type parameters can only be used as return types.&#xD;
+</li><li> <code>class Example[-T] { ... }</code>: makes the argument type contravariant, that is, you can assign, to a variable of type <code>Example[T]</code> an instance of <code>Example[U]</code> if T subclasses U (for example, you could assign an instance of <code>Example[object]</code> to an <code>Example[string]</code> variable). Contravariant type parameters can only be used as argument types or in generic interfaces.&#xD;
+</li></ul><h2><span class="mw-headline" id="Extension_methods"><a name="Extension_methods" id="Extension_methods">Extension methods</a></span></h2>
+
+<ul><li> You can declare an extension method by adding <code>this</code> to the first parameter:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">namespace</span> <span class="nn">ExtensionExample</span> <span class="p">{</span>
+  <span class="k">class</span> <span class="nc">ExtensionClass</span> <span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="nf">PlusOne</span> <span class="p">(</span><span class="k">this</span> <span class="n">i</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">i</span> <span class="p">+</span> <span class="m">1</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+<a class="internal absent" href="/more....html">Extension methods</a>&#xD;
+
+<ul><li> You need to open the namespace to use the extension method as member methods:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">using</span> <span class="n">ExtensionExample</span><span class="p">;</span>
+
+<span class="k">def</span> <span class="n">n</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">m</span> <span class="p">=</span> <span class="n">n</span><span class="p">.</span><span class="n">PlusOne</span> <span class="p">();</span> <span class="c1">// that will call the extension method```</span>
+
+<span class="p">==</span> <span class="n">Design</span> <span class="n">by</span> <span class="n">contract</span> <span class="p">==</span>
+<span class="n">All</span> <span class="n">types</span> <span class="n">needed</span> <span class="n">are</span> <span class="n">included</span> <span class="n">in</span> <span class="n">the</span> <span class="p">&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">Nemerle</span><span class="p">.</span><span class="n">Assertions</span><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;</span> <span class="n">namespace</span><span class="p">.</span> <span class="n">By</span> <span class="n">default</span><span class="p">,</span> <span class="k">if</span> <span class="n">contract</span> <span class="k">is</span> <span class="n">violated</span> <span class="n">a</span> <span class="p">&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">Nemerle</span><span class="p">.</span><span class="n">AssertionException</span><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;</span> <span class="k">is</span> <span class="n">thrown</span><span class="p">.</span> <span class="n">You</span> <span class="n">can</span> <span class="n">change</span> <span class="n">it</span> <span class="n">by</span> <span class="n">means</span> <span class="n">of</span> <span class="p">&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">otherwise</span><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;</span>
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="n">getfoo</span> <span class="p">(</span><span class="n">i</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span>
+<span class="k">requires</span> <span class="n">i</span> <span class="p">&gt;=</span> <span class="m">0</span> <span class="p">&amp;&amp;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">5</span> <span class="k">otherwise</span> <span class="k">throw</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">ArgumentOutOfRangeException</span> <span class="p">()</span>
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Preconditions"><a name="Preconditions" id="Preconditions">Preconditions</a></span></h3>
+
+<ul><li> On a method:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">class</span> <span class="nc">String</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Substring</span> <span class="p">(</span><span class="n">startIdx</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">string</span> 
+  <span class="k">requires</span> <span class="n">startIdx</span> <span class="p">&gt;=</span> <span class="m">0</span> <span class="p">&amp;&amp;</span> <span class="n">startIdx</span> <span class="p">&lt;=</span> <span class="k">this</span><span class="p">.</span><span class="n">Length</span>
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span><span class="err">```</span>
+<span class="p">*</span> <span class="n">On</span> <span class="n">a</span> <span class="n">parameter</span><span class="p">:</span>
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="n">ConnectTrees</span> <span class="p">(</span><span class="k">requires</span> <span class="p">(!</span><span class="n">tree1</span><span class="p">.</span><span class="n">Cyclic</span> <span class="p">())</span> <span class="n">tree1</span> <span class="p">:</span> <span class="n">Graph</span><span class="p">,</span>
+              <span class="k">requires</span> <span class="p">(!</span><span class="n">tree2</span><span class="p">.</span><span class="n">Cyclic</span> <span class="p">())</span> <span class="n">tree2</span> <span class="p">:</span> <span class="n">Graph</span><span class="p">,</span> 
+              <span class="n">e</span> <span class="p">:</span> <span class="n">Edge</span><span class="p">)</span> <span class="p">:</span> <span class="n">Graph</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span><span class="err">```</span>
+
+<span class="p">===</span> <span class="n">Postconditions</span> <span class="p">===</span>
+
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="k">public</span> <span class="nf">Clear</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="k">ensures</span> <span class="k">this</span><span class="p">.</span><span class="n">IsEmpty</span>
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Class_invariants"><a name="Class_invariants" id="Class_invariants">Class invariants</a></span></h3>
+
+<ul><li> Assign class invariants:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">class</span> <span class="nc">Vector</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>
+<span class="n">invariant</span> <span class="n">position</span> <span class="p">&gt;=</span> <span class="m">0</span> <span class="p">&amp;&amp;</span> <span class="n">position</span> <span class="p">&lt;=</span> <span class="n">arr</span><span class="p">.</span><span class="n">Length</span>
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+<ul><li> Use <code>expose</code> to change the invariants&#xD;
+</li></ul><div class="highlight"><pre><span class="n">expose</span> <span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">x</span> <span class="p">+=</span> <span class="m">3</span><span class="p">;</span>
+  <span class="n">y</span> <span class="p">+=</span> <span class="m">3</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p><a class="internal absent" href="/more....html">Design_by_contract_macros</a>&#xD;</p>
+
+<h2><span class="mw-headline" id="Lazy_evaluation"><a name="Lazy_evaluation" id="Lazy_evaluation">Lazy evaluation</a></span></h2>
+
+<ul><li> <code>def l = lazy (MethodWithBigCost ());</code>: declares a variable whose value will be retrieved only when needed&#xD;
+</li><li> <code>method ([Lazy] x : int, y : int) { ... }</code>: the parameter will only be fetched in rare cases&#xD;
+</li><li> The field <code>Next</code> will only be evaluated when requested, because or its <code>LazyValue</code> type:&#xD;
+</li></ul><div class="highlight"><pre><span class="k">class</span> <span class="nc">InfList</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">Val</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">public</span> <span class="n">Next</span> <span class="p">:</span> <span class="n">LazyValue</span> <span class="p">[</span><span class="n">InfList</span><span class="p">];</span>
+ 
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">v</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Val</span> <span class="p">=</span> <span class="n">v</span><span class="p">;</span>
+    <span class="n">Next</span> <span class="p">=</span> <span class="n">lazy</span> <span class="p">(</span><span class="n">InfList</span> <span class="p">(</span><span class="n">v</span> <span class="p">+</span> <span class="m">1</span><span class="p">));</span> 
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p><a class="internal absent" href="/more....html">Lazy_evaluation</a>&#xD;</p>
+
+<h2><span class="mw-headline" id="Late_Binding"><a name="Late_Binding" id="Late_Binding">Late Binding</a></span></h2>
+
+<p>Late expressions are executed dynamically at runtime, which makes it perfect for uses such as COM. No strict checks are done, so you must take care of calling the correct method on the correct instance and so on.&#xD;
+</p><ul><li> <code>late (expr)</code> or <code>late expr</code>: executes a valid Nemerle expression with late binding.&#xD;
+</li><li> <code>nolate (expr)</code> or <code>nolate expr</code>: allows executing a expression as if it wasn't late in a late binding environment.&#xD;
+</li><li> <code>late obj.Length</code>: the <code>Length</code> property or field is retrieved at runtime, so you could use it over strings, lists, arrays... without worrying of the type. Of course, if the object does not contain a <code>Length</code> member, an exception will be thrown.&#xD;
+</li><li> <code>late o.Name.[1]</code>: calls the default indexer on o.Name. You must be aware that calling <code>o.Name.Chars[1]</code> calls the indexer named <code>Chars</code> on <code>o.Name</code>.&#xD;
+</li></ul><a class="internal absent" href="/more....html">Late_Binding_Macro</a>&#xD;
+
+<h2><span class="mw-headline" id="Aliases"><a name="Aliases" id="Aliases">Aliases</a></span></h2>
+
+<h3><span class="mw-headline" id="Type_alias"><a name="Type_alias" id="Type_alias">Type alias</a></span></h3>
+
+<ul><li> <code>type int = System.Int32;</code>: establishes an alias for the System.Int32 type. int can be used anywhere in code with the exact same meaning as System.Int32.&#xD;
+</li></ul><h3><span class="mw-headline" id="Alias_macro"><a name="Alias_macro" id="Alias_macro">Alias macro</a></span></h3>
+
+<div class="highlight"><pre><span class="na">[Alias (F2, F3 ())]</span>
+<span class="k">public</span> <span class="k">static</span> <span class="nf">F1</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span> <span class="n">System</span><span class="p">.</span><span class="n">Random</span> <span class="p">().</span><span class="n">Next</span> <span class="p">()</span> <span class="p">}</span>
+</pre>
+</div>
+
+This code generates a <code>F2</code> property and a <code>F3</code> method with no arguments:&#xD;
+
+<div class="highlight"><pre><span class="k">public</span> <span class="n">F2</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="n">System</span><span class="p">.</span><span class="n">Random</span><span class="p">.</span><span class="n">Next</span> <span class="p">()</span> <span class="p">}</span> <span class="p">}</span>
+<span class="k">public</span> <span class="nf">F3</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span> <span class="n">System</span><span class="p">.</span><span class="n">Random</span><span class="p">.</span><span class="n">Next</span> <span class="p">()</span> <span class="p">}</span>
+</pre>
+</div>
+
+<hr /><div class="highlight"><pre><span class="na">[Alias (Hd, Head2 (), Head3 (l))]</span>
+<span class="k">public</span> <span class="k">static</span> <span class="nf">Head</span> <span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">])</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span> <span class="p">{</span> 
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+Arguments not specified as treated as <code>this</code>. Method arguments must match the ones from the method being aliased, but their order can be changed. The previous code generates:&#xD;
+<div class="highlight"><pre><span class="k">public</span> <span class="n">Hd</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span> <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="k">def</span> <span class="n">l</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span> <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
+<span class="k">public</span> <span class="nf">Head2</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">def</span> <span class="n">l</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span> <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">}</span>
+<span class="k">public</span> <span class="k">static</span> <span class="nf">Head3</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Operators"><a name="Operators" id="Operators">Operators</a></span></h2>
+
+<ul><li> <code>a = b;</code>: assignment. In Nemerle, this operator doesn't return a value, so multiple assignments are not allowed&#xD;
+<ul><li> Compound assignment is allowed: <code>a += b;</code>&#xD;
+</li></ul></li><li> <code>+</code>: number addition, string concatenation&#xD;
+</li><li> <code>-, *, /, %</code>: number substraction, multiplication, division and modulo&#xD;
+</li><li> <code>a &amp;lt;-&amp;gt; b;</code>: swap, exchanges values of a and b&#xD;
+</li><li> <code>++, --</code>: adds or substract 1 to the value&#xD;
+</li><li> <code>+, -</code>&#xD;
+</li></ul><h3><span class="mw-headline" id="Logical_Operators"><a name="Logical_Operators" id="Logical_Operators">Logical Operators</a></span></h3>
+
+<ul><li> <code>==, !=</code>: equal, not equal&#xD;
+</li><li> <code>x.Equals(y)</code>: compare any two objects. x and y may have different types. Types are allowed to provide their own override of the <code>Equals</code> method, by default, it checks by reference in reference types and by value in value types (including enums)&#xD;
+</li><li> <code>&amp;gt;, &amp;lt;, &amp;gt;=, &amp;lt;=</code>: greater than, less than, greater or equal to, less or equal to&#xD;
+</li><li> <code>&amp;&amp;</code>: short-circuiting and&#xD;
+</li><li> <code>||</code>: short-circuiting or&#xD;
+</li><li> <code>!</code>: not&#xD;
+</li></ul> You can also use <code>and, or, not</code> if you open the <code>Nemerle.English</code> namespace&#xD;
+
+<h3><span class="mw-headline" id="Bit_Operators"><a name="Bit_Operators" id="Bit_Operators">Bit Operators</a></span></h3>
+
+<ul><li> <code>&amp;, |, ^</code>: bit-level and, or and xor operations&#xD;
+</li><li> <code>%&amp;&amp;, %||, %^^</code>: bit-level and, or and xor, returning true if the result is non-zero&#xD;
+</li><li> <code>&amp;gt;&amp;gt;, &amp;lt;&amp;lt;</code>: right and left bitwise shift&#xD;
+</li></ul><h3><span class="mw-headline" id="Checked_and_unchecked_contexts"><a name="Checked_and_unchecked_contexts" id="Checked_and_unchecked_contexts">Checked and unchecked contexts</a></span></h3>
+
+<ul><li> <code>unchecked { ... }</code>: any number operation that goes beyond the limits of the type will silently go into an overflow&#xD;
+</li><li> <code>checked { ... }</code>: operations overflowing will throw a <code>OverflowException</code>&#xD;
+</li></ul><h2><span class="mw-headline" id="Some_things_inherited_from_C"><a name="Some_things_inherited_from_C" id="Some_things_inherited_from_C">Some things inherited from C#</a></span></h2>
+
+<ul><li> <code>using (resource) { ... }</code>: the resource must implement the IDisposable interface. This block assures the resource is correctly disposed even though an exception is thrown&#xD;
+</li><li> <code>lock (object) { ... }</code>: for multithreaded application. Assures that no other code executes this block if the block object is being used&#xD;
+</li></ul><h2><span class="mw-headline" id="Logging"><a name="Logging" id="Logging">Logging</a></span></h2>
+
+<p>All macros are inside the <code>Nemerle.Logging</code> namespace:&#xD;
+</p><ul><li> <code>[assembly: LogFunction (DoLog)]</code>: specifies a logging function&#xD;
+</li><li> <code>[assembly: LogFunction (DEBUG =&gt; log4net_category.Debug, TRACE =&gt; log4net_category.Info)]</code>: specifies different logging functions for different compilation flags&#xD;
+</li><li> <code>log (VERB, "example", 2)</code>: calls the logging function if the compilation flag is set, with those parameters&#xD;
+</li><li> <code>whenlogging (VERB) { code }</code>: executes the code only if the compilation flag is set&#xD;
+</li><li> <code>[assembly: LogFlag (VERB, true)]</code>: sets the compilation flag for VERB to true&#xD;
+</li><li> <code>[assembly: LogCondition (EnableLogging), LogFlag (DEBUG, true)]</code>: add a condition that will be cheked each time the log function is called&#xD;
+</li><li> <code>[assembly: LogFormat (PrependFlag)]</code>: prepend logging flag to each message&#xD;
+</li></ul><a class="internal absent" href="/more....html">Logging macros</a>&#xD;
+
+<h3><span class="mw-headline" id="Assertions"><a name="Assertions" id="Assertions">Assertions</a></span></h3>
+
+<ul><li> <code>assert (condition, "message");</code>: if condition is false, a AssertionException will be thrown, with the actual line and column number in the code file&#xD;
+</li></ul><h2><span class="mw-headline" id="Profiling_macros"><a name="Profiling_macros" id="Profiling_macros">Profiling macros</a></span></h2>
+
+<ul><li> <code>[assembly: ProfSetup]</code>: add initial setup for profiling&#xD;
+</li><li> <code>[Profile] foo () : int { ...}</code>: tell the profile to include this method&#xD;
+</li><li> <code>[ProfDump] Dump () : void { }</code>: each call to this method will show the results of the profiling&#xD;
+</li></ul><a class="internal absent" href="/more....html">Profiling macros</a>&#xD;
+
+<h2><span class="mw-headline" id="SQL_macros"><a name="SQL_macros" id="SQL_macros">SQL macros</a></span></h2>
+
+<ul><li> <code>[ConfigureConnection (connectionString, name)]</code>: applied to a class, tells the compiler about the connections used later in other SQL macros&#xD;
+</li><li> <code>ExecuteNonQuery ("INSERT INTO employee VALUES ('John', 'Boo')", connection);</code>: executes the query returning no results, via the specified connection&#xD;
+</li><li> <code>def count = ExecuteScalar ("SELECT COUNT FROM employee WHERE firstname = $myparm", connection);</code>: retrieves just one result, using the specified connection. See you can use the $ notation to substite variables&#xD;
+</li><li> Execute a code for every returned result, binding the column names to variables. Beware that the code is just another parameter, so you need to end parenthesis after them&#xD;
+</li></ul><div class="highlight"><pre><span class="n">ExecuteReaderLoop</span> <span class="p">(</span><span class="s">"SELECT * FROM employee WHERE firstname = $myparm"</span><span class="p">,</span>
+<span class="n">dbcon</span><span class="p">,</span> 
+<span class="p">{</span>
+  <span class="n">Nemerle</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">printf</span> <span class="p">(</span><span class="s">"Name: %s %s\n"</span><span class="p">,</span> <span class="n">firstname</span><span class="p">,</span> <span class="n">lastname</span><span class="p">)</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<p><a class="internal absent" href="/more....html">SQL macros</a>&#xD;</p>
+
+<h2><span class="mw-headline" id="Concurrency_macros"><a name="Concurrency_macros" id="Concurrency_macros">Concurrency macros</a></span></h2>
+
+<p>All this macros are in <code>Nemerle.Concurrency</code> namespace&#xD;
+</p><ul><li> <code>async { ... }</code>: You can execute any block of code asynchronously:&#xD;
+</li><li> Additionally, you can create a method that will always execute asynchronously: <code>async Read (s : string) { ... }</code>&#xD;
+</li></ul><h3><span class="mw-headline" id="Chords"><a name="Chords" id="Chords">Chords</a></span></h3>
+
+<p>Chords are sets of methods that only return a value when some exact amount of them are called in some order. This example states very well both the syntax and uses of chords:&#xD;
+</p><div class="highlight"><pre><span class="k">class</span> <span class="nc">Buffer</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>
+<span class="p">{</span>
+<span class="na">    [ChordMember]</span>
+    <span class="k">public</span> <span class="nf">Put</span> <span class="p">(</span><span class="n">msg</span> <span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">Get</span> <span class="p">()</span> <span class="p">:</span> <span class="n">T</span>
+    <span class="n">chord</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="n">Put</span> <span class="p">=&gt;</span> <span class="n">msg</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+More examples can be found at the <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/snippets/concurrency/">SVN repository</a>&#xD;
+
+<h2><span class="mw-headline" id="Nemerle_Standard_Library"><a name="Nemerle_Standard_Library" id="Nemerle_Standard_Library">Nemerle Standard Library</a></span></h2>
+
+<h3><span class="mw-headline" id="Collection_classes"><a name="Collection_classes" id="Collection_classes">Collection classes</a></span></h3>
+
+<p>All in <code>Nemerle.Collections</code> namespace:&#xD;
+</p><ul><li> <code>ICollection['a]</code>: extends .NET <code>ICollection</code> by adding contract for mapping, folding, itering...&#xD;
+</li><li> <code>Hashtable['a, 'b]</code>: extends <code>System.Collections.Generic.Dictionary[K, V]</code> by adding <code>Fold</code>, <code>Map</code> and <code>Iter</code> methods. <code>Hastable</code> saves items with an unique key&#xD;
+</li><li> <code>Heap</code>: saves a list of objects, allowing only to extract the first removing (<code>ExtractFirst</code>) or not removing (<code>Top</code>) it. Like usual, allows <code>Map</code>, <code>Iter</code> and <code>Fold</code> operations.&#xD;
+</li><li> <code>LinkedList['a]</code>: extends .NET generic <code>LinkedList</code>, adding some useful, list-like methods&#xD;
+</li><li> <code>Queue['a]</code>: like always, extends .NET <code>Queue['a]</code> by adding the useful list-like methods like <code>Iter</code>, <code>Fold</code>, <code>Map</code>... Queues are data structures which only allow to add or remove items at the end or the start of them&#xD;
+</li><li> <code>Set['a]</code>: an implementation of mathematical sets. It allows all normal operations on list plus:&#xD;
+<ul><li> <code>Sum</code>: adds two sets yielding only one replica of each duplicated element&#xD;
+</li><li> <code>Substract</code>: returns all elements of the first set that are not in the second one&#xD;
+</li><li> <code>Intersect</code>: return the elements that appear on both sets&#xD;
+</li><li> <code>Xor</code>: return the elements that appear in one of the sets, but not in both&#xD;
+</li></ul></li><li> <code>Stack['a]</code>: extends .NET <code>Stack</code>, a class which allows to add or remove items only on the top of them&#xD;
+</li><li> <code>Tree</code> contains an implentation of Red-Black trees, an useful structure&#xD;
+</li><li> <code>RList</code> (Random Access List) is a purely functional data structure&#xD;
+</li></ul><h3><span class="mw-headline" id="Array_and_String_extensions"><a name="Array_and_String_extensions" id="Array_and_String_extensions">Array and String extensions</a></span></h3>
+
+<p>This methods live in <code>Nemerle.Utility</code> namespace, in <code>NArray</code> and <code>NString</code> classes, but can be used in arrays and string in code in a normal way. The methods adds functionality a la list for these two types.&#xD;</p>
+
+<h3><span class="mw-headline" id="NemerleIO"><a name="NemerleIO" id="NemerleIO">Nemerle.IO</a></span></h3>
+
+<p>Contains helper functions for handling an input stream: <code>ReadIntDigits, ReadRealDigits, ReadString, ReadChar, ConsumeWhiteSpace and CheckInput</code>.&#xD;</p>
+
+<h3><span class="mw-headline" id="Option"><a name="Option" id="Option">Option</a></span></h3>
+
+<p>The type <code>option['a]</code> allows to save values that can be null. <code>option.None</code> tells that it has no value. <code>option.Some (value)</code> saves a value. You can also use the nullable types (discussed above), but they are limited to valuetypes.&#xD;</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

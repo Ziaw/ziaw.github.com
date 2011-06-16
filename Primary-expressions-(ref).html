@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Primary expressions (ref)
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+<a class="internal absent" href="/Category%3AReference-Manual.html">Category:Reference Manual</a>&#xD;
+<a class="internal absent" href="/---Back-to-Reference-Manual..html">reference</a>&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Primary_expressions">Primary expressions</a></li><li><a href="#Grouping_expression">Grouping expression</a></li><li><a href="#Member_reference">Member reference</a></li><li><a href="#Tuple_constructor">Tuple constructor</a></li><li><a href="#Indexer_reference">Indexer reference</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Primary_expressions"><a name="Primary_expressions" id="Primary_expressions">Primary expressions</a></span></h2>
+
+<p>Primary expressions are a grammar category referring to expressions that&#xD;
+have a closed structure and are otherwise simple. Primary expressions&#xD;
+and plain expressions do not differ at the semantic level.&#xD;</p>
+
+<div class="highlight"><pre>primary_expr =
+    Lexical_structure_(ref):literal
+  | qualified_identifier
+  | 'this'
+  | 'base'
+  | grouping_expr
+  | member_reference_expr
+  | tuple_ctor
+  | indexer_reference_expr
+</pre>
+</div>
+
+
+<p><code>this</code> expression can only be used within non-static methods and&#xD;
+indicates a reference to the current instance of the class (which posses&#xD;
+this method).&#xD;</p>
+
+<p>Expression like <code>this.foo</code> can be shortened to <code>foo</code>&#xD;
+unless it would generate an identifier ambiguity with some variable&#xD;
+being in this lexical scope.&#xD;</p>
+
+<p>The <code>this</code> keyword can be also used to call instance constructor from&#xD;
+another constructor.&#xD;</p>
+
+<p><code>base</code> expression can only be used within non-static methods and&#xD;
+indicates a reference to the current instance of the class coerced to&#xD;
+the type of the base class. Calls made on base pointer are non virtual.&#xD;</p>
+
+<p>The base keyword can be also used to call instance constructor of base&#xD;
+class from another constructor.&#xD;</p>
+
+<h2><span class="mw-headline" id="Grouping_expression"><a name="Grouping_expression" id="Grouping_expression">Grouping expression</a></span></h2>
+<div class="highlight"><pre>grouping_expr =
+  '(' Expressions_(ref):expr ')'
+</pre>
+</div>
+
+
+<p>A grouping expression allows to enforce particular syntax decomposition&#xD;
+of expression.&#xD;</p>
+
+<h2><span class="mw-headline" id="Member_reference"><a name="Member_reference" id="Member_reference">Member reference</a></span></h2>
+<div class="highlight"><pre>member_reference_expr =
+primary_expr '.' IDENTIFIER
+</pre>
+</div>
+
+
+<p>This expression allows referring to the field or method that the object&#xD;
+represented by primary_expr contains.&#xD;</p>
+
+<h2><span class="mw-headline" id="Tuple_constructor"><a name="Tuple_constructor" id="Tuple_constructor">Tuple constructor</a></span></h2>
+<div class="highlight"><pre>tuple_ctor =
+'(' expr ',' expr { ',' expr } ')'
+</pre>
+</div>
+
+
+<p>The type of that tuple is type_1 * ... * type_n where type_1 and the&#xD;
+following are types of corresponding expressions.&#xD;</p>
+
+<h2><span class="mw-headline" id="Indexer_reference"><a name="Indexer_reference" id="Indexer_reference">Indexer reference</a></span></h2>
+<div class="highlight"><pre>indexer_reference_expr =
+expr '[' expr { ',' expr } ']'
+</pre>
+</div>
+
+
+<p>This expression allows to refer to indexed (even by multiple indexes)&#xD;
+fields of objects represented by leftmost expr where second (and further)&#xD;
+expr are indexes values of the field we want to refer to. expr must&#xD;
+refer to object with an indexer defined. This includes arrays, strings,&#xD;
+hashtables and other collections.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

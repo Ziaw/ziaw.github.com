@@ -1,0 +1,714 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Nemerle for OOP Programmers Week 2
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This week we will learn some basics of &#xD;
+<a target="_blank" href="http://en.wikipedia.org/wiki/Functional_programming">functional programming</a>. &#xD;
+You're not assumed to know anything about this topic, as we will go &#xD;
+into much detail here. There is a lot of new material this week -- this&#xD;
+is where we leave the safe and known OO land.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Introduction_to_Functional_Programming">Introduction to Functional Programming</a><ul><li><a href="#Local_functions">Local functions</a></li><li><a href="#Passing_functions_as_parameters">Passing functions as parameters</a></li><li><a href="#Lexical_scoping">Lexical scoping</a></li></ul></li><li><a href="#Lists">Lists</a><ul><li><a href="#Pattern_matching">Pattern matching</a><ul><li><a href="#The_wildcard_pattern">The wildcard pattern</a></li><li><a href="#Literal_patterns">Literal patterns</a></li><li><a href="#List_patterns">List patterns</a></li><li><a href="#Variable_patterns">Variable patterns</a></li></ul></li><li><a href="#Simple_list_manipulation">Simple list manipulation</a><ul><li><a href="#Filter">Filter</a></li><li><a href="#Side_note_anonymous_functions">Side note: anonymous functions</a></li><li><a href="#First_N">First N</a></li></ul></li><li><a href="#Types_and_Generics">Types and Generics</a><ul><li><a href="#Parametric_types">Parametric types</a></li><li><a href="#Function_types">Function types</a></li><li><a href="#Generic_functions">Generic functions</a></li><li><a href="#Side_note_names_of_generic_parameters">Side note: names of generic parameters</a></li></ul></li><li><a href="#Exercises">Exercises</a><ul><li><a href="#Exercise_1">Exercise 1</a></li><li><a href="#Exercise_2_iterators">Exercise 2: iterators</a></li><li><a href="#Exercise_3_flatten">Exercise 3: flatten</a></li><li><a href="#Exercise_4_SW_again">Exercise 4: SW again</a></li></ul></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Introduction_to_Functional_Programming"><a name="Introduction_to_Functional_Programming" id="Introduction_to_Functional_Programming">Introduction to Functional Programming</a></span></h2>
+
+<p>The basic idea of Functional Programming (FP) is to consider the entire &#xD;
+program as an expression to be evaluated, and not to think about computation &#xD;
+as being performed step by step and updating memory. So the functional &#xD;
+program in general does not update this and that memory location, but rather &#xD;
+creates new objects (this is why virtually all functional languages &#xD;
+rely on the garbage collector.)&#xD;
+This is how functions work in math -- they take values and return &#xD;
+values, but don't change anything in particular.&#xD;</p>
+
+<p>There are <i>pure</i> functional languages, which prohibit any change to &#xD;
+existing objects (in other words both fields of objects and variables&#xD;
+are always immutable.) They are also very often <i>lazy</i>, which means&#xD;
+parameters passed to a function are not evaluated until the function&#xD;
+actually needs them (which may seem like an optimization to you, unless&#xD;
+you've ever tried Haskell :-). &#xD;</p>
+
+<p>Nemerle neither pure nor lazy, but it does support the key FP concept &#xD;
+of immutability.&#xD;</p>
+
+<p>The second key concept is the ability to use functions as data, that &#xD;
+is, to pass functions as parameters and store them in data structures. &#xD;
+This feature is known as &#xD;
+<a target="_blank" href="http://en.wikipedia.org/wiki/First_class_function">first class functions</a>. &#xD;
+Nemerle provides this.&#xD;</p>
+
+<p>There are other related concepts -- for example type inference and&#xD;
+parametric polymorphism (generics) -- which are very often used in &#xD;
+functional languages.  Variant data structures and pattern matching &#xD;
+are also notable concepts. We will find out more about these later, &#xD;
+but for now we will focus on core features of FP.&#xD;</p>
+
+<p>To recap, the basic ideas behind FP in Nemerle are that:&#xD;
+</p><ul><li>You can make fields of persistent data structures immutable (this is even the default, last week you saw that to make a field updatable, you need to use the <code>mutable</code> modifier).&#xD;
+</li><li>You can define your temporary local variables to be immutable (<code>def</code> is shorter than <code>mutable</code> isn't it? :-)&#xD;
+</li><li>You can use functions as values, as well as other FP goodies.&#xD;
+</li></ul> &#xD;
+OK, I can see this is getting a little boring, so let's proceed &#xD;
+with some examples.&#xD;
+
+<h3><span class="mw-headline" id="Local_functions"><a name="Local_functions" id="Local_functions">Local functions</a></span></h3>
+
+<p>In addition to defining methods in classes or modules, one can define some&#xD;
+small helper functions inside other functions. For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">LocalFunctionExample</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="nf">say_hello</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span>
+      <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello!"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">say_hello</span> <span class="p">();</span>
+    <span class="n">say_hello</span> <span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>It shouldn't come as a big surprise to see "Hello!" written twice by this &#xD;
+program. The <code>say_hello</code> local function is defined inside <code>Main</code>, &#xD;
+and can only be referenced within <code>Main</code> (it's local to it, right?).&#xD;</p>
+
+<p>You can also skip <code>Main</code> altogether, as we've seen earlier:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">say_hello</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello!"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">say_hello</span> <span class="p">();</span>
+<span class="n">say_hello</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>Moreover, because <code>say_hello</code> is local, type inference is &#xD;
+supported, so we can skip the <code>void</code> type annotation:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">say_hello</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello!"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">say_hello</span> <span class="p">();</span>
+<span class="n">say_hello</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Passing_functions_as_parameters"><a name="Passing_functions_as_parameters" id="Passing_functions_as_parameters">Passing functions as parameters</a></span></h3>
+
+<p>Once you have defined a local function, you can pass it to another&#xD;
+function as a parameter. For example we can have a special function&#xD;
+that runs the passed function <code>f</code> twice:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">run_twice</span> <span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">f</span> <span class="p">();</span>
+  <span class="n">f</span> <span class="p">();</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>We didn't specify a type for <code>f</code>, because type inference takes &#xD;
+care of this. Nemerle sees that <code>f</code> is used as a function in &#xD;
+the body of <code>run_twice</code>.&#xD;</p>
+
+<p>Now, we can define a function <code>say_hello</code>, and pass it to <code>run_twice</code>:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">say_hello</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello!"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">run_twice</span> <span class="p">(</span><span class="n">say_hello</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Lexical_scoping"><a name="Lexical_scoping" id="Lexical_scoping">Lexical scoping</a></span></h3>
+
+<p>Local functions can see all the identifiers defined in their parent&#xD;
+function. For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">hello</span> <span class="p">=</span> <span class="s">"Hello!"</span><span class="p">;</span>
+<span class="k">def</span> <span class="nf">say_hello</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">hello</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">say_hello</span> <span class="p">();</span>
+<span class="n">say_hello</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>When a local function references an identifier, it sees the nearest one  &#xD;
+defined before it (in program text). This property is called <i>lexical scoping</i>. &#xD;
+So here, when <code>say_hello</code> refers to <code>hello</code>, it gets the &#xD;
+closest previous definition: "Hello!". Note that other <code>hello</code> &#xD;
+identifiers may be defined in other contexts and used without conflict. &#xD;
+The rules of lexical scoping keep them separate.&#xD;</p>
+
+<h2><span class="mw-headline" id="Lists"><a name="Lists" id="Lists">Lists</a></span></h2>
+
+<p>Lists are a very important data structure in FP, and are used even &#xD;
+more often than arrays in imperative programming. &#xD;</p>
+
+<p>Lists are constructed out of list cells. Each cell has a <b>head</b> &#xD;
+(the element held in the cell) and <b>tail</b> -- a pointer to another &#xD;
+cell. There is a special cell called <b>nil</b> which serves as an &#xD;
+empty list. List cells cannot be changed once they are constructed. &#xD;
+On the one hand, it means you cannot update the cell number or order &#xD;
+of a list once it is constructed, but on the other hand mischief &#xD;
+can't be done to a list that you pass to others.&#xD;</p>
+
+<p>While lists cannot be changed once constructed, they can share the tail.&#xD;
+For example:&#xD;</p>
+
+<pre>       42&#xD;       |&#xD;       V&#xD;  10--&gt;34--&gt;27--&gt;nil&#xD;</pre>
+
+<p>Here the lists <code>[10, 34, 27]</code> and <code>[42, 34, 27]</code> share&#xD;
+the list <code>[34, 27]</code>. Because lists are immutable this sharing &#xD;
+cannot do any harm. All Nemerle lists share the empty list.&#xD;</p>
+
+<p>The list constructor is <code>::</code>, while nil is referred to as&#xD;
+<code>[]</code>. Therefore <code>1 :: []</code> means we want a list cell&#xD;
+with 1 in the head and the empty list in the tail, which is another&#xD;
+way of saying we want a single element list with 1. After this object&#xD;
+is constructed we can make a two element list:&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">l1</span> <span class="p">=</span> <span class="m">1</span> <span class="p">::</span> <span class="p">[];</span>
+<span class="k">def</span> <span class="n">l2</span> <span class="p">=</span> <span class="m">42</span> <span class="p">::</span> <span class="n">l1</span><span class="p">;</span>
+</pre>
+</div>
+
+Here, we chain list <code>l1</code> to <code>l2</code> to make a longer list. &#xD;
+Of course, you can define this list in one expression: <code>42 :: 1 :: []</code>. &#xD;
+If you don't like all those colons, there is shorter notation: &#xD;
+<code>[42, 1]</code>. This short form is convenient to use in &#xD;
+<i>pattern matching</i>. &#xD;
+
+<h3><span class="mw-headline" id="Pattern_matching"><a name="Pattern_matching" id="Pattern_matching">Pattern matching</a></span></h3>
+
+<p>The basic idea behind a matching like this:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">some_value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">pattern1</span> <span class="p">=&gt;</span> <span class="n">expr1</span>
+  <span class="p">|</span> <span class="n">pattern2</span> <span class="p">=&gt;</span> <span class="n">expr2</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>is to inspect <code>some_value</code>, check if it looks like &#xD;
+<code>pattern1</code>, and if so, evaluate <code>expr1</code> return it as &#xD;
+the result. Patterns are checked until a match is found, and the &#xD;
+corresponding expression is returned. If all patterns fail to match &#xD;
+(which is uncommon, because patterns should be exhaustive, that is, &#xD;
+cover all possible values), an exception is thrown.&#xD;</p>
+
+<p>There are several kinds of patterns, we shall briefly introduce some&#xD;
+of them here.&#xD;</p>
+
+<h4><span class="mw-headline" id="The_wildcard_pattern"><a name="The_wildcard_pattern" id="The_wildcard_pattern">The wildcard pattern</a></span></h4>
+
+<p>Wildcards are written as <code>_</code> and match any value, including &#xD;
+the <code>null</code> pointer (don't confuse this with the <code>nil</code> &#xD;
+list cell). It's like the <code>default:</code> case in <code>switch</code> &#xD;
+in C-like languages.&#xD;</p>
+
+<h4><span class="mw-headline" id="Literal_patterns"><a name="Literal_patterns" id="Literal_patterns">Literal patterns</a></span></h4>
+
+<p>Each literal (like <code>42</code>, <code>3.1415</code>, <code>"foobar"</code>,&#xD;
+and <code>null</code>) is a valid pattern. This allows one to implement&#xD;
+<code>switch</code> functionality with <code>match</code>:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">some_number</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="m">1</span> <span class="p">=&gt;</span> <span class="s">"one"</span>
+  <span class="p">|</span> <span class="m">2</span> <span class="p">=&gt;</span> <span class="s">"two"</span>
+  <span class="p">|</span> <span class="m">3</span> <span class="p">=&gt;</span> <span class="s">"three"</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"a lot"</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h4><span class="mw-headline" id="List_patterns"><a name="List_patterns" id="List_patterns">List patterns</a></span></h4>
+
+<p>When matching list patterns, both the <code>::</code> constructor and&#xD;
+the <code>[1, 2]</code> syntax are available:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">some_list</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">[</span><span class="m">42</span><span class="p">,</span> <span class="m">42</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="s">"two forty-two"</span>
+  <span class="p">|</span> <span class="p">[</span><span class="m">42</span><span class="p">,</span> <span class="n">_</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="s">"forty-two on first position of two-element list"</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">_</span><span class="p">,</span> <span class="m">42</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="s">"forty-two on second position of two-element list"</span>
+  <span class="p">|</span> <span class="m">42</span> <span class="p">::</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"forty-two on first position"</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">::</span> <span class="m">42</span> <span class="p">::</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"forty-two on second position"</span>
+  <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="s">"an empty list!"</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"another list"</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Note that the ordering of pattern matching clauses matters, because it&#xD;
+is possible they can overlap (here the first case overlaps the second&#xD;
+and third, while the second overlaps the fourth, and so on). In the case&#xD;
+of multiple possible matches, the first match wins.&#xD;</p>
+
+<h4><span class="mw-headline" id="Variable_patterns"><a name="Variable_patterns" id="Variable_patterns">Variable patterns</a></span></h4>
+
+<p>The variable pattern matches any value, just like the wildcard pattern,&#xD;
+but additionally binds the value matched to a specified identifier.&#xD;
+The identifiers used <i>have to</i> start with a lowercase letter.&#xD;
+They are always immutable (there is no <code>mutable</code> modifier &#xD;
+allowed here).&#xD;</p>
+
+<p>For example a function to display all elements of a list would be:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+
+<span class="k">def</span> <span class="nf">display</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">head</span> <span class="p">::</span> <span class="n">tail</span> <span class="p">=&gt;</span>
+      <span class="n">Write</span> <span class="p">(</span><span class="s">$ "</span><span class="n">$head</span><span class="s">, "</span><span class="p">);</span>
+      <span class="n">display</span> <span class="p">(</span><span class="n">tail</span><span class="p">)</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span>
+      <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"end"</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">display</span> <span class="p">([</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">])</span>
+
+<span class="c1">// Output: 1, 2, 3, end</span>
+</pre>
+</div>
+
+
+<p>The <code>display</code> function takes a list and matches it against&#xD;
+the list <code>head :: tail</code>. If the match list is not empty, the &#xD;
+element of the current cell is bound to <code>head</code> and the rest &#xD;
+of the list is bound to <code>tail</code>. The function prints the value &#xD;
+of <code>head</code> and recursively calls itself to print out the &#xD;
+rest of the list. &#xD;</p>
+
+<p>When the function hits the end of the list, nil <code>[]</code> is &#xD;
+matched, <code>end</code> is written, and the function terminates.&#xD;</p>
+
+<h3><span class="mw-headline" id="Simple_list_manipulation"><a name="Simple_list_manipulation" id="Simple_list_manipulation">Simple list manipulation</a></span></h3>
+
+<p>We now know the basic tools for list manipulation -- list construction&#xD;
+and matching. Therefore we can proceed with some example functions.&#xD;</p>
+
+<h4><span class="mw-headline" id="Filter"><a name="Filter" id="Filter">Filter</a></span></h4>
+
+<p><code>filter</code> is a function that is given a list and a functional &#xD;
+value as a parameter. It will return the list of elements from the &#xD;
+original list for which the functional value returned true.&#xD;</p>
+
+<p>For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">is_even</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span> <span class="p">}</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">filter</span> <span class="p">([</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span> <span class="n">is_even</span><span class="p">));</span>
+</pre>
+</div>
+
+
+<p>should print out <code>[2, 4]</code>.&#xD;</p>
+
+<p>In Nemerle, all basic data structures have the <code>ToString</code> method&#xD;
+overridden to return contents of the data structure in a human readable&#xD;
+form, therefore WriteLine does a good job displaying the list.&#xD;</p>
+
+<p>So we're back to the <code>filter</code> code:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">filter</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span>
+      <span class="k">def</span> <span class="n">xs</span><span class="err">'</span> <span class="p">=</span> <span class="n">filter</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span><span class="err">'</span>
+      <span class="k">else</span> <span class="n">xs</span><span class="err">'</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="p">[]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>First, the function does a match on the list argument. For the non-&#xD;
+empty list case the head is bound to <code>x</code> and the tail to <code>xs</code>. &#xD;
+It is a common convention to call the head <code>x</code> or <code>y</code> and &#xD;
+the rest of the list <code>xs</code> or <code>ys</code>.&#xD;</p>
+
+<p>Once the head and tail are bound the function calls itself to filter &#xD;
+the rest of the list. The result is put in value <code>xs'</code>.&#xD;
+In Nemerle the apostrophe (<code>'</code>) character is a valid part&#xD;
+of identifier names. A transform of <code>x</code> is often called <code>x'</code> &#xD;
+(say <i>x-prime</i>); this convention comes from mathematics.&#xD;</p>
+
+<p>Finally, depending on the return value of <code>f (x)</code>, the function &#xD;
+adds element <code>x</code> to the result, or skips it. If you're looking &#xD;
+for a return statement here, you won't find it! As you will recall from &#xD;
+Week 0, Nemerle functions simply return the the last value computed, &#xD;
+which in this example is either <code>x :: xs'</code> or <code>xs'</code>.&#xD;</p>
+
+<p>Of course when the list is empty, filtering it yields an empty list.&#xD;</p>
+
+<h4><span class="mw-headline" id="Side_note_anonymous_functions"><a name="Side_note_anonymous_functions" id="Side_note_anonymous_functions">Side note: anonymous functions</a></span></h4>
+
+<p>While testing the filter example, you might want to use a shorthand &#xD;
+that allows you to filter on any arbitrary expression on the fly. &#xD;
+To that end, it is possible to rewrite the even filter as:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">filter</span> <span class="p">([</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span> <span class="p">}));</span>
+</pre>
+</div>
+
+
+<p>If we use a local function just once, it is possible to make it &#xD;
+anonymous. The expression:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">fun</span> <span class="p">(</span><span class="n">some_parms</span><span class="p">)</span> <span class="p">{</span> <span class="n">some_expression</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>is equivalent to:&#xD;</p>
+
+<div class="highlight"><pre><span class="p">{</span>
+  <span class="k">def</span> <span class="nf">tmp</span> <span class="p">(</span><span class="n">some_parms</span><span class="p">)</span> <span class="p">{</span> <span class="n">some_expression</span> <span class="p">}</span>
+  <span class="n">tmp</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>that is, defining a local function and returning it right away. &#xD;
+Anonymous functions allow us to skip the superflous naming of &#xD;
+truly one time, 'throw-away' functions. &#xD;</p>
+
+<h4><span class="mw-headline" id="First_N"><a name="First_N" id="First_N">First N</a></span></h4>
+
+<p>The <code>first_n</code> function returns first N elements of the list passed.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">first_n</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+<span class="na">    []</span>
+  <span class="k">else</span>
+    <span class="nf">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">::</span> <span class="n">first_n</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">n</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span>
+      <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="k">throw</span> <span class="n">System</span><span class="p">.</span><span class="n">ArgumentException</span> <span class="p">(</span><span class="s">"List too short"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">first_n</span> <span class="p">([</span><span class="s">"foo"</span><span class="p">,</span> <span class="s">"bar"</span><span class="p">,</span> <span class="s">"baz"</span><span class="p">],</span> <span class="m">2</span><span class="p">))</span>
+
+<span class="c1">// Output: ["foo", "bar"]</span>
+</pre>
+</div>
+
+
+<p>Note how both arguments to <code>first_n</code> change as the function &#xD;
+executes: it recursively calls itself for the rest of the list with &#xD;
+the counter decremented. It is also interesting to see how the &#xD;
+function return value includes a call to itself.&#xD;</p>
+
+<p>Another new thing here is the <code>throw</code> expression. It raises &#xD;
+an exception passed as an argument. <code>System.ArgumentException</code>&#xD;
+is a class from BCL. Handling exceptions will be discussed later&#xD;
+(next week probably).&#xD;</p>
+
+<h2><span class="mw-headline" id="Types_and_Generics"><a name="Types_and_Generics" id="Types_and_Generics">Types and Generics</a></span></h2>
+
+<p>We have used local functions which rely on type inference throughout this &#xD;
+lesson. However type inference is not available for global functions; &#xD;
+therefore it is good to know the exact way things get typed in Nemerle.&#xD;</p>
+
+<h3><span class="mw-headline" id="Parametric_types"><a name="Parametric_types" id="Parametric_types">Parametric types</a></span></h3>
+
+<p>The list type is parametric (generic), so a list of integers has&#xD;
+type <code>list [int]</code> and a list of strings has type <code>list&#xD;[string]</code>. Note how square brackets (<code>[]</code>) are used for&#xD;
+specifying the argument to the type. This is unlike C++, Java and C#,&#xD;
+where the triangle brackets (<code>&amp;lt;&gt;</code>) are used.&#xD;</p>
+
+<p>There are other generic types provided by the BCL and standard Nemerle&#xD;
+library. For example <code>Nemerle.Collections.Hashtable [K, V]</code>&#xD;
+is a mutable collection mapping values of type <code>K</code> to values&#xD;
+of type <code>V</code> (it inherits from <code>System.Collections.Generic.Dictionary &#xD;[K, V]</code>).&#xD;</p>
+
+<p>Another important example of parametric types are arrays. Array is a &#xD;
+list-like type, so we felt there is no reason to make a special case of &#xD;
+it. The syntax for array types in Nemerle is <code>array [''type'']</code>, &#xD;
+where <i>type</i> is the type of the elements in the array.&#xD;</p>
+
+<h3><span class="mw-headline" id="Function_types"><a name="Function_types" id="Function_types">Function types</a></span></h3>
+
+<p>The type of a function taking a <code>string</code> and returning an&#xD;
+<code>int</code>, like the <code>int.Parse</code> method, is: <code>string -&gt;&#xD;int</code>. The <code>-&gt;</code> symbol is called the <i>arrow</i>, so you &#xD;
+can read the previous type as <i>string arrow int</i>. When a function &#xD;
+returns nothing, we use the <code>void</code> type. For example the &#xD;
+<code>System.Threading.Thread.Sleep</code> method, which sleeps for &#xD;
+<code>n</code> milliseconds has the type <code>int -&gt; void</code>. Similarly, &#xD;
+when a function takes no arguments, we use the <code>void</code> type &#xD;
+before the arrow. So the type of <code>Main</code> is <code>void -&gt; void</code>.&#xD;</p>
+
+<p>We will talk about types of multi-argument functions next week.&#xD;</p>
+
+<p>We now know how to write basic function types, so we can now write &#xD;
+a fully typed version of <code>filter</code>:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">filter</span> <span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="kt">int</span><span class="p">],</span> <span class="n">f</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="kt">int</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span>
+      <span class="k">def</span> <span class="n">xs</span><span class="err">'</span> <span class="p">=</span> <span class="n">filter</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span><span class="err">'</span>
+      <span class="k">else</span> <span class="n">xs</span><span class="err">'</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="p">[]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The body is exactly the same as previously, but we have provided&#xD;
+explicit types for the arguments. &#xD;</p>
+
+<p>OK, the question here is: why type the function as <code>int</code>? &#xD;
+Because we intend to use it with a list of integers. Fine, you might &#xD;
+respond, but why limit our function to just integers? As you correctly &#xD;
+observe, the structure of the <code>filter</code> function would work &#xD;
+equally well for, say, a list of strings or a list of FooBars, if only &#xD;
+there was a way to type it less restrictively. This leads us naturally &#xD;
+to the idea of <i>generic functions</i>.&#xD;</p>
+
+<h3><span class="mw-headline" id="Generic_functions"><a name="Generic_functions" id="Generic_functions">Generic functions</a></span></h3>
+
+<p>What we would really like for our <code>filter</code> function is a &#xD;
+generic type, one that would allow the function to work on all &#xD;
+kinds of data. Unfortunately, because of subtyping and related &#xD;
+theoretically difficult problems, the type inferencer in Nemerle &#xD;
+cannot infer generic types for you. No worries, you can still &#xD;
+have generics, you just have to specify them yourself, using a &#xD;
+generic type declaration for your function: &#xD;</p>
+
+<ul><li> <code>def funname[''gentype0''] (parmlist) : funtype {body}</code>&#xD;
+</li></ul> &#xD;
+Here, we define a generic type parameter, <code>''gentype0''</code>, to be &#xD;
+used in the function. Think of <code>''gentype0''</code> as a placeholder &#xD;
+for any type. Substitute <code>''gentype0''</code> any place you would use &#xD;
+a single specific type in a function you want to make generic.&#xD;
+
+<p>With this knowledge, let's make a generic <code>filter</code>:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+
+<span class="k">def</span> <span class="n">filter</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">f</span> <span class="p">:</span> <span class="n">T</span> <span class="p">-&gt;</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span>
+      <span class="k">def</span> <span class="n">xs</span><span class="err">'</span> <span class="p">=</span> <span class="n">filter</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span><span class="err">'</span>
+      <span class="k">else</span> <span class="n">xs</span><span class="err">'</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="p">[]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">WriteLine</span> <span class="p">(</span><span class="n">filter</span> <span class="p">([</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span> <span class="p">}));</span>
+<span class="n">WriteLine</span> <span class="p">(</span><span class="n">filter</span> <span class="p">([</span><span class="s">"foo"</span><span class="p">,</span> <span class="s">"bar"</span><span class="p">,</span> <span class="s">"foox"</span><span class="p">],</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span><span class="p">.</span><span class="n">StartsWith</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">)</span> <span class="p">}));</span>
+
+<span class="cm">/* Output:</span>
+<span class="cm">[2, 4]</span>
+<span class="cm">["foo", "foox"]</span>
+<span class="cm">*/</span>
+</pre>
+</div>
+
+
+<p>The new, generic definition of <code>filter</code> can be read: for any type&#xD;
+<code>T</code>, the first parameter has the type <code>list [T]</code>, the&#xD;
+second <code>T -&gt; bool</code> and the result type is <code>list [T]</code>. This&#xD;
+allows a list of integers to be filtered as easily as a list of strings.&#xD;
+However, the function type passed has to match the type of the list (try &#xD;
+passing the even lambda expression and a list of strings). This is because &#xD;
+we use the same generic type parameter <code>T</code> for list <code>l</code> and &#xD;
+function <code>f</code>.&#xD;</p>
+
+<p>Using the same syntax, you can define generic parameter types for these &#xD;
+contexts:&#xD;
+</p><ul><li> <code>class classname[''gentype0''] {body}</code>&#xD;
+</li><li> <code>public methodname[''gentype0''] (parmlist) : methodtype {body}</code>&#xD;
+</li><li> <code>variant varname[''gentype0''] {body}  </code> (you will see more on variants in <a class="internal absent" href="/Week-3.html">Nemerle_for_OOP_Programmers_Week_3#Variants</a>)&#xD;
+</li></ul> &#xD;
+Because generic parameter declarations use the compact list syntax, you &#xD;
+can also declare multiple generics:&#xD;
+<ul><li> <code>class classname[''gentype0'', ''gentype1'', ... , ''gentypeN''] {body}</code>&#xD;
+</li></ul> &#xD;
+The use of generics in FP can bring a level of abstractness and compactness &#xD;
+to code that can be hard to match using the object-oriented paradigm by&#xD;
+itself.&#xD;
+
+<h3><span class="mw-headline" id="Side_note_names_of_generic_parameters"><a name="Side_note_names_of_generic_parameters" id="Side_note_names_of_generic_parameters">Side note: names of generic parameters</a></span></h3>
+
+<p>There is a convention, originating from ML, to call type parameters&#xD;
+<code>'a</code>, <code>'b</code>, <code>'c</code>... which reads <i>alpha</i>, <i>beta</i>,&#xD;
+<i>gamma</i>... As Nemerle supports apostrophes in identifiers, you're &#xD;
+free to follow it.&#xD;</p>
+
+<p>In C++ there is a convention to call generic type parameters <code>T</code>, &#xD;
+while in C# one mostly uses descriptive names (something like &#xD;
+<code>ElementType</code>). Nemerle is still new, so perhaps a generic &#xD;
+naming convention for it will emerge, and come into common use.&#xD;
+The standard library uses the ML convention.&#xD;</p>
+
+<h2><span class="mw-headline" id="Exercises"><a name="Exercises" id="Exercises">Exercises</a></span></h2>
+
+<p>In the first few exercises you should write a handful of short list&#xD;
+manipulation functions. This is widely recognized as a good introduction&#xD;
+to FP and I couldn't come out with anything better.&#xD;</p>
+
+<p>The functions should throw an exception for invalid data (empty lists, element not&#xD;
+found and so on). <code>System.ArgumentException</code> will be OK.&#xD;</p>
+
+<p>Functions should come with one or two example invocations.&#xD;</p>
+
+<h3><span class="mw-headline" id="Exercise_1"><a name="Exercise_1" id="Exercise_1">Exercise 1</a></span></h3>
+
+<ul><li> <code>head[T] (l : list [T]) : T</code> returning first element of <code>l</code>&#xD;
+</li><li> <code>tail[T] (l : list [T]) : list [T]</code> returning <code>l</code> without the first element&#xD;
+</li><li> <code>length[T] (l : list [T]) : int</code> computing the length of <code>l</code>&#xD;
+</li><li> <code>max (l : list [int]) : int</code> returning maximal element of given list of integers&#xD;
+</li><li> <code>last[T] (l : list [T]) : T</code> returning the last element of a list&#xD;
+</li><li> <code>last_n[T] (l : list [T], n : int) : list [T]</code> returning last <code>n</code> elements&#xD;
+</li><li> <code>nth[T] (l : list [T], n : int) : T</code> returning <code>n</code>th element of <code>l</code>&#xD;
+</li><li> <code>append[T] (l1 : list [T], l2 : list [T]) : list [T]</code> returning concatenation of <code>l1</code> and <code>l2</code> (please don't use the overloaded <code>+</code> operator that does exactly that ;-)&#xD;
+</li><li> <code>range (from : int, to : int) : list [int]</code> returning list of all integers between <code>from</code> and <code>to</code> inclusive&#xD;
+</li></ul><h3><span class="mw-headline" id="Exercise_2_iterators"><a name="Exercise_2_iterators" id="Exercise_2_iterators">Exercise 2: iterators</a></span></h3>
+
+<ul><li> <code>iter[T] (l : list [T], f : T -&gt; void) : T</code> which should apply given function <code>f</code> to each element of <code>l</code> and ignore the results (as there are none)&#xD;
+</li><li> <code>map[A, B] (l : list [A], f : A -&gt; B) : list [B] </code> applying specified function <code>f</code> to each element of the list <code>l</code> and returning lists of results of applications&#xD;
+</li><li> <code>forall[T] (l : list [T], p : T -&gt; bool) : bool</code> returning true if given predicate <code>p</code> is true for all elements of the list <code>l</code> of <code>l</code>&#xD;
+</li><li> <code>find[T] (l : list [T], p : T -&gt; bool) : T</code> returning first element of <code>l</code> for which the condition <code>p</code> is true&#xD;
+</li></ul><h3><span class="mw-headline" id="Exercise_3_flatten"><a name="Exercise_3_flatten" id="Exercise_3_flatten">Exercise 3: flatten</a></span></h3>
+
+<p>Write the function: <code>flatten[T] (l : list [list [T]]) : list [T]</code>&#xD;
+concatenating given lists together. For example:&#xD;
+</p><div class="highlight"><pre><span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">flatten</span> <span class="p">([[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">],</span> <span class="p">[</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">],</span> <span class="p">[</span><span class="m">5</span><span class="p">]]))</span>
+</pre>
+</div>
+
+should output <code>[1, 2, 3, 4, 5]</code>.&#xD;
+
+<h3><span class="mw-headline" id="Exercise_4_SW_again"><a name="Exercise_4_SW_again" id="Exercise_4_SW_again">Exercise 4: SW again</a></span></h3>
+
+<p>Take the <a target="_blank" href="http://nemerle.org/~malekith/temp/chasing.n">Star Wars example</a> from&#xD;
+the previous week, possibly enriched with your Imperial Trooper and modify&#xD;
+it to hold a lists of persons instead of 3 persons.&#xD;
+&#xD;</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

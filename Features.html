@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Features
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Looking_from_10km_height">Looking from 10km height</a></li><li><a href="#Type_inference_at_a_glance">Type inference at a glance</a></li><li><a href="#Cute_examples_of_macros">Cute examples of macros</a><ul><li><a href="#Code_for_database_accessibility">Code for database accessibility</a></li><li><a href="#String_interpolation">String interpolation</a></li><li><a href="#More">More</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Looking_from_10km_height"><a name="Looking_from_10km_height" id="Looking_from_10km_height">Looking from 10km height</a></span></h2>
+
+<p>Probably the most important feature of Nemerle is the ability &#xD;
+to mix object oriented and functional programming styles. The top-level&#xD;
+program structure is object oriented, while in the body of methods&#xD;
+one can (but is not forced to) use functional style.&#xD;
+In some programming problems this is very handy. The feature set&#xD;
+here includes <a class="internal absent" href="/functional-values.html">Grok_Functionals</a>, <a class="internal absent" href="/variants.html">Grok_Variants_and_matching#Variants</a> and <a class="internal absent" href="/pattern-matching.html">Grok_Variants_and_matching#Matching</a>.&#xD;</p>
+
+<p>The other very important feature is taking a high level approach in&#xD;
+all aspects of the language - we try to lift as much of the burden from &#xD;
+the programmer as possible. Features like <a class="internal present" href="/Macros.html">Macros</a> and <a class="internal present" href="/Type-inference.html">Grok_Base_structure_of_programs#Type_inference</a>&#xD;
+fit here.&#xD;</p>
+
+<p>Last but not least - the usage of more mundane library stuff from the&#xD;
+.NET is as easy as (or easier than) in C#.&#xD;</p>
+
+<h2><span class="mw-headline" id="Type_inference_at_a_glance"><a name="Type_inference_at_a_glance" id="Type_inference_at_a_glance">Type inference at a glance</a></span></h2>
+
+<p>There is no reason you should write:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">d</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;();</span>
+<span class="n">d</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="s">"Ala"</span><span class="p">,</span> <span class="m">7</span><span class="p">);</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="kt">string</span> <span class="n">s</span> <span class="k">in</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>when you can write:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">d</span> <span class="p">=</span> <span class="n">Dictionary</span> <span class="p">();</span>
+<span class="n">d</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="s">"Ala"</span><span class="p">,</span> <span class="m">7</span><span class="p">);</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="n">s</span> <span class="n">in</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>All the type information in the C# example is redundant and&#xD;
+compiler can easily figure it out, without forcing the programmer&#xD;
+to type it.&#xD;</p>
+
+<p>Some <a class="internal absent" href="/larger-example.html">Second Tutorial</a> shows how type inference is used together with overloading and generics.&#xD;</p>
+
+<h2><span class="mw-headline" id="Cute_examples_of_macros"><a name="Cute_examples_of_macros" id="Cute_examples_of_macros">Cute examples of macros</a></span></h2>
+
+<p>Macros allow you to have boilerplate code generated for you under the hood, with additional static checks performed by the compiler. They give you the power to programatically generate code.&#xD;</p>
+
+<h3><span class="mw-headline" id="Code_for_database_accessibility"><a name="Code_for_database_accessibility" id="Code_for_database_accessibility">Code for database accessibility</a></span></h3>
+
+<p>For example, using Nemerle macros for SQL you can write&#xD;</p>
+
+<div class="highlight"><pre><span class="n">ExecuteReaderLoop</span> <span class="p">(</span><span class="s">"SELECT firstname, lastname FROM employee WHERE firstname = $myparm"</span><span class="p">,</span> <span class="n">dbcon</span><span class="p">,</span>
+<span class="p">{</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Name: {0} {1}"</span><span class="p">,</span> <span class="n">firstname</span><span class="p">,</span> <span class="n">lastname</span><span class="p">)</span> 
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<p>instead of&#xD;</p>
+
+<div class="highlight"><pre><span class="kt">string</span> <span class="n">sql</span> <span class="p">=</span> <span class="s">"SELECT firstname, lastname FROM employee WHERE firstname = :a"</span><span class="p">;</span>
+<span class="n">NpgsqlCommand</span> <span class="n">dbcmd</span> <span class="p">=</span> <span class="k">new</span> <span class="n">NpgsqlCommand</span> <span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">dbcon</span><span class="p">,</span> <span class="n">dbtran</span><span class="p">);</span>
+<span class="n">dbcmd</span><span class="p">.</span><span class="n">Parameters</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="n">myparm</span><span class="p">);</span>
+
+<span class="n">NpgsqlReader</span> <span class="n">reader</span> <span class="p">=</span> <span class="n">dbcmd</span><span class="p">.</span><span class="n">ExecuteReader</span><span class="p">();</span>
+
+<span class="k">while</span><span class="p">(</span><span class="n">reader</span><span class="p">.</span><span class="n">Read</span><span class="p">())</span> <span class="p">{</span>
+  <span class="kt">string</span> <span class="n">firstname</span> <span class="p">=</span> <span class="n">reader</span><span class="p">.</span><span class="n">GetString</span> <span class="p">(</span><span class="m">0</span><span class="p">);</span>
+  <span class="kt">string</span> <span class="n">lastname</span> <span class="p">=</span> <span class="n">reader</span><span class="p">.</span><span class="n">GetString</span> <span class="p">(</span><span class="m">1</span><span class="p">);</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Name: {0} {1}"</span><span class="p">,</span> <span class="n">firstname</span><span class="p">,</span> <span class="n">lastname</span><span class="p">)</span> 
+<span class="p">}</span>
+<span class="n">reader</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+<span class="n">dbcmd</span><span class="p">.</span><span class="n">Dispose</span><span class="p">();</span>
+</pre>
+</div>
+
+
+<p>and this is not just hiding some operations into a library, but additional work performed by compiler to understand the query string, variables used there, and columns returned from the database. The <i>ExecuteReaderLoop</i> macro will generate code roughly equivalent to what you would have to type manually. Moreover... it connects to the database at compilation time to check that your SQL query really makes sense.&#xD;</p>
+
+<h3><span class="mw-headline" id="String_interpolation"><a name="String_interpolation" id="String_interpolation">String interpolation</a></span></h3>
+
+<p>Macros can analyze code, which you supply to them. For example, the <i>$</i> operator can read the string literal following it:&#xD;</p>
+
+<div class="highlight"><pre><span class="s">$"My name is </span><span class="n">$Name</span><span class="s"> and I am </span><span class="n">$Age</span><span class="s"> years old."</span><span class="err">```</span>
+
+<span class="k">and</span> <span class="n">replace</span> <span class="n">it</span> <span class="k">with</span> <span class="n">code</span> <span class="n">doing</span> <span class="err">''</span><span class="n">what</span> <span class="n">you</span> <span class="n">wanted</span><span class="err">''</span><span class="p">:</span>
+
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="n">StringBuilder</span> <span class="p">(</span><span class="s">"My name is "</span><span class="p">).</span><span class="n">Append</span> <span class="p">(</span><span class="n">Name</span><span class="p">.</span><span class="n">ToString</span> <span class="p">()).</span><span class="n">Append</span> <span class="p">(</span><span class="s">" and I am "</span><span class="p">)</span>
+                             <span class="p">.</span><span class="n">Append</span> <span class="p">(</span><span class="n">Age</span><span class="p">.</span><span class="n">ToString</span> <span class="p">()).</span><span class="n">Append</span> <span class="p">(</span><span class="s">" years old."</span><span class="p">).</span><span class="n">ToString</span> <span class="p">()</span><span class="err">```</span>
+
+<span class="n">If</span> <span class="n">you</span> <span class="n">were</span> <span class="k">using</span> <span class="n">C</span><span class="err">#</span><span class="p">,</span> <span class="n">you</span> <span class="n">would</span> <span class="n">probably</span> <span class="n">write</span> <span class="n">it</span> <span class="k">as</span><span class="p">:</span>
+
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="n">String</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"My name is {0} and I am {1} years old."</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Age</span><span class="p">)</span><span class="err">```</span>
+
+<span class="n">However</span> <span class="n">it</span> <span class="k">is</span> <span class="n">less</span> <span class="n">efficient</span><span class="p">,</span> <span class="k">as</span> <span class="n">the</span> <span class="kt">string</span> <span class="n">has</span> <span class="n">to</span> <span class="n">be</span> <span class="n">analyzed</span> <span class="n">during</span> <span class="n">runtime</span><span class="p">.</span> <span class="n">Of</span> <span class="n">course</span> <span class="n">one</span> <span class="n">should</span> <span class="n">also</span> <span class="n">consider</span><span class="p">:</span>
+
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="n">String</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"name {0}, age {1}, surname {2}, children-count {3}, cat-count {4}, dog count {5}"</span><span class="p">,</span> 
+              <span class="n">Name</span><span class="p">,</span> <span class="n">Age</span><span class="p">,</span> <span class="n">Surname</span><span class="p">,</span> <span class="n">ChildrenCount</span><span class="p">,</span> <span class="n">CatCount</span><span class="p">,</span> <span class="n">DogCount</span><span class="p">)</span><span class="err">```</span>
+
+<span class="n">It</span> <span class="k">is</span> <span class="n">very</span> <span class="n">easy</span> <span class="n">to</span> <span class="n">get</span> <span class="n">the</span> <span class="n">numbers</span> <span class="n">wrong</span><span class="p">.</span>
+
+<span class="p">===</span> <span class="n">New</span> <span class="n">language</span> <span class="n">constructs</span> <span class="p">===</span>
+
+<span class="n">You</span> <span class="n">probably</span> <span class="n">at</span> <span class="n">least</span> <span class="n">once</span> <span class="n">wanted</span> <span class="n">to</span> <span class="n">have</span> <span class="n">some</span> <span class="n">little</span> <span class="n">special</span> <span class="k">syntax</span> <span class="n">in</span> <span class="n">language</span> <span class="n">you</span> <span class="n">are</span> <span class="k">using</span><span class="p">...</span> <span class="n">Macros</span> <span class="k">with</span> <span class="k">syntax</span> <span class="n">extensions</span> <span class="n">can</span> <span class="k">do</span> <span class="k">this</span><span class="p">:</span>
+
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="k">macro</span> <span class="nf">ReverseFor</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span> 
+<span class="k">syntax</span> <span class="p">(</span><span class="s">"ford"</span><span class="p">,</span> <span class="s">"("</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s">";"</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="s">")"</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">&lt;[ for</span> <span class="p">(</span><span class="n">$i</span> <span class="p">=</span> <span class="n">$begin</span><span class="p">;</span> <span class="n">$i</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">$i</span><span class="p">--)</span> <span class="n">$body</span> <span class="k">]&gt;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>defines a macro introducing the <i>ford (EXPR ; EXPR) EXPR</i> syntax and can be used like&#xD;</p>
+
+<p>```nemerle&#xD;
+ford (i ; n) print (i);```&#xD;</p>
+
+<h3><span class="mw-headline" id="More"><a name="More" id="More">More</a></span></h3>
+
+<p>There are other examples in the Nemerle distribution -- like <a class="internal present" href="/Design-by-contract-macros.html">design by contract macros</a>, macros for <a class="internal present" href="/Lazy-evaluation.html">lazy evaluation</a> or even such mundane tasks as <a class="internal absent" href="/logging.html">logging macros</a>. Other examples can be found at the <a class="internal present" href="/Class-library.html">class library</a> documentation page.&#xD;</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

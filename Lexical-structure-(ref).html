@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Lexical structure (ref)
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+<a class="internal absent" href="/Category%3AReference-Manual.html">Category:Reference Manual</a>&#xD;
+<a class="internal absent" href="/---Back-to-Reference-Manual..html">reference</a>&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Programs">Programs</a></li><li><a href="#Tokens">Tokens</a></li><li><a href="#Blanks">Blanks</a></li><li><a href="#Preprocessing_directives">Preprocessing directives</a></li><li><a href="#Identifiers">Identifiers</a></li><li><a href="#Keywords">Keywords</a></li><li><a href="#Literals">Literals</a><ul><li><a href="#String_literals">String literals</a></li><li><a href="#Character_literals">Character literals</a></li><li><a href="#Other_literals">Other literals</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Programs"><a name="Programs" id="Programs">Programs</a></span></h2>
+Programs are written using the Unicode character set, using the UTF-8&#xD;
+encoding. Every Nemerle source file is reduced to a sequence of lexical&#xD;
+units (tokens) separated by sequences of whie characters (blanks).&#xD;
+
+<h2><span class="mw-headline" id="Tokens"><a name="Tokens" id="Tokens">Tokens</a></span></h2>
+There are four classes of lexical tokens:&#xD;
+<ul><li> identifiers&#xD;
+</li><li> keywords&#xD;
+</li><li> literals&#xD;
+</li><li> blanks&#xD;
+</li></ul><div class="highlight"><pre><span class="cm">/* A comment. */</span>
+<span class="c1">// Also a comment</span>
+
+<span class="n">foo</span>               <span class="c1">// identifier</span>
+<span class="n">foo_bar</span> <span class="n">foo</span><span class="err">'</span> <span class="n">foo3</span> <span class="c1">// other identifiers</span>
+<span class="err">'</span><span class="n">a</span> <span class="err">'</span><span class="n">foo</span><span class="err">'</span><span class="n">bar</span><span class="err">'</span><span class="n">baz</span>   <span class="c1">// more identifiers</span>
+<span class="m">42</span>                <span class="c1">// integer literal</span>
+<span class="m">1</span><span class="n">_000_000</span>         <span class="c1">// _ can be used for readability</span>
+<span class="m">1</span><span class="n">_42_00</span>           <span class="c1">// or unreadability...</span>
+<span class="m">0x2a</span>              <span class="c1">// hexadecimal integer literal</span>
+<span class="m">0</span><span class="n">o52</span>              <span class="c1">// octal integer literal</span>
+<span class="m">0</span><span class="n">b101010</span>          <span class="c1">// binary integer literal</span>
+<span class="sc">'a'</span>               <span class="c1">// character literal</span>
+<span class="sc">'\n'</span>              <span class="c1">// also a character literal</span>
+<span class="s">"foo\nbar"</span>        <span class="c1">// string literal</span>
+<span class="s">"foo"</span> <span class="s">"bar"</span>       <span class="c1">// same as "foobar"</span>
+<span class="s">@"x\n"</span>            <span class="c1">// same as "x\n"</span>
+<span class="n">@if</span>               <span class="c1">// keyword used as identifier</span>
+</pre>
+</div>
+
+
+<div class="highlight"><pre><span class="m">3.14f</span>             <span class="c1">// float literal</span>
+<span class="m">3.14d</span><span class="p">,</span> <span class="m">3.14</span>       <span class="c1">// double literal</span>
+<span class="m">3.14</span><span class="n">m</span>             <span class="c1">// decimal literal</span>
+</pre>
+</div>
+
+
+<div class="highlight"><pre><span class="m">10</span>         <span class="c1">// int</span>
+<span class="m">10</span><span class="n">u</span>        <span class="c1">// unsigned int</span>
+<span class="m">10</span><span class="n">b</span>        <span class="c1">// signed byte</span>
+<span class="m">10</span><span class="n">ub</span><span class="p">,</span> <span class="m">10</span><span class="n">bu</span> <span class="c1">// unsigned byte</span>
+<span class="m">10L</span>        <span class="c1">// long</span>
+<span class="m">10</span><span class="n">UL</span><span class="p">,</span> <span class="m">10L</span><span class="n">U</span> <span class="c1">// unsigned long</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Blanks"><a name="Blanks" id="Blanks">Blanks</a></span></h2>
+Spaces, vertical and horizontal tabulation characters, new-page&#xD;
+characters, new-line characters and comments (called blanks altogether)&#xD;
+are discarded, but can separate other lexical tokens.&#xD;
+
+<p>A traditional comment begins with a <code>/*</code>, and ends with&#xD;
+<code>*/</code>.  Traditional comments cannot be nested.  An end-of-line&#xD;
+comment starts with //, and ends with the line terminator (ASCII LF&#xD;
+character).&#xD;</p>
+
+<h2><span class="mw-headline" id="Preprocessing_directives"><a name="Preprocessing_directives" id="Preprocessing_directives">Preprocessing directives</a></span></h2>
+There is a set of preprocessing directives used for conditional&#xD;
+compilation and changing line numbering context. They are the same as in&#xD;
+<a target="_blank" href="http://www.jaggersoft.com/csharp_standard/9.5.htm|C#">http://www.jaggersoft.com/csharp_standard/9.5.htm|C#</a>. Allowed directives &#xD;
+are: &#xD;
+<ul><li><code>#define</code>&#xD;
+</li><li><code>#undef</code>&#xD;
+</li><li><code>#if</code>&#xD;
+</li><li><code>#elif</code>&#xD;
+</li><li><code>#else</code>&#xD;
+</li><li><code>#endif</code>&#xD;
+</li><li><code>#line</code>&#xD;
+</li><li><code>#error</code>&#xD;
+</li><li><code>#warning</code>&#xD;
+</li><li><code>#region</code>&#xD;
+</li><li><code>#endregion</code>&#xD;
+</li></ul><h2><span class="mw-headline" id="Identifiers"><a name="Identifiers" id="Identifiers">Identifiers</a></span></h2>
+Ordinary identifiers consist of letters, digits, underscores and&#xD;
+apostrophe, but cannot begin with a digit. Identifiers may be quoted with&#xD;
+the <code>@</code> character, which is stripped. It removes any lexical and&#xD;
+syntactic meaning from the following string of characters until blank,&#xD;
+thus enabling programmer to use keywords as identifiers.&#xD;
+
+<p>There is an important difference between identifiers starting with&#xD;
+underscore character (<code>_</code>) and the other ones. When you define&#xD;
+local value with name starting with <code>_</code>  and won't use it, compiler&#xD;
+won't complain about it. It will warn about other unused values though.&#xD;</p>
+
+<p>Symbolic identifiers consist of following characters: &#xD;
+<code>=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>@</code>, <code>^</code>,&#xD;
+<code>|</code>, <code>&amp;</code>, <code>+</code>, <code>-</code>, <code>*</code>,&#xD;
+<code>/</code>, <code>$</code>, <code>%</code>, <code>!</code>, <code>?</code>,&#xD;
+<code>~</code>, <code>.</code>, <code>:</code>, <code>#</code>.&#xD;
+Symbolic identifiers are treated as standard identifiers except to the&#xD;
+fact that they are always treated as infix operators.&#xD;</p>
+
+<h2><span class="mw-headline" id="Keywords"><a name="Keywords" id="Keywords">Keywords</a></span></h2>
+
+<p>Following identifiers are used as keywords, and may not be used in&#xD;
+any other context unquoted: &#xD;
+<code>_</code>, <code>abstract</code>, <code>and</code>, <code>array</code>,&#xD;
+<code>as</code>, <code>base</code>, <code>catch</code>, <code>class</code>,&#xD;
+<code>def</code>, <code>delegate</code>, <code>do</code>, <code>else</code>,&#xD;
+<code>enum</code>, <code>event</code>, <code>extern</code>, <code>false</code>,&#xD;
+<code>finally</code>, <code>for</code>, <code>foreach</code>, <code>fun</code>,&#xD;
+<code>if</code>, <code>implements</code>, <code>in</code>, <code>interface</code>,&#xD;
+<code>internal</code>, <code>lock</code>, <code>macro</code>, <code>match</code>,&#xD;
+<code>module</code>, <code>mutable</code>, <code>namespace</code>, <code>new</code>,&#xD;
+<code>null</code>, <code>out</code>, <code>override</code>, <code>params</code>,&#xD;
+<code>private</code>, <code>protected</code>, <code>public</code>, <code>ref</code>,&#xD;
+<code>sealed</code>, <code>static</code>, <code>struct</code>, <code>syntax</code>,&#xD;
+<code>this</code>, <code>throw</code>, <code>true</code>, <code>try</code>, <code>type</code>,&#xD;
+<code>typeof</code>, <code>unless</code>, <code>using</code>, <code>variant</code>,&#xD;
+<code>virtual</code>, <code>void</code>, <code>when</code>, <code>where</code>,&#xD;
+<code>while</code>, <code>assert</code>, <code>ignore</code>.&#xD;</p>
+
+<p>Following infix identifiers are reserved keywords:&#xD;
+<code>=</code>, <code>$</code>, <code>?</code>, <code>|</code>, <code>-&amp;gt;</code>,&#xD;
+<code>=&gt;</code>, <code>&amp;lt;[</code>, <code>]&gt;</code>, <code>&amp;&amp;</code>, <code>||</code>.&#xD;</p>
+
+<h2><span class="mw-headline" id="Literals"><a name="Literals" id="Literals">Literals</a></span></h2>
+
+<p>There are few kinds of literals:&#xD;</p>
+
+<ul><li> String literals, enclosed in "". Compiler processes backslash escapes much like in C#. You can use <code>$</code> operator before the string literal to enable string interpolation feature (the `$' operator is now a shorthand to <code>Nemerle.IO.sprint</code>).&#xD;
+</li></ul><div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="m">40</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">y</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span> <span class="p">(</span><span class="s">$ "</span><span class="n">$</span><span class="p">(</span><span class="n">x</span><span class="err"> </span><span class="p">+</span><span class="err"> 2</span><span class="p">)</span><span class="s"> == </span><span class="n">$y</span><span class="s">\n"</span><span class="p">)</span>
+</pre>
+</div>
+
+Any expression can be used in $(...), but there might be problems with&#xD;
+embedded strings and so on. It is meant to be used with simple expressions&#xD;
+like array/field access, method call, etc.&#xD;
+<ul><li> Raw string literals, written like ordinary string literals, but prefixed with <code>@</code>. Escapes are not processed.&#xD;
+</li><li> Character literals, enclosed in '. Escapes are processed.&#xD;
+</li><li> Numeric literal are allowed to have suffix describing their type as seen in tokens section.&#xD;
+</li><li> Integer literals, possibly prefixed with 0x, 0o or 0b to denote hexadecimal, octal or binary encoding respectively.&#xD;
+</li><li> Floating point literals, defined as:&#xD;
+</li></ul><div class="highlight"><pre>floating_point_literal =
+      digits '.' [ digits ] [ exponential_marker [ sign ] digits ]
+digits =
+      { digit }
+exponential_marker =
+      'e' | 'E'
+sign = '+' | '-'
+
+digit = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="String_literals"><a name="String_literals" id="String_literals">String literals</a></span></h3>
+
+<p>Represents string constant. Nemerle supports two forms of string:&#xD;</p>
+
+<ul><li> regular string literals&#xD;
+</li><li> verbatim string literals &#xD;
+</li></ul> &#xD;
+A regular string literal consists of zero or more characters enclosed in double quotes and may include both simple escape sequences (such as \n for the newline character) and hexadecimal and Unicode escape sequences (See character literals for details).&#xD;
+
+<p>A verbatim string literal consists of an @ character followed by a double-quote character, zero or more characters, and a closing double-quote character. In a verbatim string literal, the characters between the double-quotes are recognized verbatim, the only exception is a sequence "" (used to indicate '"' character) (Note that simple escape sequences and hexadecimal and Unicode escape sequences are not recognized in verbatim string literals). A verbatim string literal may span multiple lines.&#xD;</p>
+
+<p>Examples:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">s1</span> <span class="p">=</span> <span class="s">"Nemerle string !"</span><span class="p">;</span>            <span class="c1">// Nemerle string !</span>
+<span class="k">def</span> <span class="n">s2</span> <span class="p">=</span> <span class="s">@"Nemerle string !"</span><span class="p">;</span>           <span class="c1">// Nemerle string !</span>
+<span class="k">def</span> <span class="n">s3</span> <span class="p">=</span> <span class="s">"Nemerle\tstring !"</span><span class="p">;</span>           <span class="c1">// Nemerle    string !</span>
+<span class="k">def</span> <span class="n">s4</span> <span class="p">=</span> <span class="s">@"Nemerle\tstring !"</span><span class="p">;</span>          <span class="c1">// Nemerle\tstring !</span>
+<span class="k">def</span> <span class="n">s5</span> <span class="p">=</span> <span class="s">"I heard b497ebded00e5922e7088f91a0ecc59b976c0a33quot;zonk !b497ebded00e5922e7088f91a0ecc59b976c0a33quot;"</span><span class="p">;</span>          <span class="c1">// I heard "zonk !"</span>
+<span class="k">def</span> <span class="n">s6</span> <span class="p">=</span> <span class="s">@"I heard ""zonk !"""</span><span class="p">;</span>         <span class="c1">// I heard "zonk !"</span>
+<span class="k">def</span> <span class="n">s7</span> <span class="p">=</span> <span class="s">"\\trunk\ncc\ncc.exe"</span><span class="p">;</span>     <span class="c1">// \trunk\ncc\ncc.exe</span>
+<span class="k">def</span> <span class="n">s8</span> <span class="p">=</span> <span class="s">@"\trunk\ncc\ncc.exe"</span><span class="p">;</span>        <span class="c1">// \trunk\ncc\ncc.exe</span>
+<span class="k">def</span> <span class="n">s9</span> <span class="p">=</span> <span class="s">"b497ebded00e5922e7088f91a0ecc59b976c0a33quot;Nemerleb497ebded00e5922e7088f91a0ecc59b976c0a33quot;\nstring\n!"</span><span class="p">;</span>      <span class="c1">// "Nemerle"</span>
+                                        <span class="c1">// string</span>
+                                        <span class="c1">// !</span>
+<span class="k">def</span> <span class="n">s10</span> <span class="p">=</span> <span class="s">@"""Nemerle""                 // same as s9</span>
+<span class="n">rocks</span>
+<span class="p">!</span><span class="s">";</span>
+</pre>
+</div>
+
+
+<p>String s10 is a verbatim string literal that spans 3 lines. &#xD;</p>
+
+<h3><span class="mw-headline" id="Character_literals"><a name="Character_literals" id="Character_literals">Character literals</a></span></h3>
+
+<p>A character literal consists of one character enclosed in single-quotes (' ') or escape character of form '\X' where X can be one of the following: [FIXME:]&#xD;</p>
+
+<ul><li> \, ', " - this allows representation of (respectively) backslash, single-quote double-quote&#xD;
+</li><li> 0X - where X is an octal ASCII code (up to three digits) of the character we want to represent (N)&#xD;
+</li><li> xX - where X is an hexadecimal ASCII code (exactly two digits) of the character we want to represent (N)&#xD;
+</li><li> uX - where X is an hexadecimal UNICODE code (exactly four digits) of the character we want to represent (N)&#xD;
+</li><li> a - matches a bell (alarm) (N)&#xD;
+</li><li> b - matches a backspace \u0008&#xD;
+</li><li> r - matches carriage return \u000D&#xD;
+</li><li> v - matches vertical tab \u000B (N)&#xD;
+</li><li> f - matches form feed \u000C (N)&#xD;
+</li><li> n - matches a new line \u000A&#xD;
+</li><li> e - matches an escape \u001B (N)&#xD;
+</li><li> cX - matches an ASCII control character; for example \cC represents control-C (N) &#xD;
+</li></ul> &#xD;
+It has type <code>char</code>. &#xD;
+
+<h3><span class="mw-headline" id="Other_literals"><a name="Other_literals" id="Other_literals">Other literals</a></span></h3>
+
+<div class="highlight"><pre>literal = 'true' | 'false' | 'null' | '()'
+</pre>
+</div>
+
+
+<p><code>true</code> and <code>false</code> have type <code>bool</code> and represent respectively true/false boolean value.&#xD;</p>
+
+<p><code>null</code> represents a special instance of any reference type that you cannot dereference.&#xD;</p>
+
+<p><code>()</code> represents the only instance of type <code>void</code>.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

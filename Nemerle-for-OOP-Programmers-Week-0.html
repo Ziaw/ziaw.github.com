@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Nemerle for OOP Programmers Week 0
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+In this first lesson, we will get in touch with Nemerle syntax,&#xD;
+and some of the basic features of the language. At the end, we will also&#xD;
+learn how to install and configure a usable Nemerle compiler.&#xD;</p>
+
+<p>We assume that you have general knowledge about all the items that&#xD;
+are treated here, so we won't dig so much into them.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Values_and_Variables">Values and Variables</a></li><li><a href="#Type_Inference">Type Inference</a></li><li><a href="#Methods">Methods</a><ul><li><a href="#Returning_Values">Returning Values</a></li></ul></li><li><a href="#Primitive_Types">Primitive Types</a></li><li><a href="#Simple_Examples">Simple Examples</a></li><li><a href="#Decision_Statements">Decision Statements</a><ul><li><a href="#Combining_relational_operators">Combining relational operators</a></li><li><a href="#Using_conditions">Using conditions</a></li></ul></li><li><a href="#Code_blocks">Code blocks</a></li><li><a href="#Exercises">Exercises</a><ul><li><a href="#Install_Nemerle">Install Nemerle</a></li><li><a href="#Exercise_1">Exercise 1</a></li><li><a href="#Exercise_2">Exercise 2</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Values_and_Variables"><a name="Values_and_Variables" id="Values_and_Variables">Values and Variables</a></span></h2>
+
+<p>Just as a review: a <i>value</i> is a place in memory that holds some&#xD;
+data. Each value has an <i>identifier</i>, or name, which allows&#xD;
+us to refer to its contents, and operate on it. In most languages,&#xD;
+identifiers declared in code are read-write variables, but this is not&#xD;
+the default scheme in Nemerle. Indeed, there are two kinds of identifiers:&#xD;
+<b>mutable</b> and <b>immutable</b>.&#xD;</p>
+
+<p>Immutable identifiers (<b>values</b>), far more commonly used in Nemerle, are&#xD;
+defined with the following syntax. There's always an initializer,&#xD;
+because if there wasn't, we wouldn't be able to use it at all:&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">name</span> <span class="p">:</span> <span class="k">type</span> <span class="p">=</span> <span class="n">value</span>
+</pre>
+</div>
+
+
+<p>For mutable identifiers (<b>variables</b>) we just change the <code>def</code> keyword to&#xD;
+<code>mutable</code>, like this:&#xD;
+</p><div class="highlight"><pre><span class="k">mutable</span> <span class="n">name</span> <span class="p">:</span> <span class="k">type</span> <span class="p">=</span> <span class="n">value</span>
+</pre>
+</div>
+
+
+<p>Immutable values are typically used for naming some object, and&#xD;
+using that same instance for the life of the value. Mutable &#xD;
+variables are used as place holders for some data which is meant to be &#xD;
+changed in further computation. You will see that such a distinction &#xD;
+leads to a different approach to solving programming problems.&#xD;</p>
+
+<h2><span class="mw-headline" id="Type_Inference"><a name="Type_Inference" id="Type_Inference">Type Inference</a></span></h2>
+
+<p>You might have wondered why we use a special keyword for declaring&#xD;
+values, instead of just writing <code>type name;</code> as in C. This is&#xD;
+because the type can be skipped in most cases. So instead of writing:&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+</pre>
+</div>
+
+you write:&#xD;
+<div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>This is not limited to literals, as you can also write something like:&#xD;
+</p><div class="highlight"><pre><span class="k">mutable</span> <span class="n">y</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+<span class="c1">// do something</span>
+<span class="n">y</span> <span class="p">=</span> <span class="n">SomeComplexObject</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>This is still OK.&#xD;</p>
+
+<h2><span class="mw-headline" id="Methods"><a name="Methods" id="Methods">Methods</a></span></h2>
+As you surely know, a method or function is a group of statements, &#xD;
+executed sequentially, which are given a meaningful name. Optionally, methods&#xD;
+can have a <i>return value</i> as the final value of the computation. Methods&#xD;
+can also have <i>parameters</i>, that is, values that are given to the method&#xD;
+so it can know what to do. The general syntax for methods is:&#xD;
+
+<div class="highlight"><pre><span class="n">name</span> <span class="p">(</span> <span class="n">parameter1</span> <span class="p">:</span> <span class="k">type</span><span class="p">,</span> <span class="n">parameter2</span> <span class="p">:</span> <span class="k">type</span> <span class="p">...</span> <span class="p">)</span> <span class="p">:</span> <span class="n">return_type</span>
+</pre>
+</div>
+
+
+<p>As you can see, the only difference when compared against C#, C++ or Java &#xD;
+is that types are written after the parameter name, instead of before them. &#xD;
+This is just a matter of convention; Visual Basic, for example, also&#xD;
+places it after the name.&#xD;</p>
+
+<p><i>NOTE:</i> type inference is not available for parameters and return types&#xD;
+of methods. Having type inference for public methods could lead to accidently&#xD;
+changing exported interfaces of classes &#x2014; which is Not Good&#x2122;.&#xD;
+We plan to implement it for private methods though.&#xD;</p>
+
+<h3><span class="mw-headline" id="Returning_Values"><a name="Returning_Values" id="Returning_Values">Returning Values</a></span></h3>
+Continuing in the functional programming tradition, Nemerle doesn't&#xD;
+use <b>return</b> or any other keyword to specify which value a function &#xD;
+gives back as it's result. This fits very well in Nemerle: there are no goto, &#xD;
+break or label statements that could disrupt normal program flow (well, &#xD;
+there are some macros extending the language to allow them, but for now &#xD;
+let us just ignore them).&#xD;
+
+<p>The question then arises: if there is no keyword, how does the&#xD;
+compiler know which value to return? The answer is very easy: &#xD;
+the last value that has been computed. The easiest example to understand&#xD;
+this is:&#xD;
+</p><div class="highlight"><pre><span class="n">add</span> <span class="p">(</span><span class="n">number1</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">number2</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="n">number1</span> <span class="p">+</span> <span class="n">number2</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+So the function's return type should agree with the type of last&#xD;
+expression in its body. If it does not yield any value, then the function&#xD;
+does not return anything (and its return type is called <b>void</b>).&#xD;
+
+<h2><span class="mw-headline" id="Primitive_Types"><a name="Primitive_Types" id="Primitive_Types">Primitive Types</a></span></h2>
+Well, up to this point we have used the word <b>type</b> lots of times, but &#xD;
+we have not really defined it. <i>Type</i> is a fundamental concept in Object&#xD;
+Oriented Programming. It represents an abstract idea of what a value&#xD;
+is. For now, we will only introduce the primitive types:&#xD;
+
+<table border="1"><tr><th>Short name</th>&#xD;    <th>Full name</th>&#xD;    <th>Description</th>&#xD;  </tr><tr><td><code>sbyte</code></td>&#xD;    <td><code>System.SByte</code></td>&#xD;    <td>A signed 8-bit wide integer.</td>&#xD;  </tr><tr><td><code>short</code></td>&#xD;    <td><code>System.Int16</code></td>&#xD;    <td>A signed 16-bit wide integer.</td>&#xD;  </tr><tr><td><code>int</code></td>&#xD;    <td><code>System.Int32</code></td>&#xD;    <td>A signed 32-bit wide integer.</td>&#xD;  </tr><tr><td><code>long</code></td>&#xD;    <td><code>System.Int64</code></td>&#xD;    <td>A signed 64-bit wide integer.</td>&#xD;  </tr><tr><td><code>byte</code></td>&#xD;    <td><code>System.Byte</code></td>&#xD;    <td>An unsigned 8-bit wide integer.</td>&#xD;  </tr><tr><td><code>ushort</code></td>&#xD;    <td><code>System.UInt16</code></td>&#xD;    <td>An unsigned 16-bit wide integer.</td>&#xD;  </tr><tr><td><code>uint</code></td>&#xD;    <td><code>System.UInt32</code></td>&#xD;    <td>An unsigned 32-bit wide integer.</td>&#xD;  </tr><tr><td><code>ulong</code></td>&#xD;    <td><code>System.UInt64</code></td>&#xD;    <td>An unsigned 64-bit wide integer.</td>&#xD;  </tr><tr><td><code>string</code></td>&#xD;    <td><code>System.String</code></td>&#xD;    <td>An immutable string of characters.</td>&#xD;  </tr><tr><td><code>char</code></td>&#xD;    <td><code>System.Char</code></td>&#xD;    <td>A character, represented internally by a 16-bit integer.</td>&#xD;  </tr><tr><td><code>void</code></td>&#xD;    <td><code>System.Void</code></td>&#xD;    <td>A type with exactly one value, named <code>()</code> in Nemerle. &#xD;        Used when a method doesn't return anything sensible.</td>&#xD;  </tr><tr><td><code>float</code></td>&#xD;    <td><code>System.Single</code></td>&#xD;    <td>A 32-bit IEEE floating point number.</td>&#xD;  </tr><tr><td><code>double</code></td>&#xD;    <td><code>System.Double</code></td>&#xD;    <td>A 64-bit IEEE floating point number.</td>&#xD;  </tr><tr><td><code>decimal</code></td>&#xD;    <td><code>System.Decimal</code></td>&#xD;    <td>A type used for money representation.</td>&#xD;  </tr></table><p>During this course you probably won't touch anything beside <code>int</code>,&#xD;
+<code>string</code>, <code>char</code> and <code>void</code>, so don't bother remembering&#xD;
+the above :-)&#xD;</p>
+
+<p>The Full Name is the name used in the Base Class Libraries (BCL), which you &#xD;
+can use to lookup information in the <i>.NET Framework SDK Documentation</i>, or &#xD;
+similar reference. In code it is easier to use the short name, but the longer &#xD;
+one is equally valid. They are interchangeable.&#xD;</p>
+
+<p>Nemerle is based on Microsoft .NET Framework, or its free implementation,&#xD;
+Mono. That means that these types are not really just for Nemerle, but&#xD;
+are common for any language targeting the .NET Framework. You have to adapt &#xD;
+to this new platform, because while the syntactical parts of the language &#xD;
+come from Nemerle, the practical parts (interaction with the user, &#xD;
+communication over a network) come from the BCL. If you come from C#, you &#xD;
+very likely know the Base Class Libraries well already. If you are new to &#xD;
+.NET, you will need an introduction, so we will start with some working &#xD;
+examples.&#xD;</p>
+
+<h2><span class="mw-headline" id="Simple_Examples"><a name="Simple_Examples" id="Simple_Examples">Simple Examples</a></span></h2>
+
+<p>For example, if I wanted to ask the user for her/his name and present &#xD;
+a greeting, I would write a program something like this:&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">name</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span> <span class="p">();</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello "</span> <span class="p">+</span> <span class="n">name</span><span class="p">);</span>
+</pre>
+</div>
+
+You can save these two lines into a file, say <code>greeting.n</code>. Compile it&#xD;
+using:&#xD;
+
+<pre>  ncc greeting.n&#xD;</pre>
+
+<p>and then run it (at the Windows cmd prompt):&#xD;</p>
+
+<pre>  out&#xD;</pre>
+
+<p>(or on Linux with mono, in a terminal window):&#xD;</p>
+
+<pre>  mono out.exe&#xD;</pre>
+
+<p>Nemerle does not require you to provide any classes or methods, you can&#xD;
+just throw expressions to evaluate into a file and it will run it.&#xD;</p>
+
+<p>Another way to start a program's execution is to write a static method&#xD;
+called <code>Main</code> in some class. So here, the example would be:&#xD;
+</p><div class="highlight"><pre><span class="k">class</span> <span class="nc">Greeter</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">name</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span> <span class="p">();</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello "</span> <span class="p">+</span> <span class="n">name</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>You cannot mix these two techniques, or for that matter, place top-level&#xD;
+code in more than one file. What you can do is define some classes&#xD;
+before (but not in the middle, or after) the actual code to be executed.&#xD;
+This is what we will do in this course, as it is more concise.&#xD;</p>
+
+<p>So the most sophisticated way to write this simple example would be:&#xD;
+</p><div class="highlight"><pre><span class="k">class</span> <span class="nc">Asker</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Run</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">string</span>
+  <span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span> <span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">name</span> <span class="p">=</span> <span class="n">Asker</span><span class="p">.</span><span class="n">Run</span> <span class="p">();</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello "</span> <span class="p">+</span> <span class="n">name</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Decision_Statements"><a name="Decision_Statements" id="Decision_Statements">Decision Statements</a></span></h2>
+
+<p>One of the main functionalities in every programming language is the&#xD;
+ability to execute instructions depending on some values or some input&#xD;
+from the user. If you know some other language, this should be a familiar&#xD;
+concept.  The relational operators in Nemerle are the ones&#xD;
+found in C#, C++ and Java:&#xD;</p>
+
+<table border="1"><tr><td><code>==</code></td><td>Equal to</td></tr><tr><td><code>!=</code></td><td>Not equal to</td></tr><tr><td><code>&amp;gt;</code></td><td>Greater than</td></tr><tr><td><code>&amp;gt;=</code></td><td>Greater or equal than</td></tr><tr><td><code>&amp;lt;</code></td><td>Less than</td></tr><tr><td><code>&amp;lt;=</code></td><td>Less or equal than</td></tr></table><p><i>NOTE:</i> other languages, such as Visual Basic or Pascal, use&#xD;
+<code>=</code> as the logical operator for equal to. This is an assignment&#xD;
+operator in Nemerle, therefore it is an error to use it as a relational&#xD;
+operator.&#xD;</p>
+
+<p>Results from relational operators can be saved in <code>bool</code> values,&#xD;
+and these values can be used like any other:&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">number</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span> <span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span> <span class="p">());</span>
+<span class="k">def</span> <span class="n">isEven</span> <span class="p">=</span> <span class="p">(</span><span class="n">number</span> <span class="p">%</span> <span class="m">2</span><span class="p">)</span> <span class="p">==</span> <span class="m">0</span><span class="p">;</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span> <span class="p">(</span><span class="s">"The number is even :"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span> <span class="p">(</span><span class="n">isEven</span><span class="p">);</span>
+</pre>
+</div>
+
+This code will show <code>True</code> or <code>False</code> depending on the&#xD;
+input from the user.&#xD;
+
+<h3><span class="mw-headline" id="Combining_relational_operators"><a name="Combining_relational_operators" id="Combining_relational_operators">Combining relational operators</a></span></h3>
+
+<p>Sometimes it is necessary to combine more than one condition. This can be&#xD;
+done using the following operators:&#xD;</p>
+
+<table border="1"><tr><td><code>! c</code></td>&#xD;  <td>Negation, returns <code>true</code> if <code>c</code> was <code>false</code>, and <code>false</code> if <code>c</code> was <code>true</code>.</td></tr><tr><td><code>c1 &amp;&amp; c2</code></td>&#xD;  <td>And, checks <code>c1</code>, if it is <code>false</code> returns <code>false</code> otherwise returns <code>c2</code>.</td></tr><tr><td><code>c1 || c2</code></td><td>Or, checks <code>c1</code>, if it is <code>true</code> returns <code>true</code> otherwise returns <code>c2</code>.&#xD;  </td></tr></table><p>Both <code>&amp;&amp;</code> and <code>||</code> are evaluated lazily, which means the&#xD;
+following code:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">when</span> <span class="p">(</span><span class="n">foo</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">foo</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">foo</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>will never yield <code>NullReferenceException</code>, because the &#xD;
+<code>foo.Length</code> will not be evaluated if <code>foo != null</code>&#xD;
+was false.&#xD;</p>
+
+<p>This is the same behavior as in all C-like languages.&#xD;</p>
+
+<h3><span class="mw-headline" id="Using_conditions"><a name="Using_conditions" id="Using_conditions">Using conditions</a></span></h3>
+
+<p>Once we have learned how to check for conditions, it's time to learn how&#xD;
+to execute a piece of code depending on them. The three main conditional &#xD;
+constructs for this task are:&#xD;
+</p><div class="highlight"><pre><span class="k">when</span> <span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+  <span class="n">code</span>
+</pre>
+</div>
+
+<b><code>when</code></b> executes the code only when the condition is <code>true</code>.&#xD;
+<div class="highlight"><pre><span class="k">unless</span> <span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+  <span class="n">code</span>
+</pre>
+</div>
+
+<b><code>unless</code></b> executes the code only when the condition is <code>false</code>.&#xD;
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+  <span class="n">code1</span>
+<span class="k">else</span>
+  <span class="n">code2</span>
+</pre>
+</div>
+
+<b><code>if..else</code></b> executes the first block of code when&#xD;
+the condition is <code>true</code>, or the second if its result is&#xD;
+<code>false</code>. On the main C-family languages, the notion of <i>when</i>&#xD;
+or <i>unless</i> clauses does not exist, so they are managed using <i>if</i>s&#xD;
+without <i>else</i>. In Nemerle, <b>every ''if'' has its ''else''.</b>&#xD;
+
+<p>As you can see:&#xD;
+</p><div class="highlight"><pre><span class="k">unless</span> <span class="p">(</span><span class="n">something</span><span class="p">)</span>
+  <span class="n">DoSomethingElse</span> <span class="p">()</span>
+</pre>
+</div>
+
+is exactly the same as:&#xD;
+<div class="highlight"><pre><span class="k">when</span> <span class="p">(!</span><span class="n">something</span><span class="p">)</span>
+  <span class="n">DoSomethingElse</span> <span class="p">()</span>
+</pre>
+</div>
+
+Whether or not you use <code>unless</code> is up to you: use what reads &#xD;
+better to you. No styling guidelines here.&#xD;
+
+<p>In Nemerle, conditional statements are also functions (as in other&#xD;
+functional languages), so the type of the return value of each branch&#xD;
+must be the same. However, these constructs are mostly used as they are &#xD;
+in C# or Java (the type of both branches is <code>void</code>), so&#xD;
+there should be no problem if you don't miss your final <code>;</code>. This&#xD;
+is specially important in <i>when</i>/<i>unless</i>, because, as stated in&#xD;
+<a class="internal absent" href="/Language-Reference.html">Secondary_expressions_%28ref%29#When_expression</a>, &#xD;
+they really translate to an <i>if...else</i> statement, which returns <code>()</code>.&#xD;</p>
+
+<h2><span class="mw-headline" id="Code_blocks"><a name="Code_blocks" id="Code_blocks">Code blocks</a></span></h2>
+
+<p>The final word of this week are code blocks. Conditional statements &#xD;
+support just a single statement written within their body. However,&#xD;
+most of the time, you will need to execute more than one statement. This&#xD;
+is achieved using <i>code blocks</i>: a series of statements written&#xD;
+inside { and }, that are evaluated sequentially, and whose return type&#xD;
+is the last value computed (remember, it's a functional language).&#xD;</p>
+
+<h2><span class="mw-headline" id="Exercises"><a name="Exercises" id="Exercises">Exercises</a></span></h2>
+
+<p>The homework for this week is very easy to do. The intention is that the &#xD;
+hardest part is the Nemerle installation.&#xD;</p>
+
+<h3><span class="mw-headline" id="Install_Nemerle"><a name="Install_Nemerle" id="Install_Nemerle">Install Nemerle</a></span></h3>
+
+<p>Install the latest stable version of Nemerle in Linux, Windows,&#xD;
+MacOS or whatever operating system you use. If you use Linux or MacOS,&#xD;
+you will need to install <a target="_blank" href="http://www.mono-project.com">Mono</a> first. If &#xD;
+you use Windows, you will need the latest release of .NET Framework&#xD;
+2.0 (Beta 2 is too old, use at least the August 2005 CTP). &#xD;</p>
+
+<p>The <a class="internal present" href="/Step-by-step-guide-to-get-Nemerle-compiler-running.html">Step by step guide to get Nemerle compiler running</a> on our&#xD;
+Webpage has all the details, including MS.NET/Mono installation&#xD;
+instructions.&#xD;</p>
+
+<p>You can ask any questions on the course mailing list. You can also&#xD;
+configure some editors (such as SciTE, VIM, XEmacs, Kate, GEdit, mcedit)&#xD;
+for Nemerle syntax highlighting. You can find <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/misc/">configuration files</a>&#xD;
+in the SVN repository.&#xD;</p>
+
+<h3><span class="mw-headline" id="Exercise_1"><a name="Exercise_1" id="Exercise_1">Exercise 1</a></span></h3>
+
+<p>Create a console application that asks the user for two numbers and then&#xD;
+shows them added, subtracted, multiplied, divided and its modulus. You&#xD;
+can also build upon it a program that shows the sin, cosine and tangent&#xD;
+of a specified angle (look in the <code>System.Math</code> class).&#xD;</p>
+
+<h3><span class="mw-headline" id="Exercise_2"><a name="Exercise_2" id="Exercise_2">Exercise 2</a></span></h3>
+
+<p>Add a menu (a list of possible operations and a prompt for a choice)&#xD;
+to this program so the user can choose which operation to&#xD;
+perform. Implements separate methods for reading numbers and displaying&#xD;
+the menu.&#xD;
+&#xD;</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

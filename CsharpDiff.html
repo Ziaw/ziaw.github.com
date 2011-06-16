@@ -1,0 +1,547 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	CsharpDiff
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Introduction">Introduction</a></li><li><a href="#New_stuff">New stuff</a></li><li><a href="#Changes_in_expressions">Changes in expressions</a></li><li><a href="#Changes_in_type_definitions">Changes in type definitions</a></li><li><a href="#Generics_in_C">Generics in C#...</a></li><li><a href="#The_same_mostly">The same (mostly)</a></li><li><a href="#Other_minor_differences">Other minor differences</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Introduction"><a name="Introduction" id="Introduction">Introduction</a></span></h2>
+
+<p>This document lists basic differences between Nemerle and C# in a terse&#xD;
+form. If you know Java or C++ you also should be able to use it.&#xD;</p>
+
+<p>It is meant as a reference for people already programming in Nemerle,&#xD;
+not as a tutorial. For hints about learning Nemerle please consult the&#xD;
+<a class="internal absent" href="/documentation.html">documentation</a>.&#xD;</p>
+
+<p>Most changes (vs C#) are dictated by <a class="internal present" href="/Features.html">features</a>, so please check them&#xD;
+out first before judging about anything here :-)&#xD;</p>
+
+<p>There are also some <a class="internal absent" href="/minor-differences.html">Cs-minor-diff</a>, that didn't fit into&#xD;
+this table.&#xD;</p>
+
+<h2><span class="mw-headline" id="New_stuff"><a name="New_stuff" id="New_stuff">New stuff</a></span></h2>
+
+<p>This section talks about the stuff more or less absent in C#.&#xD;</p>
+
+<pre> &#xD;</pre>
+
+<table cellspacing="15"><tr><th>C#</th>&#xD;  <th>Nemerle</th>&#xD;  <th>Remarks</th>&#xD; </tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">void</span> <span class="nf">m</span><span class="p">(</span><span class="kt">int</span> <span class="n">_unused1</span><span class="p">,</span> <span class="kt">string</span> <span class="n">_unused2</span><span class="p">)</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="n">m</span> <span class="p">(</span><span class="n">_</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">_</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td> Upon each use the _ keyword generates a new name.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span> 
+  <span class="k">static</span> <span class="k">readonly</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> 
+  <span class="k">static</span> <span class="kt">int</span> <span class="nf">m</span> <span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> 
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">module</span> <span class="nc">Foo</span> <span class="p">{</span> 
+  <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> 
+  <span class="n">m</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> 
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>module is a class, that have all members static. &#xD;</td>&#xD;</tr></table><p>There are other things, that don't fit here very well (this document&#xD;
+should be a short list of differences), so we just give some links.&#xD;</p>
+
+<ul><li> <a class="internal absent" href="/Tuples.html">Grok Various data structures</a> -- nameless, heterogeneous data structure.&#xD;
+</li><li> <a class="internal absent" href="/List-literals.html">Grok Various data structures</a> -- shortcut syntax for lists.&#xD;
+</li><li> <a class="internal absent" href="/The-void-literal.html">Grok The rest</a> -- strange thing.&#xD;
+</li><li> <a class="internal absent" href="/Named-parameters.html">Grok The rest</a> -- naming parameters in method calls.&#xD;
+</li><li> <a class="internal absent" href="/Local-functions.html">Grok Base structure of programs#Local_functions</a> -- defining functions within other functions.&#xD;
+</li><li> <a class="internal absent" href="/Functional-values.html">Grok Functionals</a> -- passing functions as parameters and returning them from other functions.&#xD;
+</li><li> <a class="internal absent" href="/Lambda-expression.html">Grok Functionals</a> -- defining nameless functions.&#xD;
+</li><li> <a class="internal absent" href="/Variants-and-matching.html">Grok Variants and matching</a> -- a big topic about special Nemerle data structure.&#xD;
+</li><li> <a class="internal present" href="/Macros.html">Macros</a> -- powerful but safe code generating macros. &#xD;
+</li></ul><h2><span class="mw-headline" id="Changes_in_expressions"><a name="Changes_in_expressions" id="Changes_in_expressions">Changes in expressions</a></span></h2>
+
+<table cellspacing="15"><tr><th>C#</th>&#xD;  <th>Nemerle</th>&#xD;  <th>Remarks</th>&#xD; </tr><tr><td>&#xD;<div class="highlight"><pre><span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+<span class="kt">string</span> <span class="n">y</span> <span class="p">=</span> <span class="s">"foo"</span><span class="p">;</span>
+<span class="n">FooBarQux</span> <span class="n">fbq</span> <span class="p">=</span> <span class="n">make_fbq</span> <span class="p">();</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">y</span> <span class="p">=</span> <span class="s">"foo"</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">fbq</span> <span class="p">=</span> <span class="n">make_fbq</span> <span class="p">();</span>
+</pre>
+</div>
+</td><td>&#xD;The values of x, y and fbq cannot be changed once defined. <a class="internal absent" href="/Immutable-values.html">Grok_Base_structure_of_programs#Imperative_loops_and_value_definitions</a> have no direct equivalent in C# or Java.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+<span class="kt">string</span> <span class="n">y</span> <span class="p">=</span> <span class="s">"foo"</span><span class="p">;</span>
+<span class="n">FooBarQux</span> <span class="n">fbq</span> <span class="p">=</span> <span class="n">make_fbq</span> <span class="p">();</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">mutable</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+<span class="k">mutable</span> <span class="n">y</span> <span class="p">=</span> <span class="s">"foo"</span><span class="p">;</span>
+<span class="k">mutable</span> <span class="n">fbq</span> <span class="p">=</span> <span class="n">make_fbq</span><span class="p">();</span>
+</pre>
+</div>
+</td><td>&#xD;The values of x, y and fbq can be changed. <a class="internal absent" href="/Mutable-values.html">Grok_Base_structure_of_programs#Imperative_loops_and_value_definitions</a> behave like variables do in imperative languages.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="n">expr_1</span> <span class="p">=</span> <span class="n">expr_2</span> <span class="p">=</span> <span class="n">expr_3</span><span class="p">;</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">def</span> <span class="n">tmp</span> <span class="p">=</span> <span class="n">expr_3</span><span class="p">;</span>
+<span class="n">expr_2</span> <span class="p">=</span> <span class="n">tmp</span><span class="p">;</span>
+<span class="n">expr_1</span> <span class="p">=</span> <span class="n">tmp</span><span class="p">;</span>
+</pre>
+</div>
+</td><td>The type of the assignment operator is void.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">new</span> <span class="nf">Class</span> <span class="p">(</span><span class="n">parms</span><span class="p">)</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="n">Class</span> <span class="p">(</span><span class="n">parms</span><span class="p">)</span>
+</pre>
+</div>
+</td><td> The new keyword for creating an object is dropped.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">new</span> <span class="n">Class</span> <span class="p">[</span><span class="n">size</span><span class="p">]</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="kt">array</span> <span class="p">(</span><span class="n">size</span><span class="p">)</span>
+</pre>
+</div>
+</td><td> If the type can be inferred from context (which is most of the time), you can drop the declaration.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">new</span> <span class="n">Class</span> <span class="p">[</span><span class="n">size</span><span class="p">]</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="kt">array</span> <span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="n">Class</span><span class="p">]</span>
+</pre>
+</div>
+</td><td> If the type cannot be inferred, you must declare it.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">new</span> <span class="n">Type</span><span class="p">[]</span> <span class="p">{</span> <span class="n">expr_0</span><span class="p">,</span> 
+  <span class="n">expr_1</span><span class="p">,</span> <span class="p">...,</span> <span class="n">expr_n</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="kt">array</span> <span class="p">[</span><span class="n">expr_0</span><span class="p">,</span> 
+       <span class="n">expr_1</span><span class="p">,</span> <span class="p">...,</span> 
+       <span class="n">expr_n</span><span class="p">]</span>
+</pre>
+</div>
+</td><td> The array constructor.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> 
+  <span class="k">return</span> <span class="n">foo</span><span class="p">;</span>
+
+<span class="n">do_something</span> <span class="p">();</span>
+<span class="k">return</span> <span class="n">bar</span><span class="p">;</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> 
+  <span class="n">foo</span>
+<span class="k">else</span> <span class="p">{</span>
+  <span class="n">do_something</span> <span class="p">();</span>
+  <span class="n">bar</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td> There is no return statement that cuts control flow in Nemerle.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> 
+  <span class="n">answer</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+<span class="p">...</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">when</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> 
+  <span class="n">answer</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+<span class="p">...</span>
+</pre>
+</div>
+</td><td> <code>if</code> without <code>else</code> is called <code>when</code>. This optional short form is provided because Nemerle requires <code>if</code> statements to be paired with <code>else</code>.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">if</span> <span class="p">(!</span><span class="n">cond</span><span class="p">)</span> 
+  <span class="n">answer</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+<span class="p">...</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">unless</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> 
+  <span class="n">answer</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+<span class="c1">// or: when (!cond) answer = 42;</span>
+<span class="p">...</span>
+</pre>
+</div>
+</td><td> <code>if</code> without "then" is called <code>unless</code>. Like <code>when</code>, nobody is forced to use it.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">try</span> <span class="p">{...}</span> 
+<span class="k">catch</span> <span class="p">(</span><span class="n">FooException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="n">BarException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">try</span> <span class="p">{...}</span> 
+<span class="k">catch</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">e</span> <span class="k">is</span> <span class="n">FooException</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">e</span> <span class="k">is</span> <span class="n">BarException</span> <span class="p">=&gt;</span> <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td> Nemerle's somewhat different <code>try ... catch</code> syntax is consistent with its <code>match</code> structure.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="n">expr</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="n">expr</span> <span class="p">:&gt;</span> <span class="k">type</span>
+</pre>
+</div>
+</td><td> Runtime type cast, allows for downcasts and upcasts.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="n">expr</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="n">expr</span> <span class="p">:</span> <span class="k">type</span>
+</pre>
+</div>
+</td><td> Static cast, allows only upcast.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">SWF</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Windows</span><span class="p">.</span><span class="n">Forms</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Xml</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">);</span>
+<span class="n">SWF</span><span class="p">.</span><span class="n">Form</span> <span class="n">x</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SWF</span><span class="p">.</span><span class="n">Form</span> <span class="p">();</span>
+<span class="n">XmlDocument</span> <span class="n">doc</span> <span class="p">=</span> <span class="k">new</span> <span class="n">XmlDocument</span> <span class="p">();</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">SWF</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Windows</span><span class="p">.</span><span class="n">Forms</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="n">WriteLine</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">);</span>
+<span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="n">SWF</span><span class="p">.</span><span class="n">Form</span> <span class="p">();</span>
+<span class="k">def</span> <span class="n">doc</span> <span class="p">=</span> <span class="n">Xml</span><span class="p">.</span><span class="n">XmlDocument</span> <span class="p">();</span>
+</pre>
+</div>
+</td><td>&#xD;In Nemerle, you can apply the <code>using</code> directive to classes as well as namespaces. Opened namespaces allow you to cut the prefix of other namespaces, like <code>System</code> in <code>System.Xml</code>. <a class="internal absent" href="/More-info.html">Grok_Namespaces#Making_long_names_short</a>.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">using</span> <span class="nn">System.Windows.Forms</span><span class="p">;</span>
+
+<span class="n">Button</span> <span class="n">button</span> <span class="p">=</span> <span class="n">control</span> <span class="k">as</span> <span class="n">Button</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">button</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> 
+  <span class="p">...</span>
+<span class="k">else</span> 
+  <span class="p">...</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">control</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">button</span> <span class="k">is</span> <span class="n">Button</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">listv</span> <span class="k">is</span> <span class="n">ListView</span> <span class="p">=&gt;</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">...</span> <span class="c1">// null case</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;Expressions returning <code>null</code> if a variable is of a given type must be simulated with <code>match</code>. It is a little bit longer construct, but <a class="internal absent" href="/pattern-matching.html">Grok Variants and matching</a> is a more general and powerful feature for most of the tasks where it would be used.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="kt">int</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span><span class="p">++;</span>
+<span class="p">++</span><span class="n">x</span><span class="p">;</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">def</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
+<span class="n">x</span><span class="p">++;</span>
+<span class="p">++</span><span class="n">x</span><span class="p">;</span>
+</pre>
+</div>
+</td><td> The ++ and -- operators return void, just like assignment. So, both prefix and postfix versions are equivalent.&#xD;</td>&#xD;</tr></table><h2><span class="mw-headline" id="Changes_in_type_definitions"><a name="Changes_in_type_definitions" id="Changes_in_type_definitions">Changes in type definitions</a></span></h2>
+
+<table cellspacing="15"><tr><th>C#</th>&#xD;  <th>Nemerle</th>&#xD;  <th>Remarks</th>&#xD; </tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">static</span> <span class="kt">int</span> <span class="nf">foo</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">string</span> <span class="n">y</span><span class="p">)</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">static</span> <span class="nf">foo</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td> Types are written after variable names.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Foo</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td> The constructor's name is always <code>this</code>.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="p">~</span><span class="n">Foo</span> <span class="p">()</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">protected</span> <span class="k">override</span> <span class="nf">Finalize</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>There is no special syntax for the destructor, you just override the <code>Finalize</code> method.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">:</span> <span class="n">Bar</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Foo</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">:</span> <span class="k">base</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">:</span> <span class="n">Bar</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="k">base</span> <span class="p">(</span><span class="n">x</span><span class="p">);</span> 
+    <span class="p">...</span> 
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td> The base constructor is called in the constructor's function body. &#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">mutable</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td> Fields to be changed outside the constructor need to be marked <code>mutable</code>. &#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">readonly</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>Read-only is the default. &#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span> <span class="p">:</span> <span class="n">I1</span><span class="p">,</span> <span class="n">I2</span> <span class="p">{</span>
+  <span class="k">void</span> <span class="n">I1</span><span class="p">.</span><span class="n">m</span> <span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+  <span class="k">void</span> <span class="n">I2</span><span class="p">.</span><span class="n">m</span> <span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span> <span class="p">:</span> <span class="n">I1</span><span class="p">,</span> <span class="n">I2</span> <span class="p">{</span>
+  <span class="n">I1_m</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="k">implements</span> <span class="n">I1</span><span class="p">.</span><span class="n">m</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+
+  <span class="n">I2_m</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="k">implements</span> <span class="n">I2</span><span class="p">.</span><span class="n">m</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td> When two interfaces have methods which share a name, explicit names are required when implementing them. &#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">using</span> <span class="nn">System.Runtime.CompilerServices.CSharp</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">C</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="kt">object</span> <span class="k">this</span> <span class="p">[</span><span class="kt">int</span> <span class="n">i</span><span class="p">]</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+
+<span class="na">  [IndexerName("MyItem")]</span>
+  <span class="k">public</span> <span class="kt">int</span> <span class="k">this</span> <span class="p">[</span><span class="kt">string</span> <span class="n">name</span><span class="p">]</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">Item</span> <span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="kt">int</span><span class="p">]</span> <span class="p">:</span> <span class="kt">object</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+
+  <span class="k">public</span> <span class="n">MyItem</span> <span class="p">[</span><span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">]</span> <span class="p">:</span> <span class="kt">int</span> 
+  <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</td><td> Nemerle allows defining named indexers in an easier way, just like in VB.NET. &#xD;</td>&#xD;</tr></table><h2><span class="mw-headline" id="Generics_in_C"><a name="Generics_in_C" id="Generics_in_C">Generics in C#...</a></span></h2>
+
+<p>The syntax and semantics of parametric polymorphism in Nemerle is the&#xD;
+same as what is called generics in C# 2.0. You will see a naming&#xD;
+convention of prefixing type variables with an ', like 't. You need &#xD;
+not obey it, though.&#xD;</p>
+
+<table cellspacing="15"><tr><th>C#</th>&#xD;  <th>Nemerle</th>&#xD;  <th>Remarks</th>&#xD; </tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span> <span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span> <span class="k">readonly</span> <span class="n">T</span> <span class="n">x</span><span class="p">;</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span> <span class="p">[</span><span class="err">'</span><span class="n">t</span><span class="p">]</span> <span class="p">{</span> <span class="n">x</span> <span class="p">:</span> <span class="err">'</span><span class="n">t</span><span class="p">;</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td> Type parameters are written in square brackets [...].&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span> <span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">where</span> <span class="n">T</span> <span class="p">:</span> <span class="n">IComparable</span> <span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span> <span class="p">[</span><span class="err">'</span><span class="n">t</span><span class="p">]</span> <span class="k">where</span> <span class="err">'</span><span class="n">t</span> <span class="p">:</span> <span class="n">IComparable</span> <span class="p">[</span><span class="err">'</span><span class="n">t</span><span class="p">]</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span> <span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">where</span> <span class="n">T</span> <span class="p">:</span> <span class="n">IFoo</span><span class="p">,</span> <span class="n">IBar</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span> <span class="p">[</span><span class="err">'</span><span class="n">t</span><span class="p">]</span> <span class="k">where</span> <span class="err">'</span><span class="n">t</span> <span class="p">:</span> <span class="n">IFoo</span><span class="p">,</span> <span class="n">IBar</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span> <span class="p">&lt;</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">&gt;</span> <span class="n">where</span> <span class="n">X</span> <span class="p">:</span> <span class="n">IFoo</span><span class="p">,</span> <span class="n">IBar</span> 
+              <span class="n">where</span> <span class="n">Y</span> <span class="p">:</span> <span class="n">IBaz</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span> <span class="p">[</span><span class="err">'</span><span class="n">x</span><span class="p">,</span><span class="n">Y</span><span class="p">]</span> <span class="k">where</span> <span class="err">'</span><span class="n">x</span> <span class="p">:</span> <span class="n">IFoo</span><span class="p">,</span> <span class="n">IBar</span> 
+               <span class="k">where</span> <span class="n">Y</span> <span class="p">:</span> <span class="n">IBaz</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td> Multiple type variables. Using ' is optional, but it is a common naming convention in functional programming.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="kt">int</span> <span class="n">meth</span><span class="p">&lt;</span><span class="n">A</span><span class="p">&gt;</span> <span class="p">(</span><span class="n">A</span> <span class="n">x</span><span class="p">)</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="n">meth</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span> 
+<span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td> Polymorphic method.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="kt">int</span> <span class="n">meth</span><span class="p">&lt;</span><span class="n">A</span><span class="p">&gt;</span> <span class="p">(</span><span class="n">A</span> <span class="n">x</span><span class="p">)</span> 
+  <span class="n">where</span> <span class="n">A</span> <span class="p">:</span> <span class="n">IFoo</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="n">meth</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span>
+  <span class="k">where</span> <span class="err">'</span><span class="n">a</span> <span class="p">:</span> <span class="n">IFoo</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+</td><td> Polymorphic method with constraints.&#xD;</td>&#xD;</tr></table><h2><span class="mw-headline" id="The_same_mostly"><a name="The_same_mostly" id="The_same_mostly">The same (mostly)</a></span></h2>
+
+<p>This section lists things that are written (mostly) the same way as they&#xD;
+are in C#. It only includes cases when it could be doubtful.&#xD;</p>
+
+<table><tr><th>C#</th>&#xD;  <th>Nemerle</th>&#xD;  <th>Remarks</th>&#xD; </tr><tr><td>&#xD;<div class="highlight"><pre><span class="c1">// A comment.</span>
+<span class="cm">/* A possibly multiline</span>
+<span class="cm">   comment. */</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="c1">// A comment.</span>
+<span class="cm">/* A possibly multiline</span>
+<span class="cm">   comment. */</span>
+</pre>
+</div>
+</td><td>&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">throw</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">ArgumentException</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">);</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">throw</span> <span class="n">System</span><span class="p">.</span><span class="n">ArgumentException</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">)</span>
+</pre>
+</div>
+</td><td><code>throw</code> is the same (but new is dropped).&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre>  <span class="s">@"foo\bar"</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre>  <span class="s">@"foo\bar"</span>
+</pre>
+</div>
+</td><td> Quoted string literals.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">"Hello C#."</span><span class="p">);</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+<span class="n">WriteLine</span><span class="p">(</span><span class="s">"Hello Nemerle."</span><span class="p">);</span>
+</pre>
+</div>
+</td><td> In Nemerle the <code>using</code> directive can be applied to classes as well as namespaces.&#xD;</td>&#xD;</tr><tr><td>&#xD;<div class="highlight"><pre><span class="k">try</span> <span class="p">{</span> 
+  <span class="n">foo</span> <span class="p">();</span> 
+  <span class="n">bar</span> <span class="p">();</span> 
+<span class="p">}</span> 
+<span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> 
+  <span class="n">baz</span> <span class="p">();</span> 
+<span class="p">}</span> 
+<span class="k">finally</span> <span class="p">{</span> 
+  <span class="n">qux</span> <span class="p">();</span> 
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>&#xD;<div class="highlight"><pre><span class="k">try</span> <span class="p">{</span> 
+  <span class="n">foo</span> <span class="p">();</span> 
+  <span class="n">bar</span> <span class="p">()</span> 
+<span class="p">}</span> 
+<span class="k">catch</span> <span class="p">{</span> 
+  <span class="n">e</span> <span class="p">=&gt;</span> <span class="n">baz</span> <span class="p">()</span> 
+<span class="p">}</span> 
+<span class="k">finally</span> <span class="p">{</span> 
+  <span class="n">qux</span> <span class="p">()</span> 
+<span class="p">}</span>
+</pre>
+</div>
+</td><td>Simple <code>try ... catch</code> structures are nearly the same (note the <code>match</code> syntax in <code>catch</code>). Also, semi-colons are optional at the end of code blocks.&#xD;</td>&#xD;</tr></table><h2><span class="mw-headline" id="Other_minor_differences"><a name="Other_minor_differences" id="Other_minor_differences">Other minor differences</a></span></h2>
+
+<p>There are some <a class="internal absent" href="/minor-differences.html">Cs-minor-diff</a>, mainly on the semantics level.&#xD;</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Remoting (tutorial)
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This is a simple example that shows how to realize remoting in Nemerle. Essentially this is translation of the example presented in the <a target="_blank" href="http://monohandbook.monoforge.com/monkeyguide/remoting/introduction.html">MonoHandbook</a>.&#xD;</p>
+
+<p>Remoting allow clients to access objects in the server. And thus it is a good abstraction to distribute computing.&#xD;</p>
+
+<p>In this example both Server and Client share the definition of ServerObjects. The server program opens a port for conection and publish a ServerObject. Later the client program connects himself to the server port and access, remotely, the published objects and their methods. &#xD;</p>
+
+<p>The example shows the basic remoting usage, managing objects by reference and by value (through serialization).&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Client">Client</a></li><li><a href="#Server">Server</a></li><li><a href="#ServerObjects">ServerObjects</a></li><li><a href="#Compilation">Compilation</a></li><li><a href="#Serializing_Variants">Serializing Variants</a><ul><li><a href="#Using_a_macro_to_mark_all_options_with_attribute">Using a macro to mark all options with attribute</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Client"><a name="Client" id="Client">Client</a></span></h2>
+
+<p>Save the following code in the file "Client.n".&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Remoting</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Remoting</span><span class="p">.</span><span class="n">Channels</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Remoting</span><span class="p">.</span><span class="n">Channels</span><span class="p">.</span><span class="n">Tcp</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">RemotingTest</span>
+<span class="p">{</span>
+    <span class="k">class</span> <span class="nc">RemotingClient</span>
+    <span class="p">{</span>
+        <span class="k">static</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span><span class="kt">void</span>
+        <span class="p">{</span>
+            <span class="k">def</span> <span class="n">ch</span> <span class="p">=</span> <span class="n">TcpChannel</span> <span class="p">(</span><span class="m">0</span><span class="p">);</span>
+            <span class="n">ChannelServices</span><span class="p">.</span><span class="n">RegisterChannel</span> <span class="p">(</span><span class="n">ch</span><span class="p">);</span>
+            <span class="c1">// This gets the object from the server (a list of ServerObject)</span>
+
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Getting instance ..."</span><span class="p">);</span>
+            <span class="k">def</span> <span class="n">remOb</span> <span class="p">=</span> <span class="n">Activator</span><span class="p">.</span><span class="n">GetObject</span> <span class="p">(</span><span class="k">typeof</span> <span class="p">(</span><span class="n">ServerList</span><span class="p">),</span>
+                                             <span class="s">"tcp://localhost:1122/test.rem"</span><span class="p">);</span>
+            <span class="k">def</span> <span class="kt">list</span> <span class="p">=</span> <span class="n">remOb</span> <span class="p">:&gt;</span><span class="n">ServerList</span><span class="p">;</span>
+            <span class="c1">// These are remote calls that return references to remote objects</span>
+
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Creating two remote items..."</span><span class="p">);</span>
+            <span class="k">def</span> <span class="n">item1</span> <span class="p">=</span> <span class="kt">list</span><span class="p">.</span><span class="n">NewItem</span> <span class="p">(</span><span class="s">"Created at server 1"</span><span class="p">)</span> <span class="p">:</span><span class="n">ServerObject</span><span class="p">;</span>
+            <span class="n">item1</span><span class="p">.</span><span class="n">SetValue</span> <span class="p">(</span><span class="m">111</span><span class="p">);</span> <span class="c1">// another call made to the remote object</span>
+            <span class="k">def</span> <span class="n">item2</span> <span class="p">=</span> <span class="kt">list</span><span class="p">.</span><span class="n">NewItem</span> <span class="p">(</span><span class="s">"Created at server 2"</span><span class="p">)</span> <span class="p">:</span><span class="n">ServerObject</span><span class="p">;</span>
+            <span class="n">item2</span><span class="p">.</span><span class="n">SetValue</span> <span class="p">(</span><span class="m">222</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">();</span>
+
+
+            <span class="c1">// Two objects created in this client app</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Creating two client items..."</span><span class="p">);</span>
+            <span class="k">def</span> <span class="n">item3</span> <span class="p">=</span> <span class="n">ServerObject</span> <span class="p">(</span><span class="s">"Created at client 1"</span><span class="p">);</span>
+            <span class="n">item3</span><span class="p">.</span><span class="n">SetValue</span> <span class="p">(</span><span class="m">333</span><span class="p">);</span>
+            <span class="k">def</span> <span class="n">item4</span> <span class="p">=</span> <span class="n">ServerObject</span> <span class="p">(</span><span class="s">"Created at client 2"</span><span class="p">);</span>
+            <span class="n">item4</span><span class="p">.</span><span class="n">SetValue</span> <span class="p">(</span><span class="m">444</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">();</span>
+
+            <span class="c1">// Object references passed to the remote list</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Adding items..."</span><span class="p">);</span>
+            <span class="kt">list</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="n">item3</span><span class="p">);</span>
+            <span class="kt">list</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="n">item4</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">();</span>
+
+
+            <span class="c1">// This sums all values of the ServerObjects in the list. The server</span>
+	    <span class="c1">// makes a remote call to this client to get the value of the</span>
+	    <span class="c1">// objects created locally</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Processing items..."</span><span class="p">);</span>
+            <span class="kt">list</span><span class="p">.</span><span class="n">ProcessItems</span> <span class="p">();</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">();</span>
+            <span class="c1">// Passing some complex info as parameter and return value</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Setting complex data..."</span><span class="p">);</span>
+            <span class="k">def</span> <span class="n">cd</span> <span class="p">=</span> <span class="n">ComplexData</span> <span class="p">(</span><span class="n">AnEnum</span><span class="p">.</span><span class="n">D</span><span class="p">,</span> <span class="kt">array</span> <span class="p">[</span><span class="s">"some"</span> <span class="p">:</span><span class="kt">object</span><span class="p">,</span> <span class="m">22</span><span class="p">,</span> <span class="s">"info"</span><span class="p">]);</span>
+            <span class="k">def</span> <span class="n">res</span> <span class="p">=</span> <span class="kt">list</span><span class="p">.</span><span class="n">SetComplexData</span> <span class="p">(</span><span class="n">cd</span><span class="p">)</span> <span class="p">:</span><span class="n">ComplexData</span><span class="p">;</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"This is the result:"</span><span class="p">);</span>
+            <span class="n">res</span><span class="p">.</span><span class="n">Dump</span> <span class="p">();</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">();</span>
+
+            <span class="kt">list</span><span class="p">.</span><span class="n">Clear</span> <span class="p">();</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Done."</span><span class="p">);</span>
+
+            <span class="n">ch</span><span class="p">.</span><span class="n">StopListening</span> <span class="p">(</span><span class="k">null</span><span class="p">);</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Server"><a name="Server" id="Server">Server</a></span></h2>
+
+<p>Save the following code in the file "Server.n".&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Remoting</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Remoting</span><span class="p">.</span><span class="n">Channels</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Remoting</span><span class="p">.</span><span class="n">Channels</span><span class="p">.</span><span class="n">Tcp</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">RemotingTest</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">RemotingServer</span>
+    <span class="p">{</span>
+        <span class="k">static</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span><span class="kt">int</span>
+        <span class="p">{</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Starting Server"</span><span class="p">);</span>
+            <span class="k">def</span> <span class="n">ch</span> <span class="p">=</span> <span class="n">TcpChannel</span> <span class="p">(</span><span class="m">1122</span><span class="p">);</span>
+            <span class="n">ChannelServices</span><span class="p">.</span><span class="n">RegisterChannel</span> <span class="p">(</span><span class="n">ch</span><span class="p">);</span>
+            <span class="k">def</span> <span class="n">ser</span> <span class="p">=</span> <span class="n">ServerList</span> <span class="p">();</span>
+            <span class="n">_</span> <span class="p">=</span> <span class="n">RemotingServices</span><span class="p">.</span><span class="n">Marshal</span> <span class="p">(</span><span class="n">ser</span><span class="p">,</span> <span class="s">"test.rem"</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Server Running ..."</span><span class="p">);</span>
+            <span class="n">_</span> <span class="p">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span> <span class="p">();</span>
+            <span class="n">ch</span><span class="p">.</span><span class="n">StopListening</span> <span class="p">(</span><span class="k">null</span><span class="p">);</span>
+            <span class="m">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="ServerObjects"><a name="ServerObjects" id="ServerObjects">ServerObjects</a></span></h2>
+
+<p>Save the following code in the file "ServerObjects.n".&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Remoting</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">RemotingTest</span>
+<span class="p">{</span>
+    <span class="c1">// A list of ServerObject instances</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">ServerList</span> <span class="p">:</span><span class="n">MarshalByRefObject</span>
+    <span class="p">{</span>
+        <span class="n">values</span> <span class="p">:</span> <span class="n">ArrayList</span><span class="p">;</span>
+        <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">values</span> <span class="p">=</span> <span class="n">ArrayList</span> <span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">public</span> <span class="nf">Add</span> <span class="p">(</span><span class="n">v</span> <span class="p">:</span><span class="n">ServerObject</span><span class="p">)</span> <span class="p">:</span><span class="kt">void</span>
+        <span class="p">{</span>
+            <span class="n">_</span> <span class="p">=</span> <span class="n">values</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="n">v</span><span class="p">);</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Added "</span> <span class="p">+</span> <span class="n">v</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="nf">ProcessItems</span> <span class="p">()</span> <span class="p">:</span><span class="kt">void</span>
+        <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Processing..."</span><span class="p">);</span>
+            <span class="k">mutable</span> <span class="n">total</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+            <span class="k">foreach</span> <span class="p">(</span><span class="n">ob</span> <span class="n">in</span> <span class="n">values</span><span class="p">)</span> <span class="n">total</span> <span class="p">+=</span> <span class="p">(</span><span class="n">ob</span> <span class="p">:&gt;</span> <span class="n">ServerObject</span><span class="p">).</span><span class="n">GetValue</span> <span class="p">();</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Total: "</span> <span class="p">+</span> <span class="n">total</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="nf">Clear</span> <span class="p">()</span> <span class="p">:</span><span class="kt">void</span>
+        <span class="p">{</span>
+            <span class="n">values</span><span class="p">.</span><span class="n">Clear</span> <span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span>  <span class="nf">NewItem</span> <span class="p">(</span><span class="n">name</span> <span class="p">:</span><span class="kt">string</span><span class="p">)</span> <span class="p">:</span><span class="n">ServerObject</span>
+        <span class="p">{</span>
+            <span class="k">def</span> <span class="n">obj</span> <span class="p">=</span> <span class="n">ServerObject</span> <span class="p">(</span><span class="n">name</span><span class="p">);</span>
+            <span class="n">Add</span> <span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+            <span class="n">obj</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="nf">SetComplexData</span> <span class="p">(</span><span class="n">data</span> <span class="p">:</span><span class="n">ComplexData</span><span class="p">)</span> <span class="p">:</span><span class="n">ComplexData</span> 
+        <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Showing content of ComplexData"</span><span class="p">);</span>
+            <span class="n">data</span><span class="p">.</span><span class="n">Dump</span> <span class="p">();</span>
+            <span class="n">data</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// A remotable object</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">ServerObject</span> <span class="p">:</span><span class="n">MarshalByRefObject</span>
+    <span class="p">{</span>
+        <span class="k">mutable</span> <span class="n">_value</span> <span class="p">:</span><span class="kt">int</span><span class="p">;</span>
+        <span class="n">_name</span> <span class="p">:</span><span class="kt">string</span><span class="p">;</span>
+
+        <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">name</span> <span class="p">:</span><span class="kt">string</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">_name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">public</span> <span class="n">Name</span> <span class="p">:</span><span class="kt">string</span> 
+        <span class="p">{</span>
+            <span class="n">get</span> <span class="p">{</span> <span class="n">_name</span><span class="p">;</span> <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">public</span> <span class="nf">SetValue</span> <span class="p">(</span><span class="n">v</span> <span class="p">:</span><span class="kt">int</span><span class="p">)</span> <span class="p">:</span><span class="kt">void</span>
+        <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"ServerObject "</span> <span class="p">+</span> <span class="n">_name</span> <span class="p">+</span> <span class="s">": setting "</span> <span class="p">+</span> <span class="n">v</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span> <span class="p">);</span>
+            <span class="n">_value</span> <span class="p">=</span> <span class="n">v</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">public</span> <span class="nf">GetValue</span> <span class="p">()</span> <span class="p">:</span><span class="kt">int</span>
+        <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"ServerObject "</span> <span class="p">+</span> <span class="n">_name</span> <span class="p">+</span> <span class="s">": getting "</span> <span class="p">+</span> <span class="n">_value</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+            <span class="n">_value</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+
+    <span class="k">public</span> <span class="k">enum</span> <span class="n">AnEnum</span> <span class="p">{</span> <span class="p">|</span><span class="n">A</span> <span class="p">|</span><span class="n">B</span> <span class="p">|</span><span class="n">C</span> <span class="p">|</span><span class="n">D</span> <span class="p">|</span><span class="n">E</span> <span class="p">};</span>
+
+<span class="na">    [Serializable]</span> 
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">ComplexData</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="n">Val</span> <span class="p">:</span><span class="n">AnEnum</span><span class="p">;</span>
+        <span class="k">public</span> <span class="n">Info</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">object</span><span class="p">];</span>
+
+        <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span> <span class="n">va</span><span class="p">:</span><span class="n">AnEnum</span><span class="p">,</span> <span class="n">info</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">object</span><span class="p">])</span> 
+        <span class="p">{</span>
+            <span class="n">Info</span> <span class="p">=</span> <span class="n">info</span><span class="p">;</span>
+            <span class="n">Val</span> <span class="p">=</span> <span class="n">va</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">public</span>  <span class="nf">Dump</span> <span class="p">()</span> <span class="p">:</span><span class="kt">void</span>
+        <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Content:"</span><span class="p">);</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Val: "</span> <span class="p">+</span> <span class="n">Val</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+            <span class="k">foreach</span> <span class="p">(</span><span class="n">ob</span> <span class="n">in</span> <span class="n">Info</span><span class="p">)</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Array item: "</span> <span class="p">+</span> <span class="n">ob</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Compilation"><a name="Compilation" id="Compilation">Compilation</a></span></h2>
+
+<p>Save the following code in the file "Makefile".&#xD;
+&lt;bash&gt;all:&#xD;	ncc -t:library ServerObjects.n -o ServerObjects.dll&#xD;	ncc -r:ServerObjects.dll -r:System.Runtime.Remoting.dll Client.n -o Client.exe&#xD;	ncc -r:ServerObjects.dll -r:System.Runtime.Remoting.dll Server.n -o Server.exe&#xD;&lt;/bash&gt;&#xD;</p>
+
+<p>Run "make" to compile the programs. Then execute the "Server.exe" in a console and "Client.exe" in another one.&#xD;</p>
+
+<h2><span class="mw-headline" id="Serializing_Variants"><a name="Serializing_Variants" id="Serializing_Variants">Serializing Variants</a></span></h2>
+
+<p>By default custom attribues on <b>variant</b>s are not passed to its variant options. &#xD;</p>
+
+<p>Thus using&#xD;
+</p><div class="highlight"><pre><span class="na">[Serializable]</span> 
+<span class="k">public</span> <span class="k">variant</span> <span class="nc">AnEnum</span> <span class="p">{</span> <span class="p">|</span><span class="n">A</span> <span class="p">|</span><span class="n">B</span> <span class="p">|</span><span class="n">C</span> <span class="p">|</span><span class="n">D</span> <span class="p">|</span><span class="n">E</span> <span class="p">};</span>
+</pre>
+</div>
+
+
+<p>instead of the proposed enum (which is directly serializable) will create an <code>System.Runtime.Serialization.SerializationException</code> error - you must explicitly declare each element of the variant as <code>Serializable</code>.&#xD;</p>
+
+<div class="highlight"><pre><span class="na">[Serializable]</span> 
+<span class="k">public</span> <span class="k">variant</span> <span class="nc">AnEnum</span> <span class="p">{</span> 
+<span class="na">	[Serializable]</span> <span class="p">|</span> <span class="n">A</span> 
+<span class="na">	[Serializable]</span> <span class="p">|</span> <span class="n">B</span> 
+<span class="na">	[Serializable]</span> <span class="p">|</span> <span class="n">C</span> <span class="p">{</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span> <span class="p">}</span>
+<span class="na">	[Serializable]</span> <span class="p">|</span> <span class="n">D</span> <span class="p">{</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="p">}</span>
+<span class="na">	[Serializable]</span> <span class="p">|</span> <span class="n">E</span> 
+<span class="p">};</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Using_a_macro_to_mark_all_options_with_attribute"><a name="Using_a_macro_to_mark_all_options_with_attribute" id="Using_a_macro_to_mark_all_options_with_attribute">Using a macro to mark all options with attribute</a></span></h3>
+
+<p>It is possible to use a macro <code>Nemerle.MarkOptions</code> to realize this in a compact way. &#xD;
+For a little insight of how it works, there is its a full source, which fortunately is short.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Compiler</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Compiler</span><span class="p">.</span><span class="n">Parsetree</span><span class="p">;</span>
+
+<span class="na">[Nemerle.MacroUsage (Nemerle.MacroPhase.BeforeInheritance,</span>
+<span class="na">                     Nemerle.MacroTargets.Class)]</span>
+<span class="k">macro</span> <span class="nf">MarkOptions</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">TypeBuilder</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// iterate through members of this type and select only variant options</span>
+  <span class="k">foreach</span> <span class="p">(</span><span class="n">ClassMember</span><span class="p">.</span><span class="n">TypeDeclaration</span>
+            <span class="p">(</span><span class="n">TopDeclaration</span><span class="p">.</span><span class="n">VariantOption</span> <span class="k">as</span> <span class="n">vo</span><span class="p">)</span> <span class="n">in</span> <span class="n">t</span><span class="p">.</span><span class="n">GetParsedMembers</span> <span class="p">())</span>
+  <span class="p">{</span>
+    <span class="c1">// add given custom attribute to this variant option</span>
+    <span class="n">vo</span><span class="p">.</span><span class="n">AddCustomAttribute</span> <span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Now you can use&#xD;</p>
+
+<div class="highlight"><pre><span class="na">[Serializable]</span> 
+<span class="na">[Nemerle.MarkOptions (Serializable)]</span>
+<span class="k">public</span> <span class="k">variant</span> <span class="nc">AnEnum</span> <span class="p">{</span> 
+	<span class="p">|</span> <span class="n">A</span> 
+	<span class="p">|</span> <span class="n">B</span> 
+	<span class="p">|</span> <span class="n">C</span> <span class="p">{</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span> <span class="p">}</span>
+	<span class="p">|</span> <span class="n">D</span> <span class="p">{</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="p">}</span>
+	<span class="p">|</span> <span class="n">E</span> 
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p><b>Side note</b>&#xD;
+Remember that if you use variant instead of enum, the expression &#xD;
+</p><div class="highlight"><pre><span class="n">AnEnum</span><span class="p">.</span><span class="n">B</span>
+<span class="err">```</span> 
+<span class="n">has</span> <span class="n">to</span> <span class="n">be</span> <span class="n">changed</span> <span class="n">to</span> 
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="n">AnEnum</span><span class="p">.</span><span class="n">B</span> <span class="p">()</span>
+</pre>
+</div>
+
+
+<p>This is for keeping consistency with ```nemerle&#xD;
+AnEnum.C ("Ala")&#xD;
+```</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

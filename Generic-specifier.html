@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Generic specifier
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Why_not_ltgt">Why not &lt;&gt;?</a></li><li><a href="#Why_not_">Why not []?</a></li><li><a href="#Why_not_new">Why not new?</a></li><li><a href="#Using_">Using :</a></li><li><a href="#Use_whitespace_or_use__just_for_generics_">Use whitespace or use [] just for generics !</a></li><li><a href="#Use_some_other_twocharacter_parens_for_all_the_generics">Use some other two-character parens for all the generics</a></li><li><a href="#Possible_solutions">Possible solutions</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Why_not_ltgt"><a name="Why_not_ltgt" id="Why_not_ltgt">Why not &lt;&gt;?</a></span></h2>
+
+<p>There were some other proposals for the syntax. As for the reasons&#xD;
+we cannot use &lt;&gt;, <a target="_blank" href="http://nemerle.org/mailman/pipermail/devel-en/2004-September/000790.html">we have discussed this</a> some time ago.&#xD;</p>
+
+<p>Basically this is because of our New Brave, Great Parser. It first handles&#xD;
+parens ([], {} and ()) as groups.  This allows for far more powerful&#xD;
+syntax extensions and embedding DSLs (like XML or regular expressions).&#xD;
+Anyway, the parser cannot handle &lt;&gt; as parens, because they are&#xD;
+used in regular operators.&#xD;</p>
+
+<p>There are some other advantages here:&#xD;
+</p><ul><li> it is easy possible to write a simple syntax highlighting for types in most editors now, &#xD;
+</li><li> the lexical structure is far more regular, &#xD;
+</li><li> and there is no need for strange lexer hacks they use in C# and C++.&#xD;
+</li></ul><h2><span class="mw-headline" id="Why_not_"><a name="Why_not_" id="Why_not_">Why not []?</a></span></h2>
+
+<p>Why cannot we use just [] for generic specifier? Please consider the following&#xD;
+code:&#xD;
+</p><div class="highlight"><pre><span class="k">class</span> <span class="nc">Bar</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">this</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">Bar</span> <span class="p">[</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">]</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">-&gt;</span> <span class="kt">void</span>
+  <span class="p">{</span> <span class="n">get</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> <span class="p">}</span>
+
+  <span class="n">foo</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">_</span> <span class="p">=</span> <span class="n">Bar</span> <span class="p">[</span><span class="n">qux</span><span class="p">]</span> <span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Now the invocation of Bar[qux] can have two meanings -- it's either&#xD;
+construction of a new Bar instance or a reference to a indexer Bar.&#xD;
+You could say that it is regular overloading resolution problem.  But it&#xD;
+is not. What is problematic is how to <b>parse</b> qux.  In regular&#xD;
+overloading you can parse and even type-check parameters of a call and&#xD;
+then try possibilities. Here it is not possible, even parsing depends&#xD;
+on the meaning of Bar.&#xD;</p>
+
+<p>Therefore while we think this would be the best solution, this cannot be&#xD;
+used.&#xD;</p>
+
+<p>For the same reasons we cannot use () nor {} alone for generic specifier.&#xD;</p>
+
+<p>As for the <code>Foo[_ : int, _ : string]</code> there are two problems --&#xD;
+<code>_ : int</code> is (almost?) a valid expression, so the ambiguity remains,&#xD;
+and the second more important problem is that it looks like we were&#xD;
+forcing types of regular arguments to be of type int and string. This is&#xD;
+not true in general -- there can be for example no formal arguments.&#xD;</p>
+
+<h2><span class="mw-headline" id="Why_not_new"><a name="Why_not_new" id="Why_not_new">Why not new?</a></span></h2>
+
+<p>We don't like the <code>new</code> keyword, because allocation is far more&#xD;
+often in the functional languages and we would like to save typing. Beside&#xD;
+it would only solve the problem for constructors, not for generic methods.&#xD;</p>
+
+<h2><span class="mw-headline" id="Using_"><a name="Using_" id="Using_">Using :</a></span></h2>
+
+<p>One of the proposals was: <code>Foo () : Foo [int,string]</code>&#xD;
+(actually it was Foo[int], but this is not possible,&#xD;
+because type argument can be a tuple). For this to be consistent,&#xD;
+it would have to be: <code>(Foo : Foo [int,string]) ()</code>, otherwise&#xD;
+you cannot do things like <code>List.Map (some_list, Foo.[int,string])</code>.&#xD;</p>
+
+<p>This is however still problematic -- when you see :, you don't know&#xD;
+if it's a generic specifier or a type enforcement. Heuristic could&#xD;
+be used -- if there are two Foos in a row, it's a generic specifier.&#xD;</p>
+
+<p>What I don't like with this approach is that it is quite lengthy -- you&#xD;
+have to repeat the function name. It is also not immediately clear&#xD;
+what does it mean (that it is not a type enforcement). Maybe&#xD;
+<code>(Foo : [int,string]) ()</code> would be a better option?&#xD;</p>
+
+<p>The type enforcement can be also used to make compiler know which&#xD;
+type we want, so type inference can guess the proper generic parameters.&#xD;
+This is however not true in general. There can be a function like:&#xD;
+</p><div class="highlight"><pre><span class="n">SomeFun</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="k">typeof</span> <span class="p">(</span><span class="n">T</span><span class="p">));</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+There is no way to infer the type of T here. So dropping generic&#xD;
+specifier altogether is not possible for completeness reasons.&#xD;
+
+<h2><span class="mw-headline" id="Use_whitespace_or_use__just_for_generics_"><a name="Use_whitespace_or_use__just_for_generics_" id="Use_whitespace_or_use__just_for_generics_">Use whitespace or use [] just for generics !</a></span></h2>
+
+<p>Nemerle syntax comes mostly from C-like languages. This is one of our&#xD;
+goals -- make it readable for C programmers. Using just&#xD;
+whitespace or using foo.at(1) for indexing is clearly against this&#xD;
+goal.&#xD;</p>
+
+<p>Using prefix generic specifiers also doesn't help readability here. Especially&#xD;
+when we use postfix specifiers for types.&#xD;</p>
+
+<p>What I would personally like to see here is some syntax experiments --&#xD;
+different pluggable parsers/lexers and so on.&#xD;</p>
+
+<h2><span class="mw-headline" id="Use_some_other_twocharacter_parens_for_all_the_generics"><a name="Use_some_other_twocharacter_parens_for_all_the_generics" id="Use_some_other_twocharacter_parens_for_all_the_generics">Use some other two-character parens for all the generics</a></span></h2>
+
+<p>This is very sane idea ;-) We could for example use &#xD;
+<code>Dictionary [: int, string :]</code> or something like this.&#xD;
+But:&#xD;
+</p><ul><li> generic types are used very often -- single characters parens are a much better choice here (this is however not true for generic specifier, which is not going to be used often)&#xD;
+</li><li> there are already some .NET languages using [] for type parameters,&#xD;
+</li><li> we already changed the generics syntax twice, I don't think it is that good idea to change it again.&#xD;
+</li></ul> &#xD;
+So while this is a very good idea from the consistency point of view, I&#xD;
+don't think we're going to follow it.&#xD;
+
+<h2><span class="mw-headline" id="Possible_solutions"><a name="Possible_solutions" id="Possible_solutions">Possible solutions</a></span></h2>
+
+<p>Probably the set of acceptable solutions here could be limited to using&#xD;
+some keyword or operator in front of parens (or just after the first&#xD;
+paren), preferably [], because they are already used for generic types.&#xD;
+Of course other solutions are possible but keep in mind the arguments&#xD;
+stated above.&#xD;</p>
+
+<p>Proposals include:&#xD;
+</p><ul><li> .&#xD;
+</li><li> of&#xD;
+</li><li> with&#xD;
+</li><li> =&#xD;
+</li><li> :</li></ul>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

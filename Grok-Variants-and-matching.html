@@ -1,0 +1,605 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Grok Variants and matching
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This page is a part of the <a class="internal present" href="/Grokking-Nemerle.html">Grokking Nemerle</a> tutorial.&#xD;</p>
+
+<p>Variants (called data types or sum types in <a target="_blank" href="http://www.smlnj.org">SML</a> and <a target="_blank" href="http://www.ocaml.org/">OCaml</a>) are forms of&#xD;
+expressing data of several different kinds.&#xD;</p>
+
+<p>Matching is a way of destructuring complex data structures, especially&#xD;
+variants.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Variants">Variants</a></li><li><a href="#Matching">Matching</a></li><li><a href="#Other_patterns">Other patterns</a></li><li><a href="#Using_variants_as_trees">Using variants as trees</a></li><li><a href="#XML_trees">XML trees</a></li><li><a href="#Exercises">Exercises</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Variants"><a name="Variants" id="Variants">Variants</a></span></h2>
+
+<p>The simplest example of variants are enum types known from C.&#xD;</p>
+
+<p>&lt;c&gt;// C&#xD;enum Color {&#xD;  Red, &#xD;  Yellow, &#xD;  Green &#xD;}&#xD;&lt;/c&gt;&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">//  Nemerle</span>
+<span class="k">variant</span> <span class="nc">Color</span> <span class="p">{</span>
+   <span class="p">|</span> <span class="n">Red</span>
+   <span class="p">|</span> <span class="n">Yellow</span>
+   <span class="p">|</span> <span class="n">Green</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Note that you can define C#-like <code>enum</code> types in Nemerle anyway. However,&#xD;
+the variant options might be more useful because they can carry some&#xD;
+extra data with them:&#xD;</p>
+
+<div class="highlight"><pre> <span class="k">variant</span> <span class="nc">RgbColor</span> <span class="p">{</span>
+   <span class="p">|</span> <span class="n">Red</span>
+   <span class="p">|</span> <span class="n">Yellow</span>
+   <span class="p">|</span> <span class="n">Green</span>
+   <span class="p">|</span> <span class="n">Different</span> <span class="p">{</span>
+       <span class="n">red</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+       <span class="n">green</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+       <span class="n">blue</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>So if color is neither red, yellow nor green, it can be represented&#xD;
+with RGB. You can create variant object just like any other object,&#xD;
+by using its constructor (which is always implicitly provided):&#xD;</p>
+
+<div class="highlight"><pre>   <span class="c1">//  ...</span>
+   <span class="k">def</span> <span class="n">_blue</span> <span class="p">=</span> <span class="n">RgbColor</span><span class="p">.</span><span class="n">Different</span> <span class="p">(</span><span class="m">0f</span><span class="p">,</span> <span class="m">0f</span><span class="p">,</span> <span class="m">1f</span><span class="p">);</span>
+   <span class="k">def</span> <span class="n">_red</span> <span class="p">=</span> <span class="n">RgbColor</span><span class="p">.</span><span class="n">Red</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>You can think about variants as of a union with a selector in C. In OO&#xD;
+world sometimes modeling variants with sub classing can be seen sometimes:&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// C#</span>
+<span class="k">class</span> <span class="nc">Color</span> <span class="p">{</span>
+  <span class="k">class</span> <span class="nc">Red</span> <span class="p">:</span> <span class="n">Color</span> <span class="p">{</span> <span class="p">}</span>
+  <span class="k">class</span> <span class="nc">Green</span> <span class="p">:</span> <span class="n">Color</span> <span class="p">{</span> <span class="p">}</span>
+  <span class="k">class</span> <span class="nc">Yellow</span> <span class="p">:</span> <span class="n">Color</span> <span class="p">{</span> <span class="p">}</span>
+  <span class="k">class</span> <span class="nc">Different</span> <span class="p">:</span> <span class="n">Color</span> <span class="p">{</span>
+    <span class="kt">float</span> <span class="n">red</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">green</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">blue</span><span class="p">;</span>
+  
+    <span class="n">pubic</span> <span class="nf">Different</span> <span class="p">(</span><span class="kt">float</span> <span class="n">red</span><span class="p">,</span> <span class="kt">float</span> <span class="n">green</span><span class="p">,</span> <span class="kt">float</span> <span class="n">blue</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="n">red</span> <span class="p">=</span> <span class="n">red</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="n">green</span> <span class="p">=</span> <span class="n">green</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="n">blue</span> <span class="p">=</span> <span class="n">blue</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Of course you need to write a constructor, mark fields public and so&#xD;
+on. When you're done -- using this kind of stuff is quite hard -- you&#xD;
+need to use lots of runtime type checks.&#xD;</p>
+
+<p>On the other hand, Nemerle provides an easy and convenient method of&#xD;
+dealing with variants -- pattern matching.&#xD;</p>
+
+<h2><span class="mw-headline" id="Matching"><a name="Matching" id="Matching">Matching</a></span></h2>
+
+<p><b>Pattern matching</b> is accomplished with the match expression. Its&#xD;
+semantics is to check each pattern in turn, from top to bottom, and&#xD;
+execute expression after the first pattern that matched. If no pattern&#xD;
+matched, the exception is raised. This is like the switch statement&#xD;
+known from C, but using a large dose of steroids.&#xD;</p>
+
+<div class="highlight"><pre><span class="n">string_of_color</span> <span class="p">(</span><span class="n">color</span> <span class="p">:</span> <span class="n">Color</span><span class="p">)</span> <span class="p">:</span> <span class="kt">string</span>
+<span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">Color</span><span class="p">.</span><span class="n">Red</span> <span class="p">=&gt;</span> <span class="s">"red"</span>
+    <span class="p">|</span> <span class="n">Color</span><span class="p">.</span><span class="n">Yellow</span> <span class="p">=&gt;</span> <span class="s">"yellow"</span>
+    <span class="p">|</span> <span class="n">Color</span><span class="p">.</span><span class="n">Green</span> <span class="p">=&gt;</span> <span class="s">"green"</span>
+    <span class="p">|</span> <span class="n">Color</span><span class="p">.</span><span class="n">Different</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> 
+      <span class="n">System</span><span class="p">.</span><span class="n">String</span><span class="p">.</span><span class="n">Format</span> <span class="p">(</span><span class="s">"rgb({0},{1},{2})"</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The main idea behind patterns is that they match values that look like&#xD;
+them. For example, the Nemerle compiler creates a default constructor&#xD;
+for the <code>Different</code> variant option with the following body:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">red</span> <span class="p">:</span> <span class="kt">float</span><span class="p">,</span> <span class="n">green</span> <span class="p">:</span> <span class="kt">float</span><span class="p">,</span> <span class="n">blue</span> <span class="p">:</span> <span class="kt">float</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">red</span> <span class="p">=</span> <span class="n">red</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">green</span> <span class="p">=</span> <span class="n">green</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">blue</span> <span class="p">=</span> <span class="n">blue</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Therefore, the constructor call <code>Color.Different (r, g, b)</code>&#xD;
+creates a new variant option instance with specified arguments. The&#xD;
+pattern looks the same -- it binds actual values of <code>red</code>,&#xD;
+<code>green</code> and <code>blue</code> fields to <code>r</code>, <code>g</code> and&#xD;
+<code>b</code> respectively. You can also spell the field names explicitly:&#xD;</p>
+
+<div class="highlight"><pre><span class="p">|</span> <span class="n">Color</span><span class="p">.</span><span class="n">Different</span> <span class="p">(</span><span class="n">red</span> <span class="p">=</span> <span class="n">r</span><span class="p">,</span> <span class="n">green</span> <span class="p">=</span> <span class="n">g</span><span class="p">,</span> <span class="n">blue</span> <span class="p">=</span> <span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> 
+  <span class="n">System</span><span class="p">.</span><span class="n">String</span><span class="p">.</span><span class="n">Format</span> <span class="p">(</span><span class="s">"rgb({0},{1},{2})"</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Other_patterns"><a name="Other_patterns" id="Other_patterns">Other patterns</a></span></h2>
+
+<p>We have already seen a so called <b>"constructor pattern"</b> in action. It&#xD;
+is used to match over variants. The constructor pattern consists of&#xD;
+variant option name (starting with an uppercase letter) followed by&#xD;
+optional tuple or record pattern.&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// examples of constructor patterns</span>
+<span class="c1">// plain one, without sub-pattern:</span>
+<span class="n">Color</span><span class="p">.</span><span class="n">Red</span> 
+<span class="c1">// followed by tuple pattern:</span>
+<span class="n">Color</span><span class="p">.</span><span class="n">Different</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="c1">// followed by record pattern:</span>
+<span class="n">Color</span><span class="p">.</span><span class="n">Different</span> <span class="p">(</span><span class="n">red</span> <span class="p">=</span> <span class="n">r</span><span class="p">,</span> <span class="n">green</span> <span class="p">=</span> <span class="n">g</span><span class="p">,</span> <span class="n">blue</span> <span class="p">=</span> <span class="n">b</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>The <b>variable pattern</b> matches any value, and binds it to a specified&#xD;
+variable. The variable pattern is an identifier starting with a lowercase&#xD;
+letter. They are used mostly inside other patterns, but here we give a&#xD;
+(rather pointless) example of using them as the top-level pattern:&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// it prints 42</span>
+<span class="k">match</span> <span class="p">(</span><span class="m">42</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">x</span> <span class="p">=&gt;</span> <span class="c1">// here x is bound to 42</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">"%d\n"</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The <b>throw-away pattern</b>, written _, matches any value and has no&#xD;
+further effects. It is a way of specifying the default: case in matching.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">color</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Color</span><span class="p">.</span><span class="n">Red</span> <span class="p">=&gt;</span> <span class="s">"red"</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"other"</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The <b>tuple pattern</b> consists of one or more patterns separated by commas&#xD;
+and surrounded by parens. We have already used them in the <a class="internal absent" href="/section-about-tuples.html">Grok Various data structures</a> above. There they were used in &#xD;
+<code>def</code> expressions.&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// matches any pair, binding its elements</span>
+<span class="c1">// to specified variables</span>
+<span class="p">(</span><span class="n">first_element</span><span class="p">,</span> <span class="n">second_element</span><span class="p">)</span>
+
+<span class="c1">// matches a pair whose first element is Foo</span>
+<span class="p">(</span><span class="n">Foo</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> 
+</pre>
+</div>
+
+
+<p>The <b>record pattern</b> consists of class name and zero or more named&#xD;
+patterns separated by commas enclosed in parentheses. It matches a class,&#xD;
+whose field values are matched by sub-patterns.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">number</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">public</span> <span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">StringOfFoo</span> <span class="p">(</span><span class="n">f</span> <span class="p">:</span> <span class="n">Foo</span><span class="p">)</span> <span class="p">:</span> <span class="kt">string</span>
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">name</span> <span class="p">==</span> <span class="s">""</span><span class="p">)</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">number</span><span class="p">.</span><span class="n">ToString</span> <span class="p">()</span>
+  <span class="k">else</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">name</span>
+<span class="p">}</span>
+
+<span class="c1">// do the same as above</span>
+<span class="n">StringOfFooMatch</span> <span class="p">(</span><span class="n">f</span> <span class="p">:</span> <span class="n">Foo</span><span class="p">)</span> <span class="p">:</span> <span class="kt">string</span>
+<span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">Foo</span> <span class="k">where</span> <span class="p">(</span><span class="n">name</span> <span class="p">=</span> <span class="s">""</span><span class="p">,</span> <span class="n">number</span> <span class="p">=</span> <span class="n">k</span><span class="p">)</span> <span class="p">=&gt;</span>
+      <span class="n">k</span><span class="p">.</span><span class="n">ToString</span> <span class="p">()</span>
+    <span class="p">|</span> <span class="n">Foo</span> <span class="k">where</span> <span class="p">(</span><span class="n">name</span> <span class="p">=</span> <span class="n">s</span><span class="p">)</span> <span class="p">=&gt;</span> 
+      <span class="n">s</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>It might be doubtful if <code>string_of_foo_match</code> is any better than&#xD;
+<code>string_of_foo</code>. Record patterns are mostly useful when used&#xD;
+inside a complex pattern, or when they contain complex patterns.&#xD;</p>
+
+<p>The <b>literal pattern</b> is an integer, character or string constant. It&#xD;
+matches the exact specified value.&#xD;</p>
+
+<div class="highlight"><pre><span class="n">StringOfInt</span> <span class="p">(</span><span class="n">n</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">string</span>
+<span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="m">0</span> <span class="p">=&gt;</span> <span class="s">"null"</span>
+    <span class="p">|</span> <span class="m">1</span> <span class="p">=&gt;</span> <span class="s">"one"</span>
+    <span class="p">|</span> <span class="m">2</span> <span class="p">=&gt;</span> <span class="s">"two"</span>
+    <span class="p">|</span> <span class="m">3</span> <span class="p">=&gt;</span> <span class="s">"three"</span>
+    <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">"more"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">IntOfString</span> <span class="p">(</span><span class="n">n</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span>
+<span class="p">{</span>
+  <span class="p">|</span> <span class="s">"null"</span> <span class="p">=&gt;</span> <span class="m">0</span>
+  <span class="p">|</span> <span class="s">"one"</span> <span class="p">=&gt;</span> <span class="m">1</span>
+  <span class="p">|</span> <span class="s">"two"</span> <span class="p">=&gt;</span> <span class="m">2</span>
+  <span class="p">|</span> <span class="s">"three"</span> <span class="p">=&gt;</span> <span class="m">3</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="m">42</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Note lack of <code>match</code> in the second example. When the function&#xD;
+body starts with <code>|</code> -- the <code>match</code> expression is&#xD;
+automagically inserted.&#xD;</p>
+
+<p>The <b>as pattern</b> tries to match a value with a pattern enclosed within&#xD;
+it, and in case of success binds the value that matched to a specified&#xD;
+variable. We will show it later.&#xD;</p>
+
+<p>There are also two patterns related to types. The first one is the '''type&#xD;
+enforcement pattern'''. Its job is to give a hint to type inference&#xD;
+engine. It consists of a pattern followed by a colon and a type, like:&#xD;
+<code>x : Foo</code> or <code>(x,y) : Foo * Bar</code>. It requires type of the&#xD;
+matched value to be statically known to subtype the type specified.&#xD;</p>
+
+<p>The other pattern related to type is the <b>type check pattern</b>. Is&#xD;
+is used to check whether the value matched has the specified type. It&#xD;
+consists of a variable followed by the keyword is and a type. If the&#xD;
+runtime type of the value matched is subtype of the type specified,&#xD;
+the branch is taken and the matched value is bound to specified variable.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">some_value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">x</span> <span class="k">is</span> <span class="n">SomeType</span> <span class="p">=&gt;</span>
+    <span class="c1">// use x</span>
+  <span class="p">|</span> <span class="n">x</span> <span class="k">is</span> <span class="n">SomeOtherType</span> <span class="p">=&gt;</span>
+    <span class="c1">// use x</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Using_variants_as_trees"><a name="Using_variants_as_trees" id="Using_variants_as_trees">Using variants as trees</a></span></h2>
+
+<p>The example above, while simple, is not the best usage of&#xD;
+variants. Variants are best at handling tree-like data structures. A&#xD;
+common example of tree data structures are XML documents. However,&#xD;
+we will deal with plain binary trees first.&#xD;</p>
+
+<p>The following example defines the type of trees of integers (representing&#xD;
+sets).&#xD;</p>
+
+<div class="highlight"><pre><span class="k">variant</span> <span class="nc">Tree</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Node</span> <span class="p">{</span>
+      <span class="n">left</span>  <span class="p">:</span> <span class="n">Tree</span><span class="p">;</span>
+      <span class="n">elem</span>  <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+      <span class="n">right</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Null</span>
+<span class="p">}</span>
+
+<span class="c1">// return tree t with element e inserted</span>
+<span class="n">Insert</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">e</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="n">Tree</span>
+<span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">Tree</span><span class="p">.</span><span class="n">Node</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="p">=&gt;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">e</span> <span class="p">&lt;</span> <span class="n">cur</span><span class="p">)</span>
+        <span class="n">Tree</span><span class="p">.</span><span class="n">Node</span> <span class="p">(</span><span class="n">insert</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">e</span><span class="p">),</span> <span class="n">cur</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+      <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">e</span> <span class="p">&gt;</span> <span class="n">cur</span><span class="p">)</span>
+        <span class="n">Tree</span><span class="p">.</span><span class="n">Node</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="n">insert</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+      <span class="k">else</span>
+        <span class="c1">// node already in the tree,</span>
+        <span class="c1">// return the same tree</span>
+        <span class="n">t</span>
+    <span class="p">|</span> <span class="n">Tree</span><span class="p">.</span><span class="n">Null</span> <span class="p">=&gt;</span>
+      <span class="n">Tree</span><span class="p">.</span><span class="n">Node</span> <span class="p">(</span><span class="n">Tree</span><span class="p">.</span><span class="n">Null</span> <span class="p">(),</span> <span class="n">e</span><span class="p">,</span> <span class="n">Tree</span><span class="p">.</span><span class="n">Null</span> <span class="p">())</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// check if specified integer is in the tree</span>
+<span class="n">Contains</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">,</span> <span class="n">e</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">bool</span>
+<span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">Tree</span><span class="p">.</span><span class="n">Node</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="k">when</span> <span class="n">e</span> <span class="p">&lt;</span> <span class="n">cur</span> <span class="p">=&gt;</span> 
+      <span class="n">Contains</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+    <span class="p">|</span> <span class="n">Tree</span><span class="p">.</span><span class="n">Node</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="k">when</span> <span class="n">e</span> <span class="p">&gt;</span> <span class="n">cur</span> <span class="p">=&gt;</span> 
+      <span class="n">Contains</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+    <span class="p">|</span> <span class="n">Tree</span><span class="p">.</span><span class="n">Node</span> <span class="p">=&gt;</span> <span class="k">true</span>
+    <span class="p">|</span> <span class="n">Tree</span><span class="p">.</span><span class="n">Null</span> <span class="p">=&gt;</span> <span class="k">false</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="XML_trees"><a name="XML_trees" id="XML_trees">XML trees</a></span></h2>
+
+<p>As you can see binary trees are not very interesting, so we will go to&#xD;
+XML. If XML is interesting remains a doubtful question, but at least is&#xD;
+somewhat more practical.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">variant</span> <span class="nc">Node</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Text</span> <span class="p">{</span> 
+      <span class="n">value</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span> 
+    <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Element</span> <span class="p">{</span>
+      <span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span> 
+      <span class="n">children</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">Node</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>This variant defines a simplistic data structure to hold XML trees. An XML&#xD;
+node is either a text node with a specified text inside, or an element&#xD;
+node, with a name and zero or more children. A sequence of children&#xD;
+is represented as a Nemerle list data structure (Nemerle has even&#xD;
+a <a class="internal absent" href="/special-syntax-for-lists.html">Grok Various data structures</a>). The type is&#xD;
+written here list [Node] -- a list of nodes. We will learn more about&#xD;
+polymorphic variants later.&#xD;</p>
+
+<p>For example the following tree:&#xD;</p>
+
+<p>&lt;xml&gt;&amp;lt;tree&amp;gt;&#xD;  &amp;amp;lt;branch&amp;amp;gt;&#xD;    &amp;amp;amp;lt;leaf&amp;amp;amp;gt;&amp;amp;amp;lt;/leaf&amp;amp;amp;gt;&#xD;  &amp;amp;lt;/branch&amp;amp;gt;&#xD;  &amp;amp;lt;branch&amp;amp;gt;&#xD;    Foo&#xD;  &amp;amp;lt;/branch&amp;amp;gt;&#xD;&amp;lt;/tree&amp;gt;&#xD;&lt;/xml&gt;&#xD;</p>
+
+<p>would be represented by:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">Node</span><span class="p">.</span><span class="n">Element</span> <span class="p">(</span><span class="s">"tree"</span><span class="p">,</span> 
+<span class="na">  [Node.Element ("branch", [Node.Element ("leaf", []</span><span class="p">)]),</span>
+   <span class="n">Node</span><span class="p">.</span><span class="n">Element</span> <span class="p">(</span><span class="s">"branch"</span><span class="p">,</span> <span class="p">[</span><span class="n">Node</span><span class="p">.</span><span class="n">Text</span> <span class="p">(</span><span class="s">"Foo"</span><span class="p">)])])</span>
+</pre>
+</div>
+
+
+<p>Of course XML by itself is just a data format. Using data in the&#xD;
+above form wouldn't be too easy. So we want some different internal&#xD;
+representation of data, and use XML only to save it or send it over&#xD;
+the network.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Refrigerator</span>
+<span class="p">{</span>
+  <span class="n">minimal_temperature</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="n">content</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">RefrigeratorContent</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">variant</span> <span class="nc">RefrigeratorContent</span>
+<span class="p">{</span>
+  <span class="p">|</span> <span class="n">Beer</span> <span class="p">{</span> <span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span> <span class="n">volume</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Chips</span> <span class="p">{</span> <span class="n">weight</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Ketchup</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Now we'll write simple XML parsing function.&#xD;</p>
+
+<div class="highlight"><pre><span class="n">ParseRefrigerator</span> <span class="p">(</span><span class="n">n</span> <span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="p">:</span> <span class="n">Refrigerator</span>
+<span class="p">{</span>
+  <span class="p">|</span> <span class="n">Node</span><span class="p">.</span><span class="n">Element</span> <span class="p">(</span><span class="s">"refrigerator"</span><span class="p">,</span> 
+      <span class="n">Node</span><span class="p">.</span><span class="n">Element</span> <span class="p">(</span><span class="s">"minimal-temperature"</span><span class="p">,</span> <span class="p">[</span><span class="n">Node</span><span class="p">.</span><span class="n">Text</span> <span class="p">(</span><span class="n">min_temp</span><span class="p">)])</span> 
+            <span class="p">::</span> <span class="n">content</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="n">Refrigerator</span> <span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Float</span><span class="p">.</span><span class="n">Parse</span> <span class="p">(</span><span class="n">min_temp</span><span class="p">),</span> 
+                      <span class="n">ParseRefrigeratorContent</span> <span class="p">(</span><span class="n">content</span><span class="p">))</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span>
+    <span class="k">throw</span> <span class="n">System</span><span class="p">.</span><span class="n">ArgumentException</span> <span class="p">()</span>
+<span class="p">}</span>
+
+<span class="n">ParseRefrigeratorContent</span> <span class="p">(</span><span class="n">nodes</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">Node</span><span class="p">])</span> 
+  <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">RefrigeratorContent</span><span class="p">]</span>
+<span class="p">{</span>
+  <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="p">[]</span>
+  
+  <span class="p">|</span> <span class="n">node</span> <span class="p">::</span> <span class="n">rest</span> <span class="p">=&gt;</span>
+    <span class="k">def</span> <span class="n">food</span> <span class="p">=</span>
+      <span class="k">match</span> <span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">|</span> <span class="n">Node</span><span class="p">.</span><span class="n">Element</span> <span class="p">(</span><span class="s">"ketchup"</span><span class="p">,</span> <span class="p">[])</span> <span class="p">=&gt;</span>
+          <span class="n">RefrigeratorContent</span><span class="p">.</span><span class="n">Ketchup</span> <span class="p">()</span>
+        <span class="p">|</span> <span class="n">Node</span><span class="p">.</span><span class="n">Element</span> <span class="p">(</span><span class="s">"beer"</span><span class="p">,</span> 
+<span class="na">            [Node.Element ("name", [Node.Text (name)]</span><span class="p">),</span>
+             <span class="n">Node</span><span class="p">.</span><span class="n">Element</span> <span class="p">(</span><span class="s">"volume"</span><span class="p">,</span> <span class="p">[</span><span class="n">Node</span><span class="p">.</span><span class="n">Text</span> <span class="p">(</span><span class="n">volume</span><span class="p">)])])</span> <span class="p">=&gt;</span>
+          <span class="n">RefrigeratorContent</span><span class="p">.</span><span class="n">Beer</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">Float</span><span class="p">.</span><span class="n">Parse</span> <span class="p">(</span><span class="n">volume</span><span class="p">))</span>
+        <span class="p">|</span> <span class="n">Node</span><span class="p">.</span><span class="n">Element</span> <span class="p">(</span><span class="s">"chips"</span><span class="p">,</span>
+<span class="na">            [Node.Element ("weight", [Node.Text (weight)]</span><span class="p">)])</span> <span class="p">=&gt;</span>
+          <span class="n">RefrigeratorContent</span><span class="p">.</span><span class="n">Chips</span> <span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Int32</span><span class="p">.</span><span class="n">Parse</span> <span class="p">(</span><span class="n">weight</span><span class="p">))</span>
+        <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span>
+          <span class="k">throw</span> <span class="n">System</span><span class="p">.</span><span class="n">ArgumentException</span> <span class="p">()</span>
+      <span class="p">};</span>
+    <span class="n">food</span> <span class="p">::</span> <span class="n">ParseRefrigeratorContent</span> <span class="p">(</span><span class="n">rest</span><span class="p">)</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The reader will easily note that a) this code looks a bit like a junk,&#xD;
+b) it can be generated automatically and c) in C# it would be even&#xD;
+worse. Later we will learn how to write macros to generate this kind of&#xD;
+code automatically.&#xD;</p>
+
+<p>But let's leave the ideology behind. There are probably few interesting&#xD;
+things about this example. The first is the usage of list patterns and&#xD;
+constructors. We can check if a list is empty, and if not, deconstruct&#xD;
+it with the following code:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> 
+    <span class="c1">// the list is empty</span>
+    <span class="c1">// ...</span>
+  <span class="p">|</span> <span class="n">head</span> <span class="p">::</span> <span class="n">rest</span> <span class="p">=&gt;</span>
+    <span class="c1">// the list isn't empty, the first element </span>
+    <span class="c1">// of the list is bound to the 'head' variable</span>
+    <span class="c1">// and the rest of the list to 'rest'</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>We can also construct new lists with <code>::</code> operator -- it prepends&#xD;
+an element to an existing list. If we know all list elements in advance&#xD;
+we can use the <code>[ ... ]</code> thing in both expressions and patterns.&#xD;</p>
+
+<p>The second interesting thing is that we throw an exception in case of&#xD;
+problems. We will talk about it later, for now assume, it just terminates&#xD;
+the program with an error message.&#xD;</p>
+
+<h2><span class="mw-headline" id="Exercises"><a name="Exercises" id="Exercises">Exercises</a></span></h2>
+
+<p><b>2.2</b> (2 points). Write a function that reads XML from specified&#xD;
+files and puts it into the <code>Node</code> variant defined above. Then write a&#xD;
+function to dump your data in a lispy format, something like:&#xD;</p>
+
+<pre>&#xD;(tree&#xD;(branch&#xD;(leaf)&#xD;)&#xD;(branch&#xD;($text "Foo")&#xD;)&#xD;)&#xD;</pre>&#xD;
+
+<p>For an extra point implement indentation of output.&#xD;</p>
+
+<pre>&#xD;(tree&#xD;  (branch&#xD;    (leaf))&#xD;  (branch&#xD;    ($text "Foo")))&#xD;</pre>&#xD;
+
+<p>Then copy the Parser functions from above, fix any errors you find in&#xD;
+them and try to parse the following file:&#xD;</p>
+
+<p>&lt;xml&gt;&lt;?xml version='1.0' encoding='utf-8' ?&gt;&#xD;&amp;lt;refrigerator&amp;gt;&#xD;  &amp;amp;lt;minimal&amp;amp;#45;temperature&amp;amp;gt;&amp;amp;#45;3.0&amp;amp;lt;/minimal&amp;amp;#45;temperature&amp;amp;gt;&#xD;  &amp;amp;lt;beer&amp;amp;gt;&#xD;    &amp;amp;amp;lt;name&amp;amp;amp;gt;Hyneken&amp;amp;amp;lt;/name&amp;amp;amp;gt;&#xD;    &amp;amp;amp;lt;volume&amp;amp;amp;gt;0.6&amp;amp;amp;lt;/volume&amp;amp;amp;gt;&#xD;  &amp;amp;lt;/beer&amp;amp;gt;&#xD;  &amp;amp;lt;beer&amp;amp;gt;&#xD;    &amp;amp;amp;lt;name&amp;amp;amp;gt;Bydweisser&amp;amp;amp;lt;/name&amp;amp;amp;gt;&#xD;    &amp;amp;amp;lt;volume&amp;amp;amp;gt;0.5&amp;amp;amp;lt;/volume&amp;amp;amp;gt;&#xD;  &amp;amp;lt;/beer&amp;amp;gt;&#xD;  &amp;amp;lt;beer&amp;amp;gt;&#xD;    &amp;amp;amp;lt;name&amp;amp;amp;gt;Plsner&amp;amp;amp;lt;/name&amp;amp;amp;gt;&#xD;    &amp;amp;amp;lt;volume&amp;amp;amp;gt;0.5&amp;amp;amp;lt;/volume&amp;amp;amp;gt;&#xD;  &amp;amp;lt;/beer&amp;amp;gt;&#xD;  &amp;amp;lt;chips&amp;amp;gt;&#xD;    &amp;amp;amp;lt;weight&amp;amp;amp;gt;500&amp;amp;amp;lt;/weight&amp;amp;amp;gt;&#xD;  &amp;amp;lt;/chips&amp;amp;gt;&#xD;  &amp;amp;lt;ketchup&amp;amp;gt;&amp;amp;lt;/ketchup&amp;amp;gt;&#xD;&amp;lt;/refrigerator&amp;gt;&#xD;&lt;/xml&gt;&#xD;</p>
+
+<p>Warning: you do not need to write the XML parser. You should not do&#xD;
+it, actually. Use the <a target="_blank" href="http://msdn.microsoft.com/library/en-us/cpref/html/frlrfsystemxml.asp">System.Xml</a> namespace from the .NET Framework. In&#xD;
+order to link with the System.Xml library you need to compile with the&#xD;
+<code>-r:System.Xml</code> option. For example:&#xD;</p>
+
+<pre>  ncc -r System.Xml myprogram.n&#xD;</pre>
+
+<p>should do.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

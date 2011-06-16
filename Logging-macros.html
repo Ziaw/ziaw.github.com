@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Logging macros
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Example_usage">Example usage</a><ul><li><a href="#Specifying_multiple_logging_functions">Specifying multiple logging functions</a></li></ul></li><li><a href="#Limitations">Limitations</a></li><li><a href="#Source">Source</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Example_usage"><a name="Example_usage" id="Example_usage">Example usage</a></span></h2>
+
+<p>This package sits in the <code>Nemerle.Logging</code> namespace. It is a mental shortcut for the following:&#xD;</p>
+
+<div class="highlight"><pre><span class="cp">#define VERB</span>
+
+<span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+  <span class="n">SomeMethod</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="cp">#if VERB</span>
+    <span class="n">DoLog</span> <span class="p">(</span><span class="s">"some stuff"</span><span class="p">);</span>
+    <span class="cp">#endif</span>
+    <span class="p">...</span>
+    <span class="cp">#if VERB</span>
+    <span class="k">def</span> <span class="n">previous_value</span> <span class="p">=</span> <span class="n">GetValue</span> <span class="p">();</span>
+    <span class="cp">#endif</span>
+    <span class="p">...</span>
+    <span class="n">UpdateValue</span> <span class="p">();</span>
+    <span class="p">...</span>
+    <span class="cp">#if VERB</span>
+    <span class="n">DoLog</span> <span class="p">(</span><span class="s">$ "value </span><span class="n">$</span><span class="p">(</span><span class="n">GetValue</span><span class="err"> </span><span class="p">())</span><span class="s"> --&gt; </span><span class="n">$previous_value</span><span class="s">"</span><span class="p">);</span>
+    <span class="cp">#endif</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The above is replaced by:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Logging</span><span class="p">;</span>
+<span class="na">[assembly: LogFunction (DoLog)]</span>
+<span class="na">[assembly: LogFlag (VERB, true)]</span>
+
+<span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+  <span class="n">SomeMethod</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">log</span> <span class="p">(</span><span class="n">VERB</span><span class="p">,</span> <span class="s">"some stuff"</span><span class="p">);</span>
+    <span class="p">...</span>
+    <span class="n">whenlogging</span> <span class="p">(</span><span class="n">VERB</span><span class="p">)</span>
+      <span class="k">def</span> <span class="n">previous_value</span> <span class="p">=</span> <span class="n">GetValue</span> <span class="p">();</span>
+    <span class="p">...</span>
+    <span class="n">UpdateValue</span> <span class="p">();</span>
+    <span class="p">...</span>
+    <span class="n">log</span> <span class="p">(</span><span class="n">VERB</span><span class="p">,</span> <span class="s">$ "value change </span><span class="n">$previous_value</span><span class="s"> --&gt; </span><span class="n">$</span><span class="p">(</span><span class="n">GetValue</span><span class="err"> </span><span class="p">())</span><span class="s">"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The flags set with <code>LogFlag</code> are global to the current compilation.&#xD;
+Same goes to the <code>LogFunction</code>. It is an error to use <code>log</code>&#xD;
+(or <code>whenlogging</code>) with an unknown flag (use &#xD;
+<code>LogFlag (FOO, false)</code> to disable given flag). This should save&#xD;
+you from typos.&#xD;</p>
+
+<p>Setting a flag or printing function several times is also an error.&#xD;</p>
+
+<p>Enabling given logging is a compile time operation -- without the flag&#xD;
+the logging code is not compiled in.&#xD;</p>
+
+<p>It is also allowed to pass several arguments to the logging function, provided it supports such overload. So the code like below is OK:&#xD;</p>
+
+<div class="highlight"><pre><span class="na">[LogFunction (DoLog)]</span>
+<span class="p">...</span>
+<span class="n">DoLog</span> <span class="p">(</span><span class="n">color</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">s</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">...</span>
+<span class="n">log</span> <span class="p">(</span><span class="n">SOME_FLAG</span><span class="p">,</span> <span class="m">12</span><span class="p">,</span> <span class="s">"ble bla"</span><span class="p">);</span>
+<span class="p">...</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Specifying_multiple_logging_functions"><a name="Specifying_multiple_logging_functions" id="Specifying_multiple_logging_functions">Specifying multiple logging functions</a></span></h3>
+
+<p>If you want to customize which logging function is used for every&#xD;
+flag, you can specify mapping from each flag name to logging function.&#xD;
+It is done by listing expressions of form <code>FLAG =&gt; func_expr</code> as arguments of &#xD;
+<code>LogFunction</code>.&#xD;</p>
+
+<p>For example you may want to use <a target="_blank" href="http://logging.apache.org/log4net/">log4net</a>'s functions for <i>Debug</i> and <i>Info</i>, so you specify:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Logging</span><span class="p">;</span>
+
+<span class="na">[assembly: LogFunction (DEBUG =&gt; log4net_category.Debug, TRACE =&gt; log4net_category.Info)]</span>
+</pre>
+</div>
+
+
+<p>and then&#xD;</p>
+
+<div class="highlight"><pre><span class="n">log</span> <span class="p">(</span><span class="n">DEBUG</span><span class="p">,</span> <span class="s">"I'm here"</span><span class="p">);</span>
+<span class="n">log</span> <span class="p">(</span><span class="n">TRACE</span><span class="p">,</span> <span class="s">"enter business functionality"</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>will use <code>log4net_category.debug</code> in first expression and <code>log4net_category.info</code>&#xD;
+in second.&#xD;</p>
+
+<h2><span class="mw-headline" id="Limitations"><a name="Limitations" id="Limitations">Limitations</a></span></h2>
+
+<p>The following won't work (that is x and y will be local to the scope):&#xD;</p>
+
+<div class="highlight"><pre><span class="n">whenlogging</span> <span class="p">(</span><span class="n">FOO</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="p">...;</span>
+  <span class="k">def</span> <span class="n">y</span> <span class="p">=</span> <span class="p">...;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Source"><a name="Source" id="Source">Source</a></span></h2>
+
+<p>Source is available at <a href="http://nemerle.org/svn/nemerle/trunk/macros/Logging.n">http://nemerle.org/svn/nemerle/trunk/macros/Logging.n</a></p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	MacroUse
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+<b>The most interesting features we implemented using macros</b></p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Introduction">Introduction</a></li><li><a href="#Design_by_contract">Design by contract</a></li><li><a href="#Compiletime_validation_of_embedded_languages">Compile-time validation of embedded languages</a></li><li><a href="#Partial_evaluation">Partial evaluation</a></li><li><a href="#Concurrency_constructs">Concurrency constructs</a></li><li><a href="#Design_patterns">Design patterns</a></li><li><a href="#AspectsOriented_programming">Aspects-Oriented programming</a></li><li><a href="#More">More</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Introduction"><a name="Introduction" id="Introduction">Introduction</a></span></h2>
+
+<p>This page is dedicated to the features of Nemerle and its library, which
+have been implemented using our <a class="internal absent" href="/meta-programming-facilities.html">Macros</a>.</p>
+
+<p>Understanding how macros work is not necessary for using any of
+them. It would be useful only for knowing that those examples 
+are just a tip of an iceberg called meta-programming and that you can easily
+implement even nicer things.</p>
+
+<p>Please refer to <a class="internal present" href="/Class-library.html">class library</a> documentation for a reference list of
+implemented macros.</p>
+
+<h2><span class="mw-headline" id="Design_by_contract"><a name="Design_by_contract" id="Design_by_contract">Design by contract</a></span></h2>
+
+<p>Languages like <a target="_blank" href="http://en.wikipedia.org/wiki/Eiffel_programming_language">Eiffel</a>
+or <a target="_blank" href="http://research.microsoft.com/~leino/papers/krml136.pdf">Spec#</a> incorporate a
+methodology called <a target="_blank" href="http://en.wikipedia.org/wiki/Design_by_contract">Design by Contract</a> 
+to reason about programs, libraries, methods. It allows to write more
+secure and correct software and specify its behavior.</p>
+
+<p>A quick example below shows how it looks in Nemerle with its syntax extensions. Note that
+the <b>invariant</b>, <b>requires</b> and <b>ensures</b> syntax is added to the scope by opening 
+<i>Nemerle.Assertions</i> namespace containing design by contract macros.</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Assertions</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">BeerControl</span> 
+<span class="n">invariant</span> <span class="n">m_temperature</span> <span class="p">&lt;=</span> <span class="m">6.0</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">DrinkUsingAStraw</span> <span class="p">(</span><span class="n">how_much</span> <span class="p">:</span> <span class="kt">float</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="k">requires</span> <span class="n">how_much</span> <span class="p">&gt;</span> <span class="m">0.0</span>
+  <span class="p">{</span>
+    <span class="n">m_amount</span> <span class="p">-=</span> <span class="n">how_much</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">DissipationHandler</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="k">ensures</span> <span class="n">m_amount</span> <span class="p">&gt;</span> <span class="m">0.0</span>
+  <span class="p">{</span>
+    <span class="k">when</span> <span class="p">(</span><span class="n">AReallySmallNumber</span> <span class="p">&lt;</span> <span class="n">m_amount</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_temperature</span> <span class="p">+=</span> <span class="p">(</span><span class="n">Room</span><span class="p">.</span><span class="n">Temperature</span> <span class="p">-</span> <span class="n">m_temperature</span><span class="p">)</span> <span class="p">/</span> <span class="m">100.0</span><span class="p">;</span>
+      <span class="n">m_amount</span> <span class="p">-=</span> <span class="m">0.1</span><span class="p">;</span> <span class="c1">// loss due to the evaporation</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  
+  <span class="k">private</span> <span class="k">mutable</span> <span class="n">m_temperature</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="k">private</span> <span class="k">mutable</span> <span class="n">m_amount</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>See here for <a class="internal absent" href="/more....html">Design by contract macros</a></p>
+
+<h2><span class="mw-headline" id="Compiletime_validation_of_embedded_languages"><a name="Compiletime_validation_of_embedded_languages" id="Compiletime_validation_of_embedded_languages">Compile-time validation of embedded languages</a></span></h2>
+In many programming tasks there is a need for using
+<a target="_blank" href="http://en.wikipedia.org/wiki/Domain-specific_language">domain-specific languages</a>
+for performing some specialized operations. The examples are
+regular expressions used for searching and matching parts of text, formatting
+strings of <code>printf</code> function or SQL for obtaining data from database.
+All those languages have their own syntax and validity rules. 
+
+<p>Most of DSLs are used inside a general-purpose language by embedding programs written in them
+into strings. For example, to query a database about elements in some table, one writes an SQL
+statement and sends it to the database provider as a string. The common problem with this approach
+is verifying correctness of embedded programs - if the syntax is valid, if  types of the 
+variables used match, etc. Unfortunately, in most cases all those checks are performed at runtime,
+when a particular program is expected to execute, but fails with a syntax or invalid cast error.</p>
+
+<p>All this happen, because the compiler of our general-purpose language treats DSL programs just
+as common strings. It is not surprising though - it was not designed to verify any
+particular domain-specific language - but it would be nice to do it before runtime. 
+In Nemerle we can use macros to
+handle some of the strings in a special way - for example run a verification function against
+them.</p>
+
+<p>This mechanism is very general and it is used in some parts of Nemerle standard library
+(like regular expression matching, printf-like functions). Please refer to our <a class="internal present" href="/SQL-macros.html">SQL macros</a>
+description for more information.</p>
+
+<h2><span class="mw-headline" id="Partial_evaluation"><a name="Partial_evaluation" id="Partial_evaluation">Partial evaluation</a></span></h2>
+<a target="_blank" href="http://en.wikipedia.org/wiki/Partial_evaluation">Partial evaluation</a>
+is a process of specializing given program with some of its inputs,
+which are known statically. This way we obtain a new program, which is
+the optimized version of the general one. Implementation of this
+technique often involves program generation and rewriting.
+
+<p>Macros can be used as a convenient tool for partial evaluation in 
+a similar way to 
+<a target="_blank" href="http://www.cse.ogi.edu/PacSoft/publications/phaseiiiq8papers/metaml.pdf">multi-stage programming</a>.</p>
+
+<p>A <a class="internal absent" href="/tutorial.html">Partial evaluation</a>
+explains how to use macros in such a setting. There are examples
+describing specialization technique (power function, permutation
+algorithm) and others.</p>
+
+<h2><span class="mw-headline" id="Concurrency_constructs"><a name="Concurrency_constructs" id="Concurrency_constructs">Concurrency constructs</a></span></h2>
+Most of the features of 
+<a target="_blank" href="http://research.microsoft.com/~nick/polyphony/">Polyphonic C#</a>
+were implemented in our library using Nemerle macros. You can use these specialized
+features for safer multithreading application, by simply importing
+Nemerle.Concurrency namespace.  
+
+<p>Currently you can see some
+<a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/snippets/concurrency/">examples</a>.        </p>
+
+<h2><span class="mw-headline" id="Design_patterns"><a name="Design_patterns" id="Design_patterns">Design patterns</a></span></h2>
+
+<p>Some <a class="internal present" href="/Design-patterns.html">design patterns</a> can be greatly automated by macros. Instead of writing massive amount of code, programmer can just generate neccessary methods, fields, etc. or transform handwritten classes according to the needs, reducing maintainance costs and bugs introduced
+by commonly used copy &amp; paste method.</p>
+
+<h2><span class="mw-headline" id="AspectsOriented_programming"><a name="AspectsOriented_programming" id="AspectsOriented_programming">Aspects-Oriented programming</a></span></h2>
+
+<p>As for now see 
+<a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/testsuite/positive/trace.n">this</a>.</p>
+
+<h2><span class="mw-headline" id="More"><a name="More" id="More">More</a></span></h2>
+
+<p>More examples can be found at the <a class="internal present" href="/Class-library.html">class library</a> documentation page.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

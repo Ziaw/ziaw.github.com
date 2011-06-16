@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Gtk text editor (tutorial)
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Simple_text_editor_in_GTK">Simple text editor in GTK#</a><ul><li><a href="#Compiling_examples">Compiling examples</a></li><li><a href="#Part_I_creating_a_window">Part I  creating a window</a></li><li><a href="#Part_II_adding_text_input_section">Part II  adding text input section</a></li><li><a href="#Part_III_a_simple_menu">Part III a simple menu</a></li><li><a href="#Part_IV_adding_submenus">Part IV  adding submenus</a></li><li><a href="#Part_V_adding_tasks_to_the_submenus">Part V  adding tasks to the submenus</a></li><li><a href="#Result">Result</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Simple_text_editor_in_GTK"><a name="Simple_text_editor_in_GTK" id="Simple_text_editor_in_GTK">Simple text editor in GTK#</a></span></h2>
+
+<p>In this tutorial we will see step by step how you can build a simple text editor &#xD;
+in Nemerle using gtk-sharp.&#xD;</p>
+
+<p>The final appearence of our application will be something like:&#xD;</p>
+
+<p><a class="internal absent" href="/Image%3AVsedit.png.html">Image:Vsedit.png</a>&#xD;</p>
+
+<h3><span class="mw-headline" id="Compiling_examples"><a name="Compiling_examples" id="Compiling_examples">Compiling examples</a></span></h3>
+
+<p>In order to compile and run examples presented below, you need to install <a target="_blank" href="http://gtk-sharp.sourceforge.net/">Gtk#</a>. Assuming you have pkg-config installed, you can compile gtk# examples using&#xD;</p>
+
+<pre>  ncc example.n -pkg:gtk-sharp -out:example.exe&#xD;</pre>
+
+<p>Otherwise you will need to copy gtk-sharp.dll to the current directory and use&#xD;</p>
+
+<pre>  ncc example.n -r:gtk-sharp.dll -out:example.exe&#xD;</pre>
+
+<h3><span class="mw-headline" id="Part_I_creating_a_window"><a name="Part_I_creating_a_window" id="Part_I_creating_a_window">Part I  creating a window</a></span></h3>
+
+<p>First we must create an application and display a window, which will be the base of our editor:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Gtk</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MainWindow</span> <span class="p">:</span> <span class="n">Window</span>
+<span class="p">{</span>
+	<span class="k">public</span> <span class="nf">this</span><span class="p">()</span>
+	<span class="p">{</span>
+                <span class="c1">// set caption of window</span>
+		<span class="k">base</span> <span class="p">(</span><span class="s">"Very Simple Editor"</span><span class="p">);</span>
+                <span class="c1">// resize windows to some reasonable shape</span>
+		<span class="n">SetSizeRequest</span> <span class="p">(</span><span class="m">300</span><span class="p">,</span><span class="m">200</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">module</span> <span class="nc">SimpleEditor</span>
+<span class="p">{</span> 
+	<span class="n">Main</span><span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+	<span class="p">{</span>
+		<span class="n">Application</span><span class="p">.</span><span class="n">Init</span><span class="p">();</span>
+		<span class="k">def</span> <span class="n">win</span> <span class="p">=</span> <span class="n">MainWindow</span><span class="p">();</span>
+
+                <span class="c1">// exit application when editor window is deleted</span>
+                <span class="n">win</span><span class="p">.</span><span class="n">DeleteEvent</span> <span class="p">+=</span> <span class="k">fun</span> <span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="p">{</span> <span class="n">Application</span><span class="p">.</span><span class="n">Quit</span> <span class="p">()</span> <span class="p">};</span>
+
+                <span class="n">win</span><span class="p">.</span><span class="n">ShowAll</span> <span class="p">();</span>
+		<span class="n">Application</span><span class="p">.</span><span class="n">Run</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="p">}</span>	
+</pre>
+</div>
+
+
+<p>The <i>MainWindow</i> class is quite simple now, but we will add things to it in a moment.&#xD;</p>
+
+<p><i>SimpleEditor</i> is a module with one method, <i>Main</i> - the entry point of our application. It is executed first when the program is run and creates the editor window.&#xD;</p>
+
+<p>One more thing to note is <i>win.DeleteEvent</i>, which is a signal triggered when the window is destroyed (for example user clicks close). We specify what should happen by attaching an anonymous function to the event. Here, we will simply quit the application.&#xD;</p>
+
+<h3><span class="mw-headline" id="Part_II_adding_text_input_section"><a name="Part_II_adding_text_input_section" id="Part_II_adding_text_input_section">Part II  adding text input section</a></span></h3>
+
+<p>Now we need to add an area to the window where actual text can be written by the user.&#xD;</p>
+
+<p>Modify the <i>MainWindow</i> class to hold the <i>TextView</i> object:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">MainWindow</span> <span class="p">:</span> <span class="n">Window</span>
+<span class="p">{</span>
+        <span class="c1">/// text input area of our window</span>
+	<span class="n">input</span> <span class="p">:</span> <span class="n">TextView</span><span class="p">;</span>
+
+	<span class="k">public</span> <span class="nf">this</span><span class="p">()</span>
+	<span class="p">{</span>
+                <span class="c1">// set caption of window</span>
+		<span class="k">base</span> <span class="p">(</span><span class="s">"Very Simple Editor"</span><span class="p">);</span>
+                <span class="c1">// resize windows to some reasonable shape</span>
+		<span class="n">SetSizeRequest</span> <span class="p">(</span><span class="m">300</span><span class="p">,</span><span class="m">200</span><span class="p">);</span>
+
+		<span class="k">def</span> <span class="n">scroll</span> <span class="p">=</span> <span class="n">ScrolledWindow</span> <span class="p">();</span>		
+		<span class="n">input</span> <span class="p">=</span> <span class="n">TextView</span> <span class="p">();</span>
+		<span class="n">scroll</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="n">input</span><span class="p">);</span>
+		
+                <span class="c1">// place scrolledwin inside our main window</span>
+           	<span class="n">Add</span> <span class="p">(</span><span class="n">scroll</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>In our window's constructor we must choose how the text input will be positioned. We use a Gtk container to encapsulate <i>TextView</i> into <i>ScrolledWindow</i>. This allows text in the text view to be easily viewed using scroll bars.&#xD;</p>
+
+<p><i>Add (scroll)</i> adds the <i>ScrolledWindow</i> as part of our text editor window. So, now we have created working text input and viewing.&#xD;</p>
+
+<h3><span class="mw-headline" id="Part_III_a_simple_menu"><a name="Part_III_a_simple_menu" id="Part_III_a_simple_menu">Part III a simple menu</a></span></h3>
+
+<p>But we still want to perform some more advanced operations in our editor. Ha, we will even need a menu! We will create a menu and put it into a vertical box. Instead of adding scrolling to the main window, put it into the box as well: &#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">menu</span> <span class="p">=</span> <span class="n">MenuBar</span> <span class="p">();</span>
+<span class="k">def</span> <span class="n">mi</span> <span class="p">=</span> <span class="n">NMenuItem</span> <span class="p">(</span><span class="s">"File"</span><span class="p">);</span>
+<span class="n">menu</span><span class="p">.</span><span class="n">Append</span><span class="p">(</span><span class="n">mi</span><span class="p">);</span>		
+	
+<span class="k">def</span> <span class="n">vbox</span> <span class="p">=</span> <span class="n">VBox</span> <span class="p">();</span>
+<span class="n">vbox</span><span class="p">.</span><span class="n">PackStart</span> <span class="p">(</span><span class="n">menu</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="m">0</span><span class="n">u</span><span class="p">);</span>
+<span class="n">vbox</span><span class="p">.</span><span class="n">PackStart</span> <span class="p">(</span><span class="n">scroll</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="m">0</span><span class="n">u</span><span class="p">);</span>
+
+<span class="c1">// place vertical box inside our main window</span>
+<span class="n">Add</span> <span class="p">(</span><span class="n">vbox</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>In the last instruction we add the entire vertical box to the main window, above the text view.&#xD;</p>
+
+<p><i>NMenuItem</i>, defined below, is the next class we will work with. We will extend it and add &#xD;
+some actions to it. Here is the initial code:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">NMenuItem</span> <span class="p">:</span> <span class="n">MenuItem</span>
+<span class="p">{</span>
+	<span class="k">public</span> <span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+	
+	<span class="k">public</span> <span class="nf">this</span><span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="k">base</span><span class="p">(</span><span class="n">l</span><span class="p">);</span>
+		<span class="n">name</span> <span class="p">=</span> <span class="n">l</span><span class="p">;</span>		
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>For now the constructor only sets the caption of the base <i>MenuItem</i>.&#xD;</p>
+
+<h3><span class="mw-headline" id="Part_IV_adding_submenus"><a name="Part_IV_adding_submenus" id="Part_IV_adding_submenus">Part IV  adding submenus</a></span></h3>
+
+<p>We want our only menu item, <i>File</i>, to have some submenus for the tasks available in the editor. &#xD;</p>
+
+<p>Add a property to <i>NMenuItem</i>, which allows easy adding of child menus:&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// class NMenuItem : MenuItem </span>
+<span class="c1">// { </span>
+
+<span class="c1">// this property allows us to set submenus of this menu item</span>
+<span class="k">public</span> <span class="n">SubmenuList</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">NMenuItem</span><span class="p">]</span>
+<span class="p">{</span> 
+  <span class="n">set</span>
+  <span class="p">{</span> 
+    <span class="k">def</span> <span class="n">sub</span> <span class="p">=</span> <span class="n">Menu</span><span class="p">();</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">submenu</span> <span class="n">in</span> <span class="n">value</span><span class="p">)</span> <span class="n">sub</span><span class="p">.</span><span class="n">Append</span> <span class="p">(</span><span class="n">submenu</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="n">Submenu</span> <span class="p">=</span> <span class="n">sub</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// }</span>
+</pre>
+</div>
+
+
+<p><i>SubmenuList</i> simply iterates through the elements of the supplied list and adds each of them to the current instance's submenu.&#xD;</p>
+
+<p>Use this property in the constructor of <i>MainWindow</i>:&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// def menu = MenuBar ();</span>
+<span class="c1">// def mi = NMenuItem ("File");</span>
+<span class="n">mi</span><span class="p">.</span><span class="n">SubmenuList</span> <span class="p">=</span> 
+<span class="na">[</span>
+<span class="na">  NMenuItem ("Open"),</span>
+<span class="na">  NMenuItem ("Save as...")</span>
+<span class="na">]</span><span class="p">;</span>
+<span class="c1">// menu.Append(mi);		</span>
+</pre>
+</div>
+
+
+<p>Note the commented out lines. We will uncomment these later.&#xD;</p>
+
+<h3><span class="mw-headline" id="Part_V_adding_tasks_to_the_submenus"><a name="Part_V_adding_tasks_to_the_submenus" id="Part_V_adding_tasks_to_the_submenus">Part V  adding tasks to the submenus</a></span></h3>
+
+<p>Finally, we will attach actions to the items in our editor's menu. We will implement opening and saving files.&#xD;</p>
+
+<p>Add a second constructor to <i>NMenuItem</i>, which will accept an action function to be perfomed after choosing the given menu item:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">this</span><span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">string</span><span class="p">,</span> <span class="n">e</span> <span class="p">:</span> <span class="kt">object</span> <span class="p">*</span> <span class="n">EventArgs</span> <span class="p">-&gt;</span> <span class="kt">void</span><span class="p">)</span> 
+<span class="p">{</span>
+  <span class="k">base</span><span class="p">(</span><span class="n">l</span><span class="p">);</span>
+  <span class="n">name</span> <span class="p">=</span> <span class="n">l</span><span class="p">;</span>		
+  <span class="k">this</span><span class="p">.</span><span class="n">Activated</span> <span class="p">+=</span> <span class="n">e</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Like the previous one, this constructor sets the current menu item's caption, but it also attaches the given function to the <i>Activated</i> event of the item.&#xD;</p>
+
+<p>Now we will define a function which will handle opening and saving files by our editor. Add it to <i>MainWindow</i>:&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// handler of opening and saving files</span>
+<span class="n">OnMenuFile</span> <span class="p">(</span><span class="n">i</span> <span class="p">:</span> <span class="kt">object</span><span class="p">,</span> <span class="n">_</span> <span class="p">:</span> <span class="n">EventArgs</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="n">mi</span> <span class="p">=</span> <span class="n">i</span> <span class="p">:&gt;</span> <span class="n">NMenuItem</span><span class="p">;</span>
+  <span class="k">def</span> <span class="n">fs</span> <span class="p">=</span> <span class="n">FileSelection</span> <span class="p">(</span><span class="n">mi</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+		
+  <span class="k">when</span> <span class="p">(</span><span class="n">fs</span><span class="p">.</span><span class="n">Run</span> <span class="p">()</span> <span class="p">==</span> <span class="n">ResponseType</span><span class="p">.</span><span class="n">Ok</span> <span class="p">:&gt;</span> <span class="kt">int</span><span class="p">)</span> <span class="k">match</span> <span class="p">(</span><span class="n">mi</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="p">|</span> <span class="s">"Open"</span> <span class="p">=&gt;</span>
+       <span class="k">def</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">IO</span><span class="p">.</span><span class="n">StreamReader</span> <span class="p">(</span><span class="n">fs</span><span class="p">.</span><span class="n">Filename</span><span class="p">);</span>
+       <span class="n">input</span><span class="p">.</span><span class="n">Buffer</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">stream</span><span class="p">.</span><span class="n">ReadToEnd</span><span class="p">();</span>
+
+    <span class="p">|</span> <span class="s">"Save as..."</span> <span class="p">=&gt;</span>
+       <span class="k">def</span> <span class="n">s</span> <span class="p">=</span> <span class="n">IO</span><span class="p">.</span><span class="n">StreamWriter</span><span class="p">(</span><span class="n">fs</span><span class="p">.</span><span class="n">Filename</span><span class="p">);</span>
+       <span class="n">s</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">Buffer</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+       <span class="n">s</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+
+    <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">();</span>
+  <span class="p">};</span>
+  <span class="n">fs</span><span class="p">.</span><span class="n">Hide</span><span class="p">();</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>This method creates a window for selecting files (Gtk <i>FileSelection</i>), checks which menu item it was called from, and takes the appropriate action. Here we match on the name of <i>NMenuItem</i>, but you could also use something like <b>enum</b>s to distinguish various menu items (or attach a specific handler to each of them). &#xD;</p>
+
+<p>Actions performed for opening and saving files are quite simple - we use <i>Buffer.Text</i> properties of <i>TextView</i> to get and set the contents of the editor.&#xD;</p>
+
+<p>The last thing to do is actually create the menu items using handlers. Uncomment the lines we entered in the earlier step to read:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">menu</span> <span class="p">=</span> <span class="n">MenuBar</span> <span class="p">();</span>
+<span class="k">def</span> <span class="n">mi</span> <span class="p">=</span> <span class="n">NMenuItem</span> <span class="p">(</span><span class="s">"File"</span><span class="p">);</span>
+<span class="n">mi</span><span class="p">.</span><span class="n">SubmenuList</span> <span class="p">=</span> 
+<span class="na">[</span>
+<span class="na">   NMenuItem ("Open", OnMenuFile),</span>
+<span class="na">   NMenuItem ("Save as...", OnMenuFile)</span>
+<span class="na">]</span><span class="p">;</span>
+<span class="n">menu</span><span class="p">.</span><span class="n">Append</span><span class="p">(</span><span class="n">mi</span><span class="p">);</span>	
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Result"><a name="Result" id="Result">Result</a></span></h3>
+
+<p>The result of these steps can be accessed <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/snippets/gtk/vsedit/vsedit.n">here</a> and it looks like this:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Gtk</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">NMenuItem</span> <span class="p">:</span> <span class="n">MenuItem</span>
+<span class="p">{</span>
+	<span class="k">public</span> <span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+	
+	<span class="k">public</span> <span class="nf">this</span><span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="k">base</span><span class="p">(</span><span class="n">l</span><span class="p">);</span>
+		<span class="n">name</span> <span class="p">=</span> <span class="n">l</span><span class="p">;</span>		
+	<span class="p">}</span>
+
+	<span class="k">public</span> <span class="nf">this</span><span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">string</span><span class="p">,</span> <span class="n">e</span> <span class="p">:</span> <span class="kt">object</span> <span class="p">*</span> <span class="n">EventArgs</span> <span class="p">-&gt;</span> <span class="kt">void</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="k">base</span><span class="p">(</span><span class="n">l</span><span class="p">);</span>
+		<span class="n">name</span> <span class="p">=</span> <span class="n">l</span><span class="p">;</span>		
+		<span class="k">this</span><span class="p">.</span><span class="n">Activated</span> <span class="p">+=</span> <span class="n">e</span><span class="p">;</span>
+	<span class="p">}</span>
+
+
+        <span class="c1">// this property allows us to set submenus of this menu item</span>
+	<span class="k">public</span> <span class="n">SubmenuList</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">NMenuItem</span><span class="p">]</span>
+	<span class="p">{</span> 
+		<span class="n">set</span>
+		<span class="p">{</span> 
+			<span class="k">def</span> <span class="n">sub</span> <span class="p">=</span> <span class="n">Menu</span><span class="p">();</span>
+                        <span class="k">foreach</span> <span class="p">(</span><span class="n">submenu</span> <span class="n">in</span> <span class="n">value</span><span class="p">)</span> <span class="n">sub</span><span class="p">.</span><span class="n">Append</span> <span class="p">(</span><span class="n">submenu</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="n">Submenu</span> <span class="p">=</span> <span class="n">sub</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">MainWindow</span> <span class="p">:</span> <span class="n">Window</span>
+<span class="p">{</span>
+        <span class="c1">/// text input area of our window</span>
+	<span class="n">input</span> <span class="p">:</span> <span class="n">TextView</span><span class="p">;</span>
+
+	<span class="k">public</span> <span class="nf">this</span><span class="p">()</span>
+	<span class="p">{</span>
+                <span class="c1">// set caption of window</span>
+		<span class="k">base</span> <span class="p">(</span><span class="s">"Very Simple Editor"</span><span class="p">);</span>
+                <span class="c1">// resize windows to some reasonable shape</span>
+		<span class="n">SetSizeRequest</span> <span class="p">(</span><span class="m">300</span><span class="p">,</span><span class="m">200</span><span class="p">);</span>
+
+		<span class="k">def</span> <span class="n">scroll</span> <span class="p">=</span> <span class="n">ScrolledWindow</span> <span class="p">();</span>		
+		<span class="n">input</span> <span class="p">=</span> <span class="n">TextView</span> <span class="p">();</span>
+		<span class="n">scroll</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="n">input</span><span class="p">);</span>
+
+		<span class="k">def</span> <span class="n">menu</span> <span class="p">=</span> <span class="n">MenuBar</span> <span class="p">();</span>
+		<span class="k">def</span> <span class="n">mi</span> <span class="p">=</span> <span class="n">NMenuItem</span> <span class="p">(</span><span class="s">"File"</span><span class="p">);</span>
+		<span class="n">mi</span><span class="p">.</span><span class="n">SubmenuList</span> <span class="p">=</span> 
+<span class="na">		[</span>
+<span class="na">			NMenuItem ("Open", OnMenuFile),</span>
+<span class="na">			NMenuItem ("Save as...", OnMenuFile)</span>
+<span class="na">		]</span><span class="p">;</span>
+		<span class="n">menu</span><span class="p">.</span><span class="n">Append</span><span class="p">(</span><span class="n">mi</span><span class="p">);</span>		
+		
+		<span class="k">def</span> <span class="n">vbox</span> <span class="p">=</span> <span class="n">VBox</span> <span class="p">();</span>
+		<span class="n">vbox</span><span class="p">.</span><span class="n">PackStart</span> <span class="p">(</span><span class="n">menu</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="m">0</span><span class="n">u</span><span class="p">);</span>
+	        <span class="n">vbox</span><span class="p">.</span><span class="n">PackStart</span> <span class="p">(</span><span class="n">scroll</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="m">0</span><span class="n">u</span><span class="p">);</span>
+
+		<span class="c1">// place vertical box inside our main window</span>
+		<span class="n">Add</span> <span class="p">(</span><span class="n">vbox</span><span class="p">);</span>
+	<span class="p">}</span>
+
+        <span class="c1">// handler of opening and saving files</span>
+	<span class="n">OnMenuFile</span> <span class="p">(</span><span class="n">i</span> <span class="p">:</span> <span class="kt">object</span><span class="p">,</span> <span class="n">_</span> <span class="p">:</span> <span class="n">EventArgs</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+	<span class="p">{</span>
+		<span class="k">def</span> <span class="n">mi</span> <span class="p">=</span> <span class="n">i</span> <span class="p">:&gt;</span> <span class="n">NMenuItem</span><span class="p">;</span>
+		<span class="k">def</span> <span class="n">fs</span> <span class="p">=</span> <span class="n">FileSelection</span> <span class="p">(</span><span class="n">mi</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+		
+		<span class="k">when</span> <span class="p">(</span><span class="n">fs</span><span class="p">.</span><span class="n">Run</span> <span class="p">()</span> <span class="p">==</span> <span class="n">ResponseType</span><span class="p">.</span><span class="n">Ok</span> <span class="p">:&gt;</span> <span class="kt">int</span><span class="p">)</span> <span class="k">match</span> <span class="p">(</span><span class="n">mi</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="p">|</span> <span class="s">"Open"</span> <span class="p">=&gt;</span>
+                                <span class="k">def</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">IO</span><span class="p">.</span><span class="n">StreamReader</span> <span class="p">(</span><span class="n">fs</span><span class="p">.</span><span class="n">Filename</span><span class="p">);</span>
+				<span class="n">input</span><span class="p">.</span><span class="n">Buffer</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">stream</span><span class="p">.</span><span class="n">ReadToEnd</span><span class="p">();</span>
+
+			<span class="p">|</span> <span class="s">"Save as..."</span> <span class="p">=&gt;</span>
+				<span class="k">def</span> <span class="n">s</span> <span class="p">=</span> <span class="n">IO</span><span class="p">.</span><span class="n">StreamWriter</span><span class="p">(</span><span class="n">fs</span><span class="p">.</span><span class="n">Filename</span><span class="p">);</span>
+				<span class="n">s</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">input</span><span class="p">.</span><span class="n">Buffer</span><span class="p">.</span><span class="n">Text</span><span class="p">);</span>
+				<span class="n">s</span><span class="p">.</span><span class="n">Close</span><span class="p">();</span>
+			<span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">();</span>
+		<span class="p">};</span>
+		<span class="n">fs</span><span class="p">.</span><span class="n">Hide</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">module</span> <span class="nc">SimpleEditor</span>
+<span class="p">{</span> 
+	<span class="n">Main</span><span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+	<span class="p">{</span>
+		<span class="n">Application</span><span class="p">.</span><span class="n">Init</span><span class="p">();</span>
+		<span class="k">def</span> <span class="n">win</span> <span class="p">=</span> <span class="n">MainWindow</span><span class="p">();</span>
+
+                <span class="c1">// exit application when editor window is deleted</span>
+                <span class="n">win</span><span class="p">.</span><span class="n">DeleteEvent</span> <span class="p">+=</span> <span class="k">fun</span> <span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="p">{</span> <span class="n">Application</span><span class="p">.</span><span class="n">Quit</span> <span class="p">()</span> <span class="p">};</span>
+
+                <span class="n">win</span><span class="p">.</span><span class="n">ShowAll</span> <span class="p">();</span>
+		<span class="n">Application</span><span class="p">.</span><span class="n">Run</span><span class="p">();</span>
+	<span class="p">}</span>
+<span class="p">}</span>	
+</pre>
+</div>
+
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

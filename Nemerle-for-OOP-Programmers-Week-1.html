@@ -1,0 +1,811 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Nemerle for OOP Programmers Week 1
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+During this lesson we will learn how to define good ol' classes in&#xD;
+Nemerle. It works much like in C# (or Java, C++) but there are some&#xD;
+differences.&#xD;</p>
+
+<p>We also take a look at loops and a few basic macros.&#xD;</p>
+
+<p>This week still doesn't introduce any functional features. We'll find out&#xD;
+about them next week.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Class_definitions">Class definitions</a><ul><li><a href="#Modifiers">Modifiers</a><ul><li><a href="#Side_note_mutability">Side note: mutability</a></li><li><a href="#Accessing_instance_vs_static_members">Accessing instance vs. static members</a></li></ul></li><li><a href="#Custom_attributes">Custom attributes</a></li><li><a href="#Methods">Methods</a></li><li><a href="#Fields">Fields</a></li><li><a href="#Instance_constructors">Instance constructors</a><ul><li><a href="#The_Record_macro">The [Record] macro</a></li><li><a href="#Default_constructor">Default constructor</a></li></ul></li><li><a href="#Example">Example</a><ul><li><a href="#A_little_prize_string_interpolation">A little prize: string interpolation</a></li><li><a href="#Some_loops">Some loops</a></li></ul></li><li><a href="#More_about_classes">More about classes!</a><ul><li><a href="#Static_constructors">Static constructors</a></li><li><a href="#Properties">Properties</a><ul><li><a href="#The_Accessor_macro">The [Accessor] macro</a></li></ul></li><li><a href="#Inheritance_and_virtual_calls">Inheritance and virtual calls</a><ul><li><a href="#Abstract_methods">Abstract methods</a></li></ul></li><li><a href="#Modules">Modules</a></li></ul></li><li><a href="#Type_conversions">Type conversions</a></li><li><a href="#Exercises">Exercises</a><ul><li><a href="#Exercise_1">Exercise 1</a></li><li><a href="#Exercise_2">Exercise 2</a></li><li><a href="#Exercise_3">Exercise 3</a></li><li><a href="#Extra_Exercise">Extra Exercise</a></li></ul></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Class_definitions"><a name="Class_definitions" id="Class_definitions">Class definitions</a></span></h2>
+
+<p>We assume you know what a&#xD;
+<a target="_blank" href="http://en.wikipedia.org/wiki/Class_(computer_science)">class is</a>.&#xD;</p>
+
+<p>Classes in Nemerle are defined with the <code>class</code> keyword. The &#xD;
+basic form is:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+  <span class="c1">// something inside</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>There are several possible entities that can be defined inside classes. &#xD;
+All of them can be proceeded by access modifiers, and some by other modifiers.&#xD;</p>
+
+<h3><span class="mw-headline" id="Modifiers"><a name="Modifiers" id="Modifiers">Modifiers</a></span></h3>
+
+<p>There are several kinds of modifiers. Note that you're probably only going&#xD;
+to use <code>public</code>, <code>static</code> and <code>mutable</code> at first.&#xD;</p>
+
+<p>We will first discuss access modifiers. Modifiers specify the kind of &#xD;
+access other classes have to given entity. Access attributes are valid on &#xD;
+all kinds of entities defined in classes. Everything is <code>private</code> &#xD;
+by default. The <code>public</code> and <code>internal</code> modifiers are &#xD;
+also valid on top-level classes (which are internal by default).&#xD;</p>
+
+<ul><li> <code>public</code> - everyone can access&#xD;
+</li><li> <code>internal</code> - only classes in the current assembly (DLL or EXE) can access&#xD;
+</li><li> <code>private</code> - only current type can access&#xD;
+</li><li> <code>protected</code> - access is limited to current type and its derived types&#xD;
+</li><li> <code>protected</code> <code>internal</code> - means protected <b>or</b> internal - access limited to derived types or types in the current assembly&#xD;
+</li></ul> &#xD;
+Next are the modifiers changing the semantics of a given entity:&#xD;
+<ul><li> <code>static</code> - for fields, it means that there is only one instance of this field shared by all instances of the class. For methods (and properties) it means the implicit <code>this</code> argument is not passed, therefore the method can only use static fields and methods directly (instance methods/fields can be used, provided they are called on a specific object)&#xD;
+</li><li> <code>mutable</code> - is valid only for fields and means that a field can be updated outside the constructor. There is no corresponding modifier in C# or Java; everything is mutable by default there. C# does have the <code>readonly</code> modifier to force fields to be non-mutable.&#xD;
+</li><li> <code>volatile</code> - valid only for fields, it means that the field has to be always read from the memory, and written instantly (it avoids any caching in the JIT-ed code). It's mainly useful for multithreaded programs.&#xD;
+</li><li> <code>extern</code> - used on methods, with <code>DllImport</code> attributes to call out to native code. We probably won't cover this topic in this course. You can google on PInvoke for more information.&#xD;
+</li><li> <code>partial</code> - valid only on type definitions, it means that a given type definition is split across several files. It works as if you defined several classes with the same name (and all with the <code>partial</code> modifier), but the compiler merges them together.&#xD;
+</li></ul> &#xD;
+Next are the modifiers used to control virtual methods and name hiding.&#xD;
+We only explain <code>new</code> here. The others are described in the section&#xD;
+about virtual calls.&#xD;
+<ul><li> <code>new</code> - valid on all entities except for nested types, it means to ignore a member with the same name in super class. Otherwise using the same name results in an error.&#xD;
+</li><li> <code>virtual</code>&#xD;
+</li><li> <code>override</code>&#xD;
+</li><li> <code>abstract</code>&#xD;
+</li><li> <code>sealed</code>&#xD;
+</li></ul><h4><span class="mw-headline" id="Side_note_mutability"><a name="Side_note_mutability" id="Side_note_mutability">Side note: mutability</a></span></h4>
+
+<p>One way to think about the <code>mutable</code> modifier is that it's much&#xD;
+like default-private fields. That is, you need to make a conscious decision&#xD;
+to make a field mutable, just as you need a conscious decision to make it&#xD;
+public. Therefore fields will end up non-mutable only when they need to.&#xD;
+As you continue programming in Nemerle, you will find yourself not needing&#xD;
+that much mutability.&#xD;</p>
+
+<h4><span class="mw-headline" id="Accessing_instance_vs_static_members"><a name="Accessing_instance_vs_static_members" id="Accessing_instance_vs_static_members">Accessing instance vs. static members</a></span></h4>
+
+<p>Values created from classes are known as <i>instances</i> of the&#xD;
+class. Classes work like models, and instances are real representations&#xD;
+of that model in memory. If you want to access a instance method, that&#xD;
+is, a method not declared <code>static</code>, you first have to create an&#xD;
+instance of the class using a constructor (see below). Then, you use the&#xD;
+<b>.</b> operator to "dive into" the class members: properties, fields,&#xD;
+methods...&#xD;</p>
+
+<p>On the other hand, static members can only be accessed through the name&#xD;
+of the class. Trying to call a static method from an instance will always&#xD;
+fail in Nemerle. Some other languages allow both uses, so be careful!&#xD;</p>
+
+<h3><span class="mw-headline" id="Custom_attributes"><a name="Custom_attributes" id="Custom_attributes">Custom attributes</a></span></h3>
+
+<p>This is rather advanced topic, but this syntax is reused by top-level&#xD;
+macros, so we briefly mention it here.&#xD;</p>
+
+<p>In .NET all metadata elements (classes, methods, fields and so on) can&#xD;
+have a special, additional information attached. This information is&#xD;
+(in most cases) not interpreted in any way by the runtime, therefore it&#xD;
+is good place for placing documentation, authorship/copyright tags, and &#xD;
+so on. This information can be accessed by user applications at runtime.&#xD;</p>
+
+<p>The syntax for attaching this information in Nemerle (and in C# for&#xD;
+that matter) is:&#xD;</p>
+
+<div class="highlight"><pre><span class="na">[MyCustomAttribute (7, "foobar")]</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">FooBar</span> <span class="p">{</span>
+<span class="na">  [OtherCustomAttribute]</span>
+  <span class="n">SomeMethod</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Custom attributes are classes subtyping <code>System.Attribute</code>, so the&#xD;
+user can define new custom attributes, though some are provided by the&#xD;
+base class library.&#xD;</p>
+
+<p>If you're interested in this mechanism, it may be a good&#xD;
+idea to consult&#xD;
+<a target="_blank" href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/csref/html/vcwlkattributestutorial.asp">MSDN attributes tutorial</a>,&#xD;
+after going through this course.  It's about C#, but, except for minor&#xD;
+syntactic differences it also applies to Nemerle.&#xD;</p>
+
+<p>In Nemerle, certain custom attributes trigger execution of macros -&#xD;
+that is special compiler extensions. Later this week we will learn how&#xD;
+to automatically create constructors and accessors.&#xD;</p>
+
+<h3><span class="mw-headline" id="Methods"><a name="Methods" id="Methods">Methods</a></span></h3>
+
+<p>Methods are used for grouping code together for later reuse. We've&#xD;
+already seen how to define methods in the previous week.&#xD;</p>
+
+<p>As you recall, method calls are written using the method name,&#xD;
+and then writing the parameters between parenthesis.&#xD;</p>
+
+<h3><span class="mw-headline" id="Fields"><a name="Fields" id="Fields">Fields</a></span></h3>
+
+<p>There is nothing special about fields in Nemerle (compared to fields&#xD;
+in C#/Java/C++), except for their immutability. If you do not declare&#xD;
+a field to be <code>mutable</code>, they can be only set inside the class&#xD;
+or instance constructor (depending on if the field is static or not). &#xD;
+This is much like the <code>readonly</code> modifier in C# or <code>final</code> &#xD;
+in Java.&#xD;</p>
+
+<p>You can also initialize fields at the place of their definition, which&#xD;
+causes the appropriate initialization code to be added to the class &#xD;
+or instance constructor.&#xD;</p>
+
+<p>Fields are defined with the following syntax:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">modifiers</span> <span class="n">name</span> <span class="p">:</span> <span class="k">type</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>or with the initializer:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">modifiers</span> <span class="n">name</span> <span class="p">:</span> <span class="k">type</span> <span class="p">=</span> <span class="n">expression</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>Modifiers are optional, and fields are private by default.&#xD;
+If you omit the initializer fields have the value of 0, 0.0&#xD;
+or null for reference types.&#xD;</p>
+
+<p>In fact, even if you supply the initializer you can still observe this&#xD;
+default value, for example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="k">public</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">=</span> <span class="n">y</span> <span class="p">+</span> <span class="m">1</span><span class="p">;</span>
+  <span class="k">static</span> <span class="k">public</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">=</span> <span class="n">x</span> <span class="p">+</span> <span class="m">2</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">Test</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">Test</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>will print 1 and 3, because when initializing <code>x</code>, <code>y</code> still &#xD;
+has its default value of 0. As you can see, the initializations are performed&#xD;
+top-down.&#xD;</p>
+
+<h3><span class="mw-headline" id="Instance_constructors"><a name="Instance_constructors" id="Instance_constructors">Instance constructors</a></span></h3>
+
+<p>Unlike in C#/Java/C++, the constructor has a fixed name, it's called&#xD;
+<code>this</code>.&#xD;</p>
+
+<p>Example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Point</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="k">public</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">ini_x</span> <span class="p">:</span> <span class="kt">float</span><span class="p">,</span> <span class="n">ini_y</span> <span class="p">:</span> <span class="kt">float</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">x</span> <span class="p">=</span> <span class="n">ini_x</span><span class="p">;</span>
+    <span class="n">y</span> <span class="p">=</span> <span class="n">ini_y</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Instead of inventing this <code>ini_</code> stuff one can also use <code>this</code>&#xD;
+pointer directly:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Point</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="k">public</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">float</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">float</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="n">y</span> <span class="p">=</span> <span class="n">y</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The constructor is later called by the class name:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">the_point</span> <span class="p">=</span> <span class="n">Point</span> <span class="p">(</span><span class="m">3.14</span><span class="p">,</span> <span class="p">-</span><span class="m">3.14</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>There is no <code>new</code> keyword, as is present in C# or Java.&#xD;</p>
+
+<h4><span class="mw-headline" id="The_Record_macro"><a name="The_Record_macro" id="The_Record_macro">The [Record] macro</a></span></h4>
+
+<p>If all your constructor is going to do is assign field values, which will &#xD;
+all supplied by the user, you can use the <code>[Record]</code> macro. &#xD;
+So the example above can be reduced to:&#xD;</p>
+
+<div class="highlight"><pre><span class="na">[Record]</span>
+<span class="k">class</span> <span class="nc">Point</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+  <span class="k">public</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">float</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>This useful especially for creating small helper classes.&#xD;</p>
+
+<h4><span class="mw-headline" id="Default_constructor"><a name="Default_constructor" id="Default_constructor">Default constructor</a></span></h4>
+
+<p>If you do not provide an instance constructor at all, the compiler adds&#xD;
+a default, public, parameter-less, empty one. Therefore the following&#xD;
+piece of code is valid:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{}</span> 
+<span class="k">def</span> <span class="n">c</span> <span class="p">=</span> <span class="n">MyClass</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Example"><a name="Example" id="Example">Example</a></span></h3>
+
+<p>Now, now that we know about fields, methods and constructors, we can start &#xD;
+some examples. We will try to program a robot called Marvin.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Marvin</span> <span class="p">{</span>
+  <span class="c1">// Marvin starts with a fairly positive attitude</span>
+  <span class="k">mutable</span> <span class="n">attitude</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span>
+  <span class="k">mutable</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">mutable</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">mutable</span> <span class="n">direction</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">ini_x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">ini_y</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">x</span> <span class="p">=</span> <span class="n">ini_x</span><span class="p">;</span>
+    <span class="n">y</span> <span class="p">=</span> <span class="n">ini_y</span><span class="p">;</span>
+    <span class="c1">// head north</span>
+    <span class="n">direction</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>This example is completely equivalent to:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Marvin</span> <span class="p">{</span>
+  <span class="k">mutable</span> <span class="n">attitude</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="c1">// CHANGED</span>
+  <span class="k">mutable</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">mutable</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">mutable</span> <span class="n">direction</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">ini_x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">ini_y</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">attitude</span> <span class="p">=</span> <span class="m">100</span><span class="p">;</span> <span class="c1">// CHANGED</span>
+    <span class="n">x</span> <span class="p">=</span> <span class="n">ini_x</span><span class="p">;</span>
+    <span class="n">y</span> <span class="p">=</span> <span class="n">ini_y</span><span class="p">;</span>
+    <span class="c1">// CHANGED</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>As you can see we moved initialization of attitude to the constructor.&#xD;
+This does exactly the same thing that the field initializer does. We also removed&#xD;
+<code>direction = 0</code>, because 0 is the default value for <code>int</code>&#xD;
+anyway.&#xD;</p>
+
+<h4><span class="mw-headline" id="A_little_prize_string_interpolation"><a name="A_little_prize_string_interpolation" id="A_little_prize_string_interpolation">A little prize: string interpolation</a></span></h4>
+
+<p>Now we can add some more complicated behavior to Marvin, we start with a&#xD;
+<code>Turn</code> method:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">Turn</span> <span class="p">(</span><span class="n">delta</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="c1">// we need to protect our engine, Marvin cannot</span>
+  <span class="c1">// turn too much at once!</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">delta</span> <span class="p">&lt;</span> <span class="p">-</span><span class="m">90</span> <span class="p">||</span> <span class="n">delta</span> <span class="p">&gt;</span> <span class="m">90</span><span class="p">)</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">$ "Cannot turn that much (</span><span class="n">$delta</span><span class="s"> degrees)!"</span><span class="p">);</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// having to turn makes our robot feel worse</span>
+    <span class="n">attitude</span> <span class="p">-=</span> <span class="m">5</span><span class="p">;</span>
+    <span class="n">direction</span> <span class="p">+=</span> <span class="n">delta</span><span class="p">;</span>
+    <span class="c1">// call the robot's firmware here</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>(Because of our NDA with Sirius Cybernetics, we cannot reveal how &#xD;
+to call Marvin's firmware to actually make it move, therefore &#xD;
+we will just skip this :-)&#xD;</p>
+
+<p>The interesting part is the usage of the <code>$</code> macro. It takes&#xD;
+a string as an argument, and interprets the dollar signs in it in a special&#xD;
+way -- it evaluates them as expressions, calls <code>ToString()</code> on them&#xD;
+and puts the results into the string. If you need to place a more complicated&#xD;
+expression after <code>$</code>, you need to use parens, like in:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">$ "Cannot turn that much (</span><span class="n">$</span><span class="p">(</span><span class="n">delta</span><span class="err"> </span><span class="p">/</span><span class="err"> </span><span class="p">(</span><span class="err">180 </span><span class="p">*</span><span class="err"> 3</span><span class="p">.</span><span class="err">1415</span><span class="p">))</span><span class="s"> radians)!"</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>This works mostly like in PHP, perl or Bourne Shell, but it is checked&#xD;
+at the compile time, so if you put an undefined variable you will get&#xD;
+a compile time error, not empty string at runtime (check it out!).&#xD;</p>
+
+<p>The Framework provides also another way to interpolate&#xD;
+strings. Inside the string, you can include <code>{n}</code>&#xD;
+directives, and they will be changed with the "n + 2"-th&#xD;
+parameter. <code>Console.WriteLine</code> is one of the methods that allow&#xD;
+this. In other places, one can use:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">addition</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Format</span> <span class="p">(</span><span class="s">"{0} + {1} = {2}"</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n1</span> <span class="p">+</span> <span class="n">n2</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>As you can imagine, it is easy to mess up matching the numbers, so better&#xD;
+just stick with <code>$</code> :-)&#xD;</p>
+
+<h4><span class="mw-headline" id="Some_loops"><a name="Some_loops" id="Some_loops">Some loops</a></span></h4>
+
+<p>Now we can add another method:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">TurnBack</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">2</span><span class="p">;</span> <span class="p">++</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">Turn</span> <span class="p">(</span><span class="m">90</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The <code>for</code> loop works much like other C-like languages -- the first&#xD;
+expression is evaluated before the loop, the second is the condition&#xD;
+and the last one is the increment.&#xD;</p>
+
+<p>So what about a general turning method without limits?&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">TurnAny</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">delta</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">delta</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">delta</span> <span class="p">&gt;</span> <span class="m">90</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">Turn</span> <span class="p">(</span><span class="m">90</span><span class="p">);</span>
+      <span class="n">delta</span> <span class="p">-=</span> <span class="m">90</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">delta</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">Turn</span> <span class="p">(</span><span class="n">delta</span><span class="p">);</span>
+      <span class="n">delta</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">delta</span> <span class="p">&lt;</span> <span class="p">-</span><span class="m">90</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">Turn</span> <span class="p">(-</span><span class="m">90</span><span class="p">);</span>
+      <span class="n">delta</span> <span class="p">+=</span> <span class="m">90</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">Turn</span> <span class="p">(</span><span class="n">delta</span><span class="p">);</span>
+      <span class="n">delta</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>As you can see, we have a <code>while</code> loop too. Moreover, in order&#xD;
+to assign values to a parameter, we need to mark it <code>mutable</code>.&#xD;</p>
+
+<h2><span class="mw-headline" id="More_about_classes"><a name="More_about_classes" id="More_about_classes">More about classes!</a></span></h2>
+
+<h3><span class="mw-headline" id="Static_constructors"><a name="Static_constructors" id="Static_constructors">Static constructors</a></span></h3>
+
+<p>A static constructor is executed once for the program (or more exactly, &#xD;
+AppDomain) lifetime, when the class is first referenced. It's a good &#xD;
+place to include some class-wide initialization code.&#xD;</p>
+
+<p>Initializers specified for static fields are added to the static&#xD;
+constructor.&#xD;</p>
+
+<p>Static constructors need to be private, parameter-less and ergh... static.&#xD;
+For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Hello</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="nf">this</span> <span class="p">()</span>
+  <span class="p">{</span>
+    <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"static ctor"</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">static</span> <span class="k">public</span> <span class="nf">Run</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Run"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">WriteLine</span> <span class="p">(</span><span class="s">"hello"</span><span class="p">);</span>
+<span class="n">Hello</span><span class="p">.</span><span class="n">Run</span> <span class="p">();</span>
+<span class="n">WriteLine</span> <span class="p">(</span><span class="s">"bye"</span><span class="p">);</span>
+
+<span class="cm">/* Produces:</span>
+<span class="cm">hello</span>
+<span class="cm">static ctor</span>
+<span class="cm">Run</span>
+<span class="cm">bye</span>
+<span class="cm">*/</span>
+</pre>
+</div>
+
+
+<p>Note how "hello" is written before static ctor is run, but before the&#xD;
+Run method.&#xD;</p>
+
+<h3><span class="mw-headline" id="Properties"><a name="Properties" id="Properties">Properties</a></span></h3>
+
+<p>Properties provide language level support for the get/set accessor&#xD;
+design pattern commonly found in Java and C++. Most .NET languages (including&#xD;
+C#) provide properties. A property called Foo of type int is internally a set &#xD;
+of two methods <code>get_Foo() : int</code> and <code>set_Foo (value : int)</code>.&#xD;
+However instead of writing:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">my_value</span> <span class="p">=</span> <span class="n">some_object</span><span class="p">.</span><span class="n">get_Foo</span> <span class="p">();</span>
+<span class="n">some_object</span><span class="p">.</span><span class="n">set_Foo</span> <span class="p">(</span><span class="m">42</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>we write:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">my_value</span> <span class="p">=</span> <span class="n">some_object</span><span class="p">.</span><span class="n">Foo</span><span class="p">;</span>
+<span class="n">some_object</span><span class="p">.</span><span class="n">Foo</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>As you can see this is only syntactic sugar. There is also a special&#xD;
+syntax for defining properties:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+  <span class="k">mutable</span> <span class="n">m_foo</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  
+  <span class="k">public</span> <span class="n">Foo</span> <span class="p">:</span> <span class="kt">int</span>
+  <span class="p">{</span>
+    <span class="n">get</span> <span class="p">{</span> 
+      <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"get_Foo called"</span><span class="p">);</span>
+      <span class="n">m_foo</span>
+    <span class="p">}</span>
+    <span class="n">set</span> <span class="p">{</span>
+      <span class="k">when</span> <span class="p">(</span><span class="n">value</span> <span class="p">&gt;</span> <span class="m">3</span><span class="p">)</span>
+        <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"value bigger than three"</span><span class="p">);</span>
+      <span class="n">m_foo</span> <span class="p">=</span> <span class="n">value</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">c</span> <span class="p">=</span> <span class="n">MyClass</span> <span class="p">();</span>
+<span class="n">c</span><span class="p">.</span><span class="n">Foo</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+<span class="n">WriteLine</span> <span class="p">(</span><span class="s">$ "c.Foo = </span><span class="n">$</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">Foo</span><span class="p">)</span><span class="s">"</span><span class="p">);</span>
+<span class="n">c</span><span class="p">.</span><span class="n">Foo</span> <span class="p">+=</span> <span class="m">42</span><span class="p">;</span>
+<span class="n">WriteLine</span> <span class="p">(</span><span class="s">$ "c.Foo = </span><span class="n">$</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">Foo</span><span class="p">)</span><span class="s">"</span><span class="p">);</span>
+
+<span class="cm">/* Output:</span>
+<span class="cm">get_Foo called</span>
+<span class="cm">c.Foo = 1</span>
+<span class="cm">get_Foo called</span>
+<span class="cm">value bigger than three</span>
+<span class="cm">get_Foo called</span>
+<span class="cm">c.Foo = 43</span>
+<span class="cm">*/</span>
+</pre>
+</div>
+
+
+<p>Note how <code>+=</code> is changed to <code>c.Foo = c.Foo + 42</code>, which&#xD;
+results in call to <code>get_Foo</code> before setting the value.&#xD;</p>
+
+<p>Also note, that the set method has implicit parameter called <code>value</code>.&#xD;</p>
+
+<p>You can omit get or set, but not both. If you omit set, trying to write&#xD;
+to the property will result in an error. Omitting get means you can't read &#xD;
+the property.&#xD;</p>
+
+<h4><span class="mw-headline" id="The_Accessor_macro"><a name="The_Accessor_macro" id="The_Accessor_macro">The [Accessor] macro</a></span></h4>
+
+<p>If your property is only going to return the value of a field, you &#xD;
+can use the <code>[Accessor]</code> macro. It sits in <code>Nemerle.Utility</code>. &#xD;
+You place it on a field. If you don't supply any parameters, it &#xD;
+generates a public getter:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Utility</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+<span class="na">  [Accessor]</span>
+  <span class="n">foo_bar</span> <span class="p">:</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">"qux"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">c</span> <span class="p">=</span> <span class="n">MyClass</span> <span class="p">();</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">FooBar</span><span class="p">);</span>
+
+<span class="cm">/* Output: qux */</span>
+</pre>
+</div>
+
+
+<p>You can also supply another name for the accessor, request a setter,&#xD;
+or make them internal. Please refer to <a class="internal present" href="/Accessor-macros.html">accessor macros</a> page for&#xD;
+details.&#xD;</p>
+
+<h3><span class="mw-headline" id="Inheritance_and_virtual_calls"><a name="Inheritance_and_virtual_calls" id="Inheritance_and_virtual_calls">Inheritance and virtual calls</a></span></h3>
+
+<p><a target="_blank" href="http://en.wikipedia.org/wiki/Inheritance_%28computer_science%29">Inheritance</a>&#xD;
+is one of the central concepts of OOP. It is a means of extending the &#xD;
+functionality of an existing class. A class can inherit all the behavior &#xD;
+of some original class, then extend it by adding new methods, fields &#xD;
+and/or properties. &#xD;</p>
+
+<p>For example we can define a class called <code>Robot</code> and later&#xD;
+define two classes inheriting from it: <code>Marvin</code> and <code>R2D2</code>.&#xD;
+Robot is then said to be <b>supertype</b> of Marvin and R2D2, and Marvin and&#xD;
+R2D2 are <b>subtypes</b> of Robot.&#xD;</p>
+
+<p>The inheriting class can also modify the behavior of the original class.&#xD;
+This is done through virtual methods. For example, Robot can define&#xD;
+a virtual SelfDestruct method, which R2D2 can override to refuse&#xD;
+self-destruction, while Marvin can reuse the method from Robot (by just&#xD;
+doing nothing).&#xD;</p>
+
+<p>The syntax is:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Robot</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">virtual</span> <span class="nf">SelfDestruct</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="c1">// call robot firmware here</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">R2D2</span> <span class="p">:</span> <span class="n">Robot</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="nf">SelfDestruct</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span> 
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"refusing"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Marvin</span> <span class="p">:</span> <span class="n">Robot</span> <span class="p">{</span>
+ <span class="c1">// don't override anything</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>As you can see, the colon (:) is used to mark the class to inherit&#xD;
+(Java uses <code>extends</code> keyword here). Methods need to marked &#xD;
+<code>virtual</code>, otherwise they cannot be overridden (unlike in Java). &#xD;
+Additionally, the overriding method needs to be marked <code>override</code> &#xD;
+(unlike in C++).&#xD;</p>
+
+<h4><span class="mw-headline" id="Abstract_methods"><a name="Abstract_methods" id="Abstract_methods">Abstract methods</a></span></h4>
+
+<p>Methods can also be marked <code>abstract</code>. You mustn't provide any&#xD;
+body in this case. It means the method has to be eventually overridden by&#xD;
+an inheriting class. A class is marked <code>abstract</code> when it has one &#xD;
+or more abstract methods, either defined in the class itself, or an &#xD;
+abstract method defined in the super type that is not overridden. &#xD;
+One cannot construct instances of abstract classes.&#xD;</p>
+
+<p>Example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">abstract</span> <span class="k">class</span> <span class="nc">Robot</span> <span class="p">{</span>
+  <span class="k">abstract</span> <span class="nf">SelfDestruct</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">R2D2</span> <span class="p">:</span> <span class="n">Robot</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="nf">SelfDestruct</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span> 
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"refusing"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Marvin</span> <span class="p">:</span> <span class="n">Robot</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="nf">SelfDestruct</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span> 
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"self destructing in 5 seconds..."</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Modules"><a name="Modules" id="Modules">Modules</a></span></h3>
+
+<p>Another common pattern found in some C# classes, like <code>Console</code>, &#xD;
+is to provide neither public nor default instance constructors, and make &#xD;
+all members static. This prevents every type of instantiation, and&#xD;
+works very well for resources where it doesn't make sense to have more than&#xD;
+one object at once (like console, file system in UNIX/Linux systems...).&#xD;</p>
+
+<p>In Nemerle, this pattern has a special construct: modules. A module is&#xD;
+declared exactly like a class, but every method or field you declared&#xD;
+on has an automagically added <code>static</code> modifier. For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">module</span> <span class="nc">Operations</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Add</span> <span class="p">(</span><span class="n">n1</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">n2</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="n">n1</span> <span class="p">+</span> <span class="n">n2</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">Substract</span> <span class="p">(</span><span class="n">n1</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">n2</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="n">n1</span> <span class="p">-</span> <span class="n">n2</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Note that module members are accessed through class name</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">Operations</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">));</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Type_conversions"><a name="Type_conversions" id="Type_conversions">Type conversions</a></span></h2>
+
+<p>Sometimes you need to convert an object from one type to other. You might &#xD;
+want to convert an <code>int</code> to a <code>double</code>, or a class to its&#xD;
+parent. In Nemerle, there are two conversion operators (or casting, as you &#xD;
+C# guys like to call them), depending on whether the cast is checked at &#xD;
+compile or runtime:&#xD;</p>
+
+<ul><li> <b>Type cast <code>( :&gt; )</code></b>: this operator checks the type at runtime. It is especially useful when you receive a parent class instance from a method or property and you want to cast it to a derived class. However, as classes can have more than one child class, the conversion cannot be checked on compile time, and may throw a <code>InvalidCastException</code> at runtime.&#xD;
+</li><li> <b>Type enforcement <code>( : )</code></b>: you can only use this operator if the check is known to succeed at compile time. For example, conversion from <code>short</code> to <code>int</code>, or from one class to its parent.&#xD;
+</li></ul> &#xD;
+Both operators are written the same way. First, the object&#xD;
+you want to convert, then the operator, and finally, the result type.&#xD;
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">memoryStream</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">MemoryStream</span> <span class="p">();</span>
+<span class="k">def</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">memoryStream</span> <span class="p">:</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">Stream</span><span class="p">;</span> <span class="c1">// MemoryStream is a subclass of Stream</span>
+
+<span class="k">def</span> <span class="n">n1</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">());</span>
+<span class="k">def</span> <span class="n">n2</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">());</span>
+<span class="k">def</span> <span class="n">resultAsShort</span> <span class="p">=</span> <span class="p">(</span><span class="n">n1</span> <span class="p">+</span> <span class="n">n2</span><span class="p">)</span> <span class="p">:&gt;</span> <span class="kt">short</span><span class="p">;</span> <span class="c1">// We don't know if n1 + n2 fits on short, so we use :&gt;</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Exercises"><a name="Exercises" id="Exercises">Exercises</a></span></h2>
+<h3><span class="mw-headline" id="Exercise_1"><a name="Exercise_1" id="Exercise_1">Exercise 1</a></span></h3>
+Create a <code>Person</code> class. This class needs to have&#xD;
+<code>FirstName</code>, <code>LastName</code> and <code>Telephone</code> properties, &#xD;
+as well as a <code>BirthDate</code>. <code>BirthDate</code> should be a record&#xD;
+<code>Date</code> with the necessary fields. Additionally, add an <code>Age</code> &#xD;
+property that computes the age of the person using the system current date. &#xD;
+This property must not be writable.&#xD;
+
+<h3><span class="mw-headline" id="Exercise_2"><a name="Exercise_2" id="Exercise_2">Exercise 2</a></span></h3>
+Play a little with inheritance and virtual calls. The traditional example&#xD;
+is to create an <code>Animal</code> class with <code>Legs</code> property&#xD;
+and a virtual <code>Speak</code> method. Then, create some more classes,&#xD;
+like <code>Dog</code>, <code>Cat</code>..., overriding the <code>Speak</code>&#xD;
+method. Watch the results!&#xD;
+
+<h3><span class="mw-headline" id="Exercise_3"><a name="Exercise_3" id="Exercise_3">Exercise 3</a></span></h3>
+Take this <a target="_blank" href="http://nemerle.org/~malekith/temp/chasing.n">small example</a>&#xD;
+and add <code>ImperialTrooper</code> subclass to it. <code>DarthVader</code> should&#xD;
+have a radio connection (a reference) to imperial trooper, so he can&#xD;
+ask (with a method) if he can see Luke.&#xD;
+
+<h3><span class="mw-headline" id="Extra_Exercise"><a name="Extra_Exercise" id="Extra_Exercise">Extra Exercise</a></span></h3>
+Find out a little about XML Serialization (check MSDN, or Monodoc in&#xD;
+the <code>System.Xml.Serialization</code> namespace), and write a method&#xD;
+for opening and saving a contact.&#xD;
+&#xD;
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

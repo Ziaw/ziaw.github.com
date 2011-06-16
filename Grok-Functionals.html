@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Grok Functionals
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+i tried writing some hofs using nemerle. is this the best way do write them?&#xD;</p>
+
+<pre>   def compose(f,g) {&#xD;      def h(y) { f(g(y)) }&#xD;      h //this is awkward syntax&#xD;   }  &#xD;   def curry(f,x) {&#xD;      def g(y) {&#xD;         f(x,y)&#xD;      }  &#xD;      g  &#xD;   }  &#xD;   def inc(i) {&#xD;      i + 1&#xD;   }  &#xD;   def twice(f,x) {&#xD;      def g = compose(f, f);&#xD;      g(x);&#xD;   }  &#xD;   def tw = curry(twice, inc);&#xD;   print("twice: $(tw(1))\n");&#xD;   def foldr(f,l,z) {&#xD;      match(l) {&#xD;         |[] =&gt; z &#xD;         |h::t =&gt; f(h,foldr(f,t,z))&#xD;      }     &#xD;   }        &#xD;   print("foldr: $(foldr(_+_,[1,2,3],0))\n");&#xD;   def zip(f,a,b) {&#xD;      match((a,b)) {&#xD;         |([],_) =&gt; []&#xD;         |(_,[]) =&gt; []&#xD;         |(ah::at,bh::bt) =&gt; f(ah,bh)::zip(f,at,bt)&#xD;      }     &#xD;   }     &#xD;   print("zip: $(zip(_+_,[1,2,3],[4,5,6]))\n");&#xD;   def map(f,lst) {&#xD;      match(lst) {&#xD;         |[] =&gt; []&#xD;         |h::t =&gt; f(h)::map(f,t)&#xD;      }&#xD;   }  &#xD;   print("map: $(map(inc,[1,2,3]))\n");&#xD;</pre>
+
+<p>any idea why this map doesnt work?&#xD;</p>
+
+<pre>   def map2(f,lst) {&#xD;      def g(x,y) {&#xD;         f(x)::y;&#xD;      }&#xD;      foldr(g, lst, []);&#xD;   }&#xD;   print("map2: $(map2(inc,[1,2,3]))");&#xD;</pre>
+
+<hr /><p>Instead of:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span> <span class="n">f</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="p">}</span>
+   <span class="n">h</span> <span class="c1">//this is awkward syntax</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>you can use:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">fun</span> <span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span> <span class="n">f</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>which isn't as bad.&#xD;</p>
+
+<p>Same with curry.&#xD;</p>
+
+<p>Otherwise it seems OK. The second map doesn't work because the foldr you defined is not polymorphic. Nemerle does not infer polymorphic types. Please refere to <a target="_blank" href="http://nemerle.org/mailman/pipermail/devel-en/2005-October/001560.html">this message</a> for details.&#xD;</p>
+
+<p>--<a class="internal absent" href="/Malekith.html">User:Malekith</a> 10:06, 14 Oct 2005 (CEST)&#xD;</p>
+
+<p>how would i define a foldr thats polymorphic?  or how would i define foldr that can be used to define map, and used to sum the list?&#xD;</p>
+
+<hr /><pre>   def foldr ['a] (f,l : list ['a],z) {&#xD;      match(l) {&#xD;         |[] =&gt; z &#xD;         |h::t =&gt; f(h,foldr(f,t,z))&#xD;      }     &#xD;   }    &#xD;</pre>
+
+<p>Just a small hint for compiler on <code>l</code> parameter.&#xD;</p>
+
+<p>--<a class="internal absent" href="/Nazgul.html">User:Nazgul</a> 22:39, 14 Oct 2005 (CEST)&#xD;</p>
+
+<p>i still get this error in my map2 function&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">foldr</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">](</span><span class="n">f</span><span class="p">,</span> <span class="n">l</span> <span class="p">:</span> <span class="kt">list</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">],</span> <span class="n">z</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">match</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|[]</span> <span class="p">=&gt;</span> <span class="n">z</span>
+      <span class="p">|</span><span class="n">h</span><span class="p">::</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">f</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">foldr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">z</span><span class="p">))</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">def</span> <span class="nf">map2</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">)::</span><span class="n">y</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="n">foldr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="p">[]);</span>
+<span class="p">}</span>
+<span class="n">print</span><span class="p">(</span><span class="s">"map2: $(map2(inc,[1,2,3]))"</span><span class="p">);</span>
+<span class="n">test</span><span class="p">.</span><span class="n">n</span><span class="p">:</span><span class="m">54</span><span class="p">:</span><span class="m">4</span><span class="p">:</span><span class="m">54</span><span class="p">:</span><span class="m">9</span><span class="p">:</span> <span class="n">error</span><span class="p">:</span> <span class="n">in</span> <span class="n">argument</span> <span class="err">#</span><span class="m">1</span> <span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">needed</span> <span class="n">a</span> <span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">+</span> <span class="p">*</span>
+ <span class="kt">int</span><span class="p">-)</span> <span class="p">-&gt;</span> <span class="kt">int</span><span class="p">+,</span> <span class="n">got</span> <span class="p">(?</span> <span class="p">*</span> <span class="kt">list</span><span class="p">[</span><span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">+]+)</span> <span class="p">-&gt;</span>
+ <span class="kt">list</span><span class="p">.</span><span class="n">Cons</span><span class="p">[</span><span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">+]-:</span> <span class="n">types</span> <span class="kt">int</span> <span class="k">and</span> <span class="kt">list</span><span class="p">[</span><span class="n">System</span><span class="p">.</span><span class="n">Object</span><span class="p">+]</span> <span class="n">are</span> <span class="n">not</span>
+ <span class="n">compatible</span> <span class="p">[</span><span class="n">during</span> <span class="n">intersection</span><span class="p">]</span>
+<span class="n">test</span><span class="p">.</span><span class="n">n</span><span class="p">:</span><span class="m">54</span><span class="p">:</span><span class="m">4</span><span class="p">:</span><span class="m">54</span><span class="p">:</span><span class="m">9</span><span class="p">:</span> <span class="n">error</span><span class="p">:</span> <span class="n">typing</span> <span class="n">error</span> <span class="n">in</span> <span class="n">call</span>
+</pre>
+</div>
+
+so why does it think that f is getting a list instead of an int.  map2 seems to work fine with the default foldright.&#xD;
+<hr /><div class="highlight"><pre><span class="k">def</span> <span class="nf">inc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="p">+</span> <span class="m">1</span> <span class="p">}</span>
+<span class="k">def</span> <span class="n">foldr</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">](</span><span class="n">f</span><span class="p">,</span> <span class="n">l</span> <span class="p">:</span> <span class="kt">list</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">],</span> <span class="n">z</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">match</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|[]</span> <span class="p">=&gt;</span> <span class="n">z</span>
+      <span class="p">|</span><span class="n">h</span><span class="p">::</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">f</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">foldr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">z</span><span class="p">))</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">def</span> <span class="nf">map2</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">)::</span><span class="n">y</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="n">foldr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="p">[]);</span>
+<span class="p">}</span>
+
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">$ "map2: </span><span class="n">$</span><span class="p">(</span><span class="n">map2</span><span class="p">(</span><span class="n">inc</span><span class="p">,[</span><span class="err">1</span><span class="p">,</span><span class="err">2</span><span class="p">,</span><span class="err">3</span><span class="p">]))</span><span class="s">"</span><span class="p">);</span>
+</pre>
+</div>
+
+--<a class="internal absent" href="/Malekith.html">User:Malekith</a> 19:10, 15 Oct 2005 (CEST)&#xD;
+This works for me:&#xD;
+
+<p>that breaks if you use foldr initially with a different type&#xD;
+</p><div class="highlight"><pre><span class="n">print</span><span class="p">(</span><span class="s">"foldr: $(foldr(_+_,[1,2,3],0))\n"</span><span class="p">);</span>
+<span class="n">print</span><span class="p">(</span><span class="s">"map2: $(map2(inc,[1,2,3]))\n"</span><span class="p">);</span>
+
+<span class="err">```</span>  
+<span class="n">based</span> <span class="n">on</span> <span class="n">what</span> <span class="n">malekith</span> <span class="n">said</span> <span class="n">on</span> <span class="n">irc</span> <span class="n">i</span> <span class="n">think</span> <span class="k">this</span> <span class="n">should</span> <span class="n">work</span> <span class="k">for</span> <span class="n">all</span> <span class="n">cases</span>
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="k">def</span> <span class="n">foldr</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">,</span> <span class="err">'</span><span class="n">b</span><span class="p">](</span><span class="n">f</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span> <span class="p">*</span> <span class="err">'</span><span class="n">b</span> <span class="p">-&gt;</span> <span class="err">'</span><span class="n">b</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span> <span class="p">:</span> <span class="err">'</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">match</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|[]</span> <span class="p">=&gt;</span> <span class="n">z</span>
+      <span class="p">|</span><span class="n">h</span><span class="p">::</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="n">f</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">foldr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">z</span><span class="p">))</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>seems to me that thats a bug in the compiler.  i dont think the order in which a function is used should define its type, or the function type shouldn't depend on the order in which its used.&#xD;</p>
+
+<hr /><p>But they do. I consider it a feature not a bug. This is described in more detail in the page about <a class="internal present" href="/Type-inference.html">type inference</a>, though this page still isn't complete. This dependence is there to solve ambigious member access problem, which is far more common in Nemerle than polymorphic local functions.&#xD;</p>
+
+<p>Still it may be possible to infer polymorphic types, but this requires more theoretical (and probably implementation) work.&#xD;</p>
+
+<p>--<a class="internal absent" href="/Malekith.html">User:Malekith</a> 22:40, 15 Oct 2005 (CEST)&#xD;</p>
+
+<p>so you are saying how a function is used changes its definition?  i don't think that should be legal.  there could be no way for me to know what code is run before any my code, and that code shouldn't be able to change the interfaces that i am using.&#xD;</p>
+
+<hr /><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="n">my_value</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">public</span> <span class="nf">Barize</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span> <span class="p">(</span><span class="s">$ "Foo (</span><span class="n">$my_value</span><span class="s">), "</span>
+                            <span class="s">"times 42 = $(my_value * 42)\n"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">class</span> <span class="nc">Qux</span> <span class="p">{</span> <span class="k">public</span> <span class="n">Barize</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span> <span class="p">}</span> <span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">call_barize</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span><span class="p">.</span><span class="n">Barize</span> <span class="p">()</span> <span class="p">}</span>
+<span class="k">def</span> <span class="n">our_list</span> <span class="p">=</span> <span class="p">[</span><span class="n">Foo</span> <span class="p">(</span><span class="m">1</span><span class="p">),</span> <span class="n">Foo</span> <span class="p">(</span><span class="m">2</span><span class="p">),</span> <span class="n">Foo</span> <span class="p">(</span><span class="m">3</span><span class="p">)];</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="n">e</span> <span class="n">in</span> <span class="n">our_list</span><span class="p">)</span>
+  <span class="n">call_barize</span> <span class="p">(</span><span class="n">e</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>How would you type <code>call_barize</code> here, if there was no use of it? And we really would like to avoid the type annotation in this case.&#xD;</p>
+
+<p>As for the interfaces, type inference is not (and WILL BE NOT) supported for public functions, exactly for the reason you mentioned. Currently even private global ones are not supported.&#xD;</p>
+
+<p>Principal types are a nice property, but I'm affraid impossible to hold in such a crazy type system as .net one.&#xD;</p>
+
+<p>--<a class="internal absent" href="/Malekith.html">User:Malekith</a> 09:56, 16 Oct 2005 (CEST)&#xD;</p>
+
+<p>I think I understand what is going on.  I was expecting this type inference work like c++ templates, where each function is generated for each type thats its used with.  but it looks like type inference in nemerle just tries to figure out what the user wanted the function type to be, and assigns that type to the function.&#xD;
+</p><hr />&#xD;
+Exactly. --<a class="internal absent" href="/Malekith.html">User:Malekith</a> 09:14, 19 Oct 2005 (CEST)
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

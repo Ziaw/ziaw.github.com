@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	SRE GetMember
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+There is quite severe problem when generating code for a language with&#xD;
+type inference using System.Reflection.Emit API.&#xD;</p>
+
+<p>For example consider:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">dict</span> <span class="p">=</span> <span class="n">Dictionary</span> <span class="p">();</span>
+<span class="k">def</span> <span class="n">count</span> <span class="p">=</span> <span class="n">dict</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span>
+<span class="n">dict</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">,</span> <span class="m">42</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>This piece of Nemerle code creates a generic dictionary, reads&#xD;
+number of elements in it and finally add some entry. The same code in&#xD;
+C# looks like this:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="n">dict</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">();</span>
+<span class="kt">int</span> <span class="n">count</span> <span class="p">=</span> <span class="n">dict</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span>
+<span class="n">dict</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">,</span> <span class="m">42</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>The key difference is that you need to specify type parameters to&#xD;
+<code>Dictionary</code> constructor. Therefore the type of <code>dict</code>&#xD;
+local variable is immediately known to the compiler.&#xD;</p>
+
+<p>Nemerle compiler infers this type (this is exactly the same type,&#xD;
+therefore the C# example can be considered redundant to some extent here).&#xD;
+However the type can be inferred only after the call to <code>Add</code>.&#xD;
+Therefore it works on generic, uninstantiated type <code>Dictionary&lt;K,V&gt;</code>.&#xD;
+It then looks up the <code>Count</code> and <code>Add</code> members in it &#xD;
+and handles references to generic <code>K</code> and <code>V</code> parameters&#xD;
+itself.&#xD;</p>
+
+<p>The problems shows up when we want to generate IL for this code using&#xD;
+S.R.E. We already know the values of <code>K</code> and <code>V</code> parameters&#xD;
+of <code>Dictionary</code> so we can create the instantiated type.&#xD;
+However next we need to lookup members <code>Count</code> (or exactly&#xD;
+<code>get_Count</code>) and <code>Add</code> <b>again</b>, because the&#xD;
+members from uninstantiated type cannot be reused. Because member lookup&#xD;
+is a very involved process we just try to lookup the same member&#xD;
+in instantiated type using signature comparison. This is not very&#xD;
+easy as <code>string</code> needs to be substituted for <code>K</code>,&#xD;
+and <code>int</code> for <code>V</code>. There are also several more complications&#xD;
+with member lookup and equality testing in TypeBuilders.&#xD;</p>
+
+<p>Note how this problem doesn't occur in C# code -- the compiler can use&#xD;
+instantiated type for the member lookup in the first place.&#xD;</p>
+
+<p>TypeBuilder supports special methods that can be used to retrieve&#xD;
+corresponding members from instantiated types, but the methods do&#xD;
+not work on RuntimeTypes.&#xD;</p>
+
+<p>We would therefore propose to either make these methods work on all&#xD;
+types, not only on TypeBuilders or add some special GetMember(MemberInfo)&#xD;
+overload to System.Type with the same function.&#xD;</p>
+
+<p>This feature doesn't seem hard to implement in the runtime, but it makes&#xD;
+compiler writer work much easier.&#xD;</p>
+
+<p>This problems is probably going to affect any language with only a very&#xD;
+little more type inference than in C#.&#xD;</p>
+
+<pre> &#xD;</pre>
+
+<h2><span class="mw-headline" id="Related_bugreports"><a name="Related_bugreports" id="Related_bugreports">Related bugreports</a></span></h2>
+
+<p><a href="http://lab.msdn.microsoft.com/ProductFeedback/viewFeedback.aspx?FeedbackId=e61d8182-3585-4b27-bb7e-7b5d47d03c1e">http://lab.msdn.microsoft.com/ProductFeedback/viewFeedback.aspx?FeedbackId=e61d8182-3585-4b27-bb7e-7b5d47d03c1e</a>&#xD;
+<a href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=7f85f92e-4154-4cb2-8f53-8be324bd6e11">http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=7f85f92e-4154-4cb2-8f53-8be324bd6e11</a></p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

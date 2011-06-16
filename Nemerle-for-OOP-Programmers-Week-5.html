@@ -1,0 +1,735 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Nemerle for OOP Programmers Week 5
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This is the last lesson in this course. It discusses topics mostly&#xD;
+related to object-oriented programming in Nemerle. This should be fairly&#xD;
+easy for C# programmers, while people with Java/C++ background will&#xD;
+have a slightly harder time.&#xD;</p>
+
+<p>This lesson again borrows topics from <a class="internal present" href="/Grokking-Nemerle.html">Grokking Nemerle</a>.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Namespaces_and_the_using_directive">Namespaces and the using directive</a></li><li><a href="#Enums">Enums</a></li><li><a href="#Function_parameters">Function parameters</a><ul><li><a href="#Refout_parameters">Ref/out parameters</a></li><li><a href="#Named_parameters">Named parameters</a></li></ul></li><li><a href="#Operator_overloading">Operator overloading</a></li><li><a href="#Interfaces">Interfaces</a></li><li><a href="#Design_by_contract_macros">Design by contract macros</a></li><li><a href="#Properties">Properties</a></li><li><a href="#Indexers">Indexers</a></li><li><a href="#Delegates">Delegates</a></li><li><a href="#Events">Events</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Namespaces_and_the_using_directive"><a name="Namespaces_and_the_using_directive" id="Namespaces_and_the_using_directive">Namespaces and the using directive</a></span></h2>
+
+<p>In Nemerle, types can live in namespaces. If type <i>X</i> is defined in&#xD;
+namespace <i>Y</i>, then its full name is <i>Y.X</i>. It is a good idea to put&#xD;
+all your code in some unique namespace if you're going to distribute it,&#xD;
+to avoid name clashes. All classes in the Base Class Library live in some&#xD;
+namespace (mostly in <code>System</code> and its sub-namespaces).&#xD;</p>
+
+<p>The syntax for defining namespaces is:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">namespace</span> <span class="nn">FooBarCorp.TurboLib</span> <span class="p">{</span>
+  <span class="k">class</span> <span class="nc">SomeClass</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The full name of <code>SomeClass</code> is <code>FooBarCorp.TurboLib.SomeClass</code>. &#xD;
+If this is going to be a library, it should be placed in <code>FooBarCorp.TurboLib.dll</code>. &#xD;
+One of the great advantages of Nemerle or C# over Java is that you don't need to &#xD;
+create any folder that matches the name of the namespace. Indeed, you can create &#xD;
+more than one namespace in a file:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">namespace</span> <span class="nn">FuBar</span> <span class="p">{</span>
+  <span class="k">namespace</span> <span class="nn">Example</span> <span class="p">{</span>
+    <span class="c1">// This is FuBar.Example</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">namespace</span> <span class="nn">OtherFoo</span> <span class="p">{</span>
+  <span class="c1">// This is just OtherFoo</span>
+<span class="p">}</span>
+<span class="err">```</span>    
+
+<span class="n">Nemerle</span> <span class="k">requires</span> <span class="n">all</span> <span class="n">objects</span> <span class="n">to</span> <span class="n">be</span> <span class="n">referenced</span> <span class="k">using</span> <span class="n">their</span> <span class="n">fully</span> <span class="n">qualified</span> 
+<span class="n">name</span><span class="p">.</span> <span class="n">To</span> <span class="n">use</span> <span class="p">&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">SomeClass</span><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;,</span> <span class="n">you</span> <span class="n">would</span> <span class="n">have</span> <span class="n">to</span> <span class="n">reference</span> <span class="p">&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">FooBarCorp</span><span class="p">.</span><span class="n">TurboLib</span><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;.</span> 
+<span class="n">But</span><span class="p">,</span> <span class="n">to</span> <span class="n">avoid</span> <span class="n">typing</span> <span class="p">&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="n">FooBarCorp</span><span class="p">.</span><span class="n">TurboLib</span><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;</span> <span class="n">again</span> <span class="k">and</span> <span class="n">again</span> <span class="n">to</span> <span class="n">access</span> 
+<span class="n">its</span> <span class="n">classes</span><span class="p">,</span> <span class="n">there</span> <span class="k">is</span> <span class="n">a</span> <span class="n">special</span> <span class="p">&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">using</span><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;</span> <span class="n">directive</span> <span class="n">that</span> <span class="err">''</span><span class="n">imports</span><span class="err">''</span> 
+<span class="n">the</span> <span class="n">given</span> <span class="n">namespace</span><span class="p">.</span> <span class="n">So</span> <span class="n">the</span> <span class="n">following</span> <span class="k">is</span> <span class="n">valid</span><span class="p">:</span>
+
+<span class="err">```</span><span class="n">nemerle</span>
+<span class="k">using</span> <span class="n">FooBarCorp</span><span class="p">.</span><span class="n">TurboLib</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">c</span> <span class="p">=</span> <span class="n">SomeClass</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>(Code inside the <code>FooBarCorp.TurboLib</code> namespace doesn't require &#xD;
+<code>using FooBarCorp.TurboLib;</code> -- that's done automatically.)&#xD;</p>
+
+<p>You can also use:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">FooBarCorp</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">c</span> <span class="p">=</span> <span class="n">TurboLib</span><span class="p">.</span><span class="n">SomeClass</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>One of the features Nemerle has is the ability to import a namespace and &#xD;
+use the namespaces inside it without qualifying them with the parent name. &#xD;
+In C#, you would have to add one or more <code>using</code> directives to &#xD;
+for the classes you wish to use to get this effect.&#xD;</p>
+
+<p>Another form of the <code>using</code> directive allows you to give a &#xD;
+shorter name to a namespace:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">TL</span> <span class="p">=</span> <span class="n">FooBarCorp</span><span class="p">.</span><span class="n">TurboLib</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">c</span> <span class="p">=</span> <span class="n">TL</span><span class="p">.</span><span class="n">SomeClass</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>Finally, <code>using</code> is not restricted only to namespaces -- with &#xD;
+<code>using</code> you can also reference a class or module so you can &#xD;
+use its static members:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+<span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hey, we just used Console.WriteLine without writing Console!"</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Enums"><a name="Enums" id="Enums">Enums</a></span></h2>
+
+<p>Enums are like restricted variants. Enums contain a list of options, and &#xD;
+cannot have methods, fields, or constructors. Example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">enum</span> <span class="n">Color</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Red</span>
+  <span class="p">|</span> <span class="n">Green</span>
+  <span class="p">|</span> <span class="n">Blue</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">string_of_color</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">Color</span><span class="p">.</span><span class="n">Red</span> <span class="p">=&gt;</span> <span class="s">"red"</span>
+    <span class="p">|</span> <span class="n">Color</span><span class="p">.</span><span class="n">Green</span> <span class="p">=&gt;</span> <span class="s">"green"</span>
+    <span class="p">|</span> <span class="n">Color</span><span class="p">.</span><span class="n">Blue</span> <span class="p">=&gt;</span> <span class="s">"blue"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">string_of_color</span> <span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">Red</span><span class="p">));</span>
+</pre>
+</div>
+
+
+<p>Enums are internally represented as integers, which makes them more efficient&#xD;
+than variants. It also means you can convert integers to enums, but beware:&#xD;
+if an integer doesn't represent a valid enum option, strange things can happen, &#xD;
+so it's better to check a enum variable for allowed ranges before using it. For example;&#xD;</p>
+
+<div class="highlight"><pre><span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">string_of_color</span> <span class="p">(</span><span class="m">13</span> <span class="p">:&gt;</span> <span class="n">Color</span><span class="p">));</span>
+</pre>
+</div>
+
+
+<p>This will raise <code>MatchFailure</code> exception.&#xD;</p>
+
+<p>However, the way enums work can help on some situations. One of the most used &#xD;
+is to combine two or more values into one, using the | (OR) operator. For this, &#xD;
+you must use values that do not overlap. Powers of 2 (1, 2, 4, ...) are ideal, &#xD;
+because their individual bits do not coincide (in binary, 1 =&gt; 0b001, 2 =&gt; 0b010, &#xD;
+4 =&gt; 0b100), so the | operator can use them unambigously. The Mono and .NET &#xD;
+guidelines also state that this type of enum should be marked with the &#xD;
+Flags attribute:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+
+<span class="na">[FlagsAttribute]</span>
+<span class="k">enum</span> <span class="n">Seasons</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Winter</span> <span class="p">=</span> <span class="m">0</span><span class="n">b0001</span>
+  <span class="p">|</span> <span class="n">Spring</span> <span class="p">=</span> <span class="m">0</span><span class="n">b0010</span>
+  <span class="p">|</span> <span class="n">Summer</span> <span class="p">=</span> <span class="m">0</span><span class="n">b0100</span>
+  <span class="p">|</span> <span class="n">Fall</span> <span class="p">=</span> <span class="m">0</span><span class="n">b1000</span>
+  <span class="p">|</span> <span class="n">Autumn</span> <span class="p">=</span> <span class="n">Fall</span>
+  <span class="p">|</span> <span class="n">AllSeasons</span> <span class="p">=</span> <span class="n">Winter</span> <span class="p">+</span> <span class="n">Spring</span> <span class="p">+</span> <span class="n">Summer</span> <span class="p">+</span> <span class="n">Fall</span>
+<span class="p">}</span>
+ 
+<span class="k">def</span> <span class="n">seasons</span> <span class="p">=</span> <span class="n">Seasons</span><span class="p">.</span><span class="n">Winter</span> <span class="p">|</span> <span class="n">Seasons</span><span class="p">.</span><span class="n">Fall</span><span class="p">;</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">$"Seasons: </span><span class="n">$</span><span class="p">(</span><span class="n">seasons</span><span class="p">.</span><span class="n">ToString</span><span class="p">())</span><span class="s">"</span><span class="p">);</span>
+
+<span class="cm">/* Output:</span>
+<span class="cm">Seasons: Winter, Autumn</span>
+<span class="cm">*/</span>
+</pre>
+</div>
+
+
+<p>As you can see in this example, you can also use more than one alias for the &#xD;
+same value, and even create combinations of values in the enum, like we have &#xD;
+done with <code>AllSeasons</code>. Also, since we were able to use the &#xD;
+<code>[FlagsAttribute]</code>, we saved ourselves the trouble of having to write &#xD;
+our own string_of_season function.&#xD;</p>
+
+<h2><span class="mw-headline" id="Function_parameters"><a name="Function_parameters" id="Function_parameters">Function parameters</a></span></h2>
+
+<h3><span class="mw-headline" id="Refout_parameters"><a name="Refout_parameters" id="Refout_parameters">Ref/out parameters</a></span></h3>
+
+<p>Normally, when you pass some value as a function parameter, a copy&#xD;
+of the value is created. This is <i>call-by-value</i>, and is preferred &#xD;
+because it makes certain that the function cannot modify the calling &#xD;
+code's values. But sometimes you do want the function to change the &#xD;
+original value passed to it, not the copy. This is possible by passing &#xD;
+the parameter using the <code>ref</code> keyword. Such a parameter is &#xD;
+passed by reference, which means that when the parameter value is &#xD;
+changed by the function, the calling code sees it.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Inc</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="k">ref</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">x</span><span class="p">++;</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">x</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">mutable</span> <span class="n">q</span> <span class="p">=</span> <span class="m">13</span><span class="p">;</span>
+    <span class="n">Inc</span> <span class="p">(</span><span class="k">ref</span> <span class="n">q</span><span class="p">);</span>
+    <span class="n">Inc</span> <span class="p">(</span><span class="k">ref</span> <span class="n">q</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/* Output:</span>
+<span class="cm">14</span>
+<span class="cm">15</span>
+<span class="cm">*/</span>
+</pre>
+</div>
+
+
+<p>First, you need to add a <code>ref</code> annotation to the parameter type when &#xD;
+you declare the function. When you call the function, you need to pass &#xD;
+a mutable value (a local variable or a mutable field), and prefix it &#xD;
+with <code>ref</code> keyword. Be aware that this just works with value types. &#xD;
+In Mono/.NET, there is a strong divison between reference and value types. &#xD;
+When you pass a reference type (object) as a parameter, you are only &#xD;
+passing a reference to an object, so every change to the object in the &#xD;
+function will also change the calling object. Value types (numbers, strings) &#xD;
+are always copied when passed, so you need the ref keyword to change this &#xD;
+default behavior.&#xD;</p>
+
+<p>There is also a similar <code>out</code> modifier. It means that the function&#xD;
+is not going to read what's in the parameter, it is just going to return&#xD;
+some value through it. In C# this is handy when you want to return more&#xD;
+than one value from a function. In Nemerle, <a class="internal absent" href="/tuples.html">Nemerle_for_OOP_Programmers_Week_3#Tuples</a> &#xD;
+are used for the same purpose, so the use of out parameters is much less &#xD;
+common. Anyway, the usage is:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">read_line</span> <span class="p">(</span><span class="n">line</span> <span class="p">:</span> <span class="k">out</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">bool</span>
+  <span class="p">{</span>
+    <span class="n">line</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span> <span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">line</span> <span class="p">==</span> <span class="s">"quit"</span><span class="p">)</span> <span class="k">false</span>
+    <span class="k">else</span> <span class="k">true</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">mutable</span> <span class="n">s</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">read_line</span> <span class="p">(</span><span class="k">out</span> <span class="n">s</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Named_parameters"><a name="Named_parameters" id="Named_parameters">Named parameters</a></span></h3>
+
+<p>This feature comes from Python. You can name the parameters in a &#xD;
+function call, which allows putting them in a different order than &#xD;
+in the definition. This can make your code more readable, especially &#xD;
+when using default parameters.&#xD;</p>
+
+<div class="highlight"><pre><span class="n">frobnicate</span> <span class="p">(</span><span class="n">foo</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> 
+            <span class="n">do_qux</span> <span class="p">:</span> <span class="kt">bool</span><span class="p">,</span> 
+            <span class="n">do_baz</span> <span class="p">:</span> <span class="kt">bool</span><span class="p">,</span> 
+            <span class="n">do_bar</span> <span class="p">:</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span>
+<span class="p">{</span>
+  <span class="c1">// this is completely meaningless</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">do_qux</span> <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="n">do_baz</span><span class="p">)</span> <span class="n">foo</span> <span class="p">*</span> <span class="m">2</span>
+  <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">do_bar</span><span class="p">)</span> <span class="n">foo</span> <span class="p">*</span> <span class="m">7</span>
+  <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">do_baz</span><span class="p">)</span> <span class="n">foo</span> <span class="p">*</span> <span class="m">13</span>
+  <span class="k">else</span> <span class="m">42</span>
+<span class="p">}</span>
+
+<span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="c1">// Parameters' names can be omitted.</span>
+  <span class="k">def</span> <span class="n">res1</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="m">7</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+  
+  <span class="c1">// This is the intended usage -- the first </span>
+  <span class="c1">// (main) parameter comes without a name</span>
+  <span class="c1">// and the following flags with names</span>
+  <span class="k">def</span> <span class="n">res2</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="m">7</span><span class="p">,</span> <span class="n">do_qux</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+                            <span class="n">do_baz</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span> 
+                            <span class="n">do_bar</span> <span class="p">=</span> <span class="k">true</span><span class="p">);</span>
+  <span class="c1">// You can however name every parameter:</span>
+  <span class="k">def</span> <span class="n">res3</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="n">foo</span> <span class="p">=</span> <span class="m">7</span><span class="p">,</span> <span class="n">do_qux</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> 
+                         <span class="n">do_baz</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span> <span class="n">do_bar</span> <span class="p">=</span> <span class="k">true</span><span class="p">);</span>
+  <span class="c1">// And permute them:</span>
+  <span class="k">def</span> <span class="n">res3</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="n">do_qux</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">do_bar</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> 
+                         <span class="n">do_baz</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span> <span class="n">foo</span> <span class="p">=</span> <span class="m">7</span><span class="p">);</span>
+  <span class="c1">// You can also omit names for any number of leading </span>
+  <span class="c1">// parameters and permute the trailing ones.</span>
+  <span class="k">def</span> <span class="n">res2</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="m">7</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span>
+                            <span class="n">do_bar</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+                            <span class="n">do_baz</span> <span class="p">=</span> <span class="k">false</span><span class="p">);</span>
+  <span class="p">()</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The rules behind named parameters are simple:&#xD;</p>
+
+<ul><li> Named parameters must come after all unnamed (positional) parameters&#xD;
+</li><li> Positional parameters are assigned first&#xD;
+</li><li> The remaining parameters are assigned based on their names &#xD;
+</li></ul> &#xD;
+Named parameters can be used only when names of parameters are known&#xD;
+(which basically means they do not work in conjunction with functional&#xD;
+values).&#xD;
+
+<p>This feature is particularly useful with default parameters:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">frobnicate</span> <span class="p">(</span><span class="n">foo</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">do_qux</span> <span class="p">:</span> <span class="kt">bool</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span> 
+                       <span class="n">do_baz</span> <span class="p">:</span> <span class="kt">bool</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span> 
+                       <span class="n">do_bar</span> <span class="p">:</span> <span class="kt">bool</span> <span class="p">=</span> <span class="k">false</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="n">frobnicate</span> <span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="n">do_baz</span> <span class="p">=</span> <span class="k">true</span><span class="p">);</span>
+<span class="n">frobnicate</span> <span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="n">do_baz</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">do_qux</span> <span class="p">=</span> <span class="k">true</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Operator_overloading"><a name="Operator_overloading" id="Operator_overloading">Operator overloading</a></span></h2>
+
+<p>You can overload existing operators or add new ones simply by specifying&#xD;
+them as a static method in some type. The name of method must be quoted &#xD;
+with the <code>@</code> operator. For example, the following class definition:&#xD;</p>
+
+<div class="highlight"><pre> <span class="k">class</span> <span class="nc">Operand</span> <span class="p">{</span>
+   <span class="k">public</span> <span class="n">val</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+   <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">v</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span> <span class="n">val</span> <span class="p">=</span> <span class="n">v</span> <span class="p">}</span>
+
+   <span class="k">public</span> <span class="k">static</span> <span class="err">@</span><span class="p">&lt;-&lt;</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="n">Operand</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">Operand</span><span class="p">)</span> <span class="p">:</span> <span class="n">Operand</span> <span class="p">{</span>
+     <span class="n">Operand</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">val</span> <span class="p">+</span> <span class="n">y</span><span class="p">.</span><span class="n">val</span><span class="p">);</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>contains the <code>&lt;-&lt;</code> binary operator processing <code>Operand</code>&#xD;
+objects. It can be used like:&#xD;</p>
+
+<div class="highlight"><pre> <span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="n">Operand</span> <span class="p">(</span><span class="m">2</span><span class="p">);</span>
+ <span class="k">def</span> <span class="n">y</span> <span class="p">=</span> <span class="n">Operand</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span>
+ <span class="k">def</span> <span class="n">z</span> <span class="p">=</span> <span class="n">x</span> <span class="p">&lt;-&lt;</span> <span class="n">y</span><span class="p">;</span>
+ <span class="k">assert</span> <span class="p">(</span><span class="n">z</span><span class="p">.</span><span class="n">val</span> <span class="p">==</span> <span class="m">5</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>Unary operators can be created by giving only one parameter to the method.&#xD;</p>
+
+<p>It is also possible to overload built-in operators like <code>+</code> and &#xD;
+<code>-</code>. Some of the classes exposed in the Base Class Library (like &#xD;
+Point) use this operator overloading. If you use them, you should also &#xD;
+provide another way to get its functionality, to mantain compatibility &#xD;
+with other languages. For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Utility</span><span class="p">;</span>
+
+<span class="na">[Record]</span>
+<span class="k">class</span> <span class="nc">Vector</span> <span class="p">{</span>
+<span class="na">  [Accessor]</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+<span class="na">  [Accessor]</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+<span class="na">  [Accessor]</span> <span class="n">z</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+
+  <span class="k">public</span> <span class="nf">Add</span> <span class="p">(</span><span class="n">v</span> <span class="p">:</span> <span class="n">Vector</span><span class="p">)</span> <span class="p">:</span> <span class="n">Vector</span> <span class="p">{</span>
+    <span class="n">Vector</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">X</span> <span class="p">+</span> <span class="n">v</span><span class="p">.</span><span class="n">X</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="n">Y</span> <span class="p">+</span> <span class="n">v</span><span class="p">.</span><span class="n">Y</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="n">Z</span> <span class="p">+</span> <span class="n">v</span><span class="p">.</span><span class="n">Z</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">static</span> <span class="err">@</span><span class="p">+</span> <span class="p">(</span><span class="n">v1</span> <span class="p">:</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">v2</span> <span class="p">:</span> <span class="n">Vector</span><span class="p">)</span> <span class="p">:</span> <span class="n">Vector</span> <span class="p">{</span>
+    <span class="n">v1</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">v1</span> <span class="p">=</span> <span class="n">Vector</span> <span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">);</span>
+<span class="k">def</span> <span class="n">v2</span> <span class="p">=</span> <span class="n">v1</span> <span class="p">+</span> <span class="n">v1</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">v3</span> <span class="p">=</span> <span class="n">v2</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="n">v1</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Interfaces"><a name="Interfaces" id="Interfaces">Interfaces</a></span></h2>
+
+<p>The .NET Framework supports only single inheritance. This means that &#xD;
+any given class can derive from just one base class. However, a class &#xD;
+may sometimes be required to be two or more different things, depending &#xD;
+on context. .NET supports this (just like Java) through <i>interfaces</i>. An &#xD;
+interface is a contract specifying a set of methods that given class must &#xD;
+implement. A class can implement any number of interfaces, in addition &#xD;
+to deriving from some base class.&#xD;</p>
+
+<p>Implementing an interface implies subtyping it. That is, if you have a &#xD;
+class <i>A</i> implementing interface <i>I</i>, and method taking <i>I</i> as &#xD;
+parameter, then you can pass <i>A</i> as this parameter.&#xD;</p>
+
+<p>Interfaces most commonly state some ability of type. For example, the&#xD;
+ability to convert itself to some other type, or to compare with some&#xD;
+other types.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">IO</span><span class="p">;</span>
+
+<span class="k">interface</span> <span class="n">IPrintable</span> <span class="p">{</span>
+  <span class="n">Print</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">RefrigeratorNG</span> <span class="p">:</span> <span class="n">Refrigerator</span><span class="p">,</span> <span class="n">IPrintable</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Print</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">"I'm the refrigerator!\n"</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span>
+  <span class="p">{</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">module</span> <span class="nc">RP</span> <span class="p">{</span>
+  <span class="n">PrintTenTimes</span> <span class="p">(</span><span class="n">p</span> <span class="p">:</span> <span class="n">IPrintable</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">10</span><span class="p">;</span> <span class="p">++</span><span class="n">i</span><span class="p">)</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">Print</span> <span class="p">()</span>
+  <span class="p">}</span>
+  
+  <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">refr</span> <span class="p">=</span> <span class="n">RefrigeratorNG</span> <span class="p">();</span>
+    <span class="n">PrintTenTimes</span> <span class="p">(</span><span class="n">refr</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>In the class definition, after the colon, the base class must come first, &#xD;
+followed by the supported interfaces in any order.&#xD;</p>
+
+<h2><span class="mw-headline" id="Design_by_contract_macros"><a name="Design_by_contract_macros" id="Design_by_contract_macros">Design by contract macros</a></span></h2>
+
+<p>There are several macros defined in the Nemerle standard library helping&#xD;
+improve code safety. The most basic one is the <code>assert</code> macro known&#xD;
+from C. It is available by default (in <code>Nemerle.Core</code>), no&#xD;
+<code>using</code> is necessary. It checks if given expression is true&#xD;
+and if it's not, it throws an exception stating the expression, file&#xD;
+and line where the problem occurred. You can also supply a second&#xD;
+parameter to this macro with an error message you want to include&#xD;
+in the exception.&#xD;</p>
+
+<p>There are other macros, providing <i>requires</i> and <i>ensures</i> contracts,&#xD;
+they are described in the wiki page about <a class="internal present" href="/Design-by-contract-macros.html">Design by contract macros</a>.&#xD;</p>
+
+<h2><span class="mw-headline" id="Properties"><a name="Properties" id="Properties">Properties</a></span></h2>
+
+<p>Properties are syntactic sugar for get/set design pattern commonly found&#xD;
+in Java. Accessing a property looks like accessing a field, but under&#xD;
+the hood it is translated to a method call.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Button</span> <span class="p">{</span>
+  <span class="n">text</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+  <span class="k">public</span> <span class="n">Text</span> <span class="p">:</span> <span class="kt">string</span> <span class="p">{</span>
+    <span class="n">get</span> <span class="p">{</span> <span class="n">text</span> <span class="p">}</span>
+    <span class="n">set</span> <span class="p">{</span> <span class="n">text</span> <span class="p">=</span> <span class="n">value</span><span class="p">;</span> <span class="n">Redraw</span> <span class="p">()</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">b</span> <span class="p">=</span> <span class="n">Button</span> <span class="p">();</span>
+<span class="n">b</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="n">b</span><span class="p">.</span><span class="n">Text</span> <span class="p">+</span> <span class="s">"..."</span>
+</pre>
+</div>
+
+
+<p>Setter or getter blocks are not a must (of course, you need at least one :-). As we said in Week 1, for the traditional properties that just take care of saving or loading the value, the <a class="internal absent" href="/Accessor.html">accessor macros</a> macro is preferred over plain writing.&#xD;</p>
+
+<h2><span class="mw-headline" id="Indexers"><a name="Indexers" id="Indexers">Indexers</a></span></h2>
+
+<p>Indexers are another form of property, but instead of exposing a simple &#xD;
+field, array access syntax is used. They must take parameters, a feature &#xD;
+that normal properties can't have. The main use of indexers is exposing &#xD;
+collections to the outside, which is why the array syntax was chosen.&#xD;
+All .NET indexers have names, though one indexer can be marked as the &#xD;
+<i>default indexer</i> (well, in fact one indexer name is marked as default, &#xD;
+but there can be several indexers with that name, subject to the regular &#xD;
+overloading rules).&#xD;</p>
+
+<p>For example, the <code>System.Hashtable</code> default indexer is called&#xD;
+<code>Item</code> and <code>System.String</code> one is called <code>Chars</code>. &#xD;
+The C# language allows definition of a default indexer only. Nemerle allows&#xD;
+you to define other indexers (like VB.NET). In the current release, the &#xD;
+default indexer is always <code>Item</code>.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Table</span> <span class="p">{</span>
+  <span class="n">store</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">array</span> <span class="p">[</span><span class="kt">string</span><span class="p">]];</span>
+  <span class="k">public</span> <span class="n">Item</span> <span class="p">[</span><span class="n">row</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">column</span> <span class="p">:</span> <span class="kt">int</span><span class="p">]</span> <span class="p">:</span> <span class="kt">string</span>
+  <span class="p">{</span>
+    <span class="n">get</span> <span class="p">{</span>
+      <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">$"get (</span><span class="n">$row</span><span class="s">, </span><span class="n">$column</span><span class="s">)"</span><span class="p">);</span>
+      <span class="n">store</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">column</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">set</span> <span class="p">{</span>
+      <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">$"set (</span><span class="n">$row</span><span class="s">, </span><span class="n">$column</span><span class="s">)"</span><span class="p">);</span>
+      <span class="n">store</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">column</span><span class="p">]</span> <span class="p">=</span> <span class="n">value</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span>
+  <span class="p">{</span>
+    <span class="n">store</span> <span class="p">=</span> <span class="kt">array</span> <span class="p">(</span><span class="m">10</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">store</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="p">++</span><span class="n">i</span><span class="p">)</span>
+      <span class="n">store</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="kt">array</span> <span class="p">(</span><span class="m">10</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">t</span> <span class="p">=</span> <span class="n">Table</span> <span class="p">();</span>
+<span class="n">t</span><span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">]</span> <span class="p">=</span> <span class="s">"foo"</span><span class="p">;</span>
+<span class="n">t</span><span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">]</span> <span class="p">=</span> <span class="n">t</span><span class="p">[</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">]</span> <span class="p">+</span> <span class="s">"bar"</span><span class="p">;</span>
+
+<span class="cm">/* Output:</span>
+<span class="cm">set (2, 3)</span>
+<span class="cm">get (2, 3)</span>
+<span class="cm">set (2, 2)</span>
+<span class="cm">*/</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Delegates"><a name="Delegates" id="Delegates">Delegates</a></span></h2>
+
+<p>Delegates are half-baked functional values. There is little place for &#xD;
+using delegates in Nemerle itself, because it supports true functional &#xD;
+values.  However other .NET languages all speak delegates, so they are &#xD;
+good way to expose Nemerle functional values to them, and vice versa.&#xD;</p>
+
+<p>Delegates are in essence named functional types. They are defined with&#xD;
+<code>delegate</code> keyword:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">delegate</span> <span class="nf">Foo</span> <span class="p">(</span><span class="n">_</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">_</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+<span class="k">delegate</span> <span class="nf">Callback</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>Later, the delegate name can be used to construct delegate instances. &#xD;
+Any functional value of corresponding type can be used to create a &#xD;
+delegate instance (local functions and lambda expressions in particular):&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">my_fun</span> <span class="p">(</span><span class="n">i</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">s</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// do something with i and s</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">my_Foo_delegate</span> <span class="p">=</span> <span class="n">Foo</span> <span class="p">(</span><span class="n">my_fun</span><span class="p">);</span>
+<span class="k">def</span> <span class="n">another_Foo_delegate</span> <span class="p">=</span> <span class="n">Foo</span> <span class="p">(</span><span class="k">fun</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="n">use</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="p">...</span> <span class="p">});</span>
+</pre>
+</div>
+
+
+<p>Delegate instances can be invoked using standard function call syntax,&#xD;
+as well as the <code>Invoke</code> special method. Please consult the Base&#xD;
+Class Library documentation (on MSDN) for details.&#xD;</p>
+
+<p>The <code>+=</code> operator has special meaning on delegate instances --&#xD;
+it calls the <code>System.Delegate.Combine</code> method that makes one&#xD;
+function that calls two others in sequence. This operator is probably&#xD;
+more useful with events.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">module</span> <span class="nc">X</span> <span class="p">{</span>
+  <span class="n">some_fun</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">mutable</span> <span class="n">f</span> <span class="p">=</span> <span class="n">Foo</span> <span class="p">(</span><span class="k">fun</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="p">{});</span>
+    <span class="n">f</span> <span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="s">"foo"</span><span class="p">);</span> <span class="c1">// same as f.Invoke (3, "foo");</span>
+    <span class="n">f</span> <span class="p">+=</span> <span class="k">fun</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">};</span>
+    <span class="n">f</span> <span class="p">(</span><span class="m">42</span><span class="p">,</span> <span class="s">"bar"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Please note that creating a delegate is indeed creating a new class, so &#xD;
+it can have the same level of visibility that you assign to any other class. &#xD;
+You should also write delegates as stand-alone classes to prevent nesting.&#xD;</p>
+
+<pre> &#xD;</pre>
+
+<p>You also have to think about accessibility when working with delegates. &#xD;
+There is a requirement that if an event has a certain level of accessibility, &#xD;
+then its delegate must have equal or greater accessibility.&#xD;</p>
+
+<p>This is a general rule in Nemerle (taken from C#), that when you define&#xD;
+an entity E of type T, then access rights on E cannot be more permissive&#xD;
+than access right on T. Otherwise it would be possible that a user would&#xD;
+have access to E, but he wouldn't be able to use it, because the T&#xD;
+would be inaccessible.&#xD;</p>
+
+<h2><span class="mw-headline" id="Events"><a name="Events" id="Events">Events</a></span></h2>
+
+<p>Events are specialized properties for delegates. They are used in a GUI &#xD;
+system for connecting signals (setting function to call when a button is &#xD;
+pressed, etc.). They can be also used to call user-defined functions on &#xD;
+when certain things occur, like a class being loaded by the runtime system.&#xD;</p>
+
+<p>Events are defined like fields, but they are marked with the <code>event</code> &#xD;
+keyword, and always have a delegate type. Inside the class, events are seen &#xD;
+as fields of these delegate type, but outside the class only the <code>+=</code> &#xD;
+and <code>-=</code> operators are available. They are used to connect and &#xD;
+disconnect delegates.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Button</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">event</span> <span class="n">OnClick</span> <span class="p">:</span> <span class="n">Callback</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">b</span> <span class="p">=</span> <span class="n">Button</span> <span class="p">();</span>
+<span class="c1">// bind OnClick to some anonymous function ...</span>
+<span class="n">b</span><span class="p">.</span><span class="n">OnClick</span> <span class="p">+=</span> <span class="n">Callback</span> <span class="p">(</span><span class="k">fun</span> <span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">})</span>
+</pre>
+</div>
+
+
+<p>Disconnecting is more tricky, as you cannot just do <code>-= Callback (fun&#xD;() { ... })</code>. If you want to ever disconnect a delegate from an event,&#xD;
+you will need to store it:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">b</span> <span class="p">=</span> <span class="n">Button</span> <span class="p">();</span>
+<span class="k">def</span> <span class="n">my_cb</span> <span class="p">=</span> <span class="n">Callback</span> <span class="p">(</span><span class="k">fun</span> <span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">});</span>
+<span class="n">b</span><span class="p">.</span><span class="n">OnClick</span> <span class="p">+=</span> <span class="n">my_cb</span><span class="p">;</span>
+<span class="c1">// ...</span>
+<span class="n">b</span><span class="p">.</span><span class="n">OnClick</span> <span class="p">-=</span> <span class="n">my_cb</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>Implicit conversion from functional values to delegate instances is provided,&#xD;
+so you can skip delegate creation: &#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">b</span> <span class="p">=</span> <span class="n">Button</span> <span class="p">();</span>
+<span class="n">b</span><span class="p">.</span><span class="n">OnClick</span> <span class="p">+=</span> <span class="k">fun</span> <span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Keep two things in mind when using events:&#xD;
+</p><ul><li> An event can only be invoked within the class that exposes it. If you need any other kind of functional values that interoperate well on .NET languages, use fields of delegate types.&#xD;
+</li><li> Events without any method attached are considered null values, and trying to invoke them will throw an <code>NullReferenceException</code>. So before using the method syntax for invoking an event, first check whether it is null.&#xD;
+</li></ul>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

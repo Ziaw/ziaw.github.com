@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Design patterns
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Intro">Intro</a></li><li><a href="#Proxy_design_pattern">Proxy design pattern</a><ul><li><a href="#What_we_want_to_achieve">What we want to achieve</a></li><li><a href="#How_we_do_this_with_a_macro">How we do this with a macro</a></li></ul></li><li><a href="#Singleton_design_pattern">Singleton design pattern</a><ul><li><a href="#What_do_we_want_to_achieve">What do we want to achieve?</a></li><li><a href="#How_do_we_implement_it_in_macro">How do we implement it in macro?</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Intro"><a name="Intro" id="Intro">Intro</a></span></h2>
+
+<p><a target="_blank" href="http://www.dofactory.com/Patterns/Patterns.aspx">Design patterns</a> are ment to ease programmers' work by distinguishing various common schemas of creating software and solving most often occuring problems. Most of them involve some particular interaction between objects in program, which can be easily identified and named.&#xD;</p>
+
+<p>The downside of many design patterns is that they often require implementing massive amount of code, which tends always to be the same or almost the same. Some patterns just point out how particular objects could communicate or what should be the inheritance hierarchy of classes representing given model. These patterns are just hints for programmers what is the preferred way of structuring their programs in choosen situations. Unfortunately others often imply large dumb work for programmers trying to follow them. They need to override <i>n-th</i> method from the <i>k-th</i> class by adding the same code as in all <i>0..n-1</i> previous methods. This kind of job is not only boring, but also is a waste of developer's time and will probably be a nightmare to maintain.&#xD;</p>
+
+<p>There comes a solution from metaprogramming. We could just write a generator for all those methods, wrappers, auxiliary instances, etc. In this document we present examples of choosen design patterns, where often repeating code may be generated instead of hand written.&#xD;</p>
+
+<h2><span class="mw-headline" id="Proxy_design_pattern"><a name="Proxy_design_pattern" id="Proxy_design_pattern">Proxy design pattern</a></span></h2>
+
+<p><a target="_blank" href="http://www.dofactory.com/Patterns/PatternProxy.aspx">Proxy pattern</a> is based on forwarding calls to some object <i>A</i> into calls to another object <i>B</i>. Usually the object <i>B</i> is contained in an instance field of <i>A</i>. The point of this is to imitate behavior of <i>B</i> in a new class. We can even implement <i>B</i>'s interface in <i>A</i> by simply passing all calls to <i>B</i>. We can then override some of these methods with new behaviour.&#xD;</p>
+
+<p>The solution presented is also very similar to <a target="_blank" href="http://lab.msdn.microsoft.com/productfeedback/viewfeedback.aspx?feedbackid=FDBK21603">implicit interface implementation through aggregation</a>, one of many niched suggestions about C# language.&#xD;</p>
+
+<h3><span class="mw-headline" id="What_we_want_to_achieve"><a name="What_we_want_to_achieve" id="What_we_want_to_achieve">What we want to achieve</a></span></h3>
+
+<p>Suppose we have an interface <code>IMath</code> and an object <code>Math</code> implementing this interface. <code>Math</code> will be the object stored on server and we will create a representative object that controls access to it in a different <i>AppDomain</i>.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Runtime</span><span class="p">.</span><span class="n">Remoting</span><span class="p">;</span>
+
+<span class="c1">// "Subject"</span>
+
+<span class="k">public</span> <span class="k">interface</span> <span class="n">IMath</span>
+<span class="p">{</span>
+  <span class="c1">// Methods</span>
+   <span class="n">Add</span><span class="p">(</span> <span class="n">x</span> <span class="p">:</span>  <span class="kt">double</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">)</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+   <span class="n">Sub</span><span class="p">(</span> <span class="n">x</span> <span class="p">:</span>  <span class="kt">double</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">)</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+   <span class="n">Mul</span><span class="p">(</span> <span class="n">x</span> <span class="p">:</span>  <span class="kt">double</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">)</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+   <span class="n">Div</span><span class="p">(</span> <span class="n">x</span> <span class="p">:</span>  <span class="kt">double</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">)</span> <span class="p">:</span> <span class="kt">double</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// "RealSubject"</span>
+
+<span class="k">class</span> <span class="nc">Math</span> <span class="p">:</span> <span class="n">MarshalByRefObject</span><span class="p">,</span> <span class="n">IMath</span>
+<span class="p">{</span>
+  <span class="c1">// Methods</span>
+  <span class="k">public</span> <span class="nf">Add</span><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">)</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">{</span> <span class="n">x</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span> <span class="p">}</span>
+  <span class="k">public</span> <span class="nf">Sub</span><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">)</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">{</span> <span class="n">x</span> <span class="p">-</span> <span class="n">y</span><span class="p">;</span> <span class="p">}</span>
+  <span class="k">public</span> <span class="nf">Mul</span><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">)</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">{</span> <span class="n">x</span> <span class="p">*</span> <span class="n">y</span><span class="p">;</span> <span class="p">}</span>
+  <span class="k">public</span> <span class="nf">Div</span><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">)</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">{</span> <span class="n">x</span> <span class="p">/</span> <span class="n">y</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Now for accessing <code>Math</code> in different <i>AppDomain</i> we create a <code>MathProxy</code>, which will provide full functionality of <code>IMath</code>. Internally it will use <code>Math</code> instance to implement all that functionality.&#xD;</p>
+
+<p>The point is that forwarding every call in <code>IMath</code> requires a considerable amount of code to be written. We will use a macro, which generates needed methods automatically.&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// Remote "Proxy Object"</span>
+<span class="k">class</span> <span class="nc">MathProxy</span> <span class="p">:</span> <span class="n">IMath</span>
+<span class="p">{</span>
+  <span class="c1">// the stubs implementing IMath by calling math.* are automatically generated</span>
+<span class="na">  [DesignPatterns.Proxy (IMath)]</span>
+  <span class="n">math</span> <span class="p">:</span> <span class="n">Math</span><span class="p">;</span>
+  
+  <span class="c1">// Constructors</span>
+  <span class="k">public</span> <span class="nf">this</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// Create Math instance in a different AppDomain</span>
+    <span class="k">def</span> <span class="n">ad</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">AppDomain</span><span class="p">.</span><span class="n">CreateDomain</span><span class="p">(</span> <span class="s">"MathDomain"</span><span class="p">,</span><span class="k">null</span><span class="p">,</span> <span class="k">null</span> <span class="p">);</span>
+    <span class="k">def</span> <span class="n">o</span> <span class="p">=</span>
+      <span class="n">ad</span><span class="p">.</span><span class="n">CreateInstance</span><span class="p">(</span><span class="s">"Proxy_RealWorld"</span><span class="p">,</span> <span class="s">"Math"</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span>
+                        <span class="n">System</span><span class="p">.</span><span class="n">Reflection</span><span class="p">.</span><span class="n">BindingFlags</span><span class="p">.</span><span class="n">CreateInstance</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> 
+                        <span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="k">null</span> <span class="p">);</span>
+    <span class="n">math</span> <span class="p">=</span> <span class="p">(</span> <span class="n">o</span><span class="p">.</span><span class="n">Unwrap</span><span class="p">()</span> <span class="p">:&gt;</span> <span class="n">Math</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>As the comment says, for each method in <code>IMath</code> interface the implementation will be automatically created in a way similar to&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="kt">double</span> <span class="nf">Add</span><span class="p">(</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="n">math</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>so we can then use <code>MathProxy</code> as&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">ProxyApp</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Main</span><span class="p">()</span> <span class="p">:</span>  <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="c1">// Create math proxy</span>
+    <span class="k">def</span>  <span class="n">p</span> <span class="p">=</span>  <span class="n">MathProxy</span><span class="p">();</span>
+
+    <span class="c1">// Do the math</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span> <span class="s">"4 + 2 = {0}"</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span> <span class="m">4.0</span><span class="p">,</span> <span class="m">2.0</span> <span class="p">)</span> <span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span> <span class="s">"4 - 2 = {0}"</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Sub</span><span class="p">(</span> <span class="m">4.0</span><span class="p">,</span> <span class="m">2.0</span> <span class="p">)</span> <span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span> <span class="s">"4 * 2 = {0}"</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Mul</span><span class="p">(</span> <span class="m">4.0</span><span class="p">,</span> <span class="m">2.0</span> <span class="p">)</span> <span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span> <span class="s">"4 / 2 = {0}"</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">Div</span><span class="p">(</span> <span class="m">4.0</span><span class="p">,</span> <span class="m">2.0</span> <span class="p">)</span> <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="How_we_do_this_with_a_macro"><a name="How_we_do_this_with_a_macro" id="How_we_do_this_with_a_macro">How we do this with a macro</a></span></h3>
+
+<p>In code above we used an attribute <code>[DesignPatterns.Proxy (IMath)]</code>. Actually it is a macro, which is invoked by compiler and will do what we need.&#xD;</p>
+
+<p>The implementation is presented below. It uses some of the compiler's API, but we will briefly describe what happens here.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Compiler</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Collections</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">DesignPatterns</span>
+<span class="p">{</span>
+<span class="na">  [Nemerle.MacroUsage (Nemerle.MacroPhase.WithTypedMembers,</span>
+<span class="na">                       Nemerle.MacroTargets.Field)]</span>
+  <span class="k">macro</span> <span class="nf">Proxy</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">TypeBuilder</span><span class="p">,</span> <span class="n">f</span> <span class="p">:</span> <span class="n">FieldBuilder</span><span class="p">,</span> <span class="n">iface</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// find out the real type specified as [iface] parameter</span>
+    <span class="k">def</span> <span class="n">interfc</span> <span class="p">=</span> <span class="k">match</span> <span class="p">(</span><span class="n">Nemerle</span><span class="p">.</span><span class="n">Macros</span><span class="p">.</span><span class="n">ImplicitCTX</span><span class="p">().</span><span class="n">BindType</span> <span class="p">(</span><span class="n">iface</span><span class="p">))</span>
+    <span class="p">{</span>
+      <span class="p">|</span> <span class="n">MType</span><span class="p">.</span><span class="n">Class</span> <span class="p">(</span><span class="n">typeinfo</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="k">when</span> <span class="n">typeinfo</span><span class="p">.</span><span class="n">IsInterface</span> <span class="p">=&gt;</span> <span class="n">typeinfo</span>
+      <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">Message</span><span class="p">.</span><span class="n">FatalError</span> <span class="p">(</span><span class="s">"expected interface type"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">meth</span> <span class="p">:&gt;</span> <span class="n">IMethod</span> <span class="n">in</span> <span class="n">interfc</span><span class="p">.</span><span class="n">GetMembers</span> <span class="p">())</span>
+    <span class="p">{</span>
+          <span class="c1">// prepare interface method invocation arguments</span>
+          <span class="k">def</span> <span class="n">parms</span> <span class="p">=</span> <span class="n">List</span><span class="p">.</span><span class="n">Map</span> <span class="p">(</span><span class="n">meth</span><span class="p">.</span><span class="n">GetParameters</span> <span class="p">(),</span> <span class="k">fun</span> <span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">&lt;[ </span><span class="n">$</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">ParsedName</span><span class="p">.</span><span class="n">NewName</span><span class="err"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">name</span><span class="p">)</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">)</span> <span class="p">:</span> <span class="n">$</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">ty</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">typed</span><span class="p">)</span> <span class="k">]&gt;</span>
+          <span class="p">});</span>
+          <span class="c1">// prepare function parameters of created method</span>
+          <span class="k">def</span> <span class="n">fparms</span> <span class="p">=</span> <span class="n">List</span><span class="p">.</span><span class="n">Map</span> <span class="p">(</span><span class="n">parms</span><span class="p">,</span> <span class="n">Parsetree</span><span class="p">.</span><span class="n">Fun_parm</span><span class="p">);</span>
+
+          <span class="c1">// define the wrapper method</span>
+          <span class="n">t</span><span class="p">.</span><span class="n">Define</span> <span class="p">(</span><span class="k">&lt;[ decl:</span>
+            <span class="k">public</span> <span class="k">virtual</span> <span class="n">$</span><span class="p">(</span><span class="n">meth</span><span class="p">.</span><span class="n">Name</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">dyn</span><span class="p">)</span> <span class="p">(..</span><span class="n">$fparms</span><span class="p">)</span> <span class="p">:</span> <span class="n">$</span><span class="p">(</span><span class="n">meth</span><span class="p">.</span><span class="n">ReturnType</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">typed</span><span class="p">)</span> <span class="p">{</span>
+              <span class="k">this</span><span class="p">.</span><span class="n">$</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">Name</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">dyn</span><span class="p">).</span><span class="n">$</span><span class="p">(</span><span class="n">meth</span><span class="p">.</span><span class="n">Name</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">dyn</span><span class="p">)</span> <span class="p">(..</span><span class="n">$parms</span><span class="p">)</span>
+            <span class="p">}</span>
+          <span class="k">]&gt;</span><span class="p">)</span>
+    <span class="p">}</span> 
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Our macro takes as a parameter the name of interface, for which we need to create methods. This is just a plain expression, so we need to ask compiler what it really is and if it really describes an interface. We get an instance of <a target="_blank" href="http://nemerle.org/doc/Nemerle.Compiler.TypeInfo.html">Nemerle.Complier.TypeInfo</a> this way. &#xD;</p>
+
+<p>Then we iterate over members of this interface type, casting them to <code>IMethod</code> interface. From this interface we can obtain all information needed about the method. Its name and parameters.&#xD;</p>
+
+<p>The process of generating new method's declaration is a little bit complex. We must separately create expressions describing its parameters and expressions for method invocation. Finally we create code for calling method on the field for which our macro was used.&#xD;</p>
+
+<h2><span class="mw-headline" id="Singleton_design_pattern"><a name="Singleton_design_pattern" id="Singleton_design_pattern">Singleton design pattern</a></span></h2>
+
+<p><a target="_blank" href="http://www.dofactory.com/Patterns/PatternSingleton.aspx">Singleton</a> ensures a class has only one instance and provide a global point of access to it. It lets you encapsulate and control the creation process by making sure that certain prerequisites are fulfilled or by creating the object lazily on demand.&#xD;</p>
+
+<h3><span class="mw-headline" id="What_do_we_want_to_achieve"><a name="What_do_we_want_to_achieve" id="What_do_we_want_to_achieve">What do we want to achieve?</a></span></h3>
+
+<p>We want to have a class, which will be automatically created when requested and then the created instance will be stored for any futher requests. We just want to specify the name of property by which we will access class' instance and write the needed logic. Management of lazy creation and storage should be hidden, because it does not introduce any valuable information. &#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Collections</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">;</span>
+
+<span class="c1">// "Singleton"</span>
+
+<span class="na">[DesignPatterns.Singleton (GetLoadBalancer)]</span>
+<span class="k">class</span> <span class="nc">LoadBalancer</span>
+<span class="p">{</span>
+  <span class="k">private</span> <span class="n">servers</span> <span class="p">:</span> <span class="n">Vector</span> <span class="p">[</span><span class="kt">string</span><span class="p">]</span> <span class="p">=</span> <span class="n">Vector</span> <span class="p">(</span><span class="m">5</span><span class="p">);</span>
+  <span class="k">private</span> <span class="n">random</span> <span class="p">:</span> <span class="n">Random</span> <span class="p">=</span> <span class="n">Random</span> <span class="p">();</span>
+
+  <span class="c1">// Constructors (protected)</span>
+  <span class="k">protected</span> <span class="nf">this</span> <span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// List of available servers</span>
+    <span class="n">servers</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span> <span class="s">"ServerI"</span> <span class="p">);</span>
+    <span class="n">servers</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span> <span class="s">"ServerII"</span> <span class="p">);</span>
+    <span class="n">servers</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span> <span class="s">"ServerIII"</span> <span class="p">);</span>
+    <span class="n">servers</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span> <span class="s">"ServerIV"</span> <span class="p">);</span>
+    <span class="n">servers</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span> <span class="s">"ServerV"</span> <span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Properties</span>
+  <span class="k">public</span> <span class="n">Server</span> <span class="p">:</span> <span class="kt">string</span>
+  <span class="p">{</span>
+    <span class="n">get</span>
+    <span class="p">{</span>
+      <span class="c1">// Simple, but effective random load balancer</span>
+      <span class="k">def</span> <span class="n">r</span> <span class="p">=</span> <span class="n">random</span><span class="p">.</span><span class="n">Next</span> <span class="p">(</span><span class="n">servers</span><span class="p">.</span><span class="n">Count</span><span class="p">);</span>
+      <span class="n">servers</span> <span class="p">[</span><span class="n">r</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p><code>[DesignPatterns.Singleton (GetLoadBalancer)]</code> attribute specifies that given class will be a singleton and that its instance will be accessed through property <i>GetLoadBalancer</i>. &#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">SingletonApp</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Main</span><span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">b1</span> <span class="p">=</span> <span class="n">LoadBalancer</span><span class="p">.</span><span class="n">GetLoadBalancer</span><span class="p">;</span>
+    <span class="k">def</span> <span class="n">b2</span> <span class="p">=</span> <span class="n">LoadBalancer</span><span class="p">.</span><span class="n">GetLoadBalancer</span><span class="p">;</span>
+    <span class="k">def</span> <span class="n">b3</span> <span class="p">=</span> <span class="n">LoadBalancer</span><span class="p">.</span><span class="n">GetLoadBalancer</span><span class="p">;</span>
+    <span class="k">def</span> <span class="n">b4</span> <span class="p">=</span> <span class="n">LoadBalancer</span><span class="p">.</span><span class="n">GetLoadBalancer</span><span class="p">;</span>
+
+    <span class="c1">// Same instance?</span>
+    <span class="k">when</span> <span class="p">((</span><span class="n">b1</span> <span class="p">:</span> <span class="kt">object</span> <span class="p">==</span> <span class="n">b2</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">b2</span> <span class="p">:</span> <span class="kt">object</span> <span class="p">==</span> <span class="n">b3</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">b3</span> <span class="p">:</span> <span class="kt">object</span> <span class="p">==</span> <span class="n">b4</span><span class="p">))</span>
+      <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span> <span class="s">"Same instance"</span> <span class="p">);</span>
+
+    <span class="c1">// Do the load balancing</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span> <span class="n">b1</span><span class="p">.</span><span class="n">Server</span> <span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span> <span class="n">b2</span><span class="p">.</span><span class="n">Server</span> <span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span> <span class="n">b3</span><span class="p">.</span><span class="n">Server</span> <span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span> <span class="n">b4</span><span class="p">.</span><span class="n">Server</span> <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="How_do_we_implement_it_in_macro"><a name="How_do_we_implement_it_in_macro" id="How_do_we_implement_it_in_macro">How do we implement it in macro?</a></span></h3>
+
+<p>The task of a macro will be to&#xD;
+</p><ul><li>create a field for storing the only instance&#xD;
+</li><li>create the property for accessing it, which will lazily call the constructor&#xD;
+</li><li>make sure that there is only one constructor and make sure it is protected&#xD;
+</li></ul><div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Compiler</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Collections</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">DesignPatterns</span>
+<span class="p">{</span>
+<span class="na">  [Nemerle.MacroUsage (Nemerle.MacroPhase.BeforeInheritance,</span>
+<span class="na">                       Nemerle.MacroTargets.Class)]</span>
+  <span class="k">macro</span> <span class="nf">Singleton</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">TypeBuilder</span><span class="p">,</span> <span class="n">getter</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">mems</span> <span class="p">=</span> <span class="n">t</span><span class="p">.</span><span class="n">GetParsedMembers</span> <span class="p">();</span>
+    <span class="c1">// find constructor, which we will need to call</span>
+    <span class="c1">// to create instance</span>
+    <span class="k">def</span> <span class="n">ctor</span> <span class="p">=</span> <span class="n">List</span><span class="p">.</span><span class="n">Filter</span> <span class="p">(</span><span class="n">mems</span><span class="p">,</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="k">&lt;[ decl:</span> <span class="p">..</span><span class="n">$_</span> <span class="k">this</span> <span class="p">(..</span><span class="n">$_</span><span class="p">)</span> <span class="n">$_</span> <span class="k">]&gt;</span> <span class="p">=&gt;</span> <span class="k">true</span>
+      <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="k">false</span>
+    <span class="p">});</span>
+    <span class="k">match</span> <span class="p">(</span><span class="n">ctor</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="p">[</span> <span class="k">&lt;[ decl:</span> <span class="p">..</span><span class="n">$_</span> <span class="k">this</span> <span class="p">(..</span><span class="n">$parms</span><span class="p">)</span> <span class="n">$_</span> <span class="k">]&gt;</span> <span class="k">as</span> <span class="n">constructor</span> <span class="p">]</span> <span class="p">=&gt;</span>
+        <span class="k">match</span> <span class="p">(</span><span class="n">getter</span><span class="p">)</span> <span class="p">{</span>
+          <span class="p">|</span> <span class="k">&lt;[ </span><span class="n">$</span><span class="p">(</span><span class="n">getter_name</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">)</span> <span class="k">]&gt;</span> <span class="p">=&gt;</span>
+            <span class="c1">// we must prepare expressions for invoking constructor</span>
+            <span class="k">def</span> <span class="n">invoke_parms</span> <span class="p">=</span> <span class="n">List</span><span class="p">.</span><span class="n">Map</span> <span class="p">(</span><span class="n">parms</span><span class="p">,</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+              <span class="k">&lt;[ </span><span class="n">$</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">ParsedName</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">)</span> <span class="k">]&gt;</span>
+            <span class="p">});</span>
+            <span class="c1">// first define the filed, where a single instance will be stored</span>
+            <span class="n">t</span><span class="p">.</span><span class="n">Define</span> <span class="p">(</span><span class="k">&lt;[ decl:</span>
+              <span class="k">private</span> <span class="k">static</span> <span class="k">mutable</span> <span class="n">instance</span> <span class="p">:</span> <span class="n">$</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">ParsedName</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">);</span>
+            <span class="k">]&gt;</span><span class="p">);</span>
+
+            <span class="c1">// finally, define getter</span>
+            <span class="n">t</span><span class="p">.</span><span class="n">Define</span> <span class="p">(</span><span class="k">&lt;[ decl:</span>
+              <span class="k">public</span> <span class="k">static</span> <span class="n">$</span><span class="p">(</span><span class="n">getter_name</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">)</span> <span class="p">:</span> <span class="n">$</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">ParsedName</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">get</span> <span class="p">{</span>
+                  <span class="c1">// lazy initialization in generated code</span>
+                  <span class="k">when</span> <span class="p">(</span><span class="n">instance</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+                    <span class="n">instance</span> <span class="p">=</span> <span class="n">$</span><span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">ParsedName</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">name</span><span class="p">)</span> <span class="p">(..</span><span class="n">$invoke_parms</span><span class="p">);</span>
+                  <span class="n">instance</span><span class="p">;</span>
+                <span class="p">}</span>
+              <span class="p">}</span> 
+            <span class="k">]&gt;</span><span class="p">);</span>
+
+            <span class="c1">// make sure constructor is protected</span>
+            <span class="n">constructor</span><span class="p">.</span><span class="n">Attributes</span> <span class="p">|=</span> <span class="n">NemerleAttributes</span><span class="p">.</span><span class="n">Protected</span><span class="p">;</span>
+          <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span>
+            <span class="n">Message</span><span class="p">.</span><span class="n">FatalError</span> <span class="p">(</span><span class="s">$"Singleton must be supplied with a simple name for getter, got </span><span class="n">$getter</span><span class="s">"</span><span class="p">)</span>
+        <span class="p">}</span>
+      <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">Message</span><span class="p">.</span><span class="n">Error</span> <span class="p">(</span><span class="s">"Singleton design pattern requires exactly one constructor defined"</span><span class="p">)</span>
+    <span class="p">}</span> 
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>First we search through members of the class and find all constructors. We make sure there is only one, read its parameters. &#xD;
+After building expressions for invoking constructor we define needed class members.&#xD;
+Finally constructor is marked as <i>protected</i>.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

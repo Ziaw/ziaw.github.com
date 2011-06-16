@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Grok Parametric polymorphism
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This page is a part of the <a class="internal present" href="/Grokking-Nemerle.html">Grokking Nemerle</a> tutorial.&#xD;</p>
+
+<p><a target="_blank" href="http://en.wikipedia.org/wiki/Polymorphism_(computer_science)#Parametric_polymorphism">Parametric polymorphism</a> is a wise way to say that function can operate on&#xD;
+values of any type. Kind of <code>System.Object</code>  and/or &#xD;
+<code>void*</code> on steroids. This&#xD;
+is very much like Generics in C# 2.0 or Java 5.0 and somewhat less like&#xD;
+templates in C++.&#xD;</p>
+
+<p>Both functions and types can be parameterized over types.&#xD;</p>
+
+<h2><span class="mw-headline" id="Simple_polymorphism"><a name="Simple_polymorphism" id="Simple_polymorphism">Simple polymorphism</a></span></h2>
+
+<p>Here we define a list of values of any type (it is also defined in&#xD;
+Nemerle standard library but this is not the point here).&#xD;</p>
+
+<div class="highlight"><pre><span class="k">variant</span> <span class="nc">list</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">Cons</span> <span class="p">{</span> <span class="n">hd</span> <span class="p">:</span> <span class="n">T</span><span class="p">;</span> <span class="n">tl</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">T</span><span class="p">];</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Nil</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Here we used <code>T</code> as a type parameter to the list type. The&#xD;
+ML-lovers would rather write <code>'a</code> instead and read it <i>alpha</i>&#xD;
+(it is a convention to use identifiers starting with an apostrophe for&#xD;
+type parameters). They are allowed to do so, as the apostrophe is allowed&#xD;
+in identifiers in Nemerle. We will however stick to a C++-like convention.&#xD;</p>
+
+<p>In the body of the <code>list</code> definition <code>T</code> can be used like&#xD;
+any other type name. It is called <b>type variable</b> in this scope.&#xD;</p>
+
+<p>Next we define the method parameterized on a type (it is reflected&#xD;
+by listing <code>['a]</code> after <code>Head</code>). We use the same&#xD;
+<code>T</code>, but we could have used <code>'b</code> or <code>foobar42</code>&#xD;
+as well. Anyhow the algorithm of taking the head out of the list does&#xD;
+not depend on the type of the actual values stored in the list. This&#xD;
+method for <code>list[int]</code>, <code>list[string]</code> and even&#xD;
+<code>list[list[int]]</code> would look exactly the same. Therefore we can&#xD;
+use generic <code>T</code> type.&#xD;</p>
+
+<p>You can see that the type of elements of the list (a parameter in&#xD;
+<code>list[T]</code>) is used as return type of this method. This way we&#xD;
+can ensure that we take an <code>int&lt;code&gt; out of &lt;code&gt;list[int]</code> and&#xD;
+not some generic <code>System.Object</code>.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">List</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="n">Head</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">list</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="p">:</span> <span class="n">T</span>
+  <span class="p">{</span>
+    <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="n">Cons</span> <span class="p">(</span><span class="n">hd</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">hd</span>
+      <span class="p">|</span> <span class="n">Nil</span> <span class="p">=&gt;</span>
+        <span class="k">throw</span> <span class="n">System</span><span class="p">.</span><span class="n">ArgumentException</span> <span class="p">()</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Constraints_on_type_variables"><a name="Constraints_on_type_variables" id="Constraints_on_type_variables">Constraints on type variables</a></span></h2>
+
+<p>It is sometimes necessary for types to be substituted for type variables&#xD;
+to conform to some specific interface. This concept is known as F-bounded&#xD;
+polymorphism. We will address this issue in more detail, as it is probably&#xD;
+new for most readers.&#xD;</p>
+
+<p>For example the elements stored in a tree need to provide a comparison&#xD;
+method. Thus, we can define an appropriate interface and then require&#xD;
+<code>'a</code> in <code>Tree['a]</code> to conform to it:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">interface</span> <span class="n">IComparable</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">{</span>
+  <span class="n">CompareTo</span> <span class="p">(</span><span class="n">elem</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">variant</span> <span class="nc">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> 
+  <span class="k">where</span> <span class="err">'</span><span class="n">a</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span>
+<span class="p">{</span>
+  <span class="p">|</span> <span class="n">Node</span> <span class="p">{</span>
+      <span class="n">left</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">];</span>
+      <span class="n">elem</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">;</span>
+      <span class="n">right</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Tip</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>In fact the <code>IComparable</code> interface is already defined in the standard&#xD;
+library, but that is not the point.&#xD;</p>
+
+<p>Now, once we ensured that elements in the tree conform to&#xD;
+<code>IComparable</code>, we can use the <code>CompareTo</code> method. For&#xD;
+example, to insert a thing into the tree we can use the following&#xD;
+function:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">module</span> <span class="nc">TreeOperations</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">Insert</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">],</span> <span class="n">e</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span>
+    <span class="k">where</span> <span class="err">'</span><span class="n">a</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span>
+  <span class="p">{</span>
+    <span class="k">match</span> <span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="n">Node</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CompareTo</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span>
+          <span class="n">Node</span> <span class="p">(</span><span class="n">Insert</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">e</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CompareTo</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+          <span class="n">Node</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">Insert</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+        <span class="k">else</span>
+          <span class="nf">Node</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+      <span class="p">|</span> <span class="n">Tip</span> <span class="p">=&gt;</span>
+        <span class="n">Node</span> <span class="p">(</span><span class="n">Tip</span> <span class="p">(),</span> <span class="n">e</span><span class="p">,</span> <span class="n">Tip</span> <span class="p">())</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The people familiar with C# or Java will ask why not simply use something&#xD;
+like:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">interface</span> <span class="n">IComparable</span> <span class="p">{</span>
+  <span class="n">CompareTo</span> <span class="p">(</span><span class="n">elem</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">variant</span> <span class="nc">Tree</span>
+<span class="p">{</span>
+  <span class="p">|</span> <span class="n">Node</span> <span class="p">{</span>
+      <span class="n">left</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">;</span>
+      <span class="n">elem</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">;</span>
+      <span class="n">right</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Tip</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>But this is only half good. The most often case for using a tree is&#xD;
+to store elements of some specific type, for example strings. We don't&#xD;
+want integers and strings to be stored in the same tree, for the very&#xD;
+simple reason that we cannot compare integer with string in a reasonable&#xD;
+way. Well, even if we could, we plainly cannot predict what other types&#xD;
+beside integers and strings implement <code>IComparable</code> and thus can&#xD;
+be passed to string's <code>CompareTo</code>.&#xD;</p>
+
+<p>But the design above makes it impossible to ensure statically whether&#xD;
+we're using the tree with correct types. When inserting nodes to the tree&#xD;
+we upcast them all to <code>IComparable</code>. We will get runtime exception&#xD;
+when string's <code>CompareTo</code> is passed integer argument. The second&#xD;
+drawback is that when we extract elements out of the tree, we need&#xD;
+to downcast them to a specific type. This is second possibility for&#xD;
+runtime errors.&#xD;</p>
+
+<p>To fully understand this issue please look at the following example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">interface</span> <span class="n">IFrobincatable</span> <span class="p">{</span>
+  <span class="n">Frobnicate</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">C1</span> <span class="p">:</span> <span class="n">IFrobincatable</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span> <span class="p">{}</span>
+  <span class="k">public</span> <span class="nf">Frobnicate</span> <span class="p">(</span><span class="n">_</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">C2</span> <span class="p">:</span> <span class="n">IFrobincatable</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span> <span class="p">{}</span>
+  <span class="k">public</span> <span class="nf">Frobnicate</span> <span class="p">(</span><span class="n">_</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="k">module</span> <span class="nc">M</span> <span class="p">{</span>
+  <span class="n">f1</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">(</span><span class="n">o</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span>
+    <span class="k">where</span> <span class="err">'</span><span class="n">a</span> <span class="p">:</span> <span class="n">IFrobincatable</span>
+  <span class="p">{</span>
+    <span class="n">o</span><span class="p">.</span><span class="n">Frobnicate</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span>
+    <span class="n">o</span>
+  <span class="p">}</span>
+
+  <span class="n">f2</span> <span class="p">(</span><span class="n">o</span> <span class="p">:</span> <span class="n">IFrobincatable</span><span class="p">)</span> <span class="p">:</span> <span class="n">IFrobincatable</span>
+  <span class="p">{</span>
+    <span class="n">o</span><span class="p">.</span><span class="n">Frobnicate</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span>
+    <span class="n">C1</span> <span class="p">()</span>
+  <span class="p">}</span>
+
+  <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">x1</span> <span class="p">=</span> <span class="n">f1</span> <span class="p">(</span><span class="n">C1</span> <span class="p">());</span> <span class="c1">// x1 : C1</span>
+    <span class="k">def</span> <span class="n">x2</span> <span class="p">=</span> <span class="n">f1</span> <span class="p">(</span><span class="n">C2</span> <span class="p">());</span> <span class="c1">// x2 : C2</span>
+    <span class="k">def</span> <span class="n">x3</span> <span class="p">=</span> <span class="n">f2</span> <span class="p">(</span><span class="n">C1</span> <span class="p">());</span> <span class="c1">// x3 : IFrobincatable</span>
+    <span class="k">def</span> <span class="n">x4</span> <span class="p">=</span> <span class="n">f2</span> <span class="p">(</span><span class="n">C2</span> <span class="p">());</span> <span class="c1">// x4 : IFrobincatable</span>
+
+    <span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>In the <code>Main</code> function you can see what types get the &#xD;
+<code>x1</code>, <code>x2</code> etc values.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	SQL macros
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Checking_SQL_queries">Checking SQL queries</a><ul><li><a href="#Avoiding_modification_of_database">Avoiding modification of database</a></li><li><a href="#Safe_passing_values_of_variables_to_queries">Safe passing values of variables to queries</a></li><li><a href="#Automatic_loop_and_result_variables_creation">Automatic loop and result variables creation</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Checking_SQL_queries"><a name="Checking_SQL_queries" id="Checking_SQL_queries">Checking SQL queries</a></span></h2>
+Our library provides special functions (macros) for executing SQL queries. They&#xD;
+have similar functionality to methods of System.Data.SqlClient.SqlCommand class, but&#xD;
+all the strings passed to them are verified at compile-time. They are being sent&#xD;
+to database by compiler, so the database provider is used here as a verification&#xD;
+program. If it returns an error, the compilation is stopped with a message pointing to&#xD;
+an invalid SQL statement.&#xD;
+<h3><span class="mw-headline" id="Avoiding_modification_of_database"><a name="Avoiding_modification_of_database" id="Avoiding_modification_of_database">Avoiding modification of database</a></span></h3>
+<div class="highlight"><pre><span class="n">ExecuteNonQuery</span> <span class="p">(</span><span class="s">"INSERT INTO employee VALUES ('John', 'Boo')"</span><span class="p">,</span> <span class="n">conn</span><span class="p">));</span>
+</pre>
+</div>
+
+
+<p>When the compiler executes any query, it adds a transaction &#xD;
+around it and makes a rollback after the execution to avoid &#xD;
+modification of the database. So, an SQL statement&#xD;
+is executed here to verify if it is correct and then it is reverted.&#xD;
+</p><h3><span class="mw-headline" id="Safe_passing_values_of_variables_to_queries"><a name="Safe_passing_values_of_variables_to_queries" id="Safe_passing_values_of_variables_to_queries">Safe passing values of variables to queries</a></span></h3>
+Most of the queries in application are parametrized with &#xD;
+program variables. For example, we read an employee name from&#xD;
+a form and then search for corresponding entries in the database.&#xD;
+In such case we want to use some variable inside the query.&#xD;
+We can obtain it in Nemerle functions by writing the <code>$</code>&#xD;
+character followed by the name of variable. &#xD;
+<div class="highlight"><pre><span class="k">def</span> <span class="n">myparm</span> <span class="p">=</span> <span class="s">"John"</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">count</span> <span class="p">=</span> <span class="n">ExecuteScalar</span> <span class="p">(</span><span class="s">"SELECT COUNT FROM employee WHERE firstname = $myparm"</span><span class="p">,</span> 
+                           <span class="n">dbcon</span><span class="p">);</span>
+</pre>
+</div>
+
+Note that passing the value of <code>myparm</code> is done safely &#xD;
+using .NET database provider <code>SqlParameter</code> class. &#xD;
+This prevents an often used technique of exploiting database &#xD;
+applications using SQL code insertion (if a parameter is inserted&#xD;
+as a string, one could set its value to some malicious SQL code)&#xD;
+<h3><span class="mw-headline" id="Automatic_loop_and_result_variables_creation"><a name="Automatic_loop_and_result_variables_creation" id="Automatic_loop_and_result_variables_creation">Automatic loop and result variables creation</a></span></h3>
+Because we run queries at compile-time, we can obtain &#xD;
+additional information useful for compilation. For example, &#xD;
+we know which columns of the table were returned by the query &#xD;
+and what are their types. This way the compiler can automatically&#xD;
+declare local variables and assign to them corresponding &#xD;
+values from the result. &#xD;
+<div class="highlight"><pre><span class="n">ExecuteReaderLoop</span> <span class="p">(</span><span class="s">"SELECT * FROM employee WHERE firstname = $myparm"</span><span class="p">,</span> 
+                   <span class="n">dbcon</span><span class="p">,</span> 
+<span class="p">{</span>
+  <span class="n">Nemerle</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">printf</span> <span class="p">(</span><span class="s">"Name: %s %s\n"</span><span class="p">,</span> <span class="n">firstname</span><span class="p">,</span> <span class="n">lastname</span><span class="p">)</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+The example above shows even more features. It creates a loop reading&#xD;
+rows returned from selection one by one. For each of them, it declares&#xD;
+variables containing values from all columns as mentioned before. &#xD;
+Additionally, the entire query is created using &#xD;
+a <code>myparm</code> variable from program scope.&#xD;
+You might want to see the <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/snippets/sql.n">full code</a> &#xD;
+of the above examples see.
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

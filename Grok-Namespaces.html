@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Grok Namespaces
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This page is a part of the <a class="internal present" href="/Grokking-Nemerle.html">Grokking Nemerle</a> tutorial.&#xD;</p>
+
+<h2><span class="mw-headline" id="Namespaces"><a name="Namespaces" id="Namespaces">Namespaces</a></span></h2>
+
+<p>Classes and modules can be put in namespaces. Namespaces at the conceptual&#xD;
+level prepend a string to names of objects defined within them.&#xD;</p>
+
+<div class="highlight"><pre> <span class="k">namespace</span> <span class="nn">Deep.Thought</span>
+ <span class="p">{</span>
+   <span class="k">class</span> <span class="nc">Answer</span>
+   <span class="p">{</span>
+     <span class="k">public</span> <span class="k">static</span> <span class="nf">Get</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">int</span>
+     <span class="p">{</span>
+       <span class="m">42</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+
+ <span class="k">namespace</span> <span class="nn">Loonquawl</span>
+ <span class="p">{</span>
+   <span class="k">class</span> <span class="nc">Brain</span>
+   <span class="p">{</span>
+     <span class="k">public</span> <span class="k">static</span> <span class="nf">Run</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+     <span class="p">{</span>
+       <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"The answer {0}"</span><span class="p">,</span>
+                                 <span class="n">Deep</span><span class="p">.</span><span class="n">Thought</span><span class="p">.</span><span class="n">Answer</span><span class="p">.</span><span class="n">Get</span> <span class="p">())</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>As you can see, the name of the <code>Get</code> function is first&#xD;
+prepended with the name of the module (<code>Answer</code>) and then with&#xD;
+the current namespace (<code>Deep.Thought</code>), forming its full name:&#xD;
+<code>Deep.Thought.Answer.Get</code>.&#xD;</p>
+
+<p>Another example is the <code>WriteLine</code> method of the <code>Console</code>&#xD;
+module, defined in the <code>System</code> namespace.&#xD;</p>
+
+<h2><span class="mw-headline" id="Making_long_names_short"><a name="Making_long_names_short" id="Making_long_names_short">Making long names short</a></span></h2>
+
+<p>In order not to write <code>System.Console.WriteLine</code> or&#xD;
+<code>Deep.Thought.Answer.Get</code> all the time you can import all&#xD;
+declarations from the specified namespace into the current scope with&#xD;
+the <code>using</code> directive.&#xD;</p>
+
+<p>Thus the <code>Loonquawl.Brain</code> module from the example above could be:&#xD;</p>
+
+<div class="highlight"><pre> <span class="k">namespace</span> <span class="nn">LoonquawlUsing</span>
+ <span class="p">{</span>
+   <span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+   <span class="k">using</span> <span class="n">Deep</span><span class="p">.</span><span class="n">Thought</span><span class="p">.</span><span class="n">Answer</span><span class="p">;</span>
+
+   <span class="k">class</span> <span class="nc">Brain</span>
+   <span class="p">{</span>
+     <span class="k">public</span> <span class="k">static</span> <span class="nf">Run</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+     <span class="p">{</span>
+       <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"The answer is {0}"</span><span class="p">,</span> <span class="n">Get</span> <span class="p">())</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>While we see not much gain from the using directive in this example,&#xD;
+it can be handy when you use the <code>WriteLine</code> method 100 times,&#xD;
+and/or your classes are in <code>Some.Very.Long.Namespaces</code>.&#xD;</p>
+
+<p>Note that unlike in C# all methods of a class can be imported into the&#xD;
+current namespace. Thus, <code>using</code> is not limited to namespaces, but it&#xD;
+also works for classes. The new thing is also the fact, that currently&#xD;
+opened namespaces are used as prefix in all type lookups - for example&#xD;
+if there is <code>using System;</code>, then you can write &#xD;
+<code>Xml.XmlDocument ()</code>, or with an additional <code>using System.Xml;</code>&#xD;
+you can write <code>XmlDocument ()</code>. Neither of these is possible in C#.&#xD;</p>
+
+<p>It is also possible to create (shorter) aliases for namespaces and&#xD;
+types. It is sometimes useful in case when two namespaces share several&#xD;
+types, so they cannot be imported with <code>using</code> simultaneously. This&#xD;
+works in similar way to C#.&#xD;</p>
+
+<div class="highlight"><pre> <span class="k">namespace</span> <span class="nn">LoonquawlAlias</span>
+ <span class="p">{</span>
+   <span class="k">using</span> <span class="n">SC</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+   <span class="k">using</span> <span class="n">DTA</span> <span class="p">=</span> <span class="n">Deep</span><span class="p">.</span><span class="n">Thought</span><span class="p">.</span><span class="n">Answer</span><span class="p">;</span>
+
+   <span class="k">class</span> <span class="nc">Brain</span>
+   <span class="p">{</span>
+     <span class="k">public</span> <span class="k">static</span> <span class="nf">Run</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+     <span class="p">{</span>
+       <span class="n">SC</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"The answer is {0}"</span><span class="p">,</span> <span class="n">DTA</span><span class="p">.</span><span class="n">Get</span> <span class="p">())</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+</pre>
+</div>
+
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

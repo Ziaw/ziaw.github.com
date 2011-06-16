@@ -1,0 +1,1075 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Nemerle for OOP Programmers Week 4
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This week we will learn about the remaining patterns, get some insights&#xD;
+about performance of functional programs, and finally learn how to &#xD;
+define polymorphic (generic) types.&#xD;</p>
+
+<p>This is the last lesson about FP during this course.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Advanced_pattern_matching">Advanced pattern matching</a><ul><li><a href="#Type_check_pattern">Type check pattern</a></li><li><a href="#Record_pattern">Record pattern</a></li><li><a href="#as_pattern">as pattern</a></li><li><a href="#Type_hint_pattern">Type hint pattern</a></li><li><a href="#Alternative_clauses">Alternative clauses</a></li><li><a href="#with_clauses">with clauses</a></li></ul></li><li><a href="#Performance_considerations">Performance considerations</a><ul><li><a href="#Tail_calls_vs_loops">Tail calls vs loops</a></li><li><a href="#Programming_with_accumulators">Programming with accumulators</a><ul><li><a href="#Reverse_list">Reverse list</a></li><li><a href="#Length_of_list">Length of list</a></li></ul></li><li><a href="#Fold">Fold</a></li><li><a href="#Side_note_redefining_symbols">Side note: redefining symbols</a></li></ul></li><li><a href="#Parametric_polymorphism_aka_generics">Parametric polymorphism aka generics</a><ul><li><a href="#Generic_types_and_immutable_collections">Generic types (and immutable collections)</a></li><li><a href="#Generic_methods">Generic methods</a></li><li><a href="#Generic_specifier">Generic specifier</a><ul><li><a href="#For_constructors">For constructors</a></li><li><a href="#For_methods">For methods</a></li><li><a href="#For_types_in_static_member_references">For types in static member references</a></li></ul></li><li><a href="#Constraints_on_type_variables">Constraints on type variables</a></li></ul></li><li><a href="#Excercises">Excercises</a><ul><li><a href="#One">One</a></li><li><a href="#Two">Two</a></li><li><a href="#Three">Three</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Advanced_pattern_matching"><a name="Advanced_pattern_matching" id="Advanced_pattern_matching">Advanced pattern matching</a></span></h2>
+
+<p>This section discusses a few matching constructs that remain to be covered.&#xD;</p>
+
+<h3><span class="mw-headline" id="Type_check_pattern"><a name="Type_check_pattern" id="Type_check_pattern">Type check pattern</a></span></h3>
+
+<p>The type check pattern checks if the given value has the given type. &#xD;
+It is similar to <code>is</code> in C# and Java, even the syntax looks alike:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+
+<span class="k">def</span> <span class="nf">check</span> <span class="p">(</span><span class="n">o</span> <span class="p">:</span> <span class="kt">object</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">i</span> <span class="k">is</span> <span class="kt">int</span> <span class="p">=&gt;</span> <span class="n">WriteLine</span> <span class="p">(</span><span class="s">$ "an int, </span><span class="n">$</span><span class="p">(</span><span class="n">i</span><span class="err"> </span><span class="p">*</span><span class="err"> 2</span><span class="p">)</span><span class="s"> / 2!"</span><span class="p">);</span>
+    <span class="p">|</span> <span class="n">s</span> <span class="k">is</span> <span class="kt">string</span> <span class="p">=&gt;</span> <span class="n">WriteLine</span> <span class="p">(</span><span class="s">$ "a string: </span><span class="n">$s</span><span class="s">!"</span><span class="p">);</span>
+    <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"something else"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">check</span> <span class="p">(</span><span class="m">21</span><span class="p">);</span>
+<span class="n">check</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">);</span>
+<span class="n">check</span> <span class="p">(</span><span class="m">3.0</span><span class="p">);</span>
+
+<span class="cm">/* Output:</span>
+<span class="cm">an int, 42 / 2!</span>
+<span class="cm">a string: foo!</span>
+<span class="cm">something else</span>
+<span class="cm">*/</span>
+</pre>
+</div>
+
+
+<p>In this matching pattern, you can see how <code>i</code> is used as an &#xD;
+<code>int</code>, and <code>s</code> as a <code>string</code>. The <code>is</code> &#xD;
+pattern checks if the match value (<code>o</code>, an <code>object</code>) &#xD;
+has one of the given types, and if so, binds the value to specified &#xD;
+identifier. The identifier is given a static type for each branch in &#xD;
+the match. The compiler implicitly casts the value to the type of the &#xD;
+matching identifier. So the common C# pattern:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="k">is</span> <span class="n">Foo</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">Foo</span> <span class="n">y</span> <span class="p">=</span> <span class="p">(</span><span class="n">Foo</span><span class="p">)</span><span class="n">x</span><span class="p">;</span>
+  <span class="p">...</span> <span class="n">use</span> <span class="n">y</span> <span class="p">...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>or:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">Foo</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span> <span class="k">as</span> <span class="n">Foo</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">...</span> <span class="n">use</span> <span class="n">y</span> <span class="p">...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>becomes:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">y</span> <span class="k">is</span> <span class="n">Foo</span> <span class="p">=&gt;</span> <span class="p">...</span> <span class="n">use</span> <span class="n">y</span> <span class="p">...</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>This is useful when you need to cast an object as one of its inherited&#xD;
+base classes, or as an interface implemented by the object.&#xD;</p>
+
+<p>Note that the C# construction <code>as</code> doesn't have anything to do&#xD;
+with the Nemerle <code>as</code> pattern, presented below.&#xD;</p>
+
+<h3><span class="mw-headline" id="Record_pattern"><a name="Record_pattern" id="Record_pattern">Record pattern</a></span></h3>
+
+<p>We have already seen the record pattern as a subpattern of the &#xD;
+constructor pattern used for variants. The idea is to take an &#xD;
+object and match on its fields:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">foo</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">public</span> <span class="n">bar</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">c</span> <span class="p">=</span> <span class="n">MyClass</span> <span class="p">();</span>
+<span class="k">match</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">(</span><span class="n">foo</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">bar</span> <span class="p">=</span> <span class="k">null</span><span class="p">)</span> <span class="p">=&gt;</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"fine"</span><span class="p">);</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"oops"</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Field matching is quite flexible: you can skip some fields and reorder &#xD;
+them.&#xD;</p>
+
+<p>You can also explicitly state the type of the class you're matching&#xD;
+on. This is useful when the compiler complains about unknown types&#xD;
+(there are some limitations of type inference in the current&#xD;
+implementation, that may prevent it from working here). For instance, &#xD;
+you could write a variation of the match above as:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">check_class</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">MyClass</span> <span class="k">where</span> <span class="p">(</span><span class="n">foo</span> <span class="p">=</span> <span class="m">0</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="k">true</span>
+    <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="k">false</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">result</span> <span class="p">=</span> <span class="n">check_class</span> <span class="p">(</span><span class="n">MyClass</span> <span class="p">())</span>
+</pre>
+</div>
+
+
+<p>The record pattern can also match on individual readable properties:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+<span class="na">  [Accessor]</span>
+  <span class="k">public</span> <span class="n">foo</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">public</span> <span class="n">bar</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">c</span> <span class="p">=</span> <span class="n">MyClass</span> <span class="p">();</span>
+<span class="k">match</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">(</span><span class="n">Foo</span> <span class="p">=</span> <span class="m">0</span><span class="p">)</span> <span class="p">=&gt;</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"fine"</span><span class="p">);</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="s">"oops"</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Properties do not take part in tuple-pattern -&gt; record-pattern&#xD;
+automatic conversion, where you can write a tuple pattern that &#xD;
+is automatically translated to record pattern (we talked about &#xD;
+this in Week 3).&#xD;</p>
+
+<h3><span class="mw-headline" id="as_pattern"><a name="as_pattern" id="as_pattern">as pattern</a></span></h3>
+
+<p>The <code>as</code> pattern binds a value matched by a subpattern to&#xD;
+an identifier. This is useful when you want to check if a value&#xD;
+has a given structure, but you're interested in still handling &#xD;
+it as a whole, for example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">construct_list</span> <span class="p">())</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="n">_</span><span class="p">]</span> <span class="k">as</span> <span class="n">l</span> <span class="p">=&gt;</span>
+    <span class="n">handle_one_something</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">{}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Another example, perhaps more interesting, is:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">variant</span> <span class="nc">Foo</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">A</span> <span class="p">{</span> <span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="k">mutable</span> <span class="n">y</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">B</span>
+<span class="p">}</span>
+
+<span class="k">match</span> <span class="p">(</span><span class="n">some_foo</span> <span class="p">())</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">A</span> <span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="k">as</span> <span class="n">a</span> <span class="p">=&gt;</span>
+    <span class="n">a</span><span class="p">.</span><span class="n">y</span> <span class="p">=</span> <span class="s">"three"</span><span class="p">;</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="p">{}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Here the compiler knows the static type of <code>a</code> is <code>Foo.A</code>,&#xD;
+so you can assign values to its <code>y</code> field.&#xD;</p>
+
+<h3><span class="mw-headline" id="Type_hint_pattern"><a name="Type_hint_pattern" id="Type_hint_pattern">Type hint pattern</a></span></h3>
+
+<p>This pattern matches to explicitly declared types. It is used for &#xD;
+hinting the compiler about the static type of given matched value &#xD;
+or subvalue. If the compiler gets the wrong idea about a type you &#xD;
+have left for it to infer, it will scream. If it doesn't know the &#xD;
+type, it will appreciate the hint. Example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">(</span><span class="n">s</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">::</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">s</span> <span class="p">[</span><span class="m">0</span><span class="p">]</span>
+  <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="sc">'?'</span>
+<span class="p">}</span>
+
+<span class="k">assert</span> <span class="p">(</span><span class="n">foo</span> <span class="p">([</span><span class="s">"foo"</span><span class="p">,</span> <span class="s">"bar"</span><span class="p">])</span> <span class="p">==</span> <span class="sc">'f'</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>Here we hint the compiler that the type of <code>s</code> (the first &#xD;
+element of the list) will be <code>string</code> so we can use the &#xD;
+indexer to get its first character (at the time of this writing, &#xD;
+there is a bug in our type inference engine that prevents &#xD;
+deducing the type of <code>s</code> early enough for this snippet to &#xD;
+work unhinted).&#xD;</p>
+
+<p>The <code>assert</code> macro checks if given condition is true, and if &#xD;
+it's not, it throws an exception.&#xD;</p>
+
+<p>The example above can be rewritten as:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span> <span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="kt">string</span><span class="p">])</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">s</span> <span class="p">::</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">s</span> <span class="p">[</span><span class="m">0</span><span class="p">]</span>
+  <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="sc">'?'</span>
+<span class="p">}</span>
+
+<span class="k">assert</span> <span class="p">(</span><span class="n">foo</span> <span class="p">([</span><span class="s">"foo"</span><span class="p">,</span> <span class="s">"bar"</span><span class="p">])</span> <span class="p">==</span> <span class="sc">'f'</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>with the same effect, although it is slightly longer (because we have &#xD;
+to specify the <code>list</code> part of the type).&#xD;</p>
+
+<h3><span class="mw-headline" id="Alternative_clauses"><a name="Alternative_clauses" id="Alternative_clauses">Alternative clauses</a></span></h3>
+
+<p>You can combine several matching clauses in a single branch. For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">my_list</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">[</span><span class="m">1</span><span class="p">]</span>
+  <span class="p">|</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"one or one, two"</span><span class="p">);</span>
+  
+  <span class="p">|</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+  <span class="p">|</span> <span class="p">[</span><span class="m">7</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="n">WriteLine</span> <span class="p">(</span><span class="s">$ "</span><span class="n">$x</span><span class="s"> or seven, </span><span class="n">$x</span><span class="s">"</span><span class="p">);</span>
+
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"something else"</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Here, the first two branches match against multiple lists. The second &#xD;
+branch even matches against some value <code>x</code>, appearing in both its &#xD;
+clauses. If you use a value in a matching clause, it can't change types, &#xD;
+and it has to appear for each clause in the branch. In other words, &#xD;
+you couldn't do this: &#xD;</p>
+
+<div class="highlight"><pre><span class="p">|</span> <span class="p">[</span><span class="m">7</span><span class="p">]</span>   <span class="c1">// x needs to appear here,</span>
+<span class="p">|</span> <span class="p">[</span><span class="m">7</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="n">WriteLine</span> <span class="p">(</span><span class="s">$ "</span><span class="n">$x</span><span class="s"> or seven, </span><span class="n">$x</span><span class="s">"</span><span class="p">);</span>   <span class="c1">// or not here</span>
+</pre>
+</div>
+
+
+<p>There is a way to work around this limitation, by using a <i>with clause</i>.&#xD;</p>
+
+<h3><span class="mw-headline" id="with_clauses"><a name="with_clauses" id="with_clauses">with clauses</a></span></h3>
+
+<p>When using alternative clauses it is sometimes useful to match some &#xD;
+smaller pattern with a value <code>x</code>, and a bigger pattern with &#xD;
+<code>x</code> and another value <code>y</code>. Now when we construct a &#xD;
+single matching branch for the two patterns, we cannot use <code>y</code> &#xD;
+in the smaller, as it doesn't occur there. The rub is we have to &#xD;
+include <code>y</code> for all matches in the branch, because of the &#xD;
+rule on matching values explained above. &#xD;</p>
+
+<p>The <code>with</code> clause solves this problem by providing a way &#xD;
+of specifying a default <code>y</code> value in such cases. For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">foo</span> <span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">with</span> <span class="n">y</span> <span class="p">=</span> <span class="m">3</span>
+  <span class="p">|</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">*</span> <span class="n">y</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="m">42</span>
+<span class="p">}</span>
+
+<span class="k">assert</span> <span class="p">(</span><span class="n">foo</span> <span class="p">(</span><span class="m">3</span><span class="p">)</span> <span class="p">==</span> <span class="m">9</span><span class="p">);</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">foo</span> <span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span> <span class="p">==</span> <span class="m">12</span><span class="p">);</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">foo</span> <span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span> <span class="p">==</span> <span class="m">42</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>The ability to match irregular length lists by providing <code>with</code> &#xD;
+clause defaults comes in handy when creating more complex patterns.&#xD;</p>
+
+<h2><span class="mw-headline" id="Performance_considerations"><a name="Performance_considerations" id="Performance_considerations">Performance considerations</a></span></h2>
+
+<p>We now switch gears to the topic of FP performance. Tail calls, &#xD;
+an FP method of implementing functions, are covered in detail. &#xD;
+We will also examine looping and in-lining, which are compiler &#xD;
+optimizations for tail calls that minimize stack use and function &#xD;
+call overhead. Accumulators, an FP construct implemented with &#xD;
+tail calls, are also introduced here.&#xD;</p>
+
+<h3><span class="mw-headline" id="Tail_calls_vs_loops"><a name="Tail_calls_vs_loops" id="Tail_calls_vs_loops">Tail calls vs loops</a></span></h3>
+When you have a while loop, like this:&#xD;
+
+<div class="highlight"><pre><span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span>
+  <span class="c1">// do something</span>
+</pre>
+</div>
+
+
+<p>it is possible to rewrite it like this:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">my_loop</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// do something</span>
+  <span class="n">my_loop</span> <span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">my_loop</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>This code calls <code>my_loop</code> which first executes the body of the&#xD;
+loop, and at the end calls itself (and executes the body of the loop, and&#xD;
+calls itself, and...). As you can see the result is the same as with the&#xD;
+while loop.&#xD;</p>
+
+<p>If the while loop has a condition, it is also possible to rewrite:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">while</span> <span class="p">(</span><span class="n">some_condition</span><span class="p">)</span>
+  <span class="c1">// do something</span>
+</pre>
+</div>
+
+
+<p>into:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">my_loop</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">when</span> <span class="p">(</span><span class="n">some_condition</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+    <span class="n">my_loop</span> <span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">my_loop</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>The performance of the two pieces of code is exactly the same. The&#xD;
+Nemerle compiler can see that there is nothing left to do after&#xD;
+call to <code>my_loop</code> inside <code>my_loop</code>, and replaces this &#xD;
+call with an internal jump. Moreover, it notes that <code>my_loop</code> &#xD;
+is called just once outside the body of the function, and therefore &#xD;
+<a target="_blank" href="http://en.wikipedia.org/wiki/Inline_code">inlines</a> it, replacing the &#xD;
+call with the function body code itself. These optimizations together &#xD;
+eliminate stack overhead in this example.&#xD;</p>
+
+<p>In fact, the compiler internally transforms all kinds of loops into&#xD;
+local functions.&#xD;</p>
+
+<p>Calling some function <code>f</code> within <code>f</code>, in such a place &#xD;
+that there is nothing more left to do in the body of <code>f</code>, is &#xD;
+called <a target="_blank" href="http://en.wikipedia.org/wiki/Tail_recursion">tail recursion</a>. &#xD;
+It can be always replaced with a jump (internally, by the compiler).&#xD;</p>
+
+<p>To make functional programs run fast, tail recursion is a good idea &#xD;
+for loops that are going to execute, say, one million times or more. &#xD;
+Of course, there is no point rewriting things that are more readable &#xD;
+as <code>while</code> loops to tail recursion, except when you want to &#xD;
+obey some strict FP rules, like "never use mutable variables".&#xD;</p>
+
+<p>However there are problems where a solution with tail recursion is &#xD;
+actually shorter and more readable (well, readablity depends on &#xD;
+expertise with FP) than one with a loop.&#xD;</p>
+
+<h3><span class="mw-headline" id="Programming_with_accumulators"><a name="Programming_with_accumulators" id="Programming_with_accumulators">Programming with accumulators</a></span></h3>
+
+<p>An accumulator is a parameter of a function that is used to hold the &#xD;
+result constructed so far. When the function executes for the last time,&#xD;
+it returns the accumulator, possibly transformed using some other function.&#xD;</p>
+
+<h4><span class="mw-headline" id="Reverse_list"><a name="Reverse_list" id="Reverse_list">Reverse list</a></span></h4>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">rev</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">acc</span> <span class="p">=</span> <span class="p">[])</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span> <span class="n">rev</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">x</span> <span class="p">::</span> <span class="n">acc</span><span class="p">)</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="n">acc</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">rev</span> <span class="p">([</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">]));</span>
+
+<span class="c1">// Output: [3, 2, 1]</span>
+</pre>
+</div>
+
+
+<p>This function adds the first element of the input list <code>l</code> &#xD;
+to the accumulator <code>acc</code>, and calls itself with the rest &#xD;
+of the list. It accumulates head elements until the list is &#xD;
+exhausted, at which point it returns <code>acc</code>.&#xD;</p>
+
+<p>Because the result list is built from the end, while the input &#xD;
+list is traversed from the beginning, the function returns a &#xD;
+reversed list.&#xD;</p>
+
+<p>This is a common property of programming with list accumulators --&#xD;
+the result lists are reversed.&#xD;</p>
+
+<p>Note how <code>rev</code> is called inside itself in a tail position.&#xD;
+This means the call is transformed to a jump, so it is very fast&#xD;
+and doesn't consume stack space.&#xD;</p>
+
+<h4><span class="mw-headline" id="Length_of_list"><a name="Length_of_list" id="Length_of_list">Length of list</a></span></h4>
+
+<p>It is also possible to use types other than list for accumulators:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">length</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">acc</span> <span class="p">=</span> <span class="m">0</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">_</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span> <span class="n">length</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">acc</span> <span class="p">+</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="n">acc</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">length</span> <span class="p">([</span><span class="m">4</span><span class="p">,</span> <span class="m">44</span><span class="p">,</span> <span class="m">22</span><span class="p">]));</span>
+
+<span class="c1">// Output: 3</span>
+</pre>
+</div>
+
+
+<p>Here we use an integer as a accumulator, to compute the length of&#xD;
+the list.&#xD;</p>
+
+<h3><span class="mw-headline" id="Fold"><a name="Fold" id="Fold">Fold</a></span></h3>
+
+<p>There is one more important concept related to programming with &#xD;
+accumulators: the fold function. Fold is a built-in method for most &#xD;
+Nemerle collections, so it is a handy shortcut to writing certain &#xD;
+accumulator functions yourself. We will talk about fold for lists &#xD;
+here. The signature is:&#xD;
+</p><div class="highlight"><pre><span class="n">List</span><span class="p">.</span><span class="n">FoldLeft</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">,</span><span class="err">'</span><span class="n">b</span><span class="p">]</span> <span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">],</span> <span class="n">ini</span> <span class="p">:</span> <span class="err">'</span><span class="n">b</span><span class="p">,</span> <span class="n">f</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span> <span class="p">*</span> <span class="err">'</span><span class="n">b</span><span class="p">)</span> <span class="p">:</span> <span class="err">'</span><span class="n">b</span>
+</pre>
+</div>
+
+FoldLeft takes a list of type <code>'a</code>, an initial value of type <code>'b</code>, &#xD;
+a function relating <code>'a</code> to <code>'b</code>, and returns a value of type <code>'b</code>.&#xD;
+
+<p>The expression <code>List.FoldLeft ([x1, x2, ..., xN], ini, f)</code> &#xD;
+is equivalent to: <code>f (xN, f (... f (x2, f (x1, ini))...)</code>. &#xD;
+So, folding is a way to efficiently nest function calls on a list &#xD;
+of arguments. When folding, the function is applied to the first &#xD;
+element of the list, then successively to the result of that call &#xD;
+plus the next element, until the whole list is evaluated.&#xD;</p>
+
+<p>This definition in code may be easier to understand:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">fold</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span>
+      <span class="n">fold</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">acc</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="n">acc</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>This has a very similar form to both functions shown above. The &#xD;
+<code>rev</code> function replaces <code>f (x, acc)</code> with <code>x :: acc</code>, &#xD;
+and <code>length</code> replaces it with <code>1 + acc</code>. Now, because &#xD;
+function <code>f</code> is a parameter to <code>fold</code>, you can &#xD;
+implement both <code>rev</code> and <code>length</code> with the built-in &#xD;
+<code>FoldLeft</code> method:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">rev</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span> <span class="n">List</span><span class="p">.</span><span class="n">FoldLeft</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="p">[],</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">})</span> <span class="p">}</span>
+<span class="k">def</span> <span class="nf">length</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span> <span class="n">List</span><span class="p">.</span><span class="n">FoldLeft</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="k">fun</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span> <span class="p">{</span> <span class="m">1</span> <span class="p">+</span> <span class="n">acc</span> <span class="p">})</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>One can also use the <code>FoldLeft</code> member of the <code>list</code> variant:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">rev</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span> <span class="n">l</span><span class="p">.</span><span class="n">FoldLeft</span> <span class="p">([],</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">})</span> <span class="p">}</span>
+<span class="k">def</span> <span class="nf">length</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span> <span class="n">l</span><span class="p">.</span><span class="n">FoldLeft</span> <span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="k">fun</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span> <span class="p">{</span> <span class="m">1</span> <span class="p">+</span> <span class="n">acc</span> <span class="p">})</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>which makes the implementations even shorter.&#xD;</p>
+
+<p>Gaining proficiency with the fold function may be a little hard at &#xD;
+first. It's good idea to take a function using direct tail recursion &#xD;
+and try to rewrite it using fold to learn the cases where it is useful &#xD;
+(this is only to learn things, of course there is no point rewriting &#xD;
+already working stuff just to use fold).&#xD;</p>
+
+<h3><span class="mw-headline" id="Side_note_redefining_symbols"><a name="Side_note_redefining_symbols" id="Side_note_redefining_symbols">Side note: redefining symbols</a></span></h3>
+
+<p>As we wrap up our exploration of functional performance, let's &#xD;
+take a moment to look at the topic of symbol redefinition.&#xD;</p>
+
+<p>From Week 2, recall this list filter example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">filter</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span>
+      <span class="k">def</span> <span class="n">xs</span><span class="err">'</span> <span class="p">=</span> <span class="n">filter</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="n">x</span> <span class="p">::</span> <span class="n">xs</span><span class="err">'</span>
+      <span class="k">else</span> <span class="n">xs</span><span class="err">'</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="p">[]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>For clarity, we used <code>xs'</code> as the name for the filtered &#xD;
+result of list <code>xs</code>. But, we could have simply reused <code>xs</code>. &#xD;
+It would look like:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">xs</span> <span class="p">=</span> <span class="n">filter</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">f</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>While this reminds us of assignment in imperative programming &#xD;
+(from this point on in the program the new <code>xs</code> is in &#xD;
+scope, so it looks as if the original was changed), it is quite &#xD;
+different from the theoretical point of view.&#xD;</p>
+
+<p>Note that you can rebind an identifier to a different type. &#xD;
+For example, the fragment:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">];</span>
+<span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="s">"foo"</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>is perfectly valid. You could even do that with mutable variables,&#xD;
+though a warning would be generated. However, the more common use&#xD;
+is to rebind an identifier to the results of some computations on &#xD;
+its previous meaning. For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">result</span> <span class="p">=</span> <span class="m">2</span> <span class="p">*</span> <span class="m">2</span><span class="p">;</span>
+<span class="k">def</span> <span class="n">result</span> <span class="p">=</span> <span class="s">$ "the result is: </span><span class="n">$result</span><span class="s">"</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>Both bindings of <code>result</code> have similar semantic meaning, &#xD;
+though they are quite different from the compiler point of view. &#xD;
+The second <code>result</code> is an entirely new entity, and not &#xD;
+related to the first in any physical way.&#xD;</p>
+
+<p>The advantage of this approach is that you won't accidently use&#xD;
+<code>xs</code> instead of <code>xs'</code> in your code. The disadvantage &#xD;
+is that it is less clear what is going on as <code>xs</code> changes &#xD;
+its meaning.&#xD;</p>
+
+<p>The Nemerle compiler will warn about redefinitions of mutable &#xD;
+symbols (and redefinitions with mutable symbols), because it is &#xD;
+not a very mainstream programming concept, and the relative &#xD;
+likelihood of misunderstanding the difference between &#xD;
+redefinition and assignment.&#xD;</p>
+
+<h2><span class="mw-headline" id="Parametric_polymorphism_aka_generics"><a name="Parametric_polymorphism_aka_generics" id="Parametric_polymorphism_aka_generics">Parametric polymorphism aka generics</a></span></h2>
+
+<h3><span class="mw-headline" id="Generic_types_and_immutable_collections"><a name="Generic_types_and_immutable_collections" id="Generic_types_and_immutable_collections">Generic types (and immutable collections)</a></span></h3>
+
+<p>Generic types allow the definition of strongly typed containers that &#xD;
+can hold values of arbitrary types. An example of such a container is &#xD;
+the array -- the type of elements stored must match the type of the &#xD;
+array. Similarly, lists contain only elements that match the list's &#xD;
+type. The difference is that for arrays and lists, the type must be &#xD;
+specified at compile time.&#xD;</p>
+
+<p>Restricting a list's type improves static code safety. Instead of &#xD;
+using a hold-anything <code>list</code> type, object, you can restrict &#xD;
+your list to a single type, say <code>list [int]</code>. This prevents &#xD;
+adding a string to this list, and gives the guarantee that when you &#xD;
+read an element from it, it will be an integer. This saves you a &#xD;
+runtime cast, which is costly and can crash the application if you &#xD;
+don't provide extra error handling to handle miscasts.&#xD;</p>
+
+<p>Of course there are cases when you would want ints and strings in a &#xD;
+single list; you can use <code>list [object]</code> in such cases. Then &#xD;
+you can add anything to the list, but you need to cast the values &#xD;
+taken from it during runtime, with the drawbacks previously mentioned.&#xD;</p>
+
+<p>Generics offer a middle road: they allow you to build classes that &#xD;
+enforce type consistency internally, but don't explicitly define the &#xD;
+type, allowing the user to use instances of the class with any &#xD;
+arbitrary type at runtime. With generics, you can build type &#xD;
+flexibility into your classes, while avoiding the problems &#xD;
+associated with runtime casting.&#xD;</p>
+
+<p>Let's start with a naive <code>Set</code> implementation:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Set</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span>
+<span class="p">{</span>
+  <span class="k">mutable</span> <span class="n">storage</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="p">[];</span>
+  <span class="k">public</span> <span class="nf">Add</span> <span class="p">(</span><span class="n">e</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">when</span> <span class="p">(!</span> <span class="n">Contains</span> <span class="p">(</span><span class="n">e</span><span class="p">))</span>
+      <span class="n">storage</span> <span class="p">::=</span> <span class="n">e</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nf">Contains</span> <span class="p">(</span><span class="n">e</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="kt">bool</span>
+  <span class="p">{</span>
+    <span class="n">storage</span><span class="p">.</span><span class="n">Contains</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">s1</span> <span class="p">=</span> <span class="n">Set</span> <span class="p">();</span>
+<span class="n">s1</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span>
+<span class="n">s1</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="m">42</span><span class="p">);</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">Contains</span> <span class="p">(</span><span class="m">3</span><span class="p">));</span>
+<span class="c1">// s1.Add ("foo"); // error here!</span>
+<span class="k">def</span> <span class="n">s2</span> <span class="p">=</span> <span class="n">Set</span> <span class="p">();</span>
+<span class="n">s2</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">);</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">s2</span><span class="p">.</span><span class="n">Contains</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">));</span>
+</pre>
+</div>
+
+
+<p>Instances of the same <code>Set</code> class are used at runtime to handle &#xD;
+sets of integers and strings. Having type affinity, however, the same &#xD;
+set can't store elements of different types.&#xD;</p>
+
+<p>Here, the generic parameter <code>'a</code> is used to define the type of the &#xD;
+<code>storage</code> list and method parameters. We talked about generic &#xD;
+parameters in <a class="internal absent" href="/Week-2.html">Nemerle_for_OOP_Programmers_Week_2#Generic_functions</a>, &#xD;
+refer to it for more details. &#xD;</p>
+
+<p>We can add elements to the set and check if a given element is already &#xD;
+there. This is not a very functional approach as the set is updated&#xD;
+in-place. So another implementation (and interface!) would be:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Set</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span>
+<span class="p">{</span>
+  <span class="n">storage</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">=</span> <span class="p">[];</span>
+  
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span>
+  <span class="p">{</span>
+    <span class="k">this</span> <span class="p">([])</span>
+  <span class="p">}</span>
+
+  <span class="k">this</span> <span class="p">(</span><span class="n">s</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">])</span>
+  <span class="p">{</span>
+    <span class="n">storage</span> <span class="p">=</span> <span class="n">s</span><span class="p">;</span>
+  <span class="p">}</span>
+  
+  <span class="k">public</span> <span class="nf">Add</span> <span class="p">(</span><span class="n">e</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="n">Set</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span>
+  <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Contains</span> <span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="k">this</span>
+    <span class="k">else</span> <span class="nf">Set</span> <span class="p">(</span><span class="n">e</span> <span class="p">::</span> <span class="n">storage</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">Contains</span> <span class="p">(</span><span class="n">e</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="kt">bool</span>
+  <span class="p">{</span>
+    <span class="n">storage</span><span class="p">.</span><span class="n">Contains</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">def</span> <span class="n">s1</span> <span class="p">=</span> <span class="n">Set</span> <span class="p">();</span>
+<span class="k">def</span> <span class="n">s1</span> <span class="p">=</span> <span class="n">s1</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="m">3</span><span class="p">).</span><span class="n">Add</span> <span class="p">(</span><span class="m">42</span><span class="p">);</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">s1</span><span class="p">.</span><span class="n">Contains</span> <span class="p">(</span><span class="m">3</span><span class="p">));</span>
+<span class="c1">// s1.Add ("foo"); // error here!</span>
+<span class="k">def</span> <span class="n">s2</span> <span class="p">=</span> <span class="n">Set</span> <span class="p">().</span><span class="n">Add</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">);</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">s2</span><span class="p">.</span><span class="n">Contains</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">));</span>
+</pre>
+</div>
+
+
+<p>A few details of this class bear some explanation:&#xD;
+</p><ul><li> The public constructor, <code>this ()</code>, is used when creating instances in outside code&#xD;
+</li><li> A private constructor, <code>this (s : list ['a])</code>, is used in the Add method when returning a new instance of Set containing the new element&#xD;
+</li><li> The internal object reference, <code>this</code>, is also used in Add to return itself if the element already exists in the list&#xD;
+</li></ul> &#xD;
+The line <code>def s1 = s1.Add (3).Add (42);</code> may also raise questions. &#xD;
+Because <code>.</code> binds to the left, elements are added from left to &#xD;
+right, with the last element added being the first in the list. It is &#xD;
+equivalent to: &#xD;
+<div class="highlight"><pre><span class="k">def</span> <span class="n">s1</span> <span class="p">=</span> <span class="n">s1</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span>
+<span class="k">def</span> <span class="n">s1</span> <span class="p">=</span> <span class="n">s1</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="m">42</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>The key idea here is that we create a new set instance for each element&#xD;
+added. When we don't explicitly save older instances, they are garbage &#xD;
+collected, as is the case here. However, when we do save an instance of &#xD;
+a set by maintaining a reference to it, it will not be affected by adding &#xD;
+new elements later. There are cases when this is useful.&#xD;</p>
+
+<p>For example, a map holding name -&gt; value bindings in the compiler needs &#xD;
+to be restored when the scope ends. If we use an immutable map for this,&#xD;
+all we have to do is save the state before we enter the scope, and restore &#xD;
+the saved reference when we leave.&#xD;</p>
+
+<p>Additionally, it is easy to wrap immutable structures in a mutable object. &#xD;
+This is exactly what we did in the first example -- we wrapped an immutable &#xD;
+list in a mutable set. The Nemerle standard library contains a handful of &#xD;
+immutable collections.&#xD;</p>
+
+<h3><span class="mw-headline" id="Generic_methods"><a name="Generic_methods" id="Generic_methods">Generic methods</a></span></h3>
+
+<p>We've already seen how to define generic methods. You just need to&#xD;
+specify the type parameters:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="n">Length</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">(</span><span class="n">l</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">],</span> <span class="n">acc</span> <span class="p">=</span> <span class="m">0</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span>
+<span class="p">{</span>
+  <span class="k">match</span> <span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">|</span> <span class="n">_</span> <span class="p">::</span> <span class="n">xs</span> <span class="p">=&gt;</span> <span class="n">Length</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">acc</span> <span class="p">+</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">|</span> <span class="p">[]</span> <span class="p">=&gt;</span> <span class="n">acc</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>You are required to specify the generic parameters you're going to&#xD;
+use. So, the following declaration is not valid:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="nf">foo</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>but this one is valid:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">foo</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">list</span> <span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Generic_specifier"><a name="Generic_specifier" id="Generic_specifier">Generic specifier</a></span></h3>
+
+<p>There are three kinds of generic specifiers. They are all used to specify&#xD;
+generic parameters explicitly in the code. All three cases are optional,&#xD;
+the compiler will always try to infer the generic parameters.&#xD;</p>
+
+<h4><span class="mw-headline" id="For_constructors"><a name="For_constructors" id="For_constructors">For constructors</a></span></h4>
+
+<p>This is a very obvious one. If you have a <code>Set['a]</code>, like the&#xD;
+one before, and you want to ensure a set of ints is being created use:&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="n">s</span> <span class="p">=</span> <span class="n">Set</span><span class="p">.[</span><span class="kt">int</span><span class="p">]</span> <span class="p">();</span>
+<span class="n">s</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="s">"foo"</span><span class="p">);</span> <span class="c1">// error!</span>
+<span class="k">def</span> <span class="n">s2</span> <span class="p">=</span> <span class="n">Set</span><span class="p">.[</span><span class="kt">int</span><span class="p">]</span> <span class="p">();</span>
+<span class="n">s2</span><span class="p">.</span><span class="n">Add</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span> <span class="c1">// OK</span>
+</pre>
+</div>
+
+Note that unlike in C# you don't have to specify this type, compiler&#xD;
+will happily do it for you in most cases.&#xD;
+
+<h4><span class="mw-headline" id="For_methods"><a name="For_methods" id="For_methods">For methods</a></span></h4>
+
+<p>This is also quite simple, when a method has generic parameters (like&#xD;
+the <code>Length</code> method above) you can supply them:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">l1</span> <span class="p">=</span> <span class="n">Length</span><span class="p">.[</span><span class="kt">string</span><span class="p">]</span> <span class="p">([</span><span class="s">"foo"</span><span class="p">,</span><span class="s">"bar"</span><span class="p">]);</span> <span class="c1">// OK</span>
+<span class="k">def</span> <span class="n">l2</span> <span class="p">=</span> <span class="n">Length</span><span class="p">.[</span><span class="kt">string</span><span class="p">]</span> <span class="p">([</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">]);</span> <span class="c1">// error</span>
+</pre>
+</div>
+
+
+<h4><span class="mw-headline" id="For_types_in_static_member_references"><a name="For_types_in_static_member_references" id="For_types_in_static_member_references">For types in static member references</a></span></h4>
+
+<p>And this one is more complicated. The type parameters are in scope also&#xD;
+in static members. This means the following code is valid:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="k">public</span> <span class="nf">bar</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="k">typeof</span> <span class="p">(</span><span class="err">'</span><span class="n">a</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>When you try to call <code>Foo.bar ()</code> the compiler cannot know&#xD;
+what <code>'a</code> you had in mind (in this case it will assume&#xD;
+<code>System.Object</code>). However you cannot do <code>Foo.bar.[int] ()</code>&#xD;
+because the <code>bar</code> method is not generic. Therefore&#xD;
+you can do: <code>Foo[int].bar ()</code>. You also can do: &#xD;
+<code>Foo.[int].bar ()</code>, so the dot is optional (but only in this case,&#xD;
+we know this sucks, we're working on it).&#xD;</p>
+
+<h3><span class="mw-headline" id="Constraints_on_type_variables"><a name="Constraints_on_type_variables" id="Constraints_on_type_variables">Constraints on type variables</a></span></h3>
+
+<p>For certain projects, like model-view-controller frameworks, it is &#xD;
+sometimes necessary for types to be substituted with typed variables &#xD;
+that also conform to some specific interface. We will address this &#xD;
+issue in more detail, as it is probably new for most readers.&#xD;</p>
+
+<p>For example, elements stored in an ordered binary tree must provide a &#xD;
+comparison method so they can be properly sorted. To do this, we define &#xD;
+an appropriate interface, <code>IComparable</code>, and then build a variant &#xD;
+structure, <code>Tree</code>, which defines a node that can store generic &#xD;
+type <code>'a</code>. Further, <code>Tree</code> requires that any <code>'a</code> &#xD;
+to be stored must implement the <code>IComparable</code> interface:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">interface</span> <span class="n">IComparable</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">{</span>
+  <span class="n">CompareTo</span> <span class="p">(</span><span class="n">elem</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">variant</span> <span class="nc">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> 
+  <span class="k">where</span> <span class="err">'</span><span class="n">a</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span>
+<span class="p">{</span>
+  <span class="p">|</span> <span class="n">Node</span> <span class="p">{</span>
+      <span class="n">left</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">];</span>
+      <span class="n">elem</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">;</span>
+      <span class="n">right</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Tip</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>In our variant declaration, we have added a <code>where</code> parameter to &#xD;
+further constrain the type of <code>'a</code> that the variant will accept. &#xD;
+Such lower bounds on type variables, where the type variables can occur in&#xD;
+types that bound them, are called <i>F-bounded polymorphism</i> in type theory. &#xD;</p>
+
+<p>In fact the <code>IComparable</code> interface is already defined in the &#xD;
+standard library, but that is beside the point.&#xD;</p>
+
+<p>Once we have ensured that all elements in the tree have both subtype &#xD;
+<code>IComparable</code> and a generic type <code>'a</code>, we can use the &#xD;
+<code>CompareTo</code> method to insert an element into a tree:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">module</span> <span class="nc">TreeOperations</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="n">Insert</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">(</span><span class="n">t</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">],</span> <span class="n">e</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span>
+    <span class="k">where</span> <span class="err">'</span><span class="n">a</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span>
+  <span class="p">{</span>
+    <span class="k">match</span> <span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="n">Node</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CompareTo</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">)</span>
+          <span class="n">Node</span> <span class="p">(</span><span class="n">Insert</span> <span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">e</span><span class="p">),</span> <span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">CompareTo</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+          <span class="n">Node</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">Insert</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+        <span class="k">else</span>
+          <span class="nf">Node</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+      <span class="p">|</span> <span class="n">Tip</span> <span class="p">=&gt;</span>
+        <span class="n">Node</span> <span class="p">(</span><span class="n">Tip</span> <span class="p">(),</span> <span class="n">e</span><span class="p">,</span> <span class="n">Tip</span> <span class="p">())</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Now, people familiar with C# or Java might ask, why not simply use something&#xD;
+like:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">interface</span> <span class="n">IComparable</span> <span class="p">{</span>
+  <span class="n">CompareTo</span> <span class="p">(</span><span class="n">elem</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">variant</span> <span class="nc">Tree</span>
+<span class="p">{</span>
+  <span class="p">|</span> <span class="n">Node</span> <span class="p">{</span>
+      <span class="n">left</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">;</span>
+      <span class="n">elem</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">;</span>
+      <span class="n">right</span> <span class="p">:</span> <span class="n">Tree</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Tip</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>But this is only half good. The most common use for a tree is to store &#xD;
+elements of some specific type, for example strings. We don't want integers &#xD;
+and strings to be stored in the same tree, for the very simple reason that &#xD;
+we cannot compare integers with strings in a reasonable way. Well, even if we &#xD;
+could, we plainly cannot predict what other types beside integers and strings &#xD;
+might implement <code>IComparable</code>, and thus have their value passed to &#xD;
+a string's <code>CompareTo</code>.&#xD;</p>
+
+<p>The above design makes it impossible to ensure statically whether we're using &#xD;
+the tree with consistent types. In this scheme, when inserting nodes to the &#xD;
+tree, we upcast all elements to <code>IComparable</code>, regardless of type. But &#xD;
+we will get a runtime exception when one type's <code>CompareTo</code> method is &#xD;
+passed an argument from another, incompatible type. The second drawback is that &#xD;
+when we extract elements out of the tree, we need to downcast them to a specific &#xD;
+type. This is another possibility for runtime errors in trees of mixed type.&#xD;</p>
+
+<p>So, to guarantee runtime safety in such a design, we would have to implement &#xD;
+<code>CompareTo</code> for all permutations of types we wish to support, plus &#xD;
+build a downcast that would somehow coerce all types into the target type. &#xD;
+Not only is this a lot of work, it is not likely to work very well. F-bounded &#xD;
+polymorphism neatly avoids this mess by ensuring not only conformance to an &#xD;
+interface, but to an underlying type as well. This two-layered checking makes &#xD;
+type safety possible in systems that are bounded by interface and type.&#xD;</p>
+
+<p>To better understand this issue, look at the following example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">interface</span> <span class="n">IFrobincatable</span> <span class="p">{</span>
+  <span class="n">Frobnicate</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">C1</span> <span class="p">:</span> <span class="n">IFrobincatable</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span> <span class="p">{}</span>
+  <span class="k">public</span> <span class="nf">Frobnicate</span> <span class="p">(</span><span class="n">_</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">C2</span> <span class="p">:</span> <span class="n">IFrobincatable</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">this</span> <span class="p">()</span> <span class="p">{}</span>
+  <span class="k">public</span> <span class="nf">Frobnicate</span> <span class="p">(</span><span class="n">_</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="k">module</span> <span class="nc">M</span> <span class="p">{</span>
+  <span class="n">f1</span><span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">]</span> <span class="p">(</span><span class="n">o</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span><span class="p">)</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span>
+    <span class="k">where</span> <span class="err">'</span><span class="n">a</span> <span class="p">:</span> <span class="n">IFrobincatable</span>
+  <span class="p">{</span>
+    <span class="n">o</span><span class="p">.</span><span class="n">Frobnicate</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span>
+    <span class="n">o</span>
+  <span class="p">}</span>
+
+  <span class="n">f2</span> <span class="p">(</span><span class="n">o</span> <span class="p">:</span> <span class="n">IFrobincatable</span><span class="p">)</span> <span class="p">:</span> <span class="n">IFrobincatable</span>
+  <span class="p">{</span>
+    <span class="n">o</span><span class="p">.</span><span class="n">Frobnicate</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span>
+    <span class="n">C1</span> <span class="p">()</span>
+  <span class="p">}</span>
+
+  <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">x1</span> <span class="p">=</span> <span class="n">f1</span> <span class="p">(</span><span class="n">C1</span> <span class="p">());</span> <span class="c1">// x1 : C1</span>
+    <span class="k">def</span> <span class="n">x2</span> <span class="p">=</span> <span class="n">f1</span> <span class="p">(</span><span class="n">C2</span> <span class="p">());</span> <span class="c1">// x2 : C2</span>
+    <span class="k">def</span> <span class="n">x3</span> <span class="p">=</span> <span class="n">f2</span> <span class="p">(</span><span class="n">C1</span> <span class="p">());</span> <span class="c1">// x3 : IFrobincatable</span>
+    <span class="k">def</span> <span class="n">x4</span> <span class="p">=</span> <span class="n">f2</span> <span class="p">(</span><span class="n">C2</span> <span class="p">());</span> <span class="c1">// x4 : IFrobincatable</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>In the <code>Main</code> function, calls to <code>f1</code> always return a value &#xD;
+of the type passed to it. However, <code>f2</code> doesn't give this guarantee: &#xD;
+even though the line <code>def x4 = f2 (C2 ())</code> passed in a value of type &#xD;
+<code>C2</code>, what it got back was <code>C1</code>. Even though <code>f2</code> &#xD;
+compiles, users of <code>f2</code> may get runtime errors or misbehavior &#xD;
+because their type assumptions aren't correctly supported.&#xD;</p>
+
+<h2><span class="mw-headline" id="Excercises"><a name="Excercises" id="Excercises">Excercises</a></span></h2>
+
+<h3><span class="mw-headline" id="One"><a name="One" id="One">One</a></span></h3>
+Write a version of the functional Set class above using (unbalanced) trees, like the ones we've seen last week. Use the <code>System.IComparable [T]</code> interface.&#xD;
+
+<h3><span class="mw-headline" id="Two"><a name="Two" id="Two">Two</a></span></h3>
+Write the following tail recursive functions:&#xD;
+<ul><li><code>Sum (l : list [int]) : int</code> returning sum of elements of the list&#xD;
+</li><li><code>RevMap ['a, 'b] (l : list ['a], f : 'a -&gt; 'b) : list ['b]</code> doing exactly what <code>Map</code> does, but returning reversed list&#xD;
+</li><li><code>RevFilter ['a] (l : list ['a], f : 'a -&gt; bool) : list ['a]</code> (similar)&#xD;
+</li><li><code>Map ['a, 'b] (l : list ['a], f : 'a -&gt; 'b) : list ['b]</code> using <code>RevMap</code> and <code>Rev</code> (remember to ensure f's are called on the list in the same order as with regular map)&#xD;
+</li></ul><h3><span class="mw-headline" id="Three"><a name="Three" id="Three">Three</a></span></h3>
+Rewrite the functions above (except for Map) to use <code>FoldLeft</code>.&#xD;
+&#xD;
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

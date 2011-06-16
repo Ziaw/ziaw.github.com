@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Indentation based syntax
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This was one of the <a class="internal present" href="/Open-projects.html">open projects</a>.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Enabling">Enabling</a></li><li><a href="#The_algorithm">The algorithm</a><ul><li><a href="#Exceptions">Exceptions</a></li><li><a href="#Further_reading">Further reading</a></li></ul></li><li><a href="#Example">Example</a></li><li><a href="#Alternative_clauses_in_a_match">Alternative clauses in a match</a></li></ul></td></tr></table><h2><span class="mw-headline" id="Enabling"><a name="Enabling" id="Enabling">Enabling</a></span></h2>
+
+<p>There are two ways of enabling the indentation syntax. One is to use the&#xD;
+<code>-i</code> compiler option. This enables it for all the files passed&#xD;
+to the compiler.&#xD;</p>
+
+<p>The other is to use <code>#pragma indent</code> at the top of the file&#xD;
+(comments and whitespace before are OK, anything else is NOT!).&#xD;</p>
+
+<h2><span class="mw-headline" id="The_algorithm"><a name="The_algorithm" id="The_algorithm">The algorithm</a></span></h2>
+
+<p>We maintain a stack of indentation strings. Whenever a new, non-empty line&#xD;
+is processed we check if:&#xD;
+</p><ul><li>its indentation is the same as the one on the top of the stack, in which case we add a semicolon to close the previous line&#xD;
+</li><li>otherwise the indentation has the top-one as prefix, in which case we push it on the stack and add an open brace&#xD;
+</li><li>otherwise, if the new indentation is somewhere on the stack, we pop elements looking for it and generate a close brace for each indentation popped&#xD;
+</li><li>otherwise it is an error&#xD;
+</li></ul><h3><span class="mw-headline" id="Exceptions"><a name="Exceptions" id="Exceptions">Exceptions</a></span></h3>
+When the line ends with backslash, in which case it is effectively merged&#xD;
+with the next one.&#xD;
+
+<p>When the line ends with ; or the next one begins with {, the ; is not added.&#xD;</p>
+
+<p>Inside [], () and {} the indentation processing is off.&#xD;</p>
+
+<h3><span class="mw-headline" id="Further_reading"><a name="Further_reading" id="Further_reading">Further reading</a></span></h3>
+
+<p>Most of the comments in <a target="_blank" href="http://www.secnetix.de/~olli/Python/block_indentation.hawk">Python: Myths about Indentation</a> also applies to our indentation syntax.&#xD;</p>
+
+<h2><span class="mw-headline" id="Example"><a name="Example" id="Example">Example</a></span></h2>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span>
+
+<span class="na">[Qux]</span> \
+<span class="k">class</span> <span class="nc">FooBar</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+    <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello"</span><span class="p">)</span>
+
+  <span class="k">static</span> <span class="nf">Foo</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">==</span> <span class="m">3</span><span class="p">)</span>
+      <span class="k">def</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span> <span class="p">*</span> <span class="m">42</span>
+      <span class="n">Foo</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">else</span>
+<span class="na">      [x]</span><span class="p">.</span><span class="n">Map</span> <span class="p">(</span><span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">x</span> <span class="p">*</span> <span class="m">2</span>
+      <span class="p">})</span>
+
+  <span class="k">static</span> <span class="nf">Bar</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">int</span>
+    <span class="k">def</span> <span class="n">foo</span> <span class="p">=</span> <span class="m">2</span> \
+       <span class="p">+</span> <span class="m">7</span> \
+       <span class="p">*</span> <span class="m">13</span>
+    <span class="n">foo</span>
+</pre>
+</div>
+
+
+<p>is translated to:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+
+<span class="na">[Qux]</span>
+<span class="k">class</span> <span class="nc">FooBar</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">static</span> <span class="nf">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="n">WriteLine</span> <span class="p">(</span><span class="s">"Hello"</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="k">static</span> <span class="nf">Foo</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">==</span> <span class="m">3</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">def</span> <span class="n">y</span> <span class="p">=</span> <span class="n">x</span> <span class="p">*</span> <span class="m">42</span><span class="p">;</span>
+      <span class="n">Foo</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="na">      [x]</span><span class="p">.</span><span class="n">Map</span> <span class="p">(</span><span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">x</span> <span class="p">*</span> <span class="m">2</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">static</span> <span class="nf">Bar</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">def</span> <span class="n">foo</span> <span class="p">=</span> <span class="m">2</span>
+       <span class="p">+</span> <span class="m">7</span>
+       <span class="p">*</span> <span class="m">13</span><span class="p">;</span>
+    <span class="n">foo</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Alternative_clauses_in_a_match"><a name="Alternative_clauses_in_a_match" id="Alternative_clauses_in_a_match">Alternative clauses in a match</a></span></h2>
+If you use alternative clauses in a match,&#xD;
+to match multiple cases to one result,&#xD;
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="s">"a"</span>
+  <span class="p">|</span> <span class="s">"aa"</span> <span class="p">=&gt;</span> <span class="m">1</span>
+  <span class="p">|</span> <span class="s">"b"</span>
+  <span class="p">|</span> <span class="s">"bb"</span> <span class="p">=&gt;</span> <span class="m">2</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="m">0</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>in indententation based syntax :&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="p">|</span> <span class="s">"a"</span>
+  <span class="p">|</span> <span class="s">"aa"</span> <span class="p">=&gt;</span> <span class="m">1</span>
+  <span class="p">|</span> <span class="s">"b"</span>
+  <span class="p">|</span> <span class="s">"bb"</span> <span class="p">=&gt;</span> <span class="m">2</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="m">0</span>
+</pre>
+</div>
+
+
+<p>it won't compile, you need to use line continuation ('\')&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span>
+  <span class="p">|</span> <span class="s">"a"</span> \
+  <span class="p">|</span> <span class="s">"aa"</span> <span class="p">=&gt;</span> <span class="m">1</span>
+  <span class="p">|</span> <span class="s">"b"</span> \
+  <span class="p">|</span> <span class="s">"bb"</span> <span class="p">=&gt;</span> <span class="m">2</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="m">0</span>
+</pre>
+</div>
+
+
+<p>or just use standard syntax with { .. } for this specific match:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">match</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="s">"a"</span>
+  <span class="p">|</span> <span class="s">"aa"</span> <span class="p">=&gt;</span> <span class="m">1</span>
+  <span class="p">|</span> <span class="s">"b"</span>
+  <span class="p">|</span> <span class="s">"bb"</span> <span class="p">=&gt;</span> <span class="m">2</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="m">0</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

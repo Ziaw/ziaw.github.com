@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Nemerlish
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Nemerlish">Nemerlish</a><ul><li><a href="#What_is_nemerlish_">What is nemerlish ?</a></li><li><a href="#Requirements">Requirements</a></li><li><a href="#Compilation_and_installation">Compilation and installation</a></li><li><a href="#Running">Running</a><ul><li><a href="#Before_you_see_the_prompt">Before you see the prompt</a></li><li><a href="#Interactive_use">Interactive use</a></li></ul></li><li><a href="#How_does_it_work_">How does it work ?</a></li><li><a href="#TODO">TODO</a><ul><li><a href="#Limitations_and_bugs">Limitations and bugs</a></li><li><a href="#Upcoming_changes">Upcoming changes</a></li></ul></li><li><a href="#Authors_and_contact">Authors and contact</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Nemerlish"><a name="Nemerlish" id="Nemerlish">Nemerlish</a></span></h2>
+<h3><span class="mw-headline" id="What_is_nemerlish_"><a name="What_is_nemerlish_" id="What_is_nemerlish_">What is nemerlish ?</a></span></h3>
+Nemerlish a.k.a. nemish.exe is an interactive Nemerle interpreter. It uses the regular compiler to evaluate subsequent input and provides various features to ease its interactive use.&#xD;
+<h3><span class="mw-headline" id="Requirements"><a name="Requirements" id="Requirements">Requirements</a></span></h3>
+Nemerlish doesn't have any specific software requirements to run, but it will make use of the <a target="_blank" href="http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html">readline</a> library if it's present in the system, providing support for persistent history and allowing the use of arrow keys, backspace, delete (and tab-completion in the, hopefuly near, future).&#xD;
+
+<p>Nemish is developed on the Mono platform on Linux, but should work on MS.NET/Windows without problems.&#xD;</p>
+
+<h3><span class="mw-headline" id="Compilation_and_installation"><a name="Compilation_and_installation" id="Compilation_and_installation">Compilation and installation</a></span></h3>
+Nemerlish sources are located in nemerle/tools/nemerlish directory in the ncc source distribution and <a target="_blank" href="https://nemerle.org/svn/nemerle/trunk/tools/nemerlish/">here</a> in the SVN repository. &#xD;
+To compile nemish, type:&#xD;
+<ul><li> <i>make</i>&#xD;
+</li></ul> in its source dir. Typing &#xD;
+<ul><li> <i>make install</i>&#xD;
+</li></ul> will install the executable under PREFIX/bin/nemish.exe and register Nemerle.Evaluation.dll with the GAC.&#xD;
+<h3><span class="mw-headline" id="Running"><a name="Running" id="Running">Running</a></span></h3>
+<ul><li> nemish.exe [-f]&#xD;
+</li></ul><h4><span class="mw-headline" id="Before_you_see_the_prompt"><a name="Before_you_see_the_prompt" id="Before_you_see_the_prompt">Before you see the prompt</a></span></h4>
+When you run nemish, it will first look for $HOME/.nemerlish_profile. If the file does not exist it will be created and appended with this default contents:&#xD;
+<div class="highlight"><pre><span class="cm">/* Open the namespace holding nemerlish-related properties. */</span>
+<span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Evaluation</span><span class="p">.</span><span class="n">Interpreter</span><span class="p">.</span><span class="n">Internals</span><span class="p">;</span>
+</pre>
+</div>
+
+.nemerlish_profile was meant to work similarly to its <a target="_blank" href="http://www.gnu.org/software/bash/bash.html">bash</a> counterpart. It's where you should put your favourite using statements, set prompts or put any Nemerle code you wish to have evaluated during startup. This file will not be deleted during the uninstallation.&#xD;
+
+<p>If you used the -f commandline option, all the files enumerated after it, will be evaluated as well.&#xD;</p>
+
+<p>Next, if readline is supported on your system, nemish will look for $HOME/.nemerlish_history and restore history from previous sessions. In case the file does not exist and readline is supported, it will be created and used from now on.&#xD;</p>
+
+<p>At this point you will be presented with a prompt.&#xD;
+</p><h4><span class="mw-headline" id="Interactive_use"><a name="Interactive_use" id="Interactive_use">Interactive use</a></span></h4>
+Each expression you enter, should be appended with ";;". This allows nemish to distinguish, whether you wish to enter another line of code, or to commit what you've written so far.&#xD;
+
+<p>The first thing for new users to type in is "Help;;". It will give a brief description of available properties such as PS1 (the primary prompt, default "- "), PS2 (the secondary prompt, default "= "), Ref (the assemblies to link, default "") or Help itself. Besides these, you can use "!;;", to run the default system shell, or "!command;;", to run any external command.&#xD;</p>
+
+<p>After each commited computation newly declared variables' names, types and values (if any) will be printed. The return value of the whole expression will be assigned to a special variable "it" (as in <a target="_blank" href="http://www.smlnj.org/">SML of NJ</a>). All the variables and functions will remain available during further computations.&#xD;</p>
+
+<p>To quit, use ^c (ctrl-c).&#xD;
+</p><h2><span class="mw-headline" id="How_does_it_work_"><a name="How_does_it_work_" id="How_does_it_work_">How does it work ?</a></span></h2>
+Nemish sources are compiled into two assemblies - Nemerle.Evaluation.dll (eval.n) and nemish.exe (main.n, interp.n, readline.n).&#xD;
+
+<p>Once all the above, described in the "Running" section takes place, nemish starts taking input. When it's commited with ";;\n", it's parsed for certain special cases (there are currently two - "using" statements and "!" statements). After that, the code is passed to the Evaluator, which prepends it with declarations of all the memoized variables/functions from previous iterations, wraps it all up in a class and compiles in memory using ncc. All the variables are once again collected for future use.&#xD;</p>
+
+<p>The evaluated code is compiled with both Nemerle.Evaluation.dll and nemish.exe linked. The former, so that the memoized variables, stored by the evaluator, can be looked up; the latter so that the properties from interp.n (PS1, PS2, Help, Ref, etc.) can be made use of.&#xD;
+</p><h2><span class="mw-headline" id="TODO"><a name="TODO" id="TODO">TODO</a></span></h2>
+<h3><span class="mw-headline" id="Limitations_and_bugs"><a name="Limitations_and_bugs" id="Limitations_and_bugs">Limitations and bugs</a></span></h3>
+<ul><li> Crashes with ncc 0.3.2 (this probably won't be resolved until after generics are implemented, that is until the next ncc version).&#xD;
+</li><li> Classes cannot be declared by entering in the interpreter&#xD;
+</li><li> Some internal newline issues&#xD;
+</li></ul><h3><span class="mw-headline" id="Upcoming_changes"><a name="Upcoming_changes" id="Upcoming_changes">Upcoming changes</a></span></h3>
+<ul><li> Code clean-ups (there's some ugly stuff, that could be made a little prettier)&#xD;
+</li><li> Make use of the lexer/preparser to handle using statements and comments (this should also fix the newline problems AFAIR)&#xD;
+</li><li> Drop wrapping code in a class, now top-level statements are allowed and that's just perfect for nemish (this will resolve the problem with class declarations)&#xD;
+</li><li> Drop compiling things multiple times, a separate assembly should be compiled in each iteration and linked in the next ones. This will prevent unnecessary recomputations.&#xD;
+</li><li> Lots of features such as tab-completion, a help for each documented method, a vim plugin for code evaluation using nemish and others.&#xD;
+</li></ul><h2><span class="mw-headline" id="Authors_and_contact"><a name="Authors_and_contact" id="Authors_and_contact">Authors and contact</a></span></h2>
+Nemerlish is developed by Wojtek "d" Knapik (d/hell.art.pl, d/terror.org.pl), with the invaluable help of <a target="_blank" href="http://nemerle.org/User:Nazgul">Kamil Skalski</a>, both present on Nemerle <a target="_blank" href="http://nemerle.org/Authors_and_Contact#Mailing_lists">mailing lists</a> and <a target="_blank" href="http://nemerle.org/Authors_and_Contact#IRC">irc channel</a>.
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

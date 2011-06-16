@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Grok The rest
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+This page is a part of the <a class="internal present" href="/Grokking-Nemerle.html">Grokking Nemerle</a> tutorial.&#xD;</p>
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Named_parameters">Named parameters</a></li><li><a href="#The_void_literal">The void literal</a></li><li><a href="#Operator_overloading">Operator overloading</a></li><li><a href="#Macros">Macros</a><ul><li><a href="#Core_language_constructs">Core language constructs</a></li><li><a href="#Design_by_contract">Design by contract</a></li><li><a href="#Other_examples">Other examples</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Named_parameters"><a name="Named_parameters" id="Named_parameters">Named parameters</a></span></h2>
+
+<p>This feature (in this form) comes from python. When you call a function&#xD;
+you can name some of its parameters (which allows putting them in a&#xD;
+different order than in the definition).&#xD;</p>
+
+<div class="highlight"><pre><span class="n">frobnicate</span> <span class="p">(</span><span class="n">foo</span> <span class="p">:</span> <span class="kt">int</span><span class="p">,</span> <span class="n">do_qux</span> <span class="p">:</span> <span class="kt">bool</span><span class="p">,</span> 
+                       <span class="n">do_baz</span> <span class="p">:</span> <span class="kt">bool</span><span class="p">,</span> 
+                       <span class="n">do_bar</span> <span class="p">:</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">:</span> <span class="kt">int</span>
+<span class="p">{</span>
+  <span class="c1">// this is completely meaningless</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">do_qux</span> <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="n">do_baz</span><span class="p">)</span> <span class="n">foo</span> <span class="p">*</span> <span class="m">2</span>
+  <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">do_bar</span><span class="p">)</span> <span class="n">foo</span> <span class="p">*</span> <span class="m">7</span>
+  <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">do_baz</span><span class="p">)</span> <span class="n">foo</span> <span class="p">*</span> <span class="m">13</span>
+  <span class="k">else</span> <span class="m">42</span>
+<span class="p">}</span>
+
+<span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="c1">// Parameters' names can be omitted.</span>
+  <span class="k">def</span> <span class="n">res1</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="m">7</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="k">false</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+  
+  <span class="c1">// This is the intended usage -- the first </span>
+  <span class="c1">// (main) parameter comes without a name</span>
+  <span class="c1">// and the following flags with names</span>
+  <span class="k">def</span> <span class="n">res2</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="m">7</span><span class="p">,</span> <span class="n">do_qux</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+                            <span class="n">do_baz</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span> 
+                            <span class="n">do_bar</span> <span class="p">=</span> <span class="k">true</span><span class="p">);</span>
+  <span class="c1">// You can however name every parameter:</span>
+  <span class="k">def</span> <span class="n">res3</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="n">foo</span> <span class="p">=</span> <span class="m">7</span><span class="p">,</span> <span class="n">do_qux</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> 
+                         <span class="n">do_baz</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span> <span class="n">do_bar</span> <span class="p">=</span> <span class="k">true</span><span class="p">);</span>
+  <span class="c1">// And permute them:</span>
+  <span class="k">def</span> <span class="n">res3</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="n">do_qux</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">do_bar</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> 
+                         <span class="n">do_baz</span> <span class="p">=</span> <span class="k">false</span><span class="p">,</span> <span class="n">foo</span> <span class="p">=</span> <span class="m">7</span><span class="p">);</span>
+  <span class="c1">// You can also omit names for any number of leading </span>
+  <span class="c1">// parameters and permute the trailing ones.</span>
+  <span class="k">def</span> <span class="n">res2</span> <span class="p">=</span> <span class="n">frobnicate</span> <span class="p">(</span><span class="m">7</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span>
+                            <span class="n">do_bar</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+                            <span class="n">do_baz</span> <span class="p">=</span> <span class="k">false</span><span class="p">);</span>
+  <span class="p">()</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The rules behind named parameters are simple:&#xD;</p>
+
+<ul><li> named parameters must come after all unnamed (positional) parameters&#xD;
+</li><li> positional parameters are assigned first&#xD;
+</li><li> the remaining parameters are assigned based on their names &#xD;
+</li></ul> &#xD;
+Named parameters can be used only when names of parameters are known (which basically mean they do not work in conjunction with functional values).&#xD;
+
+<h2><span class="mw-headline" id="The_void_literal"><a name="The_void_literal" id="The_void_literal">The void literal</a></span></h2>
+
+<p>The void literal is written: ().&#xD;</p>
+
+<p>The void literal is quite a tricky thing, since it represents the&#xD;
+only value of type <code>void</code>, which, judging from the name,&#xD;
+should be ergh... void. In fact, in some other functional languages&#xD;
+this type is called <code>unit</code>, but in Nemerle the name comes from&#xD;
+<code>System.Void</code> and the <code>void</code> type is an alias for it.&#xD;</p>
+
+<p>In C# the <code>void</code> type is used as a return type of functions. It&#xD;
+does not make much sense to use it elsewhere. It could be needed, however,&#xD;
+if, for example, you want to use the <code>Hashtable [a, b]</code> type as&#xD;
+a set representation of strings. You can use <code>Hashtable [string,&#xD;void]</code> then. And this is the place to use the void value -- when&#xD;
+you call a set method, you need to pass something as a value to set --&#xD;
+and you pass the void value.&#xD;</p>
+
+<p>You can also use the void value to return it from a function -- as you&#xD;
+remember, the return value of function is the last expression in its&#xD;
+body. However, in most cases the last expression will already have the&#xD;
+right <code>void</code> type.&#xD;</p>
+
+<h2><span class="mw-headline" id="Operator_overloading"><a name="Operator_overloading" id="Operator_overloading">Operator overloading</a></span></h2>
+
+<p>You can overload existing operators or add new ones simply by specifying&#xD;
+them as a static method in some type. The name of method should be&#xD;
+some quoted (with <code>@</code>) operator. For example, the following&#xD;
+class definition:&#xD;</p>
+
+<div class="highlight"><pre> <span class="k">class</span> <span class="nc">Operand</span> <span class="p">{</span>
+   <span class="k">public</span> <span class="n">val</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+   <span class="k">public</span> <span class="nf">this</span> <span class="p">(</span><span class="n">v</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span> <span class="n">val</span> <span class="p">=</span> <span class="n">v</span> <span class="p">}</span>
+
+   <span class="k">public</span> <span class="k">static</span> <span class="p">&lt;-&lt;</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="n">Operand</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">Operand</span><span class="p">)</span> <span class="p">:</span> <span class="n">Operand</span> <span class="p">{</span>
+     <span class="n">Operand</span> <span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">val</span> <span class="p">+</span> <span class="n">y</span><span class="p">.</span><span class="n">val</span><span class="p">);</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>contains the <code>&lt;-&lt;</code> binary operator processing <code>Operand</code>&#xD;
+objects. It can be used like:&#xD;</p>
+
+<div class="highlight"><pre> <span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="n">Operand</span> <span class="p">(</span><span class="m">2</span><span class="p">);</span>
+ <span class="k">def</span> <span class="n">y</span> <span class="p">=</span> <span class="n">Operand</span> <span class="p">(</span><span class="m">3</span><span class="p">);</span>
+ <span class="k">def</span> <span class="n">z</span> <span class="p">=</span> <span class="n">x</span> <span class="p">&lt;-&lt;</span> <span class="n">y</span><span class="p">;</span>
+ <span class="k">assert</span> <span class="p">(</span><span class="n">z</span><span class="p">.</span><span class="n">val</span> <span class="p">==</span> <span class="m">5</span><span class="p">);</span>
+</pre>
+</div>
+
+
+<p>Unary operators can be created by giving only one parameter to the method.&#xD;</p>
+
+<h2><span class="mw-headline" id="Macros"><a name="Macros" id="Macros">Macros</a></span></h2>
+
+<p>Nemerle has very powerful code-generating macros. They are more akin&#xD;
+to Lisp macros than macros found in C preprocessor. We are not going&#xD;
+to explain here how to write macros (if you are curious, please see&#xD;
+<a class="internal absent" href="/macros-tutorial.html">Macros</a>), but will describe a few often used macros.&#xD;</p>
+
+<h3><span class="mw-headline" id="Core_language_constructs"><a name="Core_language_constructs" id="Core_language_constructs">Core language constructs</a></span></h3>
+
+<p>First of all, <code>if</code>, <code>while</code>, <code>for</code>, <code>foreach</code>, &#xD;
+<code>when</code>, <code>using</code>, <code>lock</code>, etc. are all macros.&#xD;</p>
+
+<p>When you write code like:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="p">(</span><span class="n">stream</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">FileStream</span> <span class="p">(</span><span class="s">"file.txt"</span><span class="p">))</span> 
+<span class="p">{</span>
+  <span class="k">lock</span> <span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>it first gets transformed into&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">stream</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">FileStream</span> <span class="p">(</span><span class="s">"file.txt"</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">.</span><span class="n">FileMode</span><span class="p">.</span><span class="n">Open</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Monitor</span><span class="p">.</span><span class="n">Enter</span> <span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="p">...</span>
+  <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Monitor</span><span class="p">.</span><span class="n">Exit</span> <span class="p">(</span><span class="k">this</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+  <span class="k">def</span> <span class="n">disp</span> <span class="p">=</span> <span class="p">(</span><span class="n">stream</span> <span class="p">:</span> <span class="n">System</span><span class="p">.</span><span class="n">IDisposable</span><span class="p">);</span>
+  <span class="k">when</span> <span class="p">(</span><span class="n">disp</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+    <span class="n">disp</span><span class="p">.</span><span class="n">Dispose</span> <span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The transformation is done by macros, which also introduce <i>using</i> and <i>lock</i> syntax to the language.&#xD;</p>
+
+<p>The greatest thing is that programmer is allowed to define his own macros, introducing his <a class="internal absent" href="/own-syntax.html">Syntax extensions</a>.&#xD;</p>
+
+<h3><span class="mw-headline" id="Design_by_contract"><a name="Design_by_contract" id="Design_by_contract">Design by contract</a></span></h3>
+
+<p><a class="internal present" href="/Design-by-contract-macros.html">Design by contract macros</a> allows you to specify assertions about your program. In other languages they are usually laying around in comments, while in Nemerle you can explicitly decorate code. This way <i>contracts</i> are instantly checked during program execution.&#xD;</p>
+
+<h3><span class="mw-headline" id="Other_examples"><a name="Other_examples" id="Other_examples">Other examples</a></span></h3>
+
+<p>Other examples of macros:&#xD;</p>
+
+<ul><li> <code>printf</code>, <code>sprintf</code> -- uses a similar syntax to the same function in C, but is checked at the compile time&#xD;
+</li><li> <code>scanf</code> -- likewise&#xD;
+</li><li> <code>print</code> -- it does the $-expansion known from shell or perl&#xD;
+</li><li> <code>assert</code> -- much like the C macro&#xD;
+</li></ul> &#xD;
+You can see a <a class="internal absent" href="/page-about-macro-usage.html">MacroUse</a> for some other high level examples.
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

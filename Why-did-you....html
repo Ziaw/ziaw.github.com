@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Why did you...
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><div>&#xD;<i>To light a candle is to cast a shadow.</i><br />&#xD;from <a target="_blank" href="http://en.wikipedia.org/wiki/A_Wizard_of_Earthsea">A Wizard of Earthsea</a> by &#xD;<a target="_blank" href="http://en.wikipedia.org/wiki/Ursula_K._Le_Guin">Ursula K. Le Guin</a>&#xD;</div>&#xD;
+
+<table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Introduction">Introduction</a></li><li><a href="#Why">Why?</a><ul><li><a href="#Platform">Platform</a></li><li><a href="#Comparing_to_C">Comparing to C#...</a></li><li><a href="#Comparing_to_F_and_SMLNET">Comparing to F# and SML.NET...</a></li><li><a href="#Dynamic_types">Dynamic types</a></li><li><a href="#Macros_and_syntax_extensions">Macros and syntax extensions</a></li></ul></li><li><a href="#Syntax_questions">Syntax questions</a><ul><li><a href="#Function_call_requires_">Function call requires ()</a></li><li><a href="#null_value">null value</a></li><li><a href="#Sequence_in_">Sequence in {}</a></li><li><a href="#if_requires_else">if requires else</a></li></ul></li><li><a href="#Where_did_X_go">Where did <b>X</b> go?</a><ul><li><a href="#Partial_application">Partial application</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Introduction"><a name="Introduction" id="Introduction">Introduction</a></span></h2>
+
+<p>We'll try here to answer some of controversial thoughts you might &#xD;
+have after looking on Nemerle feature set.&#xD;</p>
+
+<h2><span class="mw-headline" id="Why"><a name="Why" id="Why">Why?</a></span></h2>
+
+<h3><span class="mw-headline" id="Platform"><a name="Platform" id="Platform">Platform</a></span></h3>
+
+<p>Q: Why use CLI/.NET?&#xD;</p>
+
+<p>Mainly for interop reasons. There are number of CLI libraries&#xD;
+and bindings out there already. There is going to be more and&#xD;
+more.&#xD;</p>
+
+<p>Surely we'll loose WRT to compiled OCaml in terms of&#xD;
+performance, at least until JIT's are made perfect, but it is&#xD;
+easily possible to write a Gtk, GNOME, Windows GUI or even KDE&#xD;
+application, we can embed Nemerle into ASP.NET web pages and&#xD;
+there are more and more applications and libraries supporting&#xD;
+.NET now.  It is also possible to write libraries for other&#xD;
+.NET languages, like C# or VB.NET.&#xD;</p>
+
+<p>We have also avoided significant development costs, because&#xD;
+of this decision (no need for low-level compiler, JIT, the runtime&#xD;
+library).&#xD;</p>
+
+<h3><span class="mw-headline" id="Comparing_to_C"><a name="Comparing_to_C" id="Comparing_to_C">Comparing to C#...</a></span></h3>
+
+<p>Q: Why use Nemerle and not C#?&#xD;</p>
+
+<p>Nemerle is probably going to be used in some applications,&#xD;
+where C# would be otherwise chosen. Why one would use Nemerle&#xD;
+and not established, well described C#?&#xD;</p>
+
+<p>In Nemerle you can do mostly everything you would have done in C#.&#xD;
+<i>mostly</i> refers to unsafe code and maybe some C-interfacing&#xD;
+tricks. But of course you can do more:&#xD;</p>
+
+<ul><li>Program in a functional style.  It is sometimes very handy, once you get used to it.  Functions are first class values so you can pass them to other functions easily (this is much like delegates but with better syntax and used more widely).&#xD;
+</li><li>Variants with pattern matching. This feature is very useful when describing tree-like structures like arithmetic expressions or XML. This tends to be much shorter and clearer than in C#, and thanks to the warning about non-exhaustive matching -- much safer.&#xD;
+</li><li>Syntax extensions. This feature allows programmers to customize Nemerle to their needs. If they want to have special type of loop or some notational shortcut, they just add it to the language.&#xD;
+</li><li>Macros allow you to add compile-time executed code to your program. This gives wide range of possibilities to verify Domain-specific languages (like SQL, regular expressions) employed by the project. Using Aspects-oriented programming (being implemented with macros) allows skilled programmers to write programs operating on classes and saves everyone typing the same methods for the Nth time for the Nth class.&#xD;
+</li><li>Type inference allows much easier prototyping and makes code shorter (less to read and type):&#xD;
+</li></ul><div class="highlight"><pre><span class="n">Foo</span><span class="p">.</span><span class="n">Bar_long_name</span> <span class="p">&lt;</span><span class="n">Baz</span><span class="p">.</span><span class="n">Qux</span><span class="p">&gt;</span> <span class="n">x</span> <span class="p">=</span> 
+  <span class="k">new</span> <span class="n">Foo</span><span class="p">.</span><span class="n">Bar_long_name</span> <span class="p">&lt;</span><span class="n">Baz</span><span class="p">.</span><span class="n">Qux</span><span class="p">&gt;</span> <span class="p">(</span><span class="m">10</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>you write:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="n">Foo</span><span class="p">.</span><span class="n">Bar_long_name</span> <span class="p">(</span><span class="m">10</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Comparing_to_F_and_SMLNET"><a name="Comparing_to_F_and_SMLNET" id="Comparing_to_F_and_SMLNET">Comparing to F# and SML.NET...</a></span></h3>
+
+<p>Q: Why use Nemerle and not F# or SML.NET?&#xD;</p>
+
+<p><a target="_blank" href="http://research.microsoft.com/projects/ilx/fsharp.aspx">F#</a>&#xD;
+is a .NET port of subset of <a target="_blank" href="http://caml.inria.fr">OCaml</a>.&#xD;
+<a target="_blank" href="http://www.cl.cam.ac.uk/Research/TSG/SMLNET/">SML.NET</a>&#xD;
+is <a target="_blank" href="http://en.wikipedia.org/wiki/SML">Standard ML</a> '97 implementation for the&#xD;
+.NET.  Both are languages from the&#xD;
+<a target="_blank" href="http://en.wikipedia.org/wiki/ML_programming_language">ML</a> family.&#xD;</p>
+
+<p>We believe Nemerle is far easier to grasp for programmer&#xD;
+who has not been exposed to ML-like languages before (due to more&#xD;
+bracy syntax and a few other design choices). At the&#xD;
+same time the functional capabilities provided by the three&#xD;
+languages are mostly the same.&#xD;</p>
+
+<p>Nemerle is a new language. We had CLS interop in mind since&#xD;
+the very beginning. OTOH both SML.NET and F# are ports of existing&#xD;
+languages, with a retrofitted CLS layer. In our opinion&#xD;
+this does not play that well together.&#xD;</p>
+
+<h3><span class="mw-headline" id="Dynamic_types"><a name="Dynamic_types" id="Dynamic_types">Dynamic types</a></span></h3>
+
+<p>Q: Why dynamic types? Don't they impact performance?&#xD;</p>
+
+<p>By dynamic types we understand the fact that all values carry&#xD;
+runtime types. These types can be queried during runtime, and&#xD;
+dynamic casts can be performed, raising exceptions in case&#xD;
+of type mismatch.&#xD;</p>
+
+<p>Probably yes. But dynamic types are inherent part of CLI so&#xD;
+there is no <b>performance</b> reason to ban them (we would&#xD;
+have to pay performance cost anyway). Additionally, dynamic&#xD;
+types are useful in some contexts, like dynamic loading of&#xD;
+classes (or rather dynamic construction of objects).&#xD;</p>
+
+<p>For example what static type would you give to polymorphic&#xD;
+de-serialization function? In OCaml it has type in_channel -&gt; 'a which is obviously wrong.&#xD;</p>
+
+<p>Of course there are several &#xD;
+<a target="_blank" href="http://www.catb.org/~esr/jargon/html/R/religious-issues.html">religious issues</a>&#xD;
+about dynamic typing. Our answer is very simple: &#xD;
+you don't need dynamic types -- don't use them.&#xD;</p>
+
+<h3><span class="mw-headline" id="Macros_and_syntax_extensions"><a name="Macros_and_syntax_extensions" id="Macros_and_syntax_extensions">Macros and syntax extensions</a></span></h3>
+
+<p>Q: What syntax extensions are good for? Programmers are writing &#xD;
+<i>in languages</i> not <i>writing languages</i>.&#xD;</p>
+
+<p>That's not true :-) Everyone programming in <b>X</b>&#xD;
+had an idea how to change this funny little annoying thing&#xD;
+in <b>X</b>. &#xD;</p>
+
+<p>Of course not everybody is going to do it, but we intend to&#xD;
+provide a library of useful language extensions along with Nemerle.&#xD;
+See the <a class="internal absent" href="/interesting-examples.html">MacroUse</a>.&#xD;</p>
+
+<p>Macros gives you powerful tool for research in programming languages &#xD;
+design and implementation of new ideas like &#xD;
+<a target="_blank" href="http://research.microsoft.com/~nick/polyphony/">Join Calculus</a>.&#xD;
+You need not to create entire compiler from scratch, but simple write&#xD;
+a function transforming code and include using My.NewLanguageFeature;&#xD;
+directive in final program.&#xD;</p>
+
+<p>It is possible to define functions that we're unable&#xD;
+to encode in our type-system. Ordinary example is C-like, but type-safe&#xD;
+printf function.&#xD;</p>
+
+<p>We also allow extending language syntax to some degree. However, it is&#xD;
+quite difficult to do this &#xD;
+<a target="_blank" href="http://www.catb.org/~esr/jargon/html/entry/Right-Thing.html">The Right Way</a>. &#xD;
+Extending syntax in Nemerle isn't possible in the most general way, &#xD;
+but it allows introducing keyword patterns and also deffering parsing of parts&#xD;
+of token stream.&#xD;</p>
+
+<h2><span class="mw-headline" id="Syntax_questions"><a name="Syntax_questions" id="Syntax_questions">Syntax questions</a></span></h2>
+
+<p>This section will try to answer a few questions about the Nemerle syntax,&#xD;
+and sometimes semantics behind it.&#xD;</p>
+
+<h3><span class="mw-headline" id="Function_call_requires_"><a name="Function_call_requires_" id="Function_call_requires_">Function call requires ()</a></span></h3>
+
+<p>Q: Why does function call require ()? f x looks&#xD;
+much better than f(x), and in ML you can use both forms.&#xD;</p>
+
+<p>Function call requires (). It looks like this:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">);</span>
+<span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">f</span> <span class="p">();</span>
+</pre>
+</div>
+
+
+<p>Form without () (i.e. f x) is not allowed.&#xD;</p>
+
+<p>There are some good reasons for that. The main one is that it &#xD;
+allows for better overloading resolution (simply when looking&#xD;
+at f (x, y) you know you need a function with 2 parameters,&#xD;
+and it's not a partial application). Overloading is likely&#xD;
+to occur quite frequently in CLI. Another reason is that following code&#xD;
+will give you a parse error, not a weird typing error:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="cm">/* forgot ';' here */</span>
+<span class="n">g</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>Using this syntax it is not possible to do partial application,&#xD;
+but see <a class="internal absent" href="/below.html">Why_did_you...#Partial_application</a>.&#xD;</p>
+
+<h3><span class="mw-headline" id="null_value"><a name="null_value" id="null_value">null value</a></span></h3>
+
+<p>Q: There is a special 'a option type in ML, which can be&#xD;
+Some x or None and is used where a pointer, that&#xD;
+can be null, would have been used in C-like languages.  So what&#xD;
+is null value good for? You can have option&#xD;
+type in Nemerle too.&#xD;</p>
+
+<p>Of course you can, you even have it in standard library.&#xD;
+It's the suggested way of handling this matter. &#xD;</p>
+
+<p><b>But</b> think about external functions that can&#xD;
+return references.  By CLI standards they can also&#xD;
+return null. Thus it would require to have&#xD;
+all functions returning foo in CLI to return&#xD;
+option (foo) in Nemerle, and you would end up using&#xD;
+val_of function over and over again, resulting in&#xD;
+None_value (or something) exceptions instead of&#xD;
+Null_pointer_exception.&#xD;</p>
+
+<p>This is why we have null in the language. In fact it&#xD;
+is quite common in Nemerle to have a feature just for interop&#xD;
+reasons.&#xD;</p>
+
+<h3><span class="mw-headline" id="Sequence_in_"><a name="Sequence_in_" id="Sequence_in_">Sequence in {}</a></span></h3>
+
+<p>Q: Why a sequence needs to be enclosed in {}? Wouldn't it&#xD;
+be possible to assign some priority to the ; operator&#xD;
+and treat this as an expression?&#xD;</p>
+
+<p>It would be possible, but it's quite error-prone and misleading.&#xD;
+In simple examples it's OK:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">let</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span> <span class="n">in</span> <span class="n">g</span> <span class="n">x</span><span class="p">;</span> <span class="n">h</span> <span class="n">x</span> <span class="cm">/* Caml */</span>
+<span class="p">{</span> <span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span> <span class="n">g</span> <span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">h</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">}</span>     <span class="cm">/* Nemerle */</span>
+</pre>
+</div>
+
+
+<p>But consider the following snippet of Caml:&#xD;</p>
+
+<div class="highlight"><pre><span class="cm">/* Correct */</span>
+<span class="k">if</span> <span class="n">x</span> <span class="p">&gt;</span> <span class="n">y</span> <span class="n">then</span>
+  <span class="n">let</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span> <span class="n">in</span>
+  <span class="n">f</span> <span class="n">x</span><span class="p">;</span>
+  <span class="n">g</span> <span class="n">x</span>
+<span class="k">else</span>
+  <span class="nf">h</span> <span class="p">()</span>
+
+<span class="cm">/* Parse error */</span>
+<span class="k">if</span> <span class="n">x</span> <span class="p">&gt;</span> <span class="n">y</span> <span class="n">then</span>
+  <span class="n">f</span> <span class="m">3</span><span class="p">;</span>
+  <span class="n">g</span> <span class="m">3</span>
+<span class="k">else</span> 
+  <span class="nf">h</span> <span class="p">()</span>
+</pre>
+</div>
+
+
+<p>Thanks to ; being used only in clear context it is not&#xD;
+possible in Nemerle.&#xD;</p>
+
+<p>This issue is resolved in similar manner in OCaml Revised Syntax.&#xD;</p>
+
+<h3><span class="mw-headline" id="if_requires_else"><a name="if_requires_else" id="if_requires_else">if requires else</a></span></h3>
+
+<pre> &#xD;</pre>
+
+<p>Q: Why does if require else? In OCaml one doesn't&#xD;
+need to write else ().&#xD;</p>
+
+<p>To avoid confusing grammar ambiguities. Besides, this&#xD;
+is a <b>functional</b> language, what is if&#xD;
+<b>expression</b> without else?&#xD;</p>
+
+<p>You can also use when and unless macros for&#xD;
+if without else or else without&#xD;
+if.&#xD;</p>
+
+<h2><span class="mw-headline" id="Where_did_X_go"><a name="Where_did_X_go" id="Where_did_X_go">Where did <b>X</b> go?</a></span></h2>
+A few explanations about how to do various things in Nemerle.&#xD;
+
+<h3><span class="mw-headline" id="Partial_application"><a name="Partial_application" id="Partial_application">Partial application</a></span></h3>
+
+<p>Q: How to make a partial function application?&#xD;</p>
+
+<p>You simply need to use the so called eta-long form:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">f</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">};</span>
+<span class="k">def</span> <span class="nf">g</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">fun</span> <span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">}</span> <span class="p">};</span>
+
+<span class="k">def</span> <span class="nf">plus5</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">fun</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="m">5</span> <span class="p">+</span> <span class="n">x</span> <span class="p">}</span> <span class="p">};</span>
+</pre>
+</div>
+
+
+<p>This prevents partial application bugs, which would be common&#xD;
+in presence of overloading.&#xD;</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Compiler internals
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Introduction">Introduction</a></li><li><a href="#Compiler_passes">Compiler passes</a><ul><li><a href="#Loading_external_libraries">Loading external libraries</a></li><li><a href="#Lexical_analysis">Lexical analysis</a></li><li><a href="#Preparser">Preparser</a></li><li><a href="#Parser">Parser</a></li><li><a href="#Object_hierarchy_building">Object hierarchy building</a><ul><li><a href="#Data_structures">Data structures</a></li></ul></li><li><a href="#Typing_of_method_bodies">Typing of method bodies</a></li><li><a href="#Matching_compiler">Matching compiler</a></li><li><a href="#IL_generation">IL generation</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Introduction"><a name="Introduction" id="Introduction">Introduction</a></span></h2>
+
+<p>This page is to help anyone get into the code base of Nemerle compiler. It is already a quite large project and many explanations are required.&#xD;</p>
+
+<h2><span class="mw-headline" id="Compiler_passes"><a name="Compiler_passes" id="Compiler_passes">Compiler passes</a></span></h2>
+
+<p>Compiling process is divided into a few more or less separate phases. Most of them transform some representation of compiled program and when connected together they yield the binary executable. This gluing of compiler passes is done in <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/passes.n">passes.n</a> and can be customized to some degree by changing <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/CompilationOptions.n">compilation options</a>&#xD;</p>
+
+<p>We now describe each pass in order in which it appears in compilation of common program.&#xD;</p>
+
+<h3><span class="mw-headline" id="Loading_external_libraries"><a name="Loading_external_libraries" id="Loading_external_libraries">Loading external libraries</a></span></h3>
+
+<p>Before we actually load and analyse some source code, we take a look at options and library references specified from command line. We need to load every class present in libraries specified by user (like <i>-ref:bla.dll</i>) and needed by compiler (like <i>mscorlib.dll</i>).&#xD;</p>
+
+<p>All the code devoted to loading external metadata is gathered in <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/external/">ncc/external/</a>. Here for every assembly we load classes and place them in global namespace tree (described in <a class="internal absent" href="/hierarchy-building.html">#Object hierarchy building</a>). We analyze the contents of classes lazily, when they are referenced somewhere in program. When this occurs for some class <i>Foo</i> we build a special subclass of <a target="_blank" href="http://nemerle.org/doc/Nemerle.Compiler.TypeInfo.html">Nemerle.Compiler.TypeInfo</a>, which contains information about external type.&#xD;</p>
+
+<p>In this stage also macros are loaded and placed in namespace tree. This is important, because macros introduce new syntax, so when we begin parsing also syntax extensions associated with macros are loaded. The nice thing is that you can tell compiler to load macros from different library than default <code>Nemerle.Macros.dll</code> and this way you can change quite much of Nemerle's syntax.&#xD;</p>
+
+<h3><span class="mw-headline" id="Lexical_analysis"><a name="Lexical_analysis" id="Lexical_analysis">Lexical analysis</a></span></h3>
+
+<p>Lexer transforms text from compiled files into so called <i>tokens</i>, which simply represent stuff like identifiers, numbers, operators, etc. Lexing is done inside <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/parsing/Lexer.n">lexer classes</a> and consists of loading a file from disk, going through every characted in file, ignoring whitespaces (but counting them to create correct locations information) and returning tokens one by one when requested.&#xD;</p>
+
+<p>One thing to note here is that lexer can be requested to add a new keyword for recognition - it is because our macros allow loading new syntax with new keywords during parsing of file (by <code>using Name.Space;</code> directive).&#xD;</p>
+
+<p>We also have special lexer subclasses, which analyze given string instead of file from disk (<a target="_blank" href="http://nemerle.org/doc/Nemerle.Compiler.LexerString.html">LexerString</a>).&#xD;</p>
+
+<h3><span class="mw-headline" id="Preparser"><a name="Preparser" id="Preparser">Preparser</a></span></h3>
+
+<p>The pre-parsing phase groups stream of tokens obtained from lexer into a tree of parentheses. We have distinguished four types of them ({} () [] ). Tokens inside those parentheses are also divided into groups separated by special separator tokens. This way we can have a general skeleton of code (tree based on matched paretheses) quite early in compilation process. It is useful for our <a class="internal present" href="/Syntax-extensions.html">syntax extensions</a>.&#xD;</p>
+
+<p>This pass is quite simple, it modifies the <i>Next</i> field in <i>Token</i> to point to the next token in stream. Also for every pair of braces the special node is created, which contains its inner token stream in <i>Child</i> field. One more important thing happens in this phase - preparser recognize <code>using Name.Space;</code> statements and enables syntax extensions available in loaded macros (they are looked up in namespace tree by namespace). &#xD;</p>
+
+<h3><span class="mw-headline" id="Parser"><a name="Parser" id="Parser">Parser</a></span></h3>
+
+<h3><span class="mw-headline" id="Object_hierarchy_building"><a name="Object_hierarchy_building" id="Object_hierarchy_building">Object hierarchy building</a></span></h3>
+
+<p>The first thing, which compiler does with parsed program is analyse its general structure; it notes the presence of all classes which are defined, build the inheritance relation between them, add members and check the overrides and interface implementation. Between some of them, attribute macros are expanded. These operations are gathered inside <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/hierarchy/">ncc/hierarchy/</a> directory.&#xD;
+Here is the exact list of tasks performed with short explanation:&#xD;</p>
+
+<ul><li>Walk parsed types in all files, for every type create its <a target="_blank" href="http://nemerle.org/doc/Nemerle.Compiler.TypeBuilder.html">TypeBuilder</a> and add them to global namespace tree. Add nested types to their enclosing types' special list. Here we also expand macros and delegates into their underlying classes. It all happens in <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/hierarchy/ScanTypeHierarchy.n">ScanTypeHierarchy.n</a>.&#xD;
+</li><li>We need to build generic environment for every class with special care to nested types and merging of partial classes (which are gathered in previous step). It happens in <i>make_tyenvs</i> function of <i>TypeBuilder</i>.&#xD;
+</li><li>Now we expand macros marked as <i>BeforeInheritance</i>.&#xD;
+</li><li>Now we build inheritance relation for classes. Every class (<i>TypeBuilder</i>) is set up with information about all its parents and interfaces, together with substitution information (for example class implements some interface under some generic instantiation, like  <code>class Int32 : IComparable [Int32]</code>). We also analyse here which class is intefrace, struct, etc. and make them inherit some faked types (like classes are subtypes of <i>object</i> and structs of <i>System.ValueType</i>).&#xD;
+</li><li>Macros with <i>BeforeTypedMembers</i> are expanded here.&#xD;
+</li><li>Next we create objects representing members of classes. Every <i>TypeBuilder</i> iterates over its members (in parsed form) and creates subclasses of <i>MemberBuilder</i>, bind types specified in their headers (lookup in namespace tree is performed), check some consistency rules about member attributes etc. &#xD;
+</li><li>Macros with <i>WithTypedMembers</i> flag are expanded on class members, which now be supplied as various kinds of <i>MemberBuilder</i>.&#xD;
+</li><li>We perform analysis if every interface was fully implemented implicitly or by explicit <i>implements</i> keyword.&#xD;
+</li></ul><h4><span class="mw-headline" id="Data_structures"><a name="Data_structures" id="Data_structures">Data structures</a></span></h4>
+
+<ul><li><i>NamespaceTree</i> holds the whole hierarchy of objects present in compilation (both loaded from external libraries and from current compilation) according to their names and nesting inside namespaces and classes. Each class or macro can be found there by its full qualified name (like <i>System.Collections.ArrayList</i> is a leaf on path through <i>System</i>, <i>Console</i> and <i>ArrayList</i>). This data structure is organised into tree, where each node might have some childs (nested objects) and value. The value may be one of the variant options, like <i>Cached</i> for single, created <i>TypeInfo</i> object or <i>MacroCall</i> holding <i>IMacro</i> instance, etc. Code is located in <a target="_blank" href="http://nemerle.org/svn/nemerle/trunk/ncc/hierarchy/NamespaceTree.n">ncc/hierarchy/NamespaceTree.n</a>&#xD;
+</li></ul><ul><li><i>GlobalEnv</i> represents the set of imported namespaces (by <code>using Name.Space;</code> contruct), declared using aliases and current namespace. It is ment as global context in which the given program fragment resides. Every identifier generated by parser contains the reference to its context (it is especially useful for macros). This way when we see for example <i>WriteLine</i> and the current global env contains <code>using System.Console;</code> then we can interpret it as <i>System.Console.WriteLine</i>. &#xD;
+</li></ul><h3><span class="mw-headline" id="Typing_of_method_bodies"><a name="Typing_of_method_bodies" id="Typing_of_method_bodies">Typing of method bodies</a></span></h3>
+
+<p>Some more info is on the page about <a class="internal present" href="/Type-inference.html">type inference</a>.&#xD;</p>
+
+<h3><span class="mw-headline" id="Matching_compiler"><a name="Matching_compiler" id="Matching_compiler">Matching compiler</a></span></h3>
+
+<h3><span class="mw-headline" id="IL_generation"><a name="IL_generation" id="IL_generation">IL generation</a></span></h3>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

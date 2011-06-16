@@ -1,0 +1,453 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Partial evaluation
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><table id="toc" class="toc" summary="Contents"><tr><td><div>Table of Contents</div><ul><li><a href="#Partial_evaluation_through_metaprogramming">Partial evaluation through meta-programming</a><ul><li><a href="#Power_function__classic_example">Power function - classic example</a></li><li><a href="#Permutation_algorithm">Permutation algorithm</a></li></ul></li><li><a href="#Rewriting_interpreter_into_compiler">Rewriting interpreter into compiler</a><ul><li><a href="#Virtual_machine">Virtual machine</a></li><li><a href="#Language">Language</a></li><li><a href="#Interpreter">Interpreter</a></li><li><a href="#Staged_interpreter">Staged interpreter</a></li><li><a href="#Usage">Usage</a></li></ul></li></ul></td></tr></table><h2><span class="mw-headline" id="Partial_evaluation_through_metaprogramming"><a name="Partial_evaluation_through_metaprogramming" id="Partial_evaluation_through_metaprogramming">Partial evaluation through meta-programming</a></span></h2>
+
+<p>We will discuss one of the possible applications of Nemerle meta-programming system in <a target="_blank" href="http://en.wikipedia.org/wiki/Partial_evaluation">partial evaluation</a>. This process is based on specializing given algorithm with some of its inputs, which are known statically (at compile time). &#xD;</p>
+
+<p>This is particularly useful when we have some general algorithm for solving a problem, but most of the time we use its special case. For example we have a procedure <i>search</i> to search for arbitrary pattern in a string, but 98% of its uses are with "what is The Answer" pattern. It would be nice to have the <i>search_answer</i> procedure, which would be highly optimized version of our general algorithm.&#xD;</p>
+
+<p>The methodology we will use here is general and can be used for various problems like: specializing numerical algorithms, pattern matching, generating compilers from interpreters, efficient embedding of domain-specific languages.&#xD;</p>
+
+<h3><span class="mw-headline" id="Power_function__classic_example"><a name="Power_function__classic_example" id="Power_function__classic_example">Power function - classic example</a></span></h3>
+
+<p>Let us consider a general <a target="_blank" href="http://en.wikipedia.org/wiki/Exponentiation">power function</a>. One of the most efficient ways of computing it is the logarithmic <a target="_blank" href="http://c2.com/cgi/wiki?IntegerPowerAlgorithm">power algorithm</a>.&#xD;</p>
+
+<p>Its implementation in Nemerle is presented below:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">static</span> <span class="nf">power</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">,</span> <span class="n">n</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> <span class="p">:</span> <span class="kt">double</span>
+ <span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+     <span class="m">1.0</span>
+   <span class="k">else</span>
+     <span class="nf">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="c1">// even</span>
+       <span class="n">Sqr</span> <span class="p">(</span><span class="n">power</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span> <span class="p">/</span> <span class="m">2</span><span class="p">))</span>
+     <span class="k">else</span>
+       <span class="n">x</span> <span class="p">*</span> <span class="n">power</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span>
+ <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>where <i>Sqr</i> is a standard method defined like:&#xD;
+</p><div class="highlight"><pre><span class="k">static</span> <span class="nf">Sqr</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">)</span> <span class="p">:</span> <span class="kt">double</span> <span class="p">{</span> <span class="n">x</span> <span class="p">*</span> <span class="n">x</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>As we can see it divides <i>n</i> by 2 if it is even and decrements by 1 if it is odd. In former case it performs square operation and in latter multiplication by &#xD;
+<i>x</i> parameter. Note that the pattern of those operation depends only on <i>n</i> - <i>x</i> and <i>n</i> parameters are independent. &#xD;</p>
+
+<p>Here we come to the point - when we want to have specialized power function for some <i>n</i>, then we know exactly what operations it will perform on second argument. For example optimal pattern for <i>x<sup>5</sup></i> is <i>x*(x<sup>2</sup>)<sup>2</sup></i>. Now we want compiler to be able to generate this optimal set of operations for us.&#xD;
+Here is the code to perform it:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">power1</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> 
+<span class="p">{</span>
+  <span class="k">def</span> <span class="nf">pow</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+      <span class="k">&lt;[ </span><span class="m">1.0</span> <span class="k">]&gt;</span>
+    <span class="k">else</span>
+      <span class="nf">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="c1">// even</span>
+        <span class="k">&lt;[ </span><span class="n">Sqr</span> <span class="p">(</span><span class="n">$</span><span class="p">(</span><span class="n">pow</span><span class="err"> </span><span class="p">(</span><span class="n">n</span><span class="err"> </span><span class="p">/</span><span class="err"> 2</span><span class="p">)))</span> <span class="k">]&gt;</span>
+      <span class="k">else</span>
+        <span class="k">&lt;[ </span><span class="n">$x</span> <span class="p">*</span> <span class="n">$</span><span class="p">(</span><span class="n">pow</span><span class="err"> </span><span class="p">(</span><span class="n">n</span><span class="err"> </span><span class="p">-</span><span class="err"> 1</span><span class="p">))</span> <span class="k">]&gt;</span>
+  <span class="p">}</span>
+  <span class="n">pow</span> <span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>We will give two different, but in general equivalent descriptions of what is happening here.&#xD;</p>
+
+<p>First you can view this as <a target="_blank" href="http://www.cs.rice.edu/~taha/MSP/">staged computation</a>. We defere performing of <i>Sqr</i> and <i>*</i> operations until <i>x</i> is known at runtime, but we are free to perform all the others like comparisons of <i>n</i> and recursion at earlier stage. In the result only the optimal pattern of multiplication and square operations will be executed at runtime. The <i>power</i> macro is just a function, which performs first stage of computation (at compile time). The result of using this macro is inserting the second stage operations at the place of usage. This way the <b></b> brackets can be considered as markers of second stage computation.&#xD;</p>
+
+<p>The other way of understanding the example is by its implementation in Nemerle compiler. It is a function generating code, which will be substituted at the place of its usage. The <i>pow</i> function simply generates the code of arithmetic  &#xD;
+expression composed of multiplications and square operations. As mentioned earlier we utilize the fact, that <i>n</i> is independent from <i>x</i> and basing on it we know exactly how resulting expression should look like. Here we can view <b></b> brackets as what they really are - syntax for constructing parts of new Nemerle code.&#xD;</p>
+
+<p>The macro above can be easily used to create specialized method&#xD;</p>
+
+<div class="highlight"><pre><span class="k">static</span> <span class="nf">power74</span> <span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="kt">double</span><span class="p">)</span> <span class="p">:</span> <span class="kt">double</span>
+<span class="p">{</span>
+  <span class="n">power1</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="m">74</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>or directly in code (which would yield direct inlining of expressions and might be not a good idea for large chunks of generated code).&#xD;</p>
+
+<p>Just a little digression. The power macro could be written as:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">power2</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span> <span class="p">:</span> <span class="kt">int</span><span class="p">)</span> 
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+    <span class="k">&lt;[ </span><span class="m">1.0</span> <span class="k">]&gt;</span>
+  <span class="k">else</span>
+    <span class="nf">if</span> <span class="p">(</span><span class="n">n</span> <span class="p">%</span> <span class="m">2</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="c1">// even</span>
+      <span class="k">&lt;[ </span><span class="n">Sqr</span> <span class="p">(</span><span class="n">power2</span> <span class="p">(</span><span class="n">$x</span><span class="p">,</span> <span class="n">$</span><span class="p">(</span><span class="n">n</span><span class="err"> </span><span class="p">/</span><span class="err"> 2 </span><span class="p">:</span><span class="err"> </span><span class="n">int</span><span class="p">)))</span> <span class="k">]&gt;</span>
+    <span class="k">else</span>
+      <span class="k">&lt;[ </span><span class="n">$x</span> <span class="p">*</span> <span class="n">power2</span> <span class="p">(</span><span class="n">$x</span><span class="p">,</span> <span class="n">$</span><span class="p">(</span><span class="n">n</span><span class="err"> </span><span class="p">-</span><span class="err"> 1 </span><span class="p">:</span><span class="err"> </span><span class="n">int</span><span class="p">))</span> <span class="k">]&gt;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The resulting generated code would be identical, but here we see usage of some different features of macro system. In single macro execution we generate code, which contains invocation of this very macro. Note that it is not a direct recursive call, like in previous implementation. Although the result is the same, we encourage the former style, as it encapsulates all the macro's computations in single macro expansion, while the second way forces compiler to interleave many macro expansions. The latter way is slower and infinite loops here are harder to notice / debug.&#xD;</p>
+
+<h3><span class="mw-headline" id="Permutation_algorithm"><a name="Permutation_algorithm" id="Permutation_algorithm">Permutation algorithm</a></span></h3>
+
+<p>Now we will show a little more evolved example, which shows that sometimes it is &#xD;
+useful to explicitly store parts of code in collection, creating final computation from it.&#xD;</p>
+
+<p>Let us consider a function for computing <a target="_blank" href="http://en.wikipedia.org/wiki/Permutation">permutation</a> of given array. It takes input array as first parameter and array specifying the permutation as second parameter:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">permute</span> <span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">int</span><span class="p">],</span> <span class="n">permutation</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">int</span><span class="p">])</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</pre>
+</div>
+
+
+<p>where <i>permutation</i> array describes permutation as positions at which elements &#xD;
+of input should appear in output (like for <b>3, 2, 1</b> and permutation <b>2, 1, 3</b>, the output will be <b>2, 3, 1</b>). The algorithm utilizes the fact that &#xD;
+this representation directly exposes cycles of permutation and to permute elements we must simply move them by one position on its cycle. It is presented below:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">permute</span> <span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">int</span><span class="p">],</span> <span class="n">permutation</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">int</span><span class="p">])</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="n">visited</span> <span class="p">=</span> <span class="kt">array</span> <span class="p">(</span><span class="n">permutation</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+
+  <span class="c1">// we visit each cycle once using this top loop</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">permutation</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> 
+  <span class="p">{</span>
+    <span class="k">mutable</span> <span class="n">pos</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="c1">// we walk through one cycle</span>
+    <span class="k">while</span> <span class="p">(!</span><span class="n">visited</span> <span class="p">[</span><span class="n">pos</span><span class="p">])</span> 
+    <span class="p">{</span>
+      <span class="n">visited</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+      <span class="c1">// moving its elements by one position</span>
+      <span class="k">def</span> <span class="n">next_pos</span> <span class="p">=</span> <span class="n">permutation</span> <span class="p">[</span><span class="n">pos</span><span class="p">];</span>
+      <span class="k">unless</span> <span class="p">(</span><span class="n">visited</span> <span class="p">[</span><span class="n">next_pos</span><span class="p">])</span> <span class="p">{</span>
+        <span class="n">data</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="p">&lt;-&gt;</span> <span class="n">data</span> <span class="p">[</span><span class="n">next_pos</span><span class="p">];</span>
+        <span class="n">pos</span> <span class="p">=</span> <span class="n">next_pos</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>As we can see this algorithm does some operations of <i>data</i> only in one line&#xD;</p>
+
+<div class="highlight"><pre><span class="n">data</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="p">&lt;-&gt;</span> <span class="n">data</span> <span class="p">[</span><span class="n">next_pos</span><span class="p">]</span>
+</pre>
+</div>
+
+
+<p>which is the swap operation on elements of array. The rest of its steps are performed only basing on contents of <i>permutation</i>. This quickly leads us to conclusion, that if we statically know this array, we can have highly optimized version of <i>permute</i>, which performs only sequence of swaps.&#xD;</p>
+
+<p>This is exactly what partial evaluation does, removing overhead of computations dependant only on static parameters. How do we code it using macros in Nemerle? &#xD;
+It is almost as simple as deffering <i></i> operation with <b></b>, but two more technical issues must be addressed. &#xD;</p>
+
+<p>First we must obtain the value of permutation array inside our first stage function (a macro). The simplest way would be to store it in some static field visible to the macro, but we chose to pass it directly as its parameter. &#xD;
+Second one is that original <i>permute</i> function uses imperative style, so we must deffer computation also in this style, explicitly building sequence of final computations.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">macro</span> <span class="nf">permute1</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">p_expr</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="n">permutation</span> <span class="p">=</span> <span class="n">expr_to_array</span> <span class="p">(</span><span class="n">p_expr</span><span class="p">);</span> <span class="c1">// new</span>
+
+  <span class="k">def</span> <span class="n">visited</span> <span class="p">=</span> <span class="kt">array</span> <span class="p">(</span><span class="n">permutation</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+  <span class="k">mutable</span> <span class="n">result</span> <span class="p">=</span> <span class="p">[];</span>                      <span class="c1">// new</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">permutation</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span> <span class="p">{</span>
+    <span class="k">mutable</span> <span class="n">pos</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(!</span><span class="n">visited</span> <span class="p">[</span><span class="n">pos</span><span class="p">])</span> <span class="p">{</span>
+      <span class="n">visited</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+      <span class="k">def</span> <span class="n">next_pos</span> <span class="p">=</span> <span class="n">permutation</span> <span class="p">[</span><span class="n">pos</span><span class="p">];</span>
+      <span class="k">unless</span> <span class="p">(</span><span class="n">visited</span> <span class="p">[</span><span class="n">next_pos</span><span class="p">])</span> <span class="p">{</span>
+        <span class="n">result</span> <span class="p">=</span> <span class="k">&lt;[ </span>
+<span class="k">          </span><span class="n">$data</span> <span class="p">[</span><span class="n">$</span><span class="p">(</span><span class="n">pos</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">int</span><span class="p">)]</span> <span class="p">&lt;-&gt;</span> <span class="n">$data</span> <span class="p">[</span><span class="n">$</span><span class="p">(</span><span class="n">next_pos</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">int</span><span class="p">)]</span> 
+        <span class="k">]&gt;</span> <span class="p">::</span> <span class="n">result</span><span class="p">;</span>                       <span class="c1">// new</span>
+         <span class="n">pos</span> <span class="p">=</span> <span class="n">next_pos</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">&lt;[ </span><span class="p">{..</span><span class="n">$result</span> <span class="p">}</span> <span class="k">]&gt;</span>                        <span class="c1">// new</span>
+<span class="p">}</span>
+
+<span class="c1">// technical function used to decompose expression</span>
+<span class="c1">// holding contant array of ints</span>
+<span class="n">expr_to_array</span> <span class="p">(</span><span class="n">expr</span> <span class="p">:</span> <span class="n">PExpr</span><span class="p">)</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">int</span><span class="p">]</span> 
+<span class="p">{</span>
+  <span class="c1">// we must convert syntax tree of array into array itself</span>
+  <span class="p">|</span> <span class="k">&lt;[ </span><span class="kt">array</span> <span class="p">[..</span><span class="n">$p_list</span><span class="p">]</span> <span class="k">]&gt;</span> <span class="p">=&gt;</span>
+    <span class="k">def</span> <span class="n">permutation</span> <span class="p">=</span> <span class="kt">array</span> <span class="p">(</span><span class="n">p_list</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+    <span class="k">mutable</span> <span class="n">count</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="k">&lt;[ </span><span class="n">$</span><span class="p">(</span><span class="n">x</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">int</span><span class="p">)</span> <span class="k">]&gt;</span> <span class="n">in</span> <span class="n">p_list</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">permutation</span> <span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="p">=</span> <span class="n">x</span><span class="p">;</span>
+      <span class="n">count</span><span class="p">++;</span>
+    <span class="p">}</span>
+    <span class="n">permutation</span>
+
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="k">throw</span> <span class="n">System</span><span class="p">.</span><span class="n">ArgumentException</span> <span class="p">(</span><span class="s">"only constant arrays are allowed"</span><span class="p">)</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>As we can see the function didn't change much. We must have added the variable <i>result</i>, which is the list of resulting expressions to execute. It is used at &#xD;
+the end in <i></i> expression - the sequence of swaps on <i>data</i> is the result of macro.&#xD;</p>
+
+<p><i>permute</i> and <i>permute</i>' can be used as follows:&#xD;</p>
+
+<div class="highlight"><pre><span class="n">permute_specialized</span> <span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">int</span><span class="p">])</span> <span class="p">:</span> <span class="kt">void</span>
+<span class="p">{</span>
+  <span class="n">permute1</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="kt">array</span> <span class="p">[</span><span class="m">10</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">11</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">12</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">14</span><span class="p">,</span> <span class="m">6</span><span class="p">,</span> <span class="m">9</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">13</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">3</span><span class="p">]);</span>
+<span class="p">}</span>
+  
+<span class="k">public</span> <span class="nf">Run</span> <span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="kt">array</span> <span class="p">[</span><span class="kt">int</span><span class="p">])</span> <span class="p">:</span> <span class="kt">void</span> <span class="p">{</span>
+  <span class="k">def</span> <span class="n">perm</span> <span class="p">=</span> <span class="kt">array</span> <span class="p">[</span><span class="m">10</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">11</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">12</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">14</span><span class="p">,</span> <span class="m">6</span><span class="p">,</span> <span class="m">9</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">13</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">8</span><span class="p">,</span> <span class="m">3</span><span class="p">];</span>
+  <span class="n">permute</span> <span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">perm</span><span class="p">);</span>
+  <span class="n">permute_specialized</span> <span class="p">(</span><span class="n">arr</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2><span class="mw-headline" id="Rewriting_interpreter_into_compiler"><a name="Rewriting_interpreter_into_compiler" id="Rewriting_interpreter_into_compiler">Rewriting interpreter into compiler</a></span></h2>
+
+<h3><span class="mw-headline" id="Virtual_machine"><a name="Virtual_machine" id="Virtual_machine">Virtual machine</a></span></h3>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">Robot</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">Orientation</span> <span class="p">:</span> <span class="kt">byte</span><span class="p">;</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">X</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+  <span class="k">public</span> <span class="k">mutable</span> <span class="n">Y</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span>
+
+  <span class="k">public</span> <span class="n">IsDown</span> <span class="p">:</span> <span class="kt">bool</span>
+  <span class="p">{</span>
+    <span class="n">get</span> <span class="p">{</span> <span class="n">Orientation</span> <span class="p">==</span> <span class="m">1</span> <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">override</span> <span class="nf">ToString</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">string</span>
+  <span class="p">{</span>
+    <span class="s">$"(</span><span class="n">$X</span><span class="s">, </span><span class="n">$Y</span><span class="s">)"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Language"><a name="Language" id="Language">Language</a></span></h3>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">variant</span> <span class="nc">Expr</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="n">MoveBy</span> <span class="p">{</span> <span class="n">steps</span> <span class="p">:</span> <span class="kt">int</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">Left</span>
+  <span class="p">|</span> <span class="n">Right</span>
+  <span class="p">|</span> <span class="n">Value</span> <span class="p">{</span> <span class="n">prop</span> <span class="p">:</span> <span class="kt">string</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">|</span> <span class="n">If</span> <span class="p">{</span> <span class="n">cond</span> <span class="p">:</span> <span class="n">Expr</span><span class="p">.</span><span class="n">Value</span><span class="p">;</span> <span class="n">then</span> <span class="p">:</span> <span class="n">Expr</span><span class="p">;</span> <span class="n">els</span> <span class="p">:</span> <span class="n">Expr</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Interpreter"><a name="Interpreter" id="Interpreter">Interpreter</a></span></h3>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">module</span> <span class="nc">Scripts</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">Run</span> <span class="p">(</span><span class="n">obj</span> <span class="p">:</span> <span class="n">Robot</span><span class="p">,</span> <span class="n">expr</span> <span class="p">:</span> <span class="n">Expr</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="nf">check_value</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">System</span><span class="p">.</span><span class="n">Convert</span><span class="p">.</span><span class="n">ToBoolean</span> <span class="p">(</span><span class="n">obj</span><span class="p">.</span><span class="n">GetType</span> <span class="p">().</span><span class="n">GetProperty</span> <span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">prop</span><span class="p">).</span><span class="n">GetValue</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="k">null</span><span class="p">))</span>
+    <span class="p">}</span>
+    <span class="k">match</span> <span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">MoveBy</span> <span class="p">(</span><span class="n">steps</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="k">match</span> <span class="p">(</span><span class="n">obj</span><span class="p">.</span><span class="n">Orientation</span><span class="p">)</span> <span class="p">{</span>
+          <span class="p">|</span> <span class="m">0</span> <span class="p">=&gt;</span> <span class="n">obj</span><span class="p">.</span><span class="n">X</span> <span class="p">+=</span> <span class="n">steps</span>
+          <span class="p">|</span> <span class="m">1</span> <span class="p">=&gt;</span> <span class="n">obj</span><span class="p">.</span><span class="n">Y</span> <span class="p">+=</span> <span class="n">steps</span>
+          <span class="p">|</span> <span class="m">2</span> <span class="p">=&gt;</span> <span class="n">obj</span><span class="p">.</span><span class="n">X</span> <span class="p">-=</span> <span class="n">steps</span>
+          <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">obj</span><span class="p">.</span><span class="n">Y</span> <span class="p">-=</span> <span class="n">steps</span>
+        <span class="p">}</span>
+
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">Left</span> <span class="p">=&gt;</span> <span class="n">obj</span><span class="p">.</span><span class="n">Orientation</span> <span class="p">=</span> <span class="p">((</span><span class="n">obj</span><span class="p">.</span><span class="n">Orientation</span> <span class="p">+</span> <span class="m">3</span><span class="p">)</span> <span class="p">%</span> <span class="m">4</span><span class="p">)</span> <span class="p">:&gt;</span> <span class="kt">byte</span><span class="p">;</span>
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">Right</span> <span class="p">=&gt;</span> <span class="n">obj</span><span class="p">.</span><span class="n">Orientation</span> <span class="p">=</span> <span class="p">((</span><span class="n">obj</span><span class="p">.</span><span class="n">Orientation</span> <span class="p">+</span> <span class="m">1</span><span class="p">)</span> <span class="p">%</span> <span class="m">4</span><span class="p">)</span> <span class="p">:&gt;</span> <span class="kt">byte</span><span class="p">;</span>
+
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">Value</span> <span class="k">as</span> <span class="n">val</span> <span class="p">=&gt;</span> <span class="n">_</span> <span class="p">=</span> <span class="n">check_value</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span>
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">If</span> <span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">check_value</span> <span class="p">(</span><span class="n">val</span><span class="p">))</span>
+          <span class="n">Run</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">e1</span><span class="p">)</span>
+        <span class="k">else</span>
+          <span class="nf">Run</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">e2</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="nf">Run</span> <span class="p">(</span><span class="n">obj</span> <span class="p">:</span> <span class="n">Robot</span><span class="p">,</span> <span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="n">script</span> <span class="p">=</span> <span class="n">GetScript</span> <span class="p">(</span><span class="n">name</span><span class="p">);</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">e</span> <span class="n">in</span> <span class="n">script</span><span class="p">)</span> <span class="n">Run</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Staged_interpreter"><a name="Staged_interpreter" id="Staged_interpreter">Staged interpreter</a></span></h3>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">module</span> <span class="nc">Scripts</span> 
+<span class="p">{</span>
+  <span class="k">public</span> <span class="nf">GenerateRun</span> <span class="p">(</span><span class="n">obj</span> <span class="p">:</span> <span class="n">PExpr</span><span class="p">,</span> <span class="n">expr</span> <span class="p">:</span> <span class="n">Expr</span><span class="p">)</span> <span class="p">:</span> <span class="n">PExpr</span>
+  <span class="p">{</span>
+    <span class="k">def</span> <span class="nf">check_value</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">&lt;[ </span><span class="n">$obj</span><span class="p">.</span><span class="n">$</span><span class="p">(</span><span class="n">val</span><span class="p">.</span><span class="n">prop</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">dyn</span><span class="p">)</span> <span class="k">]&gt;</span>
+    <span class="p">}</span>
+    <span class="k">match</span> <span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">MoveBy</span> <span class="p">(</span><span class="n">steps</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="k">&lt;[ match</span> <span class="p">(</span><span class="n">$obj</span><span class="p">.</span><span class="n">Orientation</span><span class="p">)</span> <span class="p">{</span>
+             <span class="p">|</span> <span class="m">0</span> <span class="p">=&gt;</span> <span class="n">$obj</span><span class="p">.</span><span class="n">X</span> <span class="p">+=</span> <span class="n">$</span><span class="p">(</span><span class="n">steps</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">int</span><span class="p">)</span> 
+             <span class="p">|</span> <span class="m">1</span> <span class="p">=&gt;</span> <span class="n">$obj</span><span class="p">.</span><span class="n">Y</span> <span class="p">+=</span> <span class="n">$</span><span class="p">(</span><span class="n">steps</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">int</span><span class="p">)</span> 
+             <span class="p">|</span> <span class="m">2</span> <span class="p">=&gt;</span> <span class="n">$obj</span><span class="p">.</span><span class="n">X</span> <span class="p">-=</span> <span class="n">$</span><span class="p">(</span><span class="n">steps</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">int</span><span class="p">)</span> 
+             <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">$obj</span><span class="p">.</span><span class="n">Y</span> <span class="p">-=</span> <span class="n">$</span><span class="p">(</span><span class="n">steps</span><span class="err"> </span><span class="p">:</span><span class="err"> </span><span class="n">int</span><span class="p">)</span>
+           <span class="p">}</span>
+        <span class="k">]&gt;</span>
+
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">Left</span> <span class="p">=&gt;</span> <span class="k">&lt;[ </span><span class="n">$obj</span><span class="p">.</span><span class="n">Orientation</span> <span class="p">=</span> <span class="p">((</span><span class="n">$obj</span><span class="p">.</span><span class="n">Orientation</span> <span class="p">+</span> <span class="m">3</span><span class="p">)</span> <span class="p">%</span> <span class="m">4</span><span class="p">)</span> <span class="p">:&gt;</span> <span class="kt">byte</span> <span class="k">]&gt;</span><span class="p">;</span>
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">Right</span> <span class="p">=&gt;</span> <span class="k">&lt;[ </span><span class="n">$obj</span><span class="p">.</span><span class="n">Orientation</span> <span class="p">=</span> <span class="p">((</span><span class="n">$obj</span><span class="p">.</span><span class="n">Orientation</span> <span class="p">+</span> <span class="m">1</span><span class="p">)</span> <span class="p">%</span> <span class="m">4</span><span class="p">)</span> <span class="p">:&gt;</span> <span class="kt">byte</span> <span class="k">]&gt;</span><span class="p">;</span>
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">Value</span> <span class="k">as</span> <span class="n">val</span> <span class="p">=&gt;</span> <span class="k">&lt;[ </span><span class="n">_</span> <span class="p">=</span> <span class="n">$</span><span class="p">(</span><span class="n">check_value</span><span class="err"> </span><span class="p">(</span><span class="n">val</span><span class="p">))</span> <span class="k">]&gt;</span>
+      <span class="p">|</span> <span class="n">Expr</span><span class="p">.</span><span class="n">If</span> <span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="k">&lt;[ if</span> <span class="p">(</span><span class="n">$</span><span class="p">(</span><span class="n">check_value</span><span class="err"> </span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
+             <span class="n">$</span><span class="p">(</span><span class="n">GenerateRun</span><span class="err"> </span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="err"> </span><span class="n">e1</span><span class="p">))</span>
+           <span class="k">else</span>
+             <span class="n">$</span><span class="p">(</span><span class="n">GenerateRun</span><span class="err"> </span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="err"> </span><span class="n">e2</span><span class="p">))</span>
+        <span class="k">]&gt;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">macro</span> <span class="nf">GenerateRun</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span> <span class="p">:</span> <span class="kt">string</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">def</span> <span class="n">script</span> <span class="p">=</span> <span class="n">Scripts</span><span class="p">.</span><span class="n">GetScript</span> <span class="p">(</span><span class="n">name</span><span class="p">);</span>
+  <span class="k">def</span> <span class="n">exprs</span> <span class="p">=</span> <span class="n">List</span><span class="p">.</span><span class="n">Map</span> <span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="k">fun</span> <span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span> <span class="n">Scripts</span><span class="p">.</span><span class="n">GenerateRun</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="p">});</span>
+  <span class="k">&lt;[ </span><span class="p">{</span> <span class="p">..</span><span class="n">$exprs</span> <span class="p">}</span> <span class="k">]&gt;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3><span class="mw-headline" id="Usage"><a name="Usage" id="Usage">Usage</a></span></h3>
+
+<div class="highlight"><pre><span class="k">def</span> <span class="n">x</span> <span class="p">=</span> <span class="n">Robot</span> <span class="p">();</span>
+<span class="n">Scripts</span><span class="p">.</span><span class="n">Run</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">"myscript1"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">x</span><span class="p">);</span>    
+<span class="n">GenerateRun</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">"myscript1"</span><span class="p">);</span>    
+<span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span> <span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</pre>
+</div>
+
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

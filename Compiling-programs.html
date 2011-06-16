@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Compiling programs
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><h2><span class="mw-headline" id="Using_ncc_from_command_line"><a name="Using_ncc_from_command_line" id="Using_ncc_from_command_line">Using ncc from command line</a></span></h2>
+
+<p>Just type&#xD;</p>
+
+<pre> ncc program.n -out:program.exe&#xD;</pre>
+
+<h2><span class="mw-headline" id="Using_NAnt"><a name="Using_NAnt" id="Using_NAnt">Using NAnt</a></span></h2>
+
+<p>Nemerle have the support for building programs using <a target="_blank" href="http://nant.sourceforge.net/">NAnt</a>. Standard distribution contains the task library (thanks to <a target="_blank" href="https://nemerle.org/mailman/pipermail/devel-en/2005-March/000455.html">Matthijs ter Woord</a>), which is installed to NAnt&#xD;
+directory and will be automatically loaded by it.&#xD;</p>
+
+<p>So, to build your project with nant you must only create the <i>project.build</i> file with &#xD;</p>
+
+<div class="highlight"><pre><span class="nt">&lt;project</span> <span class="na">default=</span><span class="s">"build"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"build"</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;ncc</span> <span class="na">target=</span><span class="s">"exe"</span>  <span class="na">output=</span><span class="s">"hello.exe"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;sources&gt;</span>
+           <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"*.n"</span><span class="nt">/&gt;</span>
+         <span class="nt">&lt;/sources&gt;</span>
+       <span class="nt">&lt;/ncc&gt;</span>
+     <span class="nt">&lt;/target&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre>
+</div>
+
+
+<p>and then type:&#xD;</p>
+
+<pre> nant&#xD;</pre>
+
+<p>If your nant defaults to mono-2.0 profile and building fails with strange messages, you can try:&#xD;</p>
+
+<pre> nant -t:mono-1.0&#xD;</pre>
+
+<p>A more involved build example:&#xD;</p>
+
+<div class="highlight"><pre><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">"example"</span> <span class="na">default=</span><span class="s">"all"</span> <span class="nt">&gt;</span>
+  <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">"all"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ncc</span> <span class="na">target=</span><span class="s">"library"</span> <span class="na">output=</span><span class="s">"Nemerle.NAnt.Tasks.dll"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;sources&gt;</span>
+        <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"*.n"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;/sources&gt;</span>
+      <span class="nt">&lt;references&gt;</span>
+        <span class="nt">&lt;lib&gt;</span>
+          <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"${nant.location}"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/lib&gt;</span>
+        <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"NAnt.DotNetTasks.dll"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">"NAnt.Core.dll"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;/references&gt;</span>
+    <span class="nt">&lt;/ncc&gt;</span>
+  <span class="nt">&lt;/target&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre>
+</div>
+
+
+<p>Please refer to csc task documentation in your nant distribution -- most options there should be also supported by the ncc task.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

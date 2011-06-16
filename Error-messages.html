@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Error messages
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+</p><h2><span class="mw-headline" id="Basics"><a name="Basics" id="Basics">Basics</a></span></h2>
+
+<p>The most important rule of thumb here is:&#xD;</p>
+
+<p><b>If you see some strange error message, and this is not the first error message in this ncc invocation, first fix the previous error and then proceed.</b>&#xD;</p>
+
+<p>This is because compiler internal structures can be messed up by the previous&#xD;
+error. We are trying to limit this, but this doesn't get very high priority.&#xD;</p>
+
+<h2><span class="mw-headline" id="Messages_from_type_inference_engine"><a name="Messages_from_type_inference_engine" id="Messages_from_type_inference_engine">Messages from type inference engine</a></span></h2>
+
+<p>It often laments about type suffixed with -, +, -- and ++.  In most cases&#xD;
+you should read this int-- (and int-, int+, int++) just like int. However&#xD;
+in certain cases the +/- etc can provide additional information.&#xD;
+For example:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span> <span class="m">3</span> <span class="k">else</span> <span class="p">()</span>
+</pre>
+</div>
+
+
+<p>will give the following error:&#xD;</p>
+
+<pre>&#xD;foo.n:1:18: error: expected int--, got void in literal: int is not a &#xD;            subtype of void [simple require]&#xD;</pre>&#xD;
+
+<p>This is because the compiler expects () to be of some type that has&#xD;
+a common super type with int, so this common super type is returned&#xD;
+from the entire if expression. So int-- stands here for some type with&#xD;
+common super type with int.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">mutable</span> <span class="n">x</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+<span class="n">x</span> <span class="p">=</span> <span class="m">3.0</span><span class="p">;</span>
+</pre>
+</div>
+
+
+<p>here the error is:&#xD;</p>
+
+<pre>&#xD;foo.n:2:1: error: expected int-, got System.Double in assigned value:&#xD;           common super type of types [int, System.Double] is just &#xD;           `System.ValueType', please upcast one of the types to &#xD;           `System.ValueType' if this is desired&#xD;</pre>&#xD;
+
+<p>Here the compiler expects some super type of int to be assigned, so&#xD;
+if we assigned System.Object, then it would change the type of x&#xD;
+to be System.Object and would still be happy (until of course you&#xD;
+use x in context requiring int).&#xD;</p>
+
+<p>In fact it would also accept super type, because of how assignment works.&#xD;</p>
+
+<p>So this is a good example when int- should be read as int.&#xD;</p>
+
+<h3><span class="mw-headline" id="Assignment_result_and_match_branches"><a name="Assignment_result_and_match_branches" id="Assignment_result_and_match_branches">Assignment result and match branches</a></span></h3>
+
+<p>The result of the assignment is something you got after the assignment&#xD;
+is done. The expression <code>x = 42</code> has the type <code>int</code>&#xD;
+in C/C#, but it has the type <code>void</code> in Nemerle. That is after&#xD;
+the assignment is done you got nothing, and cannot use this value&#xD;
+to do anything reasonable except for returning it from a <code>void</code> function.&#xD;</p>
+
+<p>For example:&#xD;
+</p><div class="highlight"><pre><span class="k">mutable</span> <span class="n">x</span> <span class="p">=</span> <span class="m">7</span><span class="p">;</span>
+<span class="p">(</span><span class="n">x</span> <span class="p">=</span> <span class="m">42</span><span class="p">)</span> <span class="p">:</span> <span class="kt">bool</span><span class="p">;</span>
+<span class="k">when</span> <span class="p">(</span><span class="n">x</span> <span class="p">=</span> <span class="m">42</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</pre>
+</div>
+
+will yield two errors:&#xD;
+<pre>&#xD;bar.n:2:2: error: expected bool, got void in type-enforced expression: void &#xD;           is not a subtype of bool [simple require]&#xD;bar.n:3:1: error: expected void, got bool in matched value: the types bool &#xD;           and void are not compatible [simple unify]&#xD;</pre>&#xD;
+
+<p>Another example is:&#xD;
+</p><div class="highlight"><pre><span class="k">def</span> <span class="nf">some_func</span> <span class="p">()</span> <span class="p">{</span> <span class="k">true</span> <span class="p">}</span>
+<span class="k">mutable</span> <span class="n">x</span> <span class="p">=</span> <span class="m">42</span><span class="p">;</span>
+<span class="k">match</span> <span class="p">(</span><span class="m">3</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">|</span> <span class="m">1</span> <span class="p">=&gt;</span> <span class="n">some_func</span> <span class="p">()</span>
+  <span class="p">|</span> <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">x</span> <span class="p">=</span> <span class="m">7</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+which gives:&#xD;
+<pre>&#xD;t.n:4:1: error: expected bool-, got void in computation branch: bool is not a subtype of void [simple require]&#xD;t.n:4:1: hint: this means two branches of ``if'' or ``match'' have different types&#xD;</pre>&#xD;
+
+<p>This is because the compiler assumes all branches of matching to&#xD;
+have the same type. After the first branch (of type <code>bool</code>) is typed&#xD;
+it assumes all the following branches will have the same type.&#xD;
+Therefore it screams about wrong type of computation branch.&#xD;
+I would get similar error if I have used <code>if</code> instead of &#xD;
+<code>match</code>.&#xD;</p>
+
+<p>The solution here is to ignore the result from &#xD;
+<code>some_func()</code>, like this: <code>_ = some_func ()</code>.&#xD;
+This will make the first branch (and therefore the entire&#xD;
+<code>match</code>) return <code>void</code>. The second solution is to&#xD;
+make the second branch return <code>bool</code>, like this: <code>x = 7; true</code>.</p>
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>

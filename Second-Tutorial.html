@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0025)http://nemerle.org/About/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Second Tutorial
+</title>
+    <link type="text/css" rel="stylesheet" href="static/style.css">
+    <link type="text/css" rel="stylesheet" href="static/theme-default.css">
+    <link type="text/css" rel="stylesheet" href="static/pygments.css">
+<body>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr class="header">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td>
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody><tr>
+                                        <td width="110px"></td>
+                                        <td width="170px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/logo.png"></a>
+                                        </td>
+                                        <td width="31px">
+                                            <a href="./static/About - Nemerle programming language official site.htm"><img src="./static/ribbon.png"></a>
+                                        </td>
+                                        <td align="right" valign="bottom">
+                                            <table border="0" cellpadding="0" cellspacing="0" class="menubar">
+                                                <tbody><tr height="36">
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/About/#"><img src="./static/menuitem-about-active-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://nemerle.org/wiki/index.php?title=Main_Page"><img src="./static/menuitem-wiki-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://groups.google.com/group/nemerle-en"><img src="./static/menuitem-forum-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td class="menuitem">
+                                                        <a href="http://code.google.com/p/nemerle/downloads/list"><img src="./static/menuitem-downloads-inactive-foreground.png"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href=""><img src="./static/menuitem-search-inactive-foreground.png"></a>
+                                                    </td>
+                                                </tr>
+                                                <tr height="8">
+                                                    <td colspan="4"></td>
+                                                </tr>
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td width="100px">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="body">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px">
+                                &nbsp;
+                            </td>
+                            <td class="content">
+                                <div>
+                                    
+<div align="right">
+</div>
+
+<p>
+We will write some example code, so you can see some common code patterns when writing programs in Nemerle.&#xD;</p>
+
+<h2><span class="mw-headline" id="Small_app_with_array_and_Hashtable"><a name="Small_app_with_array_and_Hashtable" id="Small_app_with_array_and_Hashtable">Small app with array and Hashtable</a></span></h2>
+
+<p>Let us create an array and print its elements walking through it in loop.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+
+<span class="k">module</span> <span class="nc">MyApp</span>
+<span class="p">{</span>
+   <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+   <span class="p">{</span>
+     <span class="c1">// create an array containing strings (array [string])</span>
+     <span class="k">def</span> <span class="n">elements</span> <span class="p">=</span> <span class="kt">array</span> <span class="p">[</span><span class="s">"{0}"</span><span class="p">,</span> <span class="s">"a {0} a"</span><span class="p">,</span> <span class="s">"{0}"</span><span class="p">,</span> <span class="s">"b {0}"</span><span class="p">,</span> <span class="s">"b {0}"</span><span class="p">];</span>
+
+     <span class="c1">// iterate through elements of array</span>
+     <span class="k">for</span> <span class="p">(</span><span class="k">mutable</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">elements</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+       <span class="c1">// print current value of `i' with using format from array</span>
+       <span class="n">WriteLine</span> <span class="p">(</span><span class="n">elements</span> <span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>The keys stored in <i>elements</i> array looks a little bit strange, but we will use <i>WriteLine</i> &#xD;
+method as a good example of processing key together with value associated to it.&#xD;</p>
+
+<h3><span class="mw-headline" id="Counting_unique_elements"><a name="Counting_unique_elements" id="Counting_unique_elements">Counting unique elements</a></span></h3>
+
+<p>We will now make the collection of keys unique. For this purpose we will use generic dictionary type, which in Nemerle is called <i>Nemerle.Collections.Hashtable</i>.&#xD;</p>
+
+<div class="highlight"><pre><span class="k">using</span> <span class="n">Nemerle</span><span class="p">.</span><span class="n">Collections</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">;</span>
+
+<span class="k">module</span> <span class="nc">MyApp</span>
+<span class="p">{</span>
+   <span class="n">Main</span> <span class="p">()</span> <span class="p">:</span> <span class="kt">void</span>
+   <span class="p">{</span>
+     <span class="c1">// create an array containing strings (array [string])</span>
+     <span class="k">def</span> <span class="n">elements</span> <span class="p">=</span> <span class="kt">array</span> <span class="p">[</span><span class="s">"{0}"</span><span class="p">,</span> <span class="s">"a {0} a"</span><span class="p">,</span> <span class="s">"{0}"</span><span class="p">,</span> <span class="s">"b {0}"</span><span class="p">,</span> <span class="s">"b {0}"</span><span class="p">];</span>
+
+     <span class="k">def</span> <span class="n">hash</span> <span class="p">=</span> <span class="n">Hashtable</span> <span class="p">();</span>
+
+     <span class="c1">// count the number of occurrences of each unique element</span>
+     <span class="k">foreach</span> <span class="p">(</span><span class="n">e</span> <span class="n">in</span> <span class="n">elements</span><span class="p">)</span>
+     <span class="p">{</span>
+       <span class="k">unless</span> <span class="p">(</span><span class="n">hash</span><span class="p">.</span><span class="n">Contains</span> <span class="p">(</span><span class="n">e</span><span class="p">))</span>
+         <span class="n">hash</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+       <span class="n">hash</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="p">+=</span> <span class="m">1</span><span class="p">;</span>
+     <span class="p">}</span>
+
+     <span class="c1">// print each element with number indicating its total count</span>
+     <span class="k">foreach</span> <span class="p">(</span><span class="n">keypair</span> <span class="n">in</span> <span class="n">hash</span><span class="p">)</span> <span class="p">{</span>
+       <span class="n">WriteLine</span> <span class="p">(</span><span class="n">keypair</span><span class="p">.</span><span class="n">Key</span><span class="p">,</span> <span class="n">keypair</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>For each entry in hashtable we store the number of how many times it occured.&#xD;</p>
+
+<h3><span class="mw-headline" id="What_about_functional_programming"><a name="What_about_functional_programming" id="What_about_functional_programming">What about functional programming?</a></span></h3>
+
+<p>Ok, iterating over collection with <i>foreach</i> is nice, but it is still *too long*!&#xD;</p>
+
+<div class="highlight"><pre><span class="c1">// print each element with number indicating its total count</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="n">keypair</span> <span class="n">in</span> <span class="n">hash</span><span class="p">)</span>
+  <span class="n">WriteLine</span> <span class="p">(</span><span class="n">keypair</span><span class="p">.</span><span class="n">Key</span><span class="p">,</span> <span class="n">keypair</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+
+<span class="c1">// pass matching overload of WriteLine to iteration method</span>
+<span class="n">hash</span><span class="p">.</span><span class="n">Iter</span> <span class="p">(</span><span class="n">WriteLine</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p><i>Hashtable</i> have the special <i>Iter</i> overload, which takes a generic two-argument function, &#xD;
+which will be called for every element stored in collection. The declaration of <i>Iter</i> looks like this:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Hashtable</span> <span class="p">[</span><span class="err">'</span><span class="n">a</span><span class="p">,</span> <span class="err">'</span><span class="n">b</span><span class="p">]</span> 
+<span class="p">{</span>
+   <span class="k">public</span> <span class="nf">Iter</span> <span class="p">(</span><span class="n">f</span> <span class="p">:</span> <span class="err">'</span><span class="n">a</span> <span class="p">*</span> <span class="err">'</span><span class="n">b</span> <span class="p">-&gt;</span> <span class="kt">void</span><span class="p">)</span> <span class="p">:</span> <span class="kt">void</span> 
+   <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="p">...</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>and after substituting <i> 'a </i> and <i> 'b </i> with actual types in our <i>hash</i>, we just use &#xD;
+it as <code>Iter : (string * int -&gt; void) -&gt; void</code>, which takes <code>string * int -&gt; void</code> function as &#xD;
+the only argument.&#xD;</p>
+
+<p>And one more way of iterating over a Hashtable is to query <i>KeyValuePairs</i> property &#xD;
+and use pairs of key and value in <b>foreach</b> statement:&#xD;</p>
+
+<div class="highlight"><pre><span class="k">foreach</span><span class="p">(</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="n">in</span> <span class="n">hash</span><span class="p">.</span><span class="n">KeyValuePairs</span><span class="p">)</span>
+  <span class="n">WriteLine</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+</pre>
+</div>
+
+
+                                </div>
+                        </td>
+                        <td width="100px">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+            <tr class="footer">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td colspan="2">
+                                &nbsp;&nbsp;© 2011 <a href="http://code.google.com/p/nemerle/people/list">Nemerle Project Team</a>&nbsp;&nbsp;This site is hosted and maintained by <a href="http://rsdn.ru/">Russian Software Development Network</a> team
+                            </td>
+                            <td width="100px" align="right">
+                                <a href="http://www.opensource.org/licenses/bsd-license.php">Legal&nbsp;statements</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr class="shadow">
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td width="100px"></td>
+                            <td class="shadow">
+                                <img src="./static/shadow-foreground.png">
+                            </td>
+                            <td width="100px"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table>
+</body></html>
